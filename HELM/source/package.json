@@ -1,0 +1,49 @@
+{
+  "name": "@datagrok/helm-web-editor",
+  "friendlyName": "HELMWebEditor",
+  "version": "1.1.4",
+  "description": "HELMWebEditor forked from Pistoia Alliance",
+  "dependencies": {
+    "datagrok-api": "1.18.6"
+  },
+  "devDependencies": {
+    "@datagrok/js-draw-lite": "../../../JSDraw.Lite/source/web",
+    "@types/node": "^18.11.18",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "css-loader": "^6.7.3",
+    "eslint": "latest",
+    "eslint-config-google": "latest",
+    "source-map-loader": "^4.0.1",
+    "ts-loader": "^9.2.5",
+    "typescript": "^4.8.4",
+    "webpack": "^5.76.3",
+    "webpack-cli": "^4.9.1"
+  },
+  "scripts": {
+    "link-all": "",
+    "debug-helmwebeditor": "webpack && grok publish",
+    "release-helmwebeditor": "webpack && grok publish --release",
+    "build-helmwebeditor": "webpack",
+    "build": "webpack",
+    "debug-helmwebeditor-dev": "webpack && grok publish dev",
+    "release-helmwebeditor-dev": "webpack && grok publish dev --release",
+    "debug-helmwebeditor-public": "webpack && grok publish public",
+    "release-helmwebeditor-public": "webpack && grok publish public --release",
+    "debug-helmwebeditor-local": "webpack && grok publish local",
+    "release-helmwebeditor-local": "webpack && grok publish local --release",
+    "debug-helmwebeditor-test": "webpack && grok publish test",
+    "release-helmwebeditor-test": "webpack && grok publish test --release",
+    "debug-helmwebeditor-release": "webpack && grok publish release",
+    "release-helmwebeditor-release": "webpack && grok publish release --release",
+    "lint": "eslint src --ext .ts",
+    "lint-fix": "eslint src --ext .ts --fix",
+    "test": "grok test"
+  },
+  "canEdit": [
+    "Developers"
+  ],
+  "canView": [
+    "All users"
+  ]
+}
