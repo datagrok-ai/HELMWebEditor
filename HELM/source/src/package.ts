@@ -1,21 +1,23 @@
-/* Do not change these import lines to match external modules in webpack configuration */
-import * as grok from 'datagrok-api/grok';
-import * as ui from 'datagrok-api/ui';
-import * as DG from 'datagrok-api/dg';
-
 import '@datagrok/js-draw-lite/src/types/jsdraw2';
-
-export const _package = new DG.Package();
+import {jsDrawLiteInitPromise} from '@datagrok/js-draw-lite/src/package';
 
 //tags: init
 export async function initHELMWebEditor(): Promise<void> {
-  await grok.functions.call('JsDrawLite:ensureLoadJsDrawLite')
-    .then(() => {
-      loadModules();
-    });
+  const logPrefix: string = 'HELMWebEditor: _package.initHELMWebEditor()';
+  console.debug(`${logPrefix}, start`);
+
+  await jsDrawLiteInitPromise;
+
+  console.debug(`${logPrefix}, loadModules(), before`);
+  await loadModules();
+  console.debug(`${logPrefix}, loadModules(), after`);
+
+  console.debug(`${logPrefix}, end`);
 }
 
-function loadModules(): void {
+async function loadModules(): Promise<void> {
+  require('../vendor/js-draw-lite');
+
   // Based on _merge.helm.bat
   require('../helm/helm');
   require('../helm/Interface');
@@ -24,7 +26,7 @@ function loadModules(): void {
   require('../helm/Plugin');
   require('../helm/Chain');
   require('../helm/Layout');
-  require('../helm/IO');
+  await import(/* webpackMode: "eager" */ '../helm/IO');
   require('../helm/MonomerExplorer');
   require('../helm/MolViewer');
   require('../helm/Formula');
@@ -38,7 +40,11 @@ function loadModules(): void {
   require('../helm/Adapter');
 }
 
-//name: ensureLoadHELMWebEditor
-export async function ensureLoadHELMWebEditor(): Promise<void> {
-  _package.logger.debug(`Package '${_package.friendlyName}' loaded.`);
-}
+// //name: ensureLoadHELMWebEditor
+// export async function ensureLoadHELMWebEditor(): Promise<void> {
+//   _package.logger.debug(`Package '${_package.friendlyName}' loaded.`);
+// }
+
+export const helmWebEditorInitPromise: Promise<void> = (async () => {
+  await initHELMWebEditor();
+})();

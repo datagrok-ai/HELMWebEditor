@@ -11,21 +11,14 @@
     "sourceType": "module"
   },
   "rules": {
-    "indent": [
-      "error",
-      2
-    ],
-    "max-len": [
-      "error",
-      120
-    ],
+    "indent": ["warn", 2, { "SwitchCase": 1 }],
+    "eol-last": ["warn"],
+    "quotes": [0],
+    "max-len": ["off", 120],
     "require-jsdoc": "off",
     "spaced-comment": "off",
     "linebreak-style": "off",
-    "curly": [
-      "error",
-      "multi-or-nest"
-    ],
+    "curly": ["warn", "multi-or-nest", "consistent"],
     "brace-style": [
       "error",
       "1tbs",
@@ -34,7 +27,10 @@
       }
     ],
     "block-spacing": 2,
-    "no-unused-vars": "warn"
+    "no-unused-vars": "off",
+    "no-var": "off",
+    "valid-jsdoc": "off",
+    "guard-for-in": "warn"
   },
   "parser": "@typescript-eslint/parser",
   "plugins": [

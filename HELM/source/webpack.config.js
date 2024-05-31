@@ -1,6 +1,13 @@
 const path = require('path');
-// const FuncGeneratorPlugin = require('datagrok-tools/plugins/func-gen-plugin');
 const packageName = path.parse(require('./package.json').name).name.toLowerCase().replace(/-/g, '');
+
+//const CopyPlugin = require('copy-webpack-plugin');
+const FileManagerPlugin = require('filemanager-webpack-plugin');
+// const FuncGeneratorPlugin = require('datagrok-tools/plugins/func-gen-plugin');
+
+const extPaths = new class {
+  JSDrawLite = '../../../JSDraw.Lite';
+}();
 
 const mode = process.env.NODE_ENV ?? 'production';
 if (mode !== 'production') {
@@ -10,11 +17,6 @@ if (mode !== 'production') {
 module.exports = {
   mode: mode,
   entry: {
-    // test: {
-    //   filename: 'package-test.js',
-    //   library: {type: 'var', name: `${packageName}_test`},
-    //   import: './helm/package-test.ts',
-    // },
     package: ['./src/package.ts'],
   },
   resolve: {
@@ -28,9 +30,16 @@ module.exports = {
       {test: /\.css$/, use: ['style-loader', 'css-loader']},
     ],
   },
-  plugins: [
-    // FuncGeneratorPlugin requires ./src path ?
-    // new FuncGeneratorPlugin({outputPath: './helm/package.g.ts'}),
+  plugins: [new FileManagerPlugin({
+    events: {
+      onStart: {
+        copy: [
+          {source: `${extPaths.JSDrawLite}/source/web/dist/package.js`, destination: './vendor/js-draw-lite.js'},
+        ],
+      },
+      onEnd: {},
+    },
+  }),
   ],
   devtool: mode !== 'production' ? 'inline-source-map' : 'source-map',
   externals: {
