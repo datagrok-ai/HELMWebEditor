@@ -1,29 +1,38 @@
 import '@datagrok/js-draw-lite/src/types/jsdraw2';
-import {jsDrawLiteInitPromise} from '@datagrok/js-draw-lite/src/package';
+
+import {JSDraw2Window} from '@datagrok/js-draw-lite/src/types';
+import {HweWindow} from './types';
+
+declare const window: Window & HweWindow & JSDraw2Window;
 
 //tags: init
 export async function initHELMWebEditor(): Promise<void> {
-  const logPrefix: string = 'HELMWebEditor: _package.initHELMWebEditor()';
-  console.debug(`${logPrefix}, start`);
+  window.helmWebEditor$ = window.helmWebEditor$ || {};
+  if (!window.helmWebEditor$.initPromise) {
+    window.helmWebEditor$.initPromise = (async () => {
+      const logPrefix: string = 'HELMWebEditor: _package.initHELMWebEditor()';
+      console.debug(`${logPrefix}, start`);
 
-  await jsDrawLiteInitPromise;
+      console.debug(`${logPrefix}, loadModules(), before`);
+      await loadModules();
+      console.debug(`${logPrefix}, loadModules(), after`);
 
-  console.debug(`${logPrefix}, loadModules(), before`);
-  await loadModules();
-  console.debug(`${logPrefix}, loadModules(), after`);
-
-  console.debug(`${logPrefix}, end`);
+      console.debug(`${logPrefix}, end`);
+    })();
+  }
+  return window.helmWebEditor$.initPromise;
 }
 
 async function loadModules(): Promise<void> {
   require('../vendor/js-draw-lite');
+  await window.jsDraw2$.initPromise;
 
   // Based on _merge.helm.bat
   require('../helm/helm');
   require('../helm/Interface');
   require('../helm/MonomerColors');
   require('../helm/Monomers');
-  require('../helm/Plugin');
+  await import(/* webpackMode: "eager" */ '../helm/Plugin');
   require('../helm/Chain');
   require('../helm/Layout');
   await import(/* webpackMode: "eager" */ '../helm/IO');
@@ -40,11 +49,6 @@ async function loadModules(): Promise<void> {
   require('../helm/Adapter');
 }
 
-// //name: ensureLoadHELMWebEditor
-// export async function ensureLoadHELMWebEditor(): Promise<void> {
-//   _package.logger.debug(`Package '${_package.friendlyName}' loaded.`);
-// }
-
-export const helmWebEditorInitPromise: Promise<void> = (async () => {
+(async () => {
   await initHELMWebEditor();
 })();

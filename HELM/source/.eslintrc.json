@@ -26,7 +26,8 @@
         "allowSingleLine": true
       }
     ],
-    "block-spacing": 2,
+    "block-spacing": "warn",
+    "comma-dangle": "warn",
     "no-unused-vars": "off",
     "no-var": "off",
     "valid-jsdoc": "off",

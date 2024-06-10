@@ -14,29 +14,16 @@
     "filemanager-webpack-plugin": "^8.0.0",
     "source-map-loader": "^4.0.1",
     "ts-loader": "^9.2.5",
+    "ts-node": "^10.9.2",
     "typescript": "^4.8.4",
     "webpack": "^5.76.3",
     "webpack-cli": "^4.9.1"
   },
   "scripts": {
-    "link-all": "",
-    "debug-helmwebeditor": "webpack && grok publish",
-    "release-helmwebeditor": "webpack && grok publish --release",
-    "build-helmwebeditor": "webpack",
     "build": "webpack",
-    "debug-helmwebeditor-dev": "webpack && grok publish dev",
-    "release-helmwebeditor-dev": "webpack && grok publish dev --release",
-    "debug-helmwebeditor-public": "webpack && grok publish public",
-    "release-helmwebeditor-public": "webpack && grok publish public --release",
-    "debug-helmwebeditor-local": "webpack && grok publish local",
-    "release-helmwebeditor-local": "webpack && grok publish local --release",
-    "debug-helmwebeditor-test": "webpack && grok publish test",
-    "release-helmwebeditor-test": "webpack && grok publish test --release",
-    "debug-helmwebeditor-release": "webpack && grok publish release",
-    "release-helmwebeditor-release": "webpack && grok publish release --release",
     "lint": "eslint src --ext .ts",
     "lint-fix": "eslint src --ext .ts --fix",
-    "test": "grok test"
+    "test": "ts-mocha test/**/*.test.ts"
   },
   "canEdit": [
     "Developers"

@@ -26,7 +26,7 @@ module.exports = {
   module: {
     rules: [
       {test: /\.js$/, enforce: 'pre', use: ['source-map-loader'], exclude: /node_modules/},
-      {test: /\.ts(x?)$/, use: 'ts-loader', exclude: /node_modules/},
+      {test: /\.ts(x?)$/, use: 'ts-loader', exclude: [/node_modules/]},
       {test: /\.css$/, use: ['style-loader', 'css-loader']},
     ],
   },
@@ -39,8 +39,7 @@ module.exports = {
       },
       onEnd: {},
     },
-  }),
-  ],
+  })],
   devtool: mode !== 'production' ? 'inline-source-map' : 'source-map',
   externals: {
     'datagrok-api/dg': 'DG',

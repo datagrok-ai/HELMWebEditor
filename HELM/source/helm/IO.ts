@@ -540,7 +540,7 @@ org.helm.webeditor.IO = {
   parseHelm: function(plugin, s, origin, renamedmonomers) {
     let n = 0;
     const sections: string[] = this.split(s, "$");
-    const chains: { [k: ChainId]: IChain<HelmType> } = {};
+    const chains: { [k: ChainId]: IChain } = {};
 
     let gi: number = 100;
     const groups: { [k: ChainId]: string } = {};

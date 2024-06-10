@@ -1,5 +1,5 @@
 import {AtomGroupType, IAtom, IBond, IMol, IPoint} from '@datagrok/js-draw-lite/src/types/jsdraw2';
-import {HelmType, IOrgWebEditorMonomer, PolymerType} from '@datagrok/js-draw-lite/src/types/org';
+import {HelmType, IOrgMonomers, IOrgWebEditorMonomer, PolymerType} from '@datagrok/js-draw-lite/src/types/org';
 
 export interface IMonomer {
 
@@ -58,21 +58,21 @@ export interface IApp {
   new(host: HTMLDivElement, options: IAppOptions): IWebEditorApp;
 }
 
-export interface IOrgMonomers {
+export interface IOrgHelmMonomers extends IOrgMonomers<HelmType> {
   addOneMonomer(monomer: IMonomer): void;
-  getMonomer(a: IAtom<HelmType> | HelmType, elem?: string): IOrgWebEditorMonomer | null;
-  getMonomerSet(biotype: string): any;
   clear(): void;
   writeOne(m: IOrgWebEditorMonomer): string;
 }
 
-export interface IChain<HelmType> {
+export interface IChain {
   atoms: IAtom<HelmType>[];
+  bonds: IBond<HelmType>[];
+  bases: IAtom<HelmType>[];
   readonly annotation: string;
   type: PolymerType;
 
-  new(sid: string): IChain<HelmType>;
-  new(): IChain<HelmType>;
+  new(sid: string): IChain;
+  new(): IChain;
   getChains(m: IMol<HelmType>, branches: any): any[];
   getAtomByAAID(aid: string): IAtom<HelmType>;
 }
@@ -121,7 +121,7 @@ export interface IGroup {
 }
 
 export interface IRet {
-  chains: { [k: ChainId]: IChain<HelmType> };
+  chains: { [k: ChainId]: IChain };
   connections: IConnection[];
   sequences: { [k: string]: ISequence };
   groups: { [k: string]: IGroup };
@@ -132,9 +132,14 @@ export interface IRet {
 export type RNote = string;
 
 export interface IPlugin {
-  jsd: any;
+  jsd: IMolHandler<HelmType>;
 
+  // TODO: jsd: any
+  new(jsd: IMolHandler<HelmType>): IPlugin;
+
+  addNode(p: IPoint, biotype: HelmType, elem: string): IAtom<HelmType>;
   addBond(a1: IAtom<HelmType>, a2: IAtom<HelmType>, r1: number, r2: number): IBond<HelmType>;
+
   groupExpand(a: IAtom<HelmType>): void;
   addHydrogenBond(a1: IAtom<HelmType>, a2: IAtom<HelmType>): void;
 }
@@ -159,6 +164,8 @@ export type IOType = {
   //
   _detachAppendix(s: string, token: string): IAppendix;
   detachAnnotation(s: string): IAnnotation;
+  parseConnection(s: string): IConnection2 | null;
+
   // getHelm<TBio = any>(m: IMol<TBio>, highlightselection: boolean): string | null;
   // getHelm2<TBio = any>(m: IMol<TBio>, highlightselection: boolean, ret: any, groupatom: any): string | null;
   // getGroupHelm<TBio = any>(ret: IRet<TBio>, id: string, a, highlightselection: boolean): void;
@@ -171,17 +178,27 @@ export type IOType = {
   // getHelmString<TBio = any>(ret: IRet<TBio>, highlightselection: boolean): string;
 
   // _scanGroup(ret: any, g: any, id: any): void;
+
+  addNode(plugin: IPlugin, chain: IChain, atoms: IAtom[], p: IPoint, type: HelmType, elem: string, renamedmonomers: any): IAtom<HelmType>;
+
+  addAAs(plugin: IPlugin, ss: string, chain: IChain, origin: IPoint, renamedmonomers: any): number;
+  addHELMRNAs(plugin: IPlugin, ss: string, chain: IChain, origin: IPoint, renamedmonomers: any): number;
+  addChem(plugin: IPlugin, ss: string, chain: IChain, origin: IPoint, renamedmonomers: any): number;
+  addBlob(plugin: IPlugin, name: string, chain: IChain, origin: IPoint, renamedmonomers: any, annotation: string): number;
+
   parseHelm(plugin: IPlugin, s: string, origin: IPoint, renamedmonomers: any): void;
-  parseConnection(s: string): IConnection2 | null;
 
   getMonomers(m: IMol<HelmType>): { [monomerKey: string]: IHelmMonomer };
+
+  split(s: string, sep: string): string[];
 
   [p: string]: any;
 }
 
 import {IOrgWebEditor} from '@datagrok/js-draw-lite/src/types/org';
+import {IMolHandler} from '@datagrok/js-draw-lite/src/types/mol-handler';
 
-export interface IOrgHelmWebEditor extends IOrgWebEditor {
+export interface IOrgHelmWebEditor extends IOrgWebEditor<HelmType> {
   kCaseSensitive: boolean;
   defaultbondratio: number;
   bondscale: number;
@@ -190,8 +207,9 @@ export interface IOrgHelmWebEditor extends IOrgWebEditor {
   readonly MolViewer: IMolViewer;
   IO: IOType;
 
-  readonly Chain: IChain<HelmType>;
-  readonly Monomers: IOrgMonomers;
+  readonly Chain: IChain;
+  readonly Monomers: IOrgHelmMonomers;
+  readonly Plugin: IPlugin;
 
   monomerTypeList(): string[];
 }
