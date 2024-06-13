@@ -41,7 +41,7 @@ async function loadModules(): Promise<void> {
   require('../helm/Formula');
   // require('./Editor'); // File not found
   require('../helm/ExtinctionCoefficient');
-  require('../helm/App');
+  await import(/* webpackMode: "eager" */ '../helm/App');
   require('../helm/AppToolbar');
   require('../helm/MonomerLibApp');
   require('../helm/RuleSet');

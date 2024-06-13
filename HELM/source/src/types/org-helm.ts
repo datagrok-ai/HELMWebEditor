@@ -1,12 +1,29 @@
-import {AtomGroupType, IAtom, IBond, IMol, IPoint} from '@datagrok/js-draw-lite/src/types/jsdraw2';
-import {HelmType, IOrgMonomers, IOrgWebEditorMonomer, PolymerType} from '@datagrok/js-draw-lite/src/types/org';
+import {
+  HelmType, IOrgMonomers, IOrgWebEditorMonomer, PolymerType
+} from '@datagrok/js-draw-lite/src/types/org';
+import {
+  AtomGroupType, IAtom, IBond, IEditor, IEditorOptions, IMol, IPoint
+} from '@datagrok/js-draw-lite/src/types/jsdraw2';
 
 export interface IMonomer {
 
 }
 
+export type IMolFindResType = {
+  b: IBond<HelmType>,
+  a0: IAtom<HelmType>,
+  a1: IAtom<HelmType>,
+}
+
 export interface IMolViewer {
   molscale: number;
+
+  hide(): void;
+  show(e: HTMLElement, type: HelmType, m: any, code: string, ed: IEditor<HelmType>, text: IAtom<HelmType>): void;
+  show2(xy: IPoint, type: HelmType, m: any, code: string, ed: IEditor<HelmType>, a: IAtom<HelmType>): void;
+
+  findR(m: IMol<HelmType>, r: string): IMolFindResType | null;
+  joinMol(m: IMol<HelmType>, r1: string, src: IMol<HelmType>, r2: string, a1?: any, a2?: any): void;
 }
 
 export interface IWebEditorHelm {
@@ -54,14 +71,31 @@ export interface IAppOptions {
   mexfilter: boolean;
 }
 
+export type AppSizesType = {
+  height: number,
+  topheight: number,
+  bottomheight: number,
+  leftwidth: number,
+  rightwidth: number,
+}
+
 export interface IApp {
+  page: IPage;
+
   new(host: HTMLDivElement, options: IAppOptions): IWebEditorApp;
+
+  init(): void;
+  calculateSizes(): AppSizesType;
 }
 
 export interface IOrgHelmMonomers extends IOrgMonomers<HelmType> {
+  cleanupurl: string | null;
+
   addOneMonomer(monomer: IMonomer): void;
+  getMolfile(monomer: IOrgWebEditorMonomer): string;
   clear(): void;
   writeOne(m: IOrgWebEditorMonomer): string;
+  loadDB(list: any[], makeMon?: Function, clearall?: boolean): void;
 }
 
 export interface IChain {
@@ -195,17 +229,41 @@ export type IOType = {
   [p: string]: any;
 }
 
-import {IOrgWebEditor} from '@datagrok/js-draw-lite/src/types/org';
+export interface IRule {
+  id: number;
+  category: string;
+  description: string;
+  script: string;
+}
+
+export interface IRuleSet {
+  rules: IRule[];
+  loadDB(list: IRule[]): void;
+}
+
+import {IOrgWebEditor, IOrgInterface} from '@datagrok/js-draw-lite/src/types/org';
 import {IMolHandler} from '@datagrok/js-draw-lite/src/types/mol-handler';
+import {IPage} from '@datagrok/js-draw-lite/src/types/scil';
+
+export interface IOrgHelmInterface extends IOrgInterface {
+  createPoint(x: number, y: number): IPoint;
+  createMol<TBio>(molfile: string): IMol<TBio>;
+  createCanvas<TBio = any>(div: HTMLElement, options?: Partial<IEditorOptions>): IEditor<TBio>;
+}
+
 
 export interface IOrgHelmWebEditor extends IOrgWebEditor<HelmType> {
+  ambiguity: boolean;
   kCaseSensitive: boolean;
   defaultbondratio: number;
   bondscale: number;
 
-  readonly App: IApp;
+  Interface: IOrgHelmInterface;
+  App: IApp;
   readonly MolViewer: IMolViewer;
   IO: IOType;
+
+  RuleSet: IRuleSet;
 
   readonly Chain: IChain;
   readonly Monomers: IOrgHelmMonomers;
