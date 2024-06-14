@@ -36,7 +36,7 @@ async function loadModules(): Promise<void> {
   require('../helm/Chain');
   require('../helm/Layout');
   await import(/* webpackMode: "eager" */ '../helm/IO');
-  require('../helm/MonomerExplorer');
+  await import(/* webpackMode: "eager" */ '../helm/MonomerExplorer');
   require('../helm/MolViewer');
   require('../helm/Formula');
   // require('./Editor'); // File not found
