@@ -1,25 +1,22 @@
 import {
-  HelmType, IOrgMonomer, IOrgMonomers, IOrgWebEditorMonomer, PolymerType
+  HelmType, IOrgMonomer, IOrgMonomers, IWebEditorMonomer, PolymerType,
 } from '@datagrok/js-draw-lite/src/types/org';
-import {
-  AtomGroupType, IAtom, IBond, IEditor, IEditorOptions, IMol, IPoint
-} from '@datagrok/js-draw-lite/src/types/jsdraw2';
 
 export type IMolFindResType = {
-  b: IBond<HelmType>,
-  a0: IAtom<HelmType>,
-  a1: IAtom<HelmType>,
+  b: Bond<HelmType>,
+  a0: Atom<HelmType>,
+  a1: Atom<HelmType>,
 }
 
 export interface IMolViewer {
   molscale: number;
 
   hide(): void;
-  show(e: MouseEvent, type: HelmType, m: any, code: string, ed?: IEditor<HelmType>, text?: IAtom<HelmType>): void;
-  show2(xy: IPoint, type: HelmType, m: any, code: string, ed: IEditor<HelmType>, a: IAtom<HelmType>): void;
+  show(e: MouseEvent, type: HelmType, m: any, code: string, ed?: Editor<HelmType>, text?: Atom<HelmType>): void;
+  show2(xy: Point, type: HelmType, m: any, code: string, ed: Editor<HelmType>, a: Atom<HelmType>): void;
 
-  findR(m: IMol<HelmType>, r: string): IMolFindResType | null;
-  joinMol(m: IMol<HelmType>, r1: string, src: IMol<HelmType>, r2: string, a1?: any, a2?: any): void;
+  findR(m: Mol<HelmType>, r: string): IMolFindResType | null;
+  joinMol(m: Mol<HelmType>, r1: string, src: Mol<HelmType>, r2: string, a1?: any, a2?: any): void;
 }
 
 export interface IWebEditorHelm {
@@ -44,17 +41,17 @@ export interface IWebEditorSizes {
   get bottomheight(): number;
 }
 
-export interface IWebEditorApp {
-  notation: HTMLElement;
-  sequence: HTMLElement;
-  properties: IWebEditorAppProperties;
-  get toolbarheight(): number;
-  get canvas(): IWebEditorCanvas;
-  get structureview(): any;
-  get mex(): any;
-
-  calculateSizes(): IWebEditorSizes;
-}
+// export interface IWebEditorApp {
+//   notation: HTMLElement;
+//   sequence: HTMLElement;
+//   properties: IWebEditorAppProperties;
+//   get toolbarheight(): number;
+//   get canvas(): IWebEditorCanvas;
+//   get structureview(): any;
+//   get mex(): any;
+//
+//   calculateSizes(): IWebEditorSizes;
+// }
 
 export interface IAppOptions {
   showabout: boolean;
@@ -65,6 +62,25 @@ export interface IAppOptions {
   sequenceviewonly: boolean;
   mexfavoritefirst: boolean;
   mexfilter: boolean;
+
+  jsdrawservice: string;
+  monomercleanupurl: string;
+
+  rulesurl: string;
+  monomersurl: string;
+  monomerfun: Function;
+
+  mexfind: boolean;
+  width: number;
+  height: number;
+
+  validateurl: string;
+  canvastoolbar: boolean;
+  onValidateHelm: any;
+  cleanupurl: string;
+  onCleanUpStructure: Function;
+
+  calculatorurl: string;
 }
 
 export type AppSizesType = {
@@ -75,15 +91,6 @@ export type AppSizesType = {
   rightwidth: number,
 }
 
-export interface IApp {
-  page: IPage;
-
-  new(host: HTMLDivElement, options: IAppOptions): IWebEditorApp;
-
-  init(): void;
-  calculateSizes(): AppSizesType;
-}
-
 export interface IOrgHelmMonomers extends IOrgMonomers<HelmType> {
   cleanupurl: string | null;
 
@@ -91,34 +98,34 @@ export interface IOrgHelmMonomers extends IOrgMonomers<HelmType> {
   linkers: { [name: string]: string };
   sugars: { [name: string]: string };
 
-  addOneMonomer(monomer: IOrgWebEditorMonomer): void;
+  addOneMonomer(monomer: IWebEditorMonomer): void;
   getDefaultMonomer(type: HelmType): string;
-  getMolfile(monomer: IOrgWebEditorMonomer): string;
+  getMolfile(monomer: IWebEditorMonomer): string;
   clear(): void;
-  writeOne(m: IOrgWebEditorMonomer): string;
+  writeOne(m: IWebEditorMonomer): string;
   loadDB(list: any[], makeMon?: Function, clearall?: boolean): void;
 
   [p: string]: any;
 }
 
 export interface IChain {
-  atoms: IAtom<HelmType>[];
-  bonds: IBond<HelmType>[];
-  bases: IAtom<HelmType>[];
+  atoms: Atom<HelmType>[];
+  bonds: Bond<HelmType>[];
+  bases: Atom<HelmType>[];
   readonly annotation: string;
   type: PolymerType;
 
   new(sid: string): IChain;
   new(): IChain;
-  getChains(m: IMol<HelmType>, branches: any): any[];
-  getAtomByAAID(aid: string): IAtom<HelmType>;
+  getChains(m: Mol<HelmType>, branches: any): any[];
+  getAtomByAAID(aid: string): Atom<HelmType>;
 }
 
 export type ChainId = string;
 
 export interface ICollection<HelmType> {
-  atoms: IAtom<HelmType>[];
-  bonds: IBond<HelmType>[];
+  atoms: Atom<HelmType>[];
+  bonds: Bond<HelmType>[];
 }
 
 export interface IConnection {
@@ -162,7 +169,7 @@ export interface IRet {
   connections: IConnection[];
   sequences: { [k: string]: ISequence };
   groups: { [k: string]: IGroup };
-  groupatoms: IAtom<HelmType>[];
+  groupatoms: Atom<HelmType>[];
   singletons: { [k: ChainId]: ChainId };
 }
 
@@ -174,11 +181,11 @@ export interface IPlugin {
   // TODO: jsd: any
   new(jsd: IMolHandler<HelmType>): IPlugin;
 
-  addNode(p: IPoint, biotype: HelmType, elem: string): IAtom<HelmType>;
-  addBond(a1: IAtom<HelmType>, a2: IAtom<HelmType>, r1: number, r2: number): IBond<HelmType>;
+  addNode(p: Point, biotype: HelmType, elem: string): Atom<HelmType>;
+  addBond(a1: Atom<HelmType>, a2: Atom<HelmType>, r1: number, r2: number): Bond<HelmType>;
 
-  groupExpand(a: IAtom<HelmType>): void;
-  addHydrogenBond(a1: IAtom<HelmType>, a2: IAtom<HelmType>): void;
+  groupExpand(a: Atom<HelmType>): void;
+  addHydrogenBond(a1: Atom<HelmType>, a2: Atom<HelmType>): void;
 }
 
 export interface IHelmMonomer {
@@ -216,16 +223,16 @@ export type IOType = {
 
   // _scanGroup(ret: any, g: any, id: any): void;
 
-  addNode(plugin: IPlugin, chain: IChain, atoms: IAtom[], p: IPoint, type: HelmType, elem: string, renamedmonomers: any): IAtom<HelmType>;
+  addNode(plugin: IPlugin, chain: IChain, atoms: Atom<HelmType>[], p: Point, type: HelmType, elem: string, renamedmonomers: any): Atom<HelmType>;
 
-  addAAs(plugin: IPlugin, ss: string, chain: IChain, origin: IPoint, renamedmonomers: any): number;
-  addHELMRNAs(plugin: IPlugin, ss: string, chain: IChain, origin: IPoint, renamedmonomers: any): number;
-  addChem(plugin: IPlugin, ss: string, chain: IChain, origin: IPoint, renamedmonomers: any): number;
-  addBlob(plugin: IPlugin, name: string, chain: IChain, origin: IPoint, renamedmonomers: any, annotation: string): number;
+  addAAs(plugin: IPlugin, ss: string, chain: IChain, origin: Point, renamedmonomers: any): number;
+  addHELMRNAs(plugin: IPlugin, ss: string, chain: IChain, origin: Point, renamedmonomers: any): number;
+  addChem(plugin: IPlugin, ss: string, chain: IChain, origin: Point, renamedmonomers: any): number;
+  addBlob(plugin: IPlugin, name: string, chain: IChain, origin: Point, renamedmonomers: any, annotation: string): number;
 
-  parseHelm(plugin: IPlugin, s: string, origin: IPoint, renamedmonomers: any): void;
+  parseHelm(plugin: IPlugin, s: string, origin: Point, renamedmonomers: any): void;
 
-  getMonomers(m: IMol<HelmType>): { [monomerKey: string]: IHelmMonomer };
+  getMonomers(m: Mol<HelmType>): { [monomerKey: string]: IHelmMonomer };
 
   split(s: string, sep: string): string[];
 
@@ -248,15 +255,18 @@ export interface IRuleSet {
 
 import {IOrgWebEditor, IOrgInterface} from '@datagrok/js-draw-lite/src/types/org';
 import {IMolHandler} from '@datagrok/js-draw-lite/src/types/mol-handler';
-import {IPage} from '@datagrok/js-draw-lite/src/types/scil';
+
+import {Editor} from '@datagrok/js-draw-lite/src/JSDraw.Editor';
+import {Point} from '@datagrok/js-draw-lite/src/Point';
+import {Bond} from '@datagrok/js-draw-lite/src/Bond';
+import {Atom} from '@datagrok/js-draw-lite/src/Atom';
+import {Mol} from '@datagrok/js-draw-lite/src/Mol';
 
 import {MonomerExplorer} from '../../helm/MonomerExplorer';
-
-export interface IOrgHelmInterface extends IOrgInterface {
-  createPoint(x: number, y: number): IPoint;
-  createMol<TBio>(molfile: string): IMol<TBio>;
-  createCanvas<TBio = any>(div: HTMLElement, options?: Partial<IEditorOptions>): IEditor<TBio>;
-}
+import {App} from '../../helm/App';
+import {Interface} from '../../helm/Interface';
+import {Monomers} from '../../helm/Monomers';
+import {Plugin} from '../../helm/Plugin';
 
 export interface IExplorerMonomer extends IOrgMonomer {
   div: HTMLDivElement;
@@ -275,7 +285,7 @@ export interface IExplorerMonomer extends IOrgMonomer {
   "width": 290,
   "height": 852
 } */
-export type MonomerExplorerOptions = {
+export interface IMonomerExplorerOptions {
   showabout: boolean;
   mexfontsize: string;
   mexrnapinontab: boolean;
@@ -295,15 +305,15 @@ export type TabDescType = {
   tabkey: string;
 }
 
-export interface IOrgHelmWebEditor extends IOrgWebEditor<HelmType> {
+export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType>, 'Interface' | 'Plugin'> {
   ambiguity: boolean;
   kCaseSensitive: boolean;
   defaultbondratio: number;
   bondscale: number;
 
   MonomerExplorer: typeof MonomerExplorer;
-  Interface: IOrgHelmInterface;
-  App: IApp;
+  Interface: typeof Interface;
+  App: typeof App;
   RuleSetApp: any;
   readonly MolViewer: IMolViewer;
   IO: IOType;
@@ -311,10 +321,13 @@ export interface IOrgHelmWebEditor extends IOrgWebEditor<HelmType> {
   RuleSet: IRuleSet;
 
   readonly Chain: IChain;
-  readonly Monomers: IOrgHelmMonomers;
-  readonly Plugin: IPlugin;
+
+  Monomers: Monomers; /* single instance */
 
   monomerTypeList(): { [type: string]: string };
+
+  monomers: void;
+  [p: string]: any;
 }
 
 export type OrgHelmType = {

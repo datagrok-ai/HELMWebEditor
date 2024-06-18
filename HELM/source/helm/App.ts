@@ -22,23 +22,32 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
+// @ts-nocheck
+
 import {DojoType} from '@datagrok/js-draw-lite/src/types/dojo';
 
 import {JSDraw2ModuleType, ScilModuleType} from '@datagrok/js-draw-lite/src/types';
-import {OrgType} from '../src/types/org-helm';
+import {IAppOptions, OrgType} from '../src/types/org-helm';
+import {IPageForm, Page} from '@datagrok/js-draw-lite/page/Page';
+import {PageTab} from '@datagrok/js-draw-lite/page/Page.Tab';
+import {MonomerExplorer} from './MonomerExplorer';
+import {HelmType} from '@datagrok/js-draw-lite/src/types/org';
+import {Mol} from '@datagrok/js-draw-lite/src/Mol';
+import {Form} from '@datagrok/js-draw-lite/form/Form';
+import {Editor} from '@datagrok/js-draw-lite/src/JSDraw.Editor';
+import {Bond} from '@datagrok/js-draw-lite/src/Bond';
 
 declare const dojo: DojoType;
-declare const scilligence: ScilModuleType;
 declare const scil: ScilModuleType;
+declare const JSDraw2: JSDraw2ModuleType<HelmType>;
 declare const org: OrgType;
-declare const JSDraw2: JSDraw2ModuleType<any>;
 declare let JSDrawServices: any;
 
 /**
  * HELM Editor App class
  * @class org.helm.webeditor.App
  */
-org.helm.webeditor.App = scil.extend(scil._base, {
+export class App {
   /**
    @property {MonomerExplorer} mex - Monomer Explorer
    **/
@@ -57,6 +66,23 @@ org.helm.webeditor.App = scil.extend(scil._base, {
   /**
    @property {JSDraw2.Editor} structureview - Structure Viewer
    **/
+
+  private readonly T: string;
+  private readonly options: Partial<IAppOptions>;
+  public readonly toolbarheight: number;
+  public mex: MonomerExplorer;
+  public canvas: any;
+  public sequence: any;
+  public notation: HTMLElement;
+  public properties: Form;
+  public structureview: Editor;
+  private page: Page;
+  private treediv: HTMLDivElement;
+  private handle: HTMLDivElement;
+  private canvasform: IPageForm;
+  private sequencebuttons: any[];
+  private tabs: PageTab;
+
 
   /**
    * @constructor App
@@ -86,7 +112,7 @@ org.helm.webeditor.App = scil.extend(scil._base, {
    *    &lt;/script&gt;
    * </pre>
    **/
-  constructor: function(parent, options) {
+  constructor(parent: HTMLElement | string, options) {
     this.T = "APP";
     this.toolbarheight = 30;
 
@@ -118,7 +144,7 @@ org.helm.webeditor.App = scil.extend(scil._base, {
     }
 
     if (this.options.monomersurl != null) {
-      var me = this;
+      const me = this;
       scil.Utils.ajax(this.options.monomersurl, function(ret) {
         if (ret.monomers != null)
           ret = ret.monomers;
@@ -128,24 +154,24 @@ org.helm.webeditor.App = scil.extend(scil._base, {
     } else {
       this.init(parent);
     }
-  },
+  };
 
   /**
    * Calculate layout sizes (internal use)
    * @function calculateSizes
    */
-  calculateSizes: function() {
-    var d = dojo.window.getBox();
+  calculateSizes() {
+    const d = dojo.window.getBox();
     if (this.options.topmargin > 0)
       d.h -= this.options.topmargin;
 
-    var leftwidth = 0;
+    let leftwidth = 0;
     if (this.page != null && this.page.explorer != null && this.page.explorer.left != null)
       leftwidth = this.page.explorer.left.offsetWidth;
     if (!(leftwidth > 0))
       leftwidth = 300;
 
-    var ret = {height: 0, topheight: 0, bottomheight: 0, leftwidth: 0, rightwidth: 0};
+    const ret = {height: 0, topheight: 0, bottomheight: 0, leftwidth: 0, rightwidth: 0};
     ret.height = d.h - 90 - (this.options.mexfilter != false ? 30 : 0) - (this.options.mexfind ? 60 : 0);
     ret.leftwidth = leftwidth;
     ret.rightwidth = d.w - leftwidth - 25;
@@ -153,15 +179,15 @@ org.helm.webeditor.App = scil.extend(scil._base, {
     ret.bottomheight = d.h - ret.topheight - 130;
 
     return ret;
-  },
+  }
 
   /**
    * Intialize the App (internal use)
    * @function init
    */
-  init: function(parent) {
-    var me = this;
-    var sizes = this.calculateSizes();
+  init(parent) {
+    const me = this;
+    const sizes = this.calculateSizes();
 
     const tree = {
       caption: this.options.topmargin > 0 ? null : "Palette",
@@ -176,8 +202,8 @@ org.helm.webeditor.App = scil.extend(scil._base, {
     this.page = new scil.Page(parent, tree, {resizable: true, leftwidth: sizes.leftwidth});
     scil.Utils.unselectable(this.page.explorer.left);
 
-    var control = this.page.addDiv();
-    var sel = scil.Utils.createSelect(control, ["Detailed Sequence", "Sequence"], "Detailed Sequence", null, {border: "none"});
+    const control = this.page.addDiv();
+    const sel = scil.Utils.createSelect(control, ["Detailed Sequence", "Sequence"], "Detailed Sequence", null, {border: "none"});
     scil.connect(sel, "onchange", function() { me.swapCanvasSequence(); });
 
     this.canvasform = this.page.addForm({
@@ -231,40 +257,40 @@ org.helm.webeditor.App = scil.extend(scil._base, {
     });
 
     scil.connect(window, "onresize", function(e) { me.resizeWindow(); });
-  },
+  }
 
-  validateHelm: function() {
+  validateHelm() {
     if (this.options.onValidateHelm != null) {
       this.options.onValidateHelm(this);
       return;
     }
 
-    var url = this.options.validateurl;
+    const url = this.options.validateurl;
     if (scil.Utils.isNullOrEmpty(url)) {
       scil.Utils.alert("The validation url is not configured yet");
       return;
     }
 
     this.setNotationBackgroundColor("white");
-    var helm = scil.Utils.getInnerText(this.notation);
+    const helm = scil.Utils.getInnerText(this.notation);
     if (scil.Utils.isNullOrEmpty(helm))
       return;
 
-    var me = this;
+    const me = this;
     scil.Utils.ajax(url, function(ret) {
       me.setNotationBackgroundColor(ret.valid ? "#9fc" : "#fcf");
     }, {helm: helm});
-  },
+  }
 
   /**
    * Resize Window (internal use)
    * @function resizeWindow
    */
-  resizeWindow: function() {
-    var sizes = this.calculateSizes();
+  resizeWindow() {
+    const sizes = this.calculateSizes();
     this.canvas.resize(sizes.rightwidth, sizes.topheight - 70);
 
-    var s = {width: sizes.rightwidth + "px", height: sizes.bottomheight + "px"};
+    let s = {width: sizes.rightwidth + "px", height: sizes.bottomheight + "px"};
     scil.apply(this.sequence.style, s);
     scil.apply(this.notation.style, s);
 
@@ -274,16 +300,16 @@ org.helm.webeditor.App = scil.extend(scil._base, {
     this.structureview.resize(sizes.rightwidth, sizes.bottomheight + this.toolbarheight);
 
     this.mex.resize(sizes.height);
-  },
+  }
 
   /**
    * Swap canvas and sequence view (internal use)
    * @function swapCanvasSequence
    */
-  swapCanvasSequence: function() {
-    var a = this.canvasform.form.dom;
-    var h = this.handle;
-    var b = this.tabs.tabs.dom;
+  swapCanvasSequence() {
+    const a = this.canvasform.form.dom;
+    const h = this.handle;
+    const b = this.tabs.tabs.dom;
     if (h.nextSibling == b) {
       a.parentNode.insertBefore(b, a);
       a.parentNode.insertBefore(h, a);
@@ -291,16 +317,16 @@ org.helm.webeditor.App = scil.extend(scil._base, {
       a.parentNode.insertBefore(b, a.nextSibling);
       a.parentNode.insertBefore(h, a.nextSibling);
     }
-  },
+  }
 
   /**
    * Event handler when change window size (internal use)
    * @function onresize
    */
-  onresize: function(delta) {
+  onresize(delta) {
     if (this.handle.nextSibling == this.tabs.tabs.dom) {
-      var top = this.canvas.dimension.y;
-      var bottom = scil.Utils.parsePixel(this.sequence.style.height);
+      const top = this.canvas.dimension.y;
+      const bottom = scil.Utils.parsePixel(this.sequence.style.height);
       if (top + delta > 80 && bottom - delta > 20) {
         this.canvas.resize(0, top + delta);
         this.sequence.style.height = (bottom - delta) + "px";
@@ -310,8 +336,8 @@ org.helm.webeditor.App = scil.extend(scil._base, {
         return true;
       }
     } else {
-      var top = scil.Utils.parsePixel(this.sequence.style.height);
-      var bottom = this.canvas.dimension.y;
+      const top = scil.Utils.parsePixel(this.sequence.style.height);
+      const bottom = this.canvas.dimension.y;
       if (top + delta > 20 && bottom - delta > 80) {
         this.sequence.style.height = (top + delta) + "px";
         this.notation.style.height = (top + delta) + "px";
@@ -322,28 +348,28 @@ org.helm.webeditor.App = scil.extend(scil._base, {
       }
     }
     return false;
-  },
+  }
 
   /**
    * create monomer explorer (internal use)
    * @function createPalette
    */
-  createPalette: function(div, width, height) {
-    var opt = scil.clone(this.options);
+  createPalette(div, width, height) {
+    const opt = scil.clone(this.options);
     opt.width = width;
     opt.height = height;
     this.mex = new org.helm.webeditor.MonomerExplorer(div, null, opt);
-  },
+  }
 
   /**
    * create drawing canvas (internal use)
    * @function createCanvas
    */
-  createCanvas: function(div, width, height) {
+  createCanvas(div, width, height) {
     div.style.border = "solid 1px #eee";
 
-    var me = this;
-    var args = {
+    const me = this;
+    const args = {
       skin: "w8", showabout: this.options.showabout, showtoolbar: this.options.canvastoolbar != false, helmtoolbar: true, showmonomerexplorer: true,
       inktools: false, width: width, height: height, ondatachange: function() { me.updateProperties(); },
       onselectionchanged: function() { me.onselectionchanged(); },
@@ -353,119 +379,119 @@ org.helm.webeditor.App = scil.extend(scil._base, {
 
     this.canvas = org.helm.webeditor.Interface.createCanvas(div, args);
     this.canvas.helm.monomerexplorer = this.mex;
-    this.mex.plugin = this.canvas.helm;
+    this.mex.plugin = this.canvas.helm; // TODO: ?
 
     this.canvas._testdeactivation = function(e, ed) {
-      var src = e.target || e.srcElement;
+      const src = e.target || e.srcElement;
       return scil.Utils.hasAnsestor(src, me.canvas.helm.monomerexplorer.div);
     };
-  },
+  }
 
-  onvalidatetext: function(s, editor) {
+  onvalidatetext(s, editor) {
     if (scil.Utils.isNullOrEmpty(s))
       return;
 
-    var t = editor.text;
+    const t = editor.text;
     if (t != null && t.fieldtype == "BRACKET_TYPE" && t.anchors.length == 1 && JSDraw2.Bracket.cast(t.anchors[0]) != null) {
       if (!/^[*]|([0-9]+([-][0-9]+)?)$/.test(s)) {
         scil.Utils.alert("Invalid subscript");
         return false;
       }
     }
-  },
+  }
 
   /**
    * Event handler when selecting an object (internal use)
    * @function onselectcurrent
    */
-  onselectcurrent: function(e, obj, ed) {
-    var a = JSDraw2.Atom.cast(obj);
+  onselectcurrent(e, obj, ed) {
+    const a = JSDraw2.Atom.cast<HelmType>(obj);
     if (a == null || ed.start != null || ed.contextmenu != null && ed.contextmenu.isVisible()) {
       org.helm.webeditor.MolViewer.hide();
       return;
     }
-    var type = a == null ? null : a.biotype();
-    var set = org.helm.webeditor.Monomers.getMonomerSet(type);
-    var s = a == null ? null : a.elem;
-    var m = set == null ? null : set[scil.helm.symbolCase(s)];
+    const type: HelmType | null = a == null ? null : a.biotype();
+    const set = org.helm.webeditor.Monomers.getMonomerSet(type);
+    const s = a == null ? null : a.elem;
+    const m = set == null ? null : set[scil.helm.symbolCase(s)];
     if (m != null && m.m == "" && a != null && a.superatom != null)
       m.m = a.superatom.getXml();
 
     org.helm.webeditor.MolViewer.show(e, type, m, s, ed, a);
-  },
+  }
 
   /**
    * Create sequence view (internal use)
    * @function createSequence
    */
-  createSequence: function(div, width, height) {
-    var atts: any = {};
+  createSequence(div, width, height) {
+    const atts: any = {};
     if (!this.options.sequenceviewonly) {
       atts.contenteditable = "true";
       atts.spellcheck = "false";
     }
     this.sequence = scil.Utils.createElement(div, "div", null, {width: width, height: height, overflowY: "scroll", wordBreak: "break-all"}, atts);
-  },
+  }
 
   /**
    * create notation view (internal use)
    * @function createNotation
    */
-  createNotation: function(div, width, height) {
+  createNotation(div, width, height) {
     const atts: any = {};
     if (!this.options.sequenceviewonly) {
       atts.contenteditable = "true";
       atts.spellcheck = "false";
     }
     this.notation = scil.Utils.createElement(div, "div", null, {width: width, height: height, overflowY: "scroll", wordBreak: "break-all"}, atts);
-  },
+  }
 
   /**
    * Create property window (internal use)
    * @function createProperties
    */
-  createProperties: function(div, width, height) {
-    var d = scil.Utils.createElement(div, "div", null, {width: width, overflow: "scroll", height: height + this.toolbarheight});
+  createProperties(div, width, height) {
+    const d = scil.Utils.createElement(div, "div", null, {width: width, overflow: "scroll", height: height + this.toolbarheight});
 
-    var fields = {
+    const fields = {
       mw: {label: "Molecular Weight"},
       mf: {label: "Molecular Formula"},
       ec: {label: "Extinction Coefficient"}
     };
     this.properties = new scil.Form({viewonly: true});
     this.properties.render(d, fields, {immediately: true});
-  },
+  }
 
   /**
    * Create structure view (internal use)
    * @function createStructureView
    */
-  createStructureView: function(div, width, height) {
-    var d = scil.Utils.createElement(div, "div", null, {width: width, height: height + this.toolbarheight});
+  createStructureView(div, width, height) {
+    const d = scil.Utils.createElement(div, "div", null, {width: width, height: height + this.toolbarheight});
     this.structureview = new JSDraw2.Editor(d, {viewonly: true});
-  },
+  }
 
   /**
    * Resize Window (internal use)
    * @function resize
    */
-  resize: function() {
-    var d = dojo.window.getBox();
-    var width = d.w;
-    var height = d.h;
-    var left = d.l;
-    var top = d.t;
-  },
+  resize() {
+    const d = dojo.window.getBox();
+    const width = d.w;
+    const height = d.h;
+    const left = d.l;
+    const top = d.t;
+  }
 
   /**
    * Update Canvas from sequence/notation view (internal use)
    * @function updateCanvas
    */
-  updateCanvas: function(key, append) {
-    var format = null;
+  updateCanvas(key, append) {
+    let format = null;
 
-    var plugin = this.canvas.helm;
-    var s = null;
+    const plugin = this.canvas.helm;
+    let s = null;
     if (key == "sequence") {
       if (this.sequencebuttons != null)
         format = this.getValueByKey(this.sequencebuttons, "format");
@@ -483,25 +509,25 @@ org.helm.webeditor.App = scil.extend(scil._base, {
       s = scil.Utils.getInnerText(this.notation);
     }
     plugin.setSequence(s, format, plugin.getDefaultNodeType(org.helm.webeditor.HELM.SUGAR), plugin.getDefaultNodeType(org.helm.webeditor.HELM.LINKER), append);
-  },
+  }
 
   /**
    * Tool function to get item by using its key (internal use)
    * @function getValueByKey
    */
-  getValueByKey: function(list, key) {
-    for (var i = 0; i < list.length; ++i) {
+  getValueByKey(list, key) {
+    for (let i = 0; i < list.length; ++i) {
       if (list[i].key == key)
         return list[i].b.value;
     }
     return null;
-  },
+  }
 
   /**
    * update helm properties (internal use)
    * @function updateProperties
    */
-  updateProperties: function() {
+  updateProperties() {
     switch (this.tabs.tabs.currentTabKey()) {
     case "sequence":
       if (this.sequence != null)
@@ -509,8 +535,8 @@ org.helm.webeditor.App = scil.extend(scil._base, {
       break;
     case "notation":
       if (this.notation != null) {
-        var helm = scil.Utils.getInnerText(this.notation);
-        var s = this.canvas.getHelm(true);
+        const helm = scil.Utils.getInnerText(this.notation);
+        const s = this.canvas.getHelm(true);
         if (helm != s) {
           this.notation.innerHTML = s;
           this.setNotationBackgroundColor("white");
@@ -524,18 +550,18 @@ org.helm.webeditor.App = scil.extend(scil._base, {
       this.updateStructureView();
       break;
     }
-  },
+  }
 
-  setNotationBackgroundColor: function(c) {
+  setNotationBackgroundColor(c) {
     if (this.notation != null)
-      this.notation.parentNode.parentNode.style.background = c;
-  },
+      this.notation.parentElement.parentElement.style.background = c;
+  }
 
   /**
    * Event handler when selection is changed (internal use)
    * @function onselectionchanged
    */
-  onselectionchanged: function() {
+  onselectionchanged() {
     switch (this.tabs.tabs.currentTabKey()) {
     case "sequence":
       if (this.sequence != null) {
@@ -550,21 +576,21 @@ org.helm.webeditor.App = scil.extend(scil._base, {
       this.updateStructureView();
       break;
     }
-  },
+  }
 
   /**
    * Calaulte helm structure properties (internal use)
    * @function calculateProperties
    */
-  calculateProperties: function() {
+  calculateProperties() {
     if (this.properties == null)
       return;
 
-    var data: any = {};
+    const data: any = {};
     this.properties.setData(data);
     if (this.options.calculatorurl != null) {
-      var me = this;
-      var helm = this.canvas.getHelm();
+      const me = this;
+      const helm = this.canvas.getHelm();
       if (helm != null) {
         scil.Utils.ajax(this.options.calculatorurl, function(ret) {
           me.properties.setData(ret);
@@ -576,37 +602,37 @@ org.helm.webeditor.App = scil.extend(scil._base, {
       data.ec = Math.round(this.canvas.getExtinctionCoefficient(true) * 100) / 100;
       this.properties.setData(data);
     }
-  },
+  }
 
   /**
    * Get selection as a molfile (internal use)
    * @function getSelectedAsMol
    */
-  getSelectedAsMol: function(m) {
-    var ret = new JSDraw2.Mol();
-    for (var i = 0; i < m.atoms.length; ++i) {
+  getSelectedAsMol(m): Mol<HelmType> {
+    const ret = new JSDraw2.Mol();
+    for (let i = 0; i < m.atoms.length; ++i) {
       if (m.atoms[i].selected)
         ret.atoms.push(m.atoms[i]);
     }
 
-    var atoms = ret.atoms;
-    for (var i = 0; i < m.bonds.length; ++i) {
-      var b = m.bonds[i];
+    const atoms = ret.atoms;
+    for (let i = 0; i < m.bonds.length; ++i) {
+      const b = m.bonds[i];
       if (b.selected && b.a1.selected && b.a2.selected)
         ret.bonds.push(b);
     }
 
     return ret;
-  },
+  }
 
   /**
    * Tool function to select bonds of all selected atoms (internal use)
    * @function selectBondsOfSelectedAtoms
    */
-  selectBondsOfSelectedAtoms: function(m) {
-    var n = 0;
-    for (var i = 0; i < m.bonds.length; ++i) {
-      var b = m.bonds[i];
+  selectBondsOfSelectedAtoms(m) {
+    let n = 0;
+    for (let i = 0; i < m.bonds.length; ++i) {
+      const b = m.bonds[i];
       if (!b.selected && b.a1.selected && b.a2.selected) {
         b.selected = true;
         ++n;
@@ -614,28 +640,28 @@ org.helm.webeditor.App = scil.extend(scil._base, {
     }
 
     return n;
-  },
+  }
 
-  containsAll: function(list, sublist) {
-    for (var i = 0; i < sublist.length; ++i) {
+  containsAll(list, sublist) {
+    for (let i = 0; i < sublist.length; ++i) {
       if (scil.Utils.indexOf(list, sublist[i]) < 0)
         return false;
     }
 
     return true;
-  },
+  }
 
-  expandRepeat: function(br, repeat, m, selected) {
-    var r1 = null;
-    var r2 = null;
-    var b1 = null;
-    var b2 = null;
+  expandRepeat(br, repeat, m, selected) {
+    let r1 = null;
+    let r2 = null;
+    let b1: Bond<HelmType> = null;
+    let b2: Bond<HelmType> = null;
 
-    var oldbonds = [];
-    for (var i = 0; i < m.bonds.length; ++i) {
-      var b = m.bonds[i];
-      var i1 = scil.Utils.indexOf(br.atoms, b.a1);
-      var i2 = scil.Utils.indexOf(br.atoms, b.a2);
+    const oldbonds = [];
+    for (let i = 0; i < m.bonds.length; ++i) {
+      const b = m.bonds[i];
+      const i1 = scil.Utils.indexOf(br.atoms, b.a1);
+      const i2 = scil.Utils.indexOf(br.atoms, b.a2);
       if (i1 >= 0 && i2 >= 0) {
         oldbonds.push(b);
       } else if (i1 >= 0 && i2 < 0) {
@@ -657,13 +683,13 @@ org.helm.webeditor.App = scil.extend(scil._base, {
       }
     }
 
-    for (var count = 0; count < repeat - 1; ++count) {
-      var newatoms = [];
-      var na1 = null;
-      var na2 = null;
-      for (var i = 0; i < br.atoms.length; ++i) {
-        var a0 = br.atoms[i];
-        var na = a0.clone();
+    for (let count = 0; count < repeat - 1; ++count) {
+      const newatoms = [];
+      let na1 = null;
+      let na2 = null;
+      for (let i = 0; i < br.atoms.length; ++i) {
+        const a0 = br.atoms[i];
+        const na = a0.clone();
         selected.atoms.push(na);
         newatoms.push(na);
 
@@ -673,16 +699,16 @@ org.helm.webeditor.App = scil.extend(scil._base, {
           na2 = na;
       }
 
-      for (var i = 0; i < oldbonds.length; ++i) {
-        var b0 = oldbonds[i];
-        var nb = b0.clone();
+      for (let i = 0; i < oldbonds.length; ++i) {
+        const b0 = oldbonds[i];
+        const nb = b0.clone();
         selected.bonds.push(nb);
         m.bonds.push(nb);
         nb.a1 = newatoms[scil.Utils.indexOf(br.atoms, b0.a1)];
         nb.a2 = newatoms[scil.Utils.indexOf(br.atoms, b0.a2)];
       }
 
-      var nb = null;
+      let nb: Bond<HelmType> = null;
       if (b1 == null) {
         nb = new JSDraw2.Bond(null, null, JSDraw2.BONDTYPES.SINGLE);
         nb.r1 = 2;
@@ -705,62 +731,62 @@ org.helm.webeditor.App = scil.extend(scil._base, {
         r2 = na2;
       }
     }
-  },
+  }
 
   /**
    * Update structure view from Canvas (internal use)
    * @function updateStructureView
    */
-  updateStructureView: function() {
+  updateStructureView() {
     if (this.structureview == null)
       return;
     this.structureview.clear(true);
 
-    var m2 = this.canvas.m.clone();
-    for (var i = 0; i < m2.atoms.length; ++i)
+    const m2 = this.canvas.m.clone();
+    for (let i = 0; i < m2.atoms.length; ++i)
       m2.atoms[i].__mol = null;
 
     if (this.selectBondsOfSelectedAtoms(m2) > 0)
       this.canvas.refresh();
-    var selected = this.getSelectedAsMol(m2);
+    const selected = this.getSelectedAsMol(m2);
     if (selected == null || selected.atoms.length == 0)
       return;
 
-    var atoms = selected.atoms;
-    var bonds = selected.bonds;
+    const atoms = selected.atoms;
+    const bonds = selected.bonds;
 
-    for (var i = 0; i < m2.graphics.length; ++i) {
-      var br = JSDraw2.Bracket.cast(m2.graphics[i]);
+    for (let i = 0; i < m2.graphics.length; ++i) {
+      const br = JSDraw2.Bracket.cast(m2.graphics[i]);
       if (br == null)
         continue;
 
-      var repeat = br == null ? null : br.getSubscript(m2);
-      var n = parseInt(repeat);
+      const repeat = br == null ? null : br.getSubscript(m2);
+      const n = parseInt(repeat);
       if (n > 1 && br.atoms != null && br.atoms.length > 0 && this.containsAll(atoms, br.atoms)) {
         this.expandRepeat(br, n, m2, selected);
       }
     }
 
-    var bondlength = null;
-    var mols = [];
-    for (var i = 0; i < atoms.length; ++i) {
-      var a = atoms[i];
-      var mon = org.helm.webeditor.Monomers.getMonomer(a);
-      var m = org.helm.webeditor.Interface.createMol(org.helm.webeditor.Monomers.getMolfile(mon));
+    let bondlength: number = null;
+    const mols = [];
+    for (let i = 0; i < atoms.length; ++i) {
+      const a = atoms[i];
+      const mon = org.helm.webeditor.Monomers.getMonomer(a);
+      const m = org.helm.webeditor.Interface.createMol(org.helm.webeditor.Monomers.getMolfile(mon));
       a.__mol = m;
 
       // cap R groups
-      var connected = m2.getAllBonds(a);
-      var used = {};
-      for (var k = 0; k < connected.length; ++k) {
-        var bond = connected[k];
+      const connected = m2.getAllBonds(a);
+      const used = {};
+      for (let k = 0; k < connected.length; ++k) {
+        const bond = connected[k];
         if (bond.a1 == a)
           used["R" + bond.r1] = true;
         else if (bond.a2 == a)
           used["R" + bond.r2] = true;
       }
 
-      for (var r in mon.at) {
+      for (const r in mon.at) {
         if (used[r])
           continue;
 
@@ -768,7 +794,7 @@ org.helm.webeditor.App = scil.extend(scil._base, {
       }
 
       if (m != null && !m.isEmpty()) {
-        var d = m.medBondLength();
+        const d = m.medBondLength();
         if (!(bondlength > 0))
           bondlength = d;
         else
@@ -778,13 +804,13 @@ org.helm.webeditor.App = scil.extend(scil._base, {
     }
 
     while (atoms.length > 0) {
-      var a = atoms[0];
+      const a = atoms[0];
       atoms.splice(0, 1);
       this.connectNextMonomer(a, atoms, bonds);
     }
 
-    var mol = mols[0];
-    for (var i = 1; i < mols.length; ++i)
+    const mol = mols[0];
+    for (let i = 1; i < mols.length; ++i)
       mol.mergeMol(mols[i]);
 
     if (mol == null)
@@ -794,7 +820,7 @@ org.helm.webeditor.App = scil.extend(scil._base, {
       if (this.options.onCleanUpStructure != null) {
         this.options.onCleanUpStructure(mol, this);
       } else {
-        var me = this;
+        const me = this;
         scil.Utils.ajax(this.options.cleanupurl, function(ret) {
           me.structureview.setMolfile(ret == null ? null : ret.output);
         }, {input: mol.getMolfile(), inputformat: "mol", outputformat: "mol"});
@@ -802,16 +828,16 @@ org.helm.webeditor.App = scil.extend(scil._base, {
     } else {
       this.structureview.setMolfile(mol.getMolfile());
     }
-  },
+  }
 
-  _replaceR: function(m, r, e) {
+  _replaceR(m, r, e) {
     if (e == "OH")
       e = "O";
     if (e != "H" && e != "O" && e != "X")
       return false;
 
-    for (var i = 0; i < m.atoms.length; ++i) {
-      var a = m.atoms[i];
+    for (let i = 0; i < m.atoms.length; ++i) {
+      const a = m.atoms[i];
       if (a.elem == "R" && a.alias == r) {
         a.elem = e;
         a.alias = null;
@@ -820,17 +846,17 @@ org.helm.webeditor.App = scil.extend(scil._base, {
     }
 
     return false;
-  },
+  }
 
-  connectNextMonomer: function(a, atoms, bonds) {
-    var m1 = a.__mol;
-    var oas = [];
-    for (var i = bonds.length - 1; i >= 0; --i) {
-      var b = bonds[i];
+  connectNextMonomer(a, atoms, bonds) {
+    const m1 = a.__mol;
+    const oas = [];
+    for (let i = bonds.length - 1; i >= 0; --i) {
+      const b = bonds[i];
 
-      var r1 = null;
-      var r2 = null;
-      var oa = null;
+      let r1 = null;
+      let r2 = null;
+      let oa = null;
       if (b.a1 == a) {
         r1 = b.r1 == null ? null : "R" + b.r1;
         r2 = b.r2 == null ? null : "R" + b.r2;
@@ -847,15 +873,15 @@ org.helm.webeditor.App = scil.extend(scil._base, {
       if (oa.__mol == null)
         continue;
 
-      var m2 = oa.__mol;
+      const m2 = oa.__mol;
       if (r1 != null && r2 != null)
         org.helm.webeditor.MolViewer.joinMol(m1, r1, m2, r2);
       oas.push(oa);
     }
 
-    for (var i = 0; i < oas.length; ++i) {
-      var oa = oas[i];
-      var p = scil.Utils.indexOf(atoms, oa);
+    for (let i = 0; i < oas.length; ++i) {
+      const oa = oas[i];
+      const p = scil.Utils.indexOf(atoms, oa);
       if (p == -1 || p == null)
         continue;
 
@@ -863,5 +889,6 @@ org.helm.webeditor.App = scil.extend(scil._base, {
       this.connectNextMonomer(oa, atoms, bonds);
     }
   }
-});
+}
 
+org.helm.webeditor.App = App;

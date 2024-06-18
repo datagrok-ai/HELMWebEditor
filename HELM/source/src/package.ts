@@ -29,7 +29,7 @@ async function loadModules(): Promise<void> {
 
   // Based on _merge.helm.bat
   require('../helm/helm');
-  require('../helm/Interface');
+  await import(/* webpackMode: "eager" */ '../helm/Interface');
   require('../helm/MonomerColors');
   require('../helm/Monomers');
   await import(/* webpackMode: "eager" */ '../helm/Plugin');

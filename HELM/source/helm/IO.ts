@@ -22,6 +22,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
+// @ts-nocheck
+
 import type {ScilModuleType} from "@datagrok/js-draw-lite/src/types/scil";
 import type {IPako} from "../src/types/pako";
 import type {ChainId, IChain, IConnection, IConnection2, IGroup, OrgType, RNote} from "../src/types/org-helm";

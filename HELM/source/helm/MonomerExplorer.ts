@@ -22,14 +22,16 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
+// @ts-nocheck
+
 import {DojoType} from '@datagrok/js-draw-lite/src/types/dojo';
 
 import {JSDraw2ModuleType, ScilModuleType} from '@datagrok/js-draw-lite/src/types';
-import {HweHelmType, IExplorerMonomer, MonomerExplorerOptions, OrgType, TabDescType} from '../src/types/org-helm';
+import {HweHelmType, IExplorerMonomer, IMonomerExplorerOptions, OrgType, TabDescType} from '../src/types/org-helm';
 import {HelmType, HelmTypes, IOrgMonomer, IOrgWebEditorMonomer} from '@datagrok/js-draw-lite/src/types/org';
-import {IEditor} from '@datagrok/js-draw-lite/src/types/jsdraw2';
 import {StyleType} from '@datagrok/js-draw-lite/src/types/common';
 import {IDnD} from '@datagrok/js-draw-lite/src/types/scil';
+import {Editor} from '@datagrok/js-draw-lite/src/JSDraw.Editor';
 
 declare const dojo: DojoType;
 declare const scilligence: ScilModuleType;
@@ -44,7 +46,7 @@ declare let JSDrawServices: any;
  */
 export class MonomerExplorerInt {
   private readonly T: string;
-  private readonly plugin: IEditor<HelmType>;
+  public plugin: any; // TODO: ?
   private readonly options: any;
   private height: number | null;
   private kStyle: any;
@@ -78,7 +80,7 @@ export class MonomerExplorerInt {
    * @param {Plugin} plugin - The Plugin object
    * @param {dict} options - options on how to render the Monomer Explorer
    */
-  constructor(parent: HTMLDivElement, plugin: IEditor<HelmType>, options: Partial<MonomerExplorerOptions> | null) {
+  constructor(parent: HTMLDivElement, plugin: Editor<HelmType>, options: Partial<IMonomerExplorerOptions> | null) {
     this.T = 'MONOMER_EXPLORER';
     this.plugin = plugin;
     this.options = options == null ? {} : options;
@@ -300,7 +302,7 @@ export class MonomerExplorerInt {
       return;
     }
 
-    var td = this.tabs.findTab(key);
+    let td = this.tabs.findTab(key);
     if (td == null && this.monomerstabs != null)
       td = this.monomerstabs.findTab(key);
     if (td == null)

@@ -22,18 +22,28 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-import {ScilModuleType} from '@datagrok/js-draw-lite/src/types';
+// @ts-nocheck
+
+import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok/js-draw-lite/src/types';
+import type {HelmType} from '@datagrok/js-draw-lite/src/types/org';
+import type {OrgType} from '../src/types/org-helm';
+import type {IOrgPlugin} from '@datagrok/js-draw-lite/src/types/jsdraw2';
+import type {IMolHandler} from '@datagrok/js-draw-lite/src/types/mol-handler';
 
 declare const scil: ScilModuleType;
+declare const JSDraw2: JSDraw2ModuleType<HelmType>;
+declare const org: OrgType;
+
 
 /**
  * HELM Editor Plugin class
  * @class org.helm.webeditor.Plugin
  */
-org.helm.webeditor.Plugin = scil.extend(scil._base, {
+export class Plugin implements IOrgPlugin<HelmType> {
   /**
    @property {MonomerExplorer} monomerexplorer - Monomer Explorer
    **/
+
   /**
    @property {JSDraw2.Editor} jsd - Drawing Canvas
    **/
@@ -42,10 +52,10 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
    * @constructor Plugin
    * @param {JSDraw2.Editor} jsd - The JSDraw canvas
    **/
-  constructor: function(jsd) {
+  constructor(jsd: IMolHandler<HelmType>) {
     this.jsd = jsd;
     this.monomerexplorer = null;
-  },
+  }
 
   /**
    * Get the molecule formula
@@ -53,29 +63,29 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
    * @param {bool} html - indicate if html format is needed
    * @returns the molecular formula as a string
    */
-  getMF: function(html) {
+  getMF(html) {
     return org.helm.webeditor.Formula.getMF(this.jsd.m, html);
-  },
+  }
 
   /**
    * Get the molecule weight
    * @function getMW
    * @returns the molecular weight as a number
    */
-  getMW: function() {
+  getMW() {
     return org.helm.webeditor.Formula.getMW(this.jsd.m);
-  },
+  }
 
   /**
    * Get the Extinction Coefficient
    * @function getExtinctionCoefficient
    * @returns the Extinction Coefficient as a number
    */
-  getExtinctionCoefficient: function() {
+  getExtinctionCoefficient() {
     return org.helm.webeditor.ExtinctionCoefficient.calculate(this.jsd.m);
-  },
+  }
 
-  getSpareRs: function(a, rs) {
+  getSpareRs(a, rs) {
     if (a.bio == null) // not bio
       return [];
 
@@ -122,9 +132,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
       return "?";
 
     return ret.length == 0 ? null : ret;
-  },
+  }
 
-  setAtomProp: function(obj) {
+  setAtomProp(obj) {
     const a = JSDraw2.Atom.cast(obj);
     if (a == null)
       return;
@@ -152,9 +162,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     const data = {elem: elem, tag: a.tag};
     this.atomPropDlg.form.setData(data);
     this.atomPropDlg.atom = a;
-  },
+  }
 
-  setAtomProp2: function() {
+  setAtomProp2() {
     const data = this.atomPropDlg.form.getData();
     data.elem = scil.Utils.trim(data.elem);
     data.tag = scil.Utils.trim(data.tag);
@@ -196,9 +206,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
       this.jsd.pushundo(clone);
       this.jsd.refresh(true);
     }
-  },
+  }
 
-  setBondProp: function(obj) {
+  setBondProp(obj) {
     const b = JSDraw2.Bond.cast(obj);
     if (b == null)
       return;
@@ -241,9 +251,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
 
     this.bondPropDlg.form.setData(data);
     this.bondPropDlg.bond = b;
-  },
+  }
 
-  _getDisplayName: function(b, data, i) {
+  _getDisplayName(b, data, i) {
     const ai = "a" + i;
     const ri = "r" + i;
     const air = "a" + i + "r";
@@ -266,9 +276,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     }
 
     return ret;
-  },
+  }
 
-  setBondProp2: function() {
+  setBondProp2() {
     const data = this.bondPropDlg.form.getData();
     this.bondPropDlg.hide();
 
@@ -306,18 +316,18 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
       this.jsd.pushundo(clone);
       this.jsd.refresh(true);
     }
-  },
+  }
 
-  _isRatioEq: function(r1, r2) {
+  _isRatioEq(r1, r2) {
     if (!(r1 > 0 || r1 == "?") || r1 == "")
       r1 = null;
     if (!(r2 > 0 || r2 == "?") || r2 == "")
       r2 = null;
 
     return r1 == r2;
-  },
+  }
 
-  _makeBondR: function(pos, r, b, key) {
+  _makeBondR(pos, r, b, key) {
     if (pos != null)
       pos = pos.trim();
     if (scil.Utils.isNullOrEmpty(pos))
@@ -334,9 +344,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
 
     b[key] = s;
     return true;
-  },
+  }
 
-  expandSuperAtom: function(obj) {
+  expandSuperAtom(obj) {
     const a = JSDraw2.Atom.cast(obj);
     if (a == null || a.bio == null || !org.helm.webeditor.isHelmNode(a))
       return false;
@@ -345,9 +355,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     if (this.groupExpand(a))
       this.jsd.refresh(true);
     return true;
-  },
+  }
 
-  hasSpareR: function(a, r) {
+  hasSpareR(a, r) {
     if (a == null)
       return false;
     if (a.bio == null)
@@ -375,9 +385,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     }
 
     return true;
-  },
+  }
 
-  getDefaultNodeType: function(a, c) {
+  getDefaultNodeType(a, c) {
     let s = null;
     if (this.monomerexplorer != null)
       s = this.monomerexplorer.selected[a];
@@ -393,9 +403,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
       return c;
 
     return org.helm.webeditor.Monomers.getDefaultMonomer(a);
-  },
+  }
 
-  setNodeType: function(a, biotype, elem) {
+  setNodeType(a, biotype, elem) {
     const mon = org.helm.webeditor.Monomers.getMonomer(biotype, elem);
     let id;
     if (mon != null) {
@@ -418,9 +428,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     }
 
     return false;
-  },
+  }
 
-  setNodeTypeFromGui: function(a, s) {
+  setNodeTypeFromGui(a, s) {
     const m = scil.helm.Monomers.getMonomer(a, s);
     if (m != null) {
       a.elem = s;
@@ -441,12 +451,12 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
 
     scil.Utils.alert("Unknown monomer type: " + s);
     return false;
-  },
+  }
 
-  cancelDnD: function() {
+  cancelDnD() {
     if (this.monomerexplorer != null)
       this.monomerexplorer.dnd.cancel();
-  },
+  }
 
   /**
    * Replace monomers
@@ -457,7 +467,7 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
    * @param {bool} selectedonly - indicate if seaching the selected part only
    * @returns the count replaced
    */
-  replaceMonomer: function(monomertype, find, replacedwith, selectedonly) {
+  replaceMonomer(monomertype, find, replacedwith, selectedonly) {
     let n = 0;
     const atoms = this.jsd.m.atoms;
     for (let i = 0; i < atoms.length; ++i) {
@@ -470,25 +480,25 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
       }
     }
     return n;
-  },
+  }
 
-  makeComplementaryStrand: function(a) {
+  makeComplementaryStrand(a) {
     const chain = org.helm.webeditor.Chain.getChain(this.jsd.m, a);
     if (chain == null)
       return null;
 
     return chain.makeComplementaryStrand(this.jsd.m, this.jsd.bondlength);
-  },
+  }
 
-  setHelmBlobType: function(a, type) {
+  setHelmBlobType(a, type) {
     if (a.biotype() == org.helm.webeditor.HELM.BLOB && a.bio.blobtype != type) {
       this.jsd.pushundo();
       a.bio.blobtype = type;
       this.jsd.refresh(true);
     }
-  },
+  }
 
-  createGroup: function(a, collapse, resetid) {
+  createGroup(a, collapse, resetid) {
     let list = [];
     const graphics = this.jsd.m.graphics;
     for (let i = 0; i < graphics.length; ++i) {
@@ -563,9 +573,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     if (g != null && resetid)
       org.helm.webeditor.Layout.resetIDs(this.jsd.m);
     return g != null;
-  },
+  }
 
-  createGroup2: function(list, collapse) {
+  createGroup2(list, collapse) {
     const g = new JSDraw2.Group("", "helmgroup");
     g.gap = 10;
     this.jsd.m.addGraphics(g);
@@ -577,9 +587,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     if (collapse)
       this.collapseGroup(g);
     return g;
-  },
+  }
 
-  collapseGroup: function(g, clean) {
+  collapseGroup(g, clean) {
     if (JSDraw2.Group.cast(g) == null)
       return null;
 
@@ -589,9 +599,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
       this.clean();
 
     return ret;
-  },
+  }
 
-  _collapseGroup: function(g) {
+  _collapseGroup(g) {
     const sa = g.a != null ? g.a : org.helm.webeditor.Interface.createAtom(this.jsd.m, new JSDraw2.Point());
     //sa.tag = "Group";
     const mol = new JSDraw2.Mol();
@@ -651,9 +661,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
 
     //this.jsd.refresh(true);
     return sa;
-  },
+  }
 
-  groupExpand: function(a) {
+  groupExpand(a) {
     if (a == null || a.superatom == null)
       return false;
 
@@ -700,31 +710,31 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
 
     //this.jsd.refresh(true);
     return true;
-  },
+  }
 
-  findAtomByAP: function(m, apo) {
+  findAtomByAP(m, apo) {
     for (let i = 0; i < m.atoms.length; ++i) {
       const a = m.atoms[i];
       if (scil.Utils.indexOf(a.attachpoints, apo) >= 0)
         return a;
     }
     return null;
-  },
+  }
 
   /**
    * Apply a rule
    * @function applyRule
    * @param {function} rulefun - a rule function to be called: function(plugin) {}
    */
-  applyRule: function(rulefun) {
+  applyRule(rulefun) {
     org.helm.webeditor.RuleSet.applyRule(this, rulefun);
-  },
+  }
 
-  applyRules: function(funs) {
+  applyRules(funs) {
     org.helm.webeditor.RuleSet.applyRules(this, funs);
-  },
+  }
 
-  addNode: function(p, biotype, elem) {
+  addNode(p, biotype, elem) {
     elem = org.helm.webeditor.IO.trimBracket(elem);
 
     let m = org.helm.webeditor.Monomers.getMonomer(biotype, elem);
@@ -746,9 +756,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     this.setNodeType(a, biotype, m.id == null ? elem : m.id);
     a.bio.ambiguity = ambiguity;
     return a;
-  },
+  }
 
-  addBond: function(a1, a2, r1, r2) {
+  addBond(a1, a2, r1, r2) {
     if (a1 == null || a2 == null || a1 == a2 || r1 != "?" && !this.hasSpareR(a1, r1) || r2 != "?" && !this.hasSpareR(a2, r2))
       return null;
     //if (a1.biotype() == org.helm.webeditor.HELM.SUGAR && a2.biotype() == org.helm.webeditor.HELM.SUGAR || a1.biotype() == org.helm.webeditor.HELM.AA && a2.biotype() == org.helm.webeditor.HELM.AA) {
@@ -759,17 +769,17 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     b.r1 = r1;
     b.r2 = r2;
     return b;
-  },
+  }
 
-  addHydrogenBond: function(a1, a2) {
+  addHydrogenBond(a1, a2) {
     if (a1 == null || a2 == null || a1 == a2)
       return null;
     const b = org.helm.webeditor.Interface.createBond(this.jsd.m, a1, a2);
     b.type = JSDraw2.BONDTYPES.UNKNOWN;
     return b;
-  },
+  }
 
-  connnectGroup: function(p1, object) {
+  connnectGroup(p1, object) {
     const object1 = this.jsd.toggle(p1);
     const object2 = object;
     let t1 = JSDraw2.Atom.cast(object1);
@@ -806,9 +816,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     }
 
     return false;
-  },
+  }
 
-  connectFragment: function(a1, a2, extendchain) {
+  connectFragment(a1, a2, extendchain) {
     let b = this.jsd.m.findBond(a1, a2);
     if (b != null)
       return;
@@ -924,9 +934,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     }
 
     this.finishConnect(extendchain, b, a, a1, a2, frag, delta);
-  },
+  }
 
-  canPair: function(a1, a2) {
+  canPair(a1, a2) {
     if (a1.biotype() == org.helm.webeditor.HELM.BASE && a2.biotype() == org.helm.webeditor.HELM.BASE) {
       const c1 = a1.elem;
       const c2 = a2.elem;
@@ -934,19 +944,19 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
         c1 == "G" && c2 == "C" || c1 == "C" && c2 == "G";
     }
     return false;
-  },
+  }
 
-  needLinker: function() {
+  needLinker() {
     const linker = this.getDefaultNodeType(org.helm.webeditor.HELM.LINKER);
     return linker != "null";
-  },
+  }
 
-  finishConnect: function(extendchain, b, a, a1, a2, frag, delta) {
+  finishConnect(extendchain, b, a, a1, a2, frag, delta) {
     this.clean();
     this.jsd.refresh(extendchain || b != null);
-  },
+  }
 
-  chooseRs: function(rs1, rs2, a1, a2, callback) {
+  chooseRs(rs1, rs2, a1, a2, callback) {
     if (this.chooseRDlg == null) {
       const me = this;
       const fields = {
@@ -979,9 +989,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
 
     this.chooseRDlg.rs1 = rs1;
     this.chooseRDlg.rs2 = rs2;
-  },
+  }
 
-  chooseRs2: function() {
+  chooseRs2() {
     const d = this.chooseRDlg.form.getData();
     if (scil.Utils.isNullOrEmpty(d.r1) && this.chooseRDlg.rs1.length > 0 || scil.Utils.isNullOrEmpty(d.r2) && this.chooseRDlg.rs2.length > 0) {
       scil.Utils.alert("Please select Rs for both Nodes");
@@ -990,16 +1000,16 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
 
     this.chooseRDlg.hide();
     this.chooseRDlg.callback(d.r1 == null || d.r1 == "?" ? d.r1 : parseInt(d.r1), d.r2 == null || d.r2 == "?" ? d.r2 : parseInt(d.r2));
-  },
+  }
 
-  _listRs: function(sel, list, v) {
+  _listRs(sel, list, v) {
     const ss = {};
     for (let i = 0; i < list.length; ++i)
       ss[list[i] + ""] = list[i] == "?" ? "?" : ("R" + list[i]);
     scil.Utils.listOptions(sel, ss, v == null ? null : (v + ""), true, false);
-  },
+  }
 
-  changeMonomer: function(a, cloned) {
+  changeMonomer(a, cloned) {
     const s = this.getDefaultNodeType(a.biotype());
     if (!scil.Utils.isNullOrEmpty(s) && a.elem != s && s != "null" && a.biotype() != org.helm.webeditor.HELM.BLOB) {
       this.jsd.pushundo(cloned);
@@ -1008,9 +1018,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     } else {
       scil.Utils.beep();
     }
-  },
+  }
 
-  extendChain: function(a1, cmd, p1, p2, cloned) {
+  extendChain(a1, cmd, p1, p2, cloned) {
     const rs = [];
     const rgroups = this.getSpareRs(a1, rs);
     if (rgroups == null) {
@@ -1145,7 +1155,7 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     } else {
       this.jsd.refresh();
     }
-  },
+  }
 
   /**
    * Get HELM
@@ -1153,9 +1163,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
    * @param {bool} highlightselection - internal use only, using null always
    * @returns the HELM as string
    */
-  getHelm: function(highlightselection) {
+  getHelm(highlightselection) {
     return org.helm.webeditor.IO.getHelm(this.jsd.m, highlightselection);
-  },
+  }
 
   /**
    * Get sequence of natuaral analogue
@@ -1163,18 +1173,18 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
    * @param {bool} highlightselection - internal use only, using null always
    * @returns the sequence as a string
    */
-  getSequence: function(highlightselection) {
+  getSequence(highlightselection) {
     return org.helm.webeditor.IO.getSequence(this.jsd.m, highlightselection);
-  },
+  }
 
   /**
    * Get XHELM
    * @function getXHelm
    * @returns XHELM as a string
    */
-  getXHelm: function() {
+  getXHelm() {
     return org.helm.webeditor.IO.getXHelm(this.jsd.m);
-  },
+  }
 
   /**
    * Set HELM
@@ -1182,7 +1192,7 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
    * @param {string} s - The HELM string
    * @param {string} renamedmonomers - internal use only, using null always
    */
-  setHelm: function(s, renamedmonomers) {
+  setHelm(s, renamedmonomers) {
     this.jsd.clear();
 
     let n = 0;
@@ -1199,14 +1209,14 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
       this.jsd.fitToWindow();
       this.jsd.refresh();
     }
-  },
+  }
 
   /**
    * Set XHELM
    * @function setXHelm
    * @param {string} s - the xhelm string
    */
-  setXHelm: function(s) {
+  setXHelm(s) {
     const doc = typeof (s) == "string" ? scil.Utils.parseXml(s) : s;
     if (doc == null)
       return false;
@@ -1229,18 +1239,18 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
         me.monomerexplorer.reloadTabs();
       me.setHelm(s, renamed);
     });
-  },
+  }
 
-  isXHelm: function(doc) {
+  isXHelm(doc) {
     const ret = doc == null ? null : doc.getElementsByTagName("Xhelm");
     return ret != null && ret.length == 1;
-  },
+  }
 
   /**
    * Show Importing Sequence dialog
    * @function showImportDlg
    */
-  showImportDlg: function() {
+  showImportDlg() {
     if (this.inputSeqDlg == null) {
       const fields = {
         type: {label: "Sequence Type", type: "select", items: ["HELM", "Peptide", "RNA"]},
@@ -1256,13 +1266,13 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     }
 
     this.inputSeqDlg.show2({owner: this.jsd});
-  },
+  }
 
-  importSequence: function(append) {
+  importSequence(append) {
     const data = this.inputSeqDlg.form.getData();
     if (this.setSequence(data.sequence, data.type, null, null, append, data.separator))
       this.inputSeqDlg.hide();
-  },
+  }
 
   /**
    * Set a sequence (natural analogue sequence, HELM,)
@@ -1273,7 +1283,7 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
    * @param {string} linker - the linker for RNA
    * @param {bool} append - set the sequence in appending mode or overwriting mode
    */
-  setSequence: function(seq, format, sugar, linker, append, separator) {
+  setSequence(seq, format, sugar, linker, append, separator) {
     seq = scil.Utils.trim(seq);
     if (/^[a-z]+$/.test(seq))
       seq = seq.toUpperCase();
@@ -1310,7 +1320,7 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
       this.jsd.refresh(true);
     }
     return true;
-  },
+  }
 
   /**
    * Clean the layout
@@ -1318,7 +1328,7 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
    * @param {JSDraw2.Atom} a - the start monomer.  Use null to clean all
    * @param {bool} redraw - indicate if redrawing the structure after cleaning
    */
-  clean: function(a, redraw) {
+  clean(a, redraw) {
     if (redraw)
       this.jsd.pushundo();
 
@@ -1327,17 +1337,17 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
       this.jsd.moveCenter();
       this.jsd.refresh(true);
     }
-  },
+  }
 
   /**
    * Reset monomer IDs
    * @function resetIDs
    */
-  resetIDs: function() {
+  resetIDs() {
     org.helm.webeditor.Layout.resetIDs(this.jsd.m);
-  },
+  }
 
-  dropMonomer: function(type, id, e) {
+  dropMonomer(type, id, e) {
     const p = this.jsd.eventPoint(e);
     if (p.x <= 0 || p.y <= 0 || p.x >= this.jsd.dimension.x || p.y >= this.jsd.dimension.y || id == "null")
       return false;
@@ -1378,9 +1388,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     if (f)
       this.jsd.refresh(true);
     return f;
-  },
+  }
 
-  showFindReplaceDlg: function() {
+  showFindReplaceDlg() {
     if (this.findDlg == null) {
       const fields = {
         finding: {label: "Find", width: 400, str: "<div>(Monomer symbol or position)</div>"},
@@ -1398,9 +1408,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     }
 
     this.findDlg.show2({owner: this.jsd});
-  },
+  }
 
-  showFindReplaceDlg2: function(action) {
+  showFindReplaceDlg2(action) {
     const data = this.findDlg.form.getData();
     if (scil.Utils.isNullOrEmpty(data.finding) || action == "replaceall" && scil.Utils.isNullOrEmpty(data.replacewith)) {
       scil.Utils.alert("Find and Replace With cannot be blank");
@@ -1413,9 +1423,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
       this.find(data.finding, true, data.monomertype, data.selectedonly);
     else if (action == "replaceall")
       this.replaceAll(data.finding, data.replacewith, data.monomertype, data.selectedonly);
-  },
+  }
 
-  getSelectedAtoms: function() {
+  getSelectedAtoms() {
     const ret = [];
     const atoms = this.jsd.m.atoms;
     for (let i = 0; i < atoms.length; ++i) {
@@ -1423,9 +1433,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
         ret.push(atoms[i]);
     }
     return ret;
-  },
+  }
 
-  find: function(a, findall, monomertype, selectedonly) {
+  find(a, findall, monomertype, selectedonly) {
     const atoms = selectedonly ? this.getSelectedAtoms() : this.jsd.m.atoms;
     this.jsd.m.setSelected(false);
 
@@ -1469,9 +1479,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
 
     if (n > 0)
       this.jsd.redraw();
-  },
+  }
 
-  replaceAll: function(a, a2, monomertype, selectedonly) {
+  replaceAll(a, a2, monomertype, selectedonly) {
     let n = 0;
     const cloned = this.jsd.clone();
     if (/^[0-9]+$/.test(a)) {
@@ -1494,9 +1504,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     }
 
     scil.Utils.alert(n + " node(s) replaced");
-  },
+  }
 
-  dblclickMomonor: function(type, monomer) {
+  dblclickMomonor(type, monomer) {
     if (monomer == "null")
       return;
 
@@ -1515,14 +1525,14 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
     }
 
     return list.length;
-  },
+  }
 
-  isHelmCmd: function(cmd) {
+  isHelmCmd(cmd) {
     return cmd == "helm_nucleotide" || cmd == "helm_base" || cmd == "helm_sugar" || cmd == "helm_chem" ||
       cmd == "helm_aa" || cmd == "helm_linker" || cmd == "helm_blob";
-  },
+  }
 
-  createIsolatedMonomer: function(cmd, a) {
+  createIsolatedMonomer(cmd, a) {
     if (cmd == "helm_nucleotide") {
       const s = this.monomerexplorer == null ? null : scil.Utils.getInnerText(this.monomerexplorer.lastdiv);
       if (s == "*") {
@@ -1563,4 +1573,6 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
 
     return true;
   }
-});
+}
+
+org.helm.webeditor.Plugin = Plugin;
