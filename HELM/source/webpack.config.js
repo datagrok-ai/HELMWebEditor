@@ -1,18 +1,17 @@
 const path = require('path');
 const packageName = path.parse(require('./package.json').name).name.toLowerCase().replace(/-/g, '');
 
-//const CopyPlugin = require('copy-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
-// const FuncGeneratorPlugin = require('datagrok-tools/plugins/func-gen-plugin');
 
 const extPaths = new class {
-  JSDrawLite = '../../../JSDraw.Lite';
+  Helm = '../../../../reddata/public/packages/Helm';
 }();
 
 const mode = process.env.NODE_ENV ?? 'production';
-if (mode !== 'production') {
+if (mode !== 'production')
   console.warn(`Building '${packageName}' in '${mode}' mode.`);
-}
+const out = `helm-web-editor.${mode}`;
 
 module.exports = {
   mode: mode,
@@ -22,6 +21,11 @@ module.exports = {
   resolve: {
     fallback: {'url': false},
     extensions: ['.wasm', '.mjs', '.ts', '.tsx', '.js', '.json'],
+    alias: {
+      'vendor/js-draw-lite': mode === 'production' ?
+        path.resolve(__dirname, 'vendor', 'js-draw-lite.production.js') :
+        path.resolve(__dirname, 'vendor', 'js-draw-lite.development.js'),
+    },
   },
   module: {
     rules: [
@@ -32,12 +36,8 @@ module.exports = {
   },
   plugins: [new FileManagerPlugin({
     events: {
-      onStart: {
-        copy: [
-          {source: `${extPaths.JSDrawLite}/source/web/dist/package.js`, destination: './vendor/js-draw-lite.js'},
-        ],
-      },
-      onEnd: {},
+      onStart: {delete: ['./dist/*']},
+      onEnd: {copy: [{source: './dist/*', destination: `${extPaths.Helm}/vendor/`}]},
     },
   })],
   devtool: mode !== 'production' ? 'inline-source-map' : 'source-map',
@@ -47,8 +47,13 @@ module.exports = {
     'datagrok-api/ui': 'ui',
     'wu': 'wu',
   },
+  optimization: {
+    minimize: mode === 'production',
+    minimizer: [new TerserWebpackPlugin({extractComments: false})],
+  },
   output: {
-    filename: '[name].js',
+    filename: `${out}.js`,
+    sourceMapFilename: `${out}.js.map`,
     library: packageName,
     libraryTarget: 'var',
     path: path.resolve(__dirname, 'dist'),

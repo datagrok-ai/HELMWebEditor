@@ -1,4 +1,4 @@
-import {OrgType} from './org-helm';
+import type {OrgType} from './org-helm';
 
 export type HweWindow = {
   helmWebEditor$: {

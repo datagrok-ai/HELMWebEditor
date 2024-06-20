@@ -1,7 +1,5 @@
-import '@datagrok/js-draw-lite/src/types/jsdraw2';
-
-import {JSDraw2Window} from '@datagrok/js-draw-lite/src/types';
-import {HweWindow} from './types';
+import type {JSDraw2Window} from '@datagrok/js-draw-lite/src/types';
+import type {HweWindow} from './types';
 
 declare const window: Window & HweWindow & JSDraw2Window;
 
@@ -24,7 +22,7 @@ export async function initHELMWebEditor(): Promise<void> {
 }
 
 async function loadModules(): Promise<void> {
-  require('../vendor/js-draw-lite');
+  require('vendor/js-draw-lite');
   await window.jsDraw2$.initPromise;
 
   // Based on _merge.helm.bat

@@ -1,18 +1,18 @@
 ﻿/*******************************************************************************
 * Copyright (C) 2018, The Pistoia Alliance
 * Created by Scilligence, built on JSDraw.Lite
-* 
+*
 * Permission is hereby granted, free of charge, to any person obtaining
 * a copy of this software and associated documentation files (the
 * "Software"), to deal in the Software without restriction, including
 * without limitation the rights to use, copy, modify, merge, publish,
 * distribute, sublicense, and/or sell copies of the Software, and to
-* permit persons to whom the Software is furnished to do so, subject to the 
+* permit persons to whom the Software is furnished to do so, subject to the
 * following conditions:
-* 
+*
 * The above copyright notice and this permission notice shall be
 * included in all copies or substantial portions of the Software.
-* 
+*
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -55,7 +55,7 @@ scil.helm.Formula = {
 
     /**
     * Create subscription (internal use)
-    * @function 
+    * @function
     */
     subscription: function (n, html) {
         if (n == 1)
@@ -169,7 +169,7 @@ scil.helm.Formula = {
             return;
 
         if (m.stats == null) {
-            m.stats = scil.helm.Interface.molStats(scil.helm.monomers.getMolfile(m));
+            m.stats = scil.helm.Interface.molStats(org.helm.webeditor.monomers.getMolfile(m));
             for (var r in m.at) {
                 var s = m.at[r];
                 if (s == "H" || s == "OH") {

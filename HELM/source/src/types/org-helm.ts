@@ -1,4 +1,4 @@
-import {
+import type {
   HelmType, IOrgMonomer, IOrgMonomers, IWebEditorMonomer, PolymerType,
 } from '@datagrok/js-draw-lite/src/types/org';
 
@@ -253,20 +253,19 @@ export interface IRuleSet {
   [p: string]: any;
 }
 
-import {IOrgWebEditor, IOrgInterface} from '@datagrok/js-draw-lite/src/types/org';
-import {IMolHandler} from '@datagrok/js-draw-lite/src/types/mol-handler';
+import type {IOrgWebEditor, IOrgInterface} from '@datagrok/js-draw-lite/src/types/org';
+import type {IMolHandler} from '@datagrok/js-draw-lite/src/types/mol-handler';
 
-import {Editor} from '@datagrok/js-draw-lite/src/JSDraw.Editor';
-import {Point} from '@datagrok/js-draw-lite/src/Point';
-import {Bond} from '@datagrok/js-draw-lite/src/Bond';
-import {Atom} from '@datagrok/js-draw-lite/src/Atom';
-import {Mol} from '@datagrok/js-draw-lite/src/Mol';
+import type {Editor} from '@datagrok/js-draw-lite/src/JSDraw.Editor';
+import type {Point} from '@datagrok/js-draw-lite/src/Point';
+import type {Bond} from '@datagrok/js-draw-lite/src/Bond';
+import type {Atom} from '@datagrok/js-draw-lite/src/Atom';
+import type {Mol} from '@datagrok/js-draw-lite/src/Mol';
 
-import {MonomerExplorer} from '../../helm/MonomerExplorer';
-import {App} from '../../helm/App';
-import {Interface} from '../../helm/Interface';
-import {Monomers} from '../../helm/Monomers';
-import {Plugin} from '../../helm/Plugin';
+import type {MonomerExplorer} from '../../helm/MonomerExplorer';
+import type {App} from '../../helm/App';
+import type {Interface} from '../../helm/Interface';
+import type {Monomers} from '../../helm/Monomers';
 
 export interface IExplorerMonomer extends IOrgMonomer {
   div: HTMLDivElement;
@@ -312,7 +311,6 @@ export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType>, 'Interf
   bondscale: number;
 
   MonomerExplorer: typeof MonomerExplorer;
-  Interface: typeof Interface;
   App: typeof App;
   RuleSetApp: any;
   readonly MolViewer: IMolViewer;
@@ -322,11 +320,12 @@ export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType>, 'Interf
 
   readonly Chain: IChain;
 
+  Interface: Interface; /* single instance */
   Monomers: Monomers; /* single instance */
+  monomers: void;
 
   monomerTypeList(): { [type: string]: string };
 
-  monomers: void;
   [p: string]: any;
 }
 

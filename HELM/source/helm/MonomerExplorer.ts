@@ -24,14 +24,14 @@
 
 // @ts-nocheck
 
-import {DojoType} from '@datagrok/js-draw-lite/src/types/dojo';
+import type {DojoType} from '@datagrok/js-draw-lite/src/types/dojo';
 
-import {JSDraw2ModuleType, ScilModuleType} from '@datagrok/js-draw-lite/src/types';
-import {HweHelmType, IExplorerMonomer, IMonomerExplorerOptions, OrgType, TabDescType} from '../src/types/org-helm';
-import {HelmType, HelmTypes, IOrgMonomer, IOrgWebEditorMonomer} from '@datagrok/js-draw-lite/src/types/org';
-import {StyleType} from '@datagrok/js-draw-lite/src/types/common';
-import {IDnD} from '@datagrok/js-draw-lite/src/types/scil';
-import {Editor} from '@datagrok/js-draw-lite/src/JSDraw.Editor';
+import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok/js-draw-lite/src/types';
+import type {HweHelmType, IExplorerMonomer, IMonomerExplorerOptions, OrgType, TabDescType} from '../src/types/org-helm';
+import type {HelmType, HelmTypes, IOrgMonomer, IOrgWebEditorMonomer} from '@datagrok/js-draw-lite/src/types/org';
+import type {StyleType} from '@datagrok/js-draw-lite/src/types/common';
+import type {IDnD} from '@datagrok/js-draw-lite/src/types/scil';
+import type {Editor} from '@datagrok/js-draw-lite/src/JSDraw.Editor';
 
 declare const dojo: DojoType;
 declare const scilligence: ScilModuleType;

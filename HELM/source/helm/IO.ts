@@ -27,8 +27,8 @@
 import type {ScilModuleType} from "@datagrok/js-draw-lite/src/types/scil";
 import type {IPako} from "../src/types/pako";
 import type {ChainId, IChain, IConnection, IConnection2, IGroup, OrgType, RNote} from "../src/types/org-helm";
-import {JSDraw2ModuleType} from "@datagrok/js-draw-lite/src/types";
-import {HelmType, PolymerType} from "@datagrok/js-draw-lite/src/types/org";
+import type {JSDraw2ModuleType} from "@datagrok/js-draw-lite/src/types";
+import type {HelmType, PolymerType} from "@datagrok/js-draw-lite/src/types/org";
 
 declare const pako: IPako;
 

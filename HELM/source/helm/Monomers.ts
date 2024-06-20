@@ -24,10 +24,10 @@
 
 // @ts-nocheck
 
-import {HelmType, IMonomerColors, IOrgMonomers, IOrgWebEditorMonomer, MonomerType, PolymerType} from '@datagrok/js-draw-lite/src/types/org';
-import {IOrgHelmMonomers, OrgType} from '../src/types/org-helm';
-import {JSDraw2ModuleType, ScilModuleType} from '@datagrok/js-draw-lite/src/types';
-import {Atom} from '@datagrok/js-draw-lite/src/Atom';
+import type {HelmType, IMonomerColors, IOrgMonomers, IOrgWebEditorMonomer, MonomerType, PolymerType} from '@datagrok/js-draw-lite/src/types/org';
+import type {IOrgHelmMonomers, OrgType} from '../src/types/org-helm';
+import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok/js-draw-lite/src/types';
+import type {Atom} from '@datagrok/js-draw-lite/src/Atom';
 
 declare const scil: ScilModuleType;
 declare const JSDraw2: JSDraw2ModuleType<any>;
@@ -41,7 +41,9 @@ export class Monomers implements IOrgHelmMonomers {
   private smilesmonomerid: number = 0;
   public readonly smilesmonomers: {} = {};
   public readonly aliasset: {} = {};
-  public readonly defaultmonomers: { HELM_BASE: null, HELM_SUGAR: null, HELM_LINKER: null, HELM_AA: null, HELM_CHEM: null };
+  public readonly defaultmonomers: { [type: string]: any } = {
+    HELM_BASE: null, HELM_SUGAR: null, HELM_LINKER: null, HELM_AA: null, HELM_CHEM: null
+  };
   public readonly blobs: { [name: string]: IOrgWebEditorMonomer } = {
     blob: {n: 'Blob', id: "Blob", na: 'B', rs: 0, at: {}, m: ''},
     group: {n: 'Group', id: "Group", na: 'G', rs: 0, at: {}, m: ''}
@@ -732,7 +734,7 @@ export class Monomers implements IOrgHelmMonomers {
   }
 }
 
-org.helm.webeditor.Monomers = new Monomers();
+org.helm.webeditor.monomers = org.helm.webeditor.Monomers = new Monomers();
 
 //@formatter:off
 /* eslint-disable */

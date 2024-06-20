@@ -24,18 +24,18 @@
 
 // @ts-nocheck
 
-import {DojoType} from '@datagrok/js-draw-lite/src/types/dojo';
+import type {DojoType} from '@datagrok/js-draw-lite/src/types/dojo';
 
-import {JSDraw2ModuleType, ScilModuleType} from '@datagrok/js-draw-lite/src/types';
-import {IAppOptions, OrgType} from '../src/types/org-helm';
-import {IPageForm, Page} from '@datagrok/js-draw-lite/page/Page';
-import {PageTab} from '@datagrok/js-draw-lite/page/Page.Tab';
-import {MonomerExplorer} from './MonomerExplorer';
-import {HelmType} from '@datagrok/js-draw-lite/src/types/org';
-import {Mol} from '@datagrok/js-draw-lite/src/Mol';
-import {Form} from '@datagrok/js-draw-lite/form/Form';
-import {Editor} from '@datagrok/js-draw-lite/src/JSDraw.Editor';
-import {Bond} from '@datagrok/js-draw-lite/src/Bond';
+import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok/js-draw-lite/src/types';
+import type {IAppOptions, OrgType} from '../src/types/org-helm';
+import type {IPageForm, Page} from '@datagrok/js-draw-lite/page/Page';
+import type {PageTab} from '@datagrok/js-draw-lite/page/Page.Tab';
+import type {MonomerExplorer} from './MonomerExplorer';
+import type {HelmType} from '@datagrok/js-draw-lite/src/types/org';
+import type {Mol} from '@datagrok/js-draw-lite/src/Mol';
+import type {Form} from '@datagrok/js-draw-lite/form/Form';
+import type {Editor} from '@datagrok/js-draw-lite/src/JSDraw.Editor';
+import type {Bond} from '@datagrok/js-draw-lite/src/Bond';
 
 declare const dojo: DojoType;
 declare const scil: ScilModuleType;

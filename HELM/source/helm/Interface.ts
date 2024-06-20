@@ -24,16 +24,16 @@
 
 // @ts-nocheck
 
-import {JSDraw2ModuleType, ScilModuleType} from '@datagrok/js-draw-lite/src/types';
-import {HelmType, IOrgInterface} from '@datagrok/js-draw-lite/src/types/org';
-import {OrgType} from '../src/types/org-helm';
-import {Editor} from '@datagrok/js-draw-lite/src/JSDraw.Editor';
-import {Point} from '@datagrok/js-draw-lite/src/Point';
-import {Atom} from '@datagrok/js-draw-lite/src/Atom';
-import {Rect} from '@datagrok/js-draw-lite/src/Rect';
-import {Mol} from '@datagrok/js-draw-lite/src/Mol';
-import {BondType} from '@datagrok/js-draw-lite/src/types/jsdraw2';
-import {Bond} from '@datagrok/js-draw-lite/src/Bond';
+import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok/js-draw-lite/src/types';
+import type {HelmType, IOrgInterface} from '@datagrok/js-draw-lite/src/types/org';
+import type {OrgType} from '../src/types/org-helm';
+import type {Editor} from '@datagrok/js-draw-lite/src/JSDraw.Editor';
+import type {Point} from '@datagrok/js-draw-lite/src/Point';
+import type {Atom} from '@datagrok/js-draw-lite/src/Atom';
+import type {Rect} from '@datagrok/js-draw-lite/src/Rect';
+import type {Mol} from '@datagrok/js-draw-lite/src/Mol';
+import type {BondType} from '@datagrok/js-draw-lite/src/types/jsdraw2';
+import type {Bond} from '@datagrok/js-draw-lite/src/Bond';
 
 declare const JSDraw2: JSDraw2ModuleType<any>;
 declare const scil: ScilModuleType;
@@ -51,7 +51,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {DOM} div
    * @param {dict} args - check <a href='http://www.scilligence.com/sdk/jsdraw/logical/scilligence/JSDraw2/Editor.html'>JSDraw SDK</a>
    */
-  static createCanvas(div, args): Editor<HelmType> {
+  createCanvas(div, args): Editor<HelmType> {
     return new JSDraw2.Editor(div, args);
   }
 
@@ -60,7 +60,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @function createMol
    * @param {string} molfile
    */
-  static createMol(molfile): Mol<HelmType> {
+  createMol(molfile): Mol<HelmType> {
     const m = new JSDraw2.Mol();
     m.setMolfile(molfile);
     return m;
@@ -72,7 +72,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {number} x
    * @param {number} y
    */
-  static createPoint(x, y): Point {
+  createPoint(x, y): Point {
     return new JSDraw2.Point(x, y);
   }
 
@@ -84,7 +84,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {number} w - width
    * @param {number} h - height
    */
-  static createRect(l, t, w, h): Rect {
+  createRect(l, t, w, h): Rect {
     return new JSDraw2.Rect(l, t, w, h);
   }
 
@@ -94,7 +94,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {JSDraw2.Mol} m
    * @param {JSDraw2.Point} p - the coordinate
    */
-  static createAtom<TBio>(m: Mol<TBio>, p: Point): Atom<TBio> {
+  createAtom<TBio>(m: Mol<TBio>, p: Point): Atom<TBio> {
     return m.addAtom(new JSDraw2.Atom(p));
   }
 
@@ -105,7 +105,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {JSDraw2.Atom} a1
    * @param {JSDraw2.Atom} a2
    */
-  static createBond(m: Mol<HelmType>, a1: Atom<HelmType>, a2: Atom<HelmType>, bondtype: BondType): Bond<HelmType> {
+  createBond(m: Mol<HelmType>, a1: Atom<HelmType>, a2: Atom<HelmType>, bondtype: BondType): Bond<HelmType> {
     return m.addBond(new JSDraw2.Bond(a1, a2, bondtype == null ? JSDraw2.BONDTYPES.SINGLE : bondtype));
   }
 
@@ -115,7 +115,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {JSDraw2.Mol} m
    * @param {array} atoms
    */
-  static getAtomStats(m: Mol<HelmType>, atoms: Atom<HelmType>[]) {
+  getAtomStats(m: Mol<HelmType>, atoms: Atom<HelmType>[]) {
     const mol = {atoms: atoms, bonds: m.bonds};
     const ret = JSDraw2.FormulaParser.getAtomStats(m);
     return ret == null ? null : ret.elements;
@@ -127,7 +127,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {JSDraw2.Mol} m1
    * @param {JSDraw2.Mol} m2
    */
-  static molEquals(m1: any, m2: any) {
+  molEquals(m1: any, m2: any) {
     const mol1 = m1.mol != null ? m1.mol : (m1.mol = this.createMol(scil.helm.Monomers.getMolfile(m1)));
     const mol2 = m2.mol != null ? m2.mol : (m2.mol = this.createMol(scil.helm.Monomers.getMolfile(m2)));
     return mol2.fullstructureMatch(mol1);
@@ -138,7 +138,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @function molStats
    * @param {string} molfile
    */
-  static molStats(molfile) {
+  molStats(molfile) {
     const mol = this.createMol(molfile);
     mol.calcHCount();
     return JSDraw2.FormulaParser.getAtomStats(mol).elements;
@@ -149,7 +149,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @function getElementMass
    * @param {string} e - element name
    */
-  static getElementMass(e) {
+  getElementMass(e) {
     return JSDraw2.PT[e].m;
   }
 
@@ -158,7 +158,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @function getCurrentAtom
    * @param {JSDraw2.Editor} jsd - JSDraw Editor
    */
-  static getCurrentAtom(jsd) {
+  getCurrentAtom(jsd) {
     return JSDraw2.Atom.cast(jsd.curObject);
   }
 
@@ -167,7 +167,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @function scaleCanvas
    * @param {JSDraw2.Editor} jsd - JSDraw Editor
    */
-  static scaleCanvas(jsd) {
+  scaleCanvas(jsd) {
     var scale = JSDraw2.Editor.BONDLENGTH / jsd.bondlength;
     if (JSDraw2.Editor.BONDLENGTH / jsd.bondlength > 1)
       jsd.scale(JSDraw2.Editor.BONDLENGTH / jsd.bondlength);
@@ -235,7 +235,7 @@ export class Interface implements IOrgInterface<HelmType> {
     }
   }
 
-  static addToolbar(buttons, flat, sub, options) {
+  addToolbar(buttons, flat, sub, options) {
     sub = [
       {c: "helm_base", t: "Base", label: "Base"},
       {c: "helm_sugar", t: "Sugar", label: "Sugar"},
@@ -263,7 +263,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {array} selecttools
    * @param {dict} options
    */
-  static getHelmToolbar(buttons, filesubmenus, selecttools, options) {
+  getHelmToolbar(buttons, filesubmenus, selecttools, options) {
     this.addToolbar(buttons, true, null, options);
 
     if (org.helm.webeditor.ambiguity) {
@@ -363,4 +363,4 @@ export class Interface implements IOrgInterface<HelmType> {
   }
 }
 
-org.helm.webeditor.Interface = Interface;
+org.helm.webeditor.Interface = new Interface();
