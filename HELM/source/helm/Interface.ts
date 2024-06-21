@@ -24,16 +24,16 @@
 
 // @ts-nocheck
 
-import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok/js-draw-lite/src/types';
-import type {HelmType, IOrgInterface} from '@datagrok/js-draw-lite/src/types/org';
+import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
+import type {HelmType, IOrgInterface} from '@datagrok-libraries/js-draw-lite/src/types/org';
 import type {OrgType} from '../src/types/org-helm';
-import type {Editor} from '@datagrok/js-draw-lite/src/JSDraw.Editor';
-import type {Point} from '@datagrok/js-draw-lite/src/Point';
-import type {Atom} from '@datagrok/js-draw-lite/src/Atom';
-import type {Rect} from '@datagrok/js-draw-lite/src/Rect';
-import type {Mol} from '@datagrok/js-draw-lite/src/Mol';
-import type {BondType} from '@datagrok/js-draw-lite/src/types/jsdraw2';
-import type {Bond} from '@datagrok/js-draw-lite/src/Bond';
+import type {Editor} from '@datagrok-libraries/js-draw-lite/src/JSDraw.Editor';
+import type {Point} from '@datagrok-libraries/js-draw-lite/src/Point';
+import type {Atom} from '@datagrok-libraries/js-draw-lite/src/Atom';
+import type {Rect} from '@datagrok-libraries/js-draw-lite/src/Rect';
+import type {Mol} from '@datagrok-libraries/js-draw-lite/src/Mol';
+import type {BondType} from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
+import type {Bond} from '@datagrok-libraries/js-draw-lite/src/Bond';
 
 declare const JSDraw2: JSDraw2ModuleType<any>;
 declare const scil: ScilModuleType;

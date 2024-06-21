@@ -1,4 +1,4 @@
-import type {JSDraw2Window} from '@datagrok/js-draw-lite/src/types';
+import type {JSDraw2Window} from '@datagrok-libraries/js-draw-lite/src/types';
 import type {HweWindow} from './types';
 
 declare const window: Window & HweWindow & JSDraw2Window;

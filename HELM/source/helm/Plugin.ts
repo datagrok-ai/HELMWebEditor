@@ -24,11 +24,11 @@
 
 // @ts-nocheck
 
-import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok/js-draw-lite/src/types';
-import type {HelmType} from '@datagrok/js-draw-lite/src/types/org';
+import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
+import type {HelmType} from '@datagrok-libraries/js-draw-lite/src/types/org';
 import type {OrgType} from '../src/types/org-helm';
-import type {IOrgPlugin} from '@datagrok/js-draw-lite/src/types/jsdraw2';
-import type {IMolHandler} from '@datagrok/js-draw-lite/src/types/mol-handler';
+import type {IOrgPlugin} from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
+import type {IMolHandler} from '@datagrok-libraries/js-draw-lite/src/types/mol-handler';
 
 declare const scil: ScilModuleType;
 declare const JSDraw2: JSDraw2ModuleType<HelmType>;

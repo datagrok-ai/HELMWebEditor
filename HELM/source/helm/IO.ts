@@ -24,11 +24,11 @@
 
 // @ts-nocheck
 
-import type {ScilModuleType} from "@datagrok/js-draw-lite/src/types/scil";
+import type {ScilModuleType} from "@datagrok-libraries/js-draw-lite/src/types/scil";
 import type {IPako} from "../src/types/pako";
 import type {ChainId, IChain, IConnection, IConnection2, IGroup, OrgType, RNote} from "../src/types/org-helm";
-import type {JSDraw2ModuleType} from "@datagrok/js-draw-lite/src/types";
-import type {HelmType, PolymerType} from "@datagrok/js-draw-lite/src/types/org";
+import type {JSDraw2ModuleType} from "@datagrok-libraries/js-draw-lite/src/types";
+import type {HelmType, PolymerType} from "@datagrok-libraries/js-draw-lite/src/types/org";
 
 declare const pako: IPako;
 

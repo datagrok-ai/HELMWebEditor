@@ -1,6 +1,6 @@
 import type {
   HelmType, IOrgMonomer, IOrgMonomers, IWebEditorMonomer, PolymerType,
-} from '@datagrok/js-draw-lite/src/types/org';
+} from '@datagrok-libraries/js-draw-lite/src/types/org';
 
 export type IMolFindResType = {
   b: Bond<HelmType>,
@@ -253,14 +253,14 @@ export interface IRuleSet {
   [p: string]: any;
 }
 
-import type {IOrgWebEditor, IOrgInterface} from '@datagrok/js-draw-lite/src/types/org';
-import type {IMolHandler} from '@datagrok/js-draw-lite/src/types/mol-handler';
+import type {IOrgWebEditor, IOrgInterface} from '@datagrok-libraries/js-draw-lite/src/types/org';
+import type {IMolHandler} from '@datagrok-libraries/js-draw-lite/src/types/mol-handler';
 
-import type {Editor} from '@datagrok/js-draw-lite/src/JSDraw.Editor';
-import type {Point} from '@datagrok/js-draw-lite/src/Point';
-import type {Bond} from '@datagrok/js-draw-lite/src/Bond';
-import type {Atom} from '@datagrok/js-draw-lite/src/Atom';
-import type {Mol} from '@datagrok/js-draw-lite/src/Mol';
+import type {Editor} from '@datagrok-libraries/js-draw-lite/src/JSDraw.Editor';
+import type {Point} from '@datagrok-libraries/js-draw-lite/src/Point';
+import type {Bond} from '@datagrok-libraries/js-draw-lite/src/Bond';
+import type {Atom} from '@datagrok-libraries/js-draw-lite/src/Atom';
+import type {Mol} from '@datagrok-libraries/js-draw-lite/src/Mol';
 
 import type {MonomerExplorer} from '../../helm/MonomerExplorer';
 import type {App} from '../../helm/App';

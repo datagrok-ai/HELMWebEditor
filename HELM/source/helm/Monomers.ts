@@ -24,10 +24,10 @@
 
 // @ts-nocheck
 
-import type {HelmType, IMonomerColors, IOrgMonomers, IOrgWebEditorMonomer, MonomerType, PolymerType} from '@datagrok/js-draw-lite/src/types/org';
+import type {HelmType, IMonomerColors, IOrgMonomers, IOrgWebEditorMonomer, MonomerType, PolymerType} from '@datagrok-libraries/js-draw-lite/src/types/org';
 import type {IOrgHelmMonomers, OrgType} from '../src/types/org-helm';
-import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok/js-draw-lite/src/types';
-import type {Atom} from '@datagrok/js-draw-lite/src/Atom';
+import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
+import type {Atom} from '@datagrok-libraries/js-draw-lite/src/Atom';
 
 declare const scil: ScilModuleType;
 declare const JSDraw2: JSDraw2ModuleType<any>;
