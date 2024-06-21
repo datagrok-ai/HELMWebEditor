@@ -1,0 +1,36 @@
+{
+  "name": "@datagrok/helm-web-editor",
+  "friendlyName": "HELMWebEditor",
+  "version": "1.1.4",
+  "description": "HELMWebEditor forked from Pistoia Alliance",
+  "devDependencies": {
+    "@datagrok/js-draw-lite": "../../../JSDraw.Lite/source/web",
+    "@types/node": "^18.11.18",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.3",
+    "eslint": "latest",
+    "eslint-config-google": "latest",
+    "filemanager-webpack-plugin": "^8.0.0",
+    "source-map-loader": "^4.0.1",
+    "ts-loader": "^9.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^4.8.4",
+    "webpack": "^5.76.3",
+    "webpack-cli": "^4.9.1"
+  },
+  "scripts": {
+    "build": "webpack",
+    "build-prod": "cross-env NODE_ENV=production webpack",
+    "lint": "eslint src --ext .ts",
+    "lint-fix": "eslint src --ext .ts --fix",
+    "test": "ts-mocha test/**/*.test.ts"
+  },
+  "canEdit": [
+    "Developers"
+  ],
+  "canView": [
+    "All users"
+  ]
+}
