@@ -25,7 +25,6 @@
     "build-prod": "cross-env NODE_ENV=production webpack",
     "lint": "eslint src --ext .ts",
     "lint-fix": "eslint src --ext .ts --fix",
-    "test": "ts-mocha test/**/*.test.ts"
   },
   "canEdit": [
     "Developers"
