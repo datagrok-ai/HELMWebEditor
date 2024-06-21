@@ -1,5 +1,5 @@
 {
-  "name": "@datagrok/helm-web-editor",
+  "name": "@datagrok-libraries/helm-web-editor",
   "friendlyName": "HELMWebEditor",
   "version": "1.1.4",
   "description": "HELMWebEditor forked from Pistoia Alliance",

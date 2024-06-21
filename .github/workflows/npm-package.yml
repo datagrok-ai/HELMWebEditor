@@ -1,0 +1,159 @@
+name: NPM package
+on:
+  workflow_dispatch: { }
+
+  push:
+    paths:
+      - 'HELM/source/**'
+  pull_request:
+    paths:
+      - 'HELM/source/**'
+jobs:
+  common-check:
+    name: Common checks
+    uses: ./.github/workflows/common_check.yaml
+    with:
+      run_trigger: ${{ github.event_name }}
+
+  version:
+    name: Check version
+    needs: common-check
+    runs-on: ubuntu-22.04
+    if: needs.common-check.outputs.continue == 'true'
+    outputs:
+      changed_version: ${{ steps.check-version.outputs.changed_version }}
+      current_version: ${{ steps.check-version.outputs.current_version }}
+      name: ${{ steps.check-version.outputs.name }}
+      job_name: ${{ steps.check-version.outputs.job_name }}
+      latest: ${{ steps.check-version.outputs.latest }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check version was changed
+        id: check-version
+        working-directory: ./HELM/source
+        run: |
+          name="$(jq -r '.name' package.json)"
+          current_version="$(jq -r '.version' package.json)"
+          npm_version="$(curl --retry 3 -s "https://registry.npmjs.org/${name}/${current_version}" | jq -r '.? | select( has("version") == true ).version')"
+          job_name='Check'
+          scripts="$(jq  '. | select( has("scripts") == true ).scripts' package.json)"
+          if [ ! -z "$(jq  '. | select( has("build") == true )' <<< "$scripts")" ]; then
+            job_name='Build'
+          fi
+          if [ ! -z "$(jq  '. | select( has("test") == true )' <<< "$scripts")" ]; then
+            job_name='Build, test'
+          fi
+          if [[ $npm_version == ${current_version} ]]; then
+            changed_version='false'
+            echo "Package $name version ${current_version} already published"
+            echo "::notice title=${name}::Version ${current_version} is already published"
+          else
+            echo "NPM response for ${current_version}: $npm_version"
+            if [[ ${{ github.ref }} == 'refs/heads/master' ]] || [[ ${{ github.ref }} == "refs/heads/release/"* ]]; then
+              changed_version='true'
+              job_name+=", and publish to NPM"
+              latest_pushed=$(curl --retry 3 -LsS https://registry.npmjs.org/${name} | jq -r '.time? | with_entries(select(.key | test("^[0-9]+\\.[0-9]+\\.[0-9]+$")))? | keys | sort_by( values | split(".") | map(tonumber)) | last')
+              newest_version=$(echo -e "$latest_pushed\n$current_version" | sort -V | tail -n1)
+              if [[ "${newest_version}" == "${current_version}" ]]; then
+                echo "latest=true" >> $GITHUB_OUTPUT
+              else
+                echo "latest=false" >> $GITHUB_OUTPUT
+              fi
+            else
+                echo "It is an actions for development branch. Publish will be skipped"
+                echo "::notice title=${name}::It is an actions for development branch. Publish will be skipped"
+            fi
+          fi
+          echo "changed_version=${changed_version}" >> $GITHUB_OUTPUT
+          echo "job_name=${job_name}" >> $GITHUB_OUTPUT
+          echo "current_version=${current_version}" >> $GITHUB_OUTPUT
+          echo "name=${name}" >> $GITHUB_OUTPUT
+
+      - name: Output
+        run: |
+          echo -e "changed_version: ${{ steps.check-version.outputs.changed_version }}"
+          echo -e "current_version: ${{ steps.check-version.outputs.current_version }}"
+          echo -e "name: ${{ steps.check-version.outputs.name }}"
+          echo -e "latest: ${{ steps.check-version.outputs.latest }}"
+
+  build:
+    name: ${{ needs.version.outputs.job_name || 'Deploy' }}
+    runs-on: ubuntu-22.04
+    needs: [ version, common-check ]
+    if: needs.common-check.outputs.continue == 'true'
+    env:
+      HOST: GitHubAction
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+          cache-dependency-path: |
+            HELM/source/package-lock.json
+      - run: npm ci
+        working-directory: ./HELM/source
+      - run: npm run build
+        working-directory: ./HELM/source
+        if: contains(needs.version.outputs.job_name, 'build')
+      - run: npm run test
+        working-directory: ./HELM/source
+        if: contains(needs.version.outputs.job_name, 'test')
+      - run: npm install -g datagrok-tools@latest
+      - run: grok check
+        working-directory: ./HELM/source
+      - id: publish
+        run: npm publish --access public
+        working-directory: ./HELM/source
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        if: needs.version.outputs.changed_version == 'true'
+
+      - name: Prepare Slack Message
+        if: steps.publish.outcome == 'success'
+        id: slack-user
+        shell: bash
+        env:
+          SLACK_ID: ${{ secrets.SLACK_ID }}
+        run: |
+          channel_id=$(echo "$SLACK_ID" | jq -r .\"${{ github.actor }}\")
+          echo "::add-mask::$channel_id"
+          echo SLACK_CHANNEL=$channel_id >> $GITHUB_ENV
+
+          header="Library *${{ needs.version.outputs.name }}* version *${{ needs.version.outputs.current_version }}* published to <https://www.npmjs.com/package/${{ needs.version.outputs.name }}/v/${{ needs.version.outputs.current_version }}|NPM>"
+          echo SLACK_MESSAGE_HEADER=$header >> $GITHUB_ENV
+
+          context="*GitHub Workflow:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} ${{ github.run_number }}>\n*Commit:* <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|$(echo "${{ github.sha }}" | cut -c1-8) $(echo -e "${{ github.event.head_commit.message }}" | head -n1)>"
+          echo SLACK_MESSAGE_CONTEXT=$context >> $GITHUB_ENV
+
+      - name: Send to Slack
+        id: slack
+        if: steps.slack-user.outcome == 'success'
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: ${{ env.SLACK_CHANNEL }}
+          payload: |
+            {
+                "blocks": [
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "${{ env.SLACK_MESSAGE_HEADER }}"
+                        }
+                    },
+                    {
+                        "type": "context",
+                        "elements": [
+                            {
+                                "type": "mrkdwn",
+                                "text": "${{ env.SLACK_MESSAGE_CONTEXT }}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACKBOT_TOKEN }}
