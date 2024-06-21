@@ -5,7 +5,7 @@ const TerserWebpackPlugin = require('terser-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 
 const extPaths = new class {
-  Helm = '../../../../reddata/public/packages/Helm';
+  Helm = '../../../../packages/Helm';
 }();
 
 const mode = process.env.NODE_ENV ?? 'production';
