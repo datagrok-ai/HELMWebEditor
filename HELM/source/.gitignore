@@ -35,6 +35,7 @@ dist/
 .idea/**/dictionaries
 .idea/**/shelf
 .idea/codeStyles/
+*.iml
 
 # Emitted *.js files
 helm/**/*.js

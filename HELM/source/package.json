@@ -4,7 +4,7 @@
   "version": "1.1.4",
   "description": "HELMWebEditor forked from Pistoia Alliance",
   "devDependencies": {
-    "@datagrok-libraries/js-draw-lite": "^0.0.1",
+    "@datagrok-libraries/js-draw-lite": "^0.0.2",
     "@types/node": "^18.11.18",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
@@ -24,7 +24,7 @@
     "build": "webpack",
     "build-prod": "cross-env NODE_ENV=production webpack",
     "lint": "eslint src --ext .ts",
-    "lint-fix": "eslint src --ext .ts --fix",
+    "lint-fix": "eslint src --ext .ts --fix"
   },
   "canEdit": [
     "Developers"
