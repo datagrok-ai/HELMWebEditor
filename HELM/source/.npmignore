@@ -1,3 +1,9 @@
+src/**/*.ts
+!src/**/*.d.ts
+
+helm/**/*.ts
+!helm/**/*.d.ts
+
 # Developer keys
 upload.keys.json
 

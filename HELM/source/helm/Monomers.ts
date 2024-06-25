@@ -24,7 +24,9 @@
 
 // @ts-nocheck
 
-import type {HelmType, IMonomerColors, IOrgMonomers, IOrgWebEditorMonomer, MonomerType, PolymerType} from '@datagrok-libraries/js-draw-lite/src/types/org';
+import type {
+  HelmType, IMonomerColors, IOrgMonomers, MonomerType, PolymerType, MonomerSetType, IWebEditorMonomer
+} from '@datagrok-libraries/js-draw-lite/src/types/org';
 import type {IOrgHelmMonomers, OrgType} from '../src/types/org-helm';
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
 import type {Atom} from '@datagrok-libraries/js-draw-lite/src/Atom';
@@ -44,7 +46,7 @@ export class Monomers implements IOrgHelmMonomers {
   public readonly defaultmonomers: { [type: string]: any } = {
     HELM_BASE: null, HELM_SUGAR: null, HELM_LINKER: null, HELM_AA: null, HELM_CHEM: null
   };
-  public readonly blobs: { [name: string]: IOrgWebEditorMonomer } = {
+  public readonly blobs: { [name: string]: IWebEditorMonomer } = {
     blob: {n: 'Blob', id: "Blob", na: 'B', rs: 0, at: {}, m: ''},
     group: {n: 'Group', id: "Group", na: 'G', rs: 0, at: {}, m: ''}
   };
@@ -396,7 +398,7 @@ export class Monomers implements IOrgHelmMonomers {
    * Get a monomer by an object or its name (internal use)
    * @function getMonomer
    */
-  getMonomer(a: Atom<HelmType> | HelmType, name?: string): IOrgWebEditorMonomer {
+  getMonomer: GetMonomerFunc = (a: Atom<HelmType> | HelmType, name?: string): IWebEditorMonomer => {
     if (a == null && name == null)
       return null;
 
@@ -436,7 +438,7 @@ export class Monomers implements IOrgHelmMonomers {
     m = set[scil.helm.symbolCase(s)];
     if (m != null)
       return m;
-  }
+  };
 
   /**
    * Check if the monomer have a R group (internal use)
@@ -453,7 +455,7 @@ export class Monomers implements IOrgHelmMonomers {
    */
   getColor(a: Atom<HelmType> | HelmType): IMonomerColors {
     const aa = a as Atom<HelmType>;
-    let m: IOrgWebEditorMonomer = this.getMonomer(aa, aa.elem);
+    let m: IWebEditorMonomer = this.getMonomer(aa, aa.elem);
     if (m == null)
       m = {};
 
@@ -509,7 +511,7 @@ export class Monomers implements IOrgHelmMonomers {
    * Convert XML type to HELM Editor type (internal use)
    * @function helm2Type
    */
-  helm2Type(m: IOrgWebEditorMonomer): HelmType {
+  helm2Type(m: IWebEditorMonomer): HelmType {
     if (m.type == "PEPTIDE")
       return org.helm.webeditor.HELM.AA;
     else if (m.type == "CHEM")
@@ -547,7 +549,7 @@ export class Monomers implements IOrgHelmMonomers {
     if (this.smilesmonomers[smiles] != null)
       return this.smilesmonomers[smiles];
 
-    const m: IOrgWebEditorMonomer = {at: {}, smiles: smiles, issmiles: true};
+    const m: IWebEditorMonomer = {at: {}, smiles: smiles, issmiles: true};
     m.id = "#" + (++this.smilesmonomerid);
     m.name = "SMILES Monomer #" + this.smilesmonomerid;
     for (let i = 0; i < ss.length; ++i)
@@ -683,7 +685,7 @@ export class Monomers implements IOrgHelmMonomers {
    * Read one monomer from XML (internal use)
    * @function readOne
    */
-  readOne(e): IOrgWebEditorMonomer {
+  readOne(e): IWebEditorMonomer {
     const s = this.readValue(e, "MonomerMolFile");
     let m = null;
     let mz = null;
@@ -694,7 +696,7 @@ export class Monomers implements IOrgHelmMonomers {
         mz = s; // compressed molfile
     }
 
-    const mon: IOrgWebEditorMonomer = {
+    const mon: IWebEditorMonomer = {
       type: this.readValue(e, "PolymerType") as PolymerType,
       mt: this.readValue(e, "MonomerType") as MonomerType,
       id: this.readValue(e, "MonomerID"),

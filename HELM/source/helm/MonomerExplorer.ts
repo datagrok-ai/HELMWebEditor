@@ -28,7 +28,7 @@ import type {DojoType} from '@datagrok-libraries/js-draw-lite/src/types/dojo';
 
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
 import type {HweHelmType, IExplorerMonomer, IMonomerExplorerOptions, OrgType, TabDescType} from '../src/types/org-helm';
-import type {HelmType, HelmTypes, IOrgMonomer, IOrgWebEditorMonomer} from '@datagrok-libraries/js-draw-lite/src/types/org';
+import type {HelmType, HelmTypes, IOrgMonomer, IWebEditorMonomer} from '@datagrok-libraries/js-draw-lite/src/types/org';
 import type {StyleType} from '@datagrok-libraries/js-draw-lite/src/types/common';
 import type {IDnD} from '@datagrok-libraries/js-draw-lite/src/types/scil';
 import type {Editor} from '@datagrok-libraries/js-draw-lite/src/JSDraw.Editor';
@@ -220,7 +220,7 @@ export class MonomerExplorerInt {
             const type = d.getAttribute('helm');
             const set = type == org.helm.webeditor.MonomerExplorer.kNucleotide ? org.helm.webeditor.MonomerExplorer.nucleotides : org.helm.webeditor.Monomers.getMonomerSet(type);
             const m = set[scil.helm.symbolCase(name)];
-            const monomer = m as IOrgWebEditorMonomer;
+            const monomer = m as IWebEditorMonomer;
             if (monomer != null && monomer.n != null) {
               if (scil.Utils.startswith(monomer.n.toLowerCase(), s))
                 f = 1;
@@ -490,7 +490,7 @@ export class MonomerExplorerInt {
     }
 
     for (const k in set) {
-      const m: IOrgWebEditorMonomer = set[k];
+      const m: IWebEditorMonomer = set[k];
       let na: string = m.na!;
       if (aa) {
         if (m.at.R1 == null)
@@ -532,7 +532,7 @@ export class MonomerExplorerInt {
    * Get monomer names (internal use)
    * @function getMonomerNames
    */
-  getMonomerNames(list: IOrgWebEditorMonomer[], addnull?: boolean | null): string[] {
+  getMonomerNames(list: IWebEditorMonomer[], addnull?: boolean | null): string[] {
     const ret: string[] = [];
     //if (addnull)
     //    ret.push("null");

@@ -1,10 +1,10 @@
 {
   "name": "@datagrok-libraries/helm-web-editor",
   "friendlyName": "HELMWebEditor",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "HELMWebEditor forked from Pistoia Alliance",
   "devDependencies": {
-    "@datagrok-libraries/js-draw-lite": "^0.0.2",
+    "@datagrok-libraries/js-draw-lite": "^0.0.3",
     "@types/node": "^18.11.18",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
@@ -21,8 +21,8 @@
     "webpack-cli": "^4.9.1"
   },
   "scripts": {
-    "build": "webpack",
-    "build-prod": "cross-env NODE_ENV=production webpack",
+    "build": "tsc && webpack",
+    "build-prod": "cross-env NODE_ENV=production \"tsc && webpack\"",
     "lint": "eslint src --ext .ts",
     "lint-fix": "eslint src --ext .ts --fix"
   },

@@ -304,7 +304,7 @@ export type TabDescType = {
   tabkey: string;
 }
 
-export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType>, 'Interface' | 'Plugin'> {
+export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType>, 'Interface' | 'Plugin' | 'Monomers'> {
   ambiguity: boolean;
   kCaseSensitive: boolean;
   defaultbondratio: number;
