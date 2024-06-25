@@ -27,7 +27,7 @@
 import type {
   HelmType, IMonomerColors, IOrgMonomers, MonomerType, PolymerType, MonomerSetType, IWebEditorMonomer
 } from '@datagrok-libraries/js-draw-lite/src/types/org';
-import type {IOrgHelmMonomers, OrgType} from '../src/types/org-helm';
+import type {GetMonomerFunc, IOrgHelmMonomers, OrgType} from '../src/types/org-helm';
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
 import type {Atom} from '@datagrok-libraries/js-draw-lite/src/Atom';
 

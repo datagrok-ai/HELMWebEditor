@@ -91,6 +91,9 @@ export type AppSizesType = {
   rightwidth: number,
 }
 
+export type GetMonomerResType = IWebEditorMonomer | null;
+export type GetMonomerFunc = (a: Atom<HelmType> | HelmType, name?: string) => GetMonomerResType;
+
 export interface IOrgHelmMonomers extends IOrgMonomers<HelmType> {
   cleanupurl: string | null;
 
