@@ -3,8 +3,10 @@
   "friendlyName": "HELMWebEditor",
   "version": "1.1.5",
   "description": "HELMWebEditor forked from Pistoia Alliance",
+  "dependencies": {
+    "@datagrok-libraries/js-draw-lite": "^0.0.3"
+  },
   "devDependencies": {
-    "@datagrok-libraries/js-draw-lite": "^0.0.3",
     "@types/node": "^18.11.18",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
