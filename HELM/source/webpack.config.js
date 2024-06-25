@@ -37,9 +37,7 @@ module.exports = {
   plugins: [new FileManagerPlugin({
     events: {
       onStart: {delete: ['./dist/*']},
-      onEnd: {
-        copy: [{source: './dist/*', destination: `${extPaths.Helm}/vendor/`}],
-        delete: ['./dist']},
+      onEnd: {copy: [{source: './dist/*', destination: `${extPaths.Helm}/vendor/`}]},
     },
   })],
   devtool: mode !== 'production' ? 'inline-source-map' : 'source-map',
