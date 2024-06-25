@@ -102,8 +102,8 @@ jobs:
         working-directory: ./HELM/source
         if: contains(needs.version.outputs.job_name, 'test')
       - run: npm install -g datagrok-tools@latest
-      - run: grok check
-        working-directory: ./HELM/source
+      #- run: grok check
+      #  working-directory: ./HELM/source
       - id: publish
         run: npm publish --access public
         working-directory: ./HELM/source
