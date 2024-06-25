@@ -23,7 +23,7 @@
     "webpack-cli": "^4.9.1"
   },
   "scripts": {
-    "build": "tsc && webpack",
+    "build": "npm list && tree node_modules && tsc && webpack",
     "build-prod": "cross-env NODE_ENV=production \"tsc && webpack\"",
     "lint": "eslint src --ext .ts",
     "lint-fix": "eslint src --ext .ts --fix"
