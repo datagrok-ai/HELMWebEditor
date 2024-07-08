@@ -71,7 +71,7 @@ export class App {
   private readonly options: Partial<IAppOptions>;
   public readonly toolbarheight: number;
   public mex: MonomerExplorer;
-  public canvas: any;
+  public canvas: Editor<HelmType>;
   public sequence: any;
   public notation: HTMLElement;
   public properties: Form;

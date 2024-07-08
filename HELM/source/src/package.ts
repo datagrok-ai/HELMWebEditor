@@ -22,7 +22,7 @@ export async function initHELMWebEditor(): Promise<void> {
 }
 
 async function loadModules(): Promise<void> {
-  require('vendor/js-draw-lite');
+  require('../node_modules/@datagrok-libraries/js-draw-lite/dist/package');
   await window.jsDraw2$.initPromise;
 
   // Based on _merge.helm.bat

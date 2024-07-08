@@ -22,23 +22,35 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-// @ts-nocheck
-
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
 import type {HelmType, IOrgInterface} from '@datagrok-libraries/js-draw-lite/src/types/org';
 import type {OrgType} from '../src/types/org-helm';
+
 import type {Editor} from '@datagrok-libraries/js-draw-lite/src/JSDraw.Editor';
 import type {Point} from '@datagrok-libraries/js-draw-lite/src/Point';
 import type {Atom} from '@datagrok-libraries/js-draw-lite/src/Atom';
 import type {Rect} from '@datagrok-libraries/js-draw-lite/src/Rect';
 import type {Mol} from '@datagrok-libraries/js-draw-lite/src/Mol';
-import type {BondType} from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
 import type {Bond} from '@datagrok-libraries/js-draw-lite/src/Bond';
+import type {
+  BondType, IEditorOptions, DrawStep
+} from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
+import type {ButtonDescType} from '@datagrok-libraries/js-draw-lite/form/Form';
+
+import {DrawSteps} from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
 
 declare const JSDraw2: JSDraw2ModuleType<any>;
 declare const scil: ScilModuleType;
 declare const org: OrgType;
 declare const JSDrawServices: any;
+
+export interface ToolbarButtonDescType {
+  /** command */ c: string;
+  /** Text */ t?: string;
+  label?: string;
+  sub?: any;
+  hidden?: boolean;
+}
 
 /**
  * Interface class
@@ -51,7 +63,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {DOM} div
    * @param {dict} args - check <a href='http://www.scilligence.com/sdk/jsdraw/logical/scilligence/JSDraw2/Editor.html'>JSDraw SDK</a>
    */
-  createCanvas(div, args): Editor<HelmType> {
+  createCanvas(div: HTMLDivElement, args: Partial<IEditorOptions>): Editor<HelmType> {
     return new JSDraw2.Editor(div, args);
   }
 
@@ -60,7 +72,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @function createMol
    * @param {string} molfile
    */
-  createMol(molfile): Mol<HelmType> {
+  createMol(molfile: string): Mol<HelmType> {
     const m = new JSDraw2.Mol();
     m.setMolfile(molfile);
     return m;
@@ -72,7 +84,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {number} x
    * @param {number} y
    */
-  createPoint(x, y): Point {
+  createPoint(x: number, y: number): Point {
     return new JSDraw2.Point(x, y);
   }
 
@@ -84,7 +96,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {number} w - width
    * @param {number} h - height
    */
-  createRect(l, t, w, h): Rect {
+  createRect(l: number, t: number, w: number, h: number): Rect {
     return new JSDraw2.Rect(l, t, w, h);
   }
 
@@ -94,7 +106,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {JSDraw2.Mol} m
    * @param {JSDraw2.Point} p - the coordinate
    */
-  createAtom<TBio>(m: Mol<TBio>, p: Point): Atom<TBio> {
+  createAtom<TBio>(m: Mol<TBio>, p: Point): Atom<TBio> | null {
     return m.addAtom(new JSDraw2.Atom(p));
   }
 
@@ -105,7 +117,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {JSDraw2.Atom} a1
    * @param {JSDraw2.Atom} a2
    */
-  createBond(m: Mol<HelmType>, a1: Atom<HelmType>, a2: Atom<HelmType>, bondtype: BondType): Bond<HelmType> {
+  createBond(m: Mol<HelmType>, a1: Atom<HelmType>, a2: Atom<HelmType>, bondtype: BondType): Bond<HelmType> | null {
     return m.addBond(new JSDraw2.Bond(a1, a2, bondtype == null ? JSDraw2.BONDTYPES.SINGLE : bondtype));
   }
 
@@ -138,7 +150,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @function molStats
    * @param {string} molfile
    */
-  molStats(molfile) {
+  molStats(molfile: string) {
     const mol = this.createMol(molfile);
     mol.calcHCount();
     return JSDraw2.FormulaParser.getAtomStats(mol).elements;
@@ -149,7 +161,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @function getElementMass
    * @param {string} e - element name
    */
-  getElementMass(e) {
+  getElementMass(e: string) {
     return JSDraw2.PT[e].m;
   }
 
@@ -158,7 +170,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @function getCurrentAtom
    * @param {JSDraw2.Editor} jsd - JSDraw Editor
    */
-  getCurrentAtom(jsd) {
+  getCurrentAtom(jsd: Editor<HelmType>): Atom<HelmType> | null {
     return JSDraw2.Atom.cast(jsd.curObject);
   }
 
@@ -167,8 +179,8 @@ export class Interface implements IOrgInterface<HelmType> {
    * @function scaleCanvas
    * @param {JSDraw2.Editor} jsd - JSDraw Editor
    */
-  scaleCanvas(jsd) {
-    var scale = JSDraw2.Editor.BONDLENGTH / jsd.bondlength;
+  scaleCanvas(jsd: Editor<HelmType>) {
+    const scale = JSDraw2.Editor.BONDLENGTH / jsd.bondlength;
     if (JSDraw2.Editor.BONDLENGTH / jsd.bondlength > 1)
       jsd.scale(JSDraw2.Editor.BONDLENGTH / jsd.bondlength);
   }
@@ -183,7 +195,9 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {number} linewidth
    * @param {string} color
    */
-  drawMonomer<HelmType>(surface: SVGSVGElement, a: any /* Atom<HelmType> */, p: Point, fontsize: number, linewidth: number, color: any): void {
+  drawMonomer(surface: SVGSVGElement, a: Atom<HelmType>, p: Point, fontsize: number, linewidth: number, color: any,
+    drawStep: DrawStep
+  ): void {
     if (a.hidden)
       return;
 
@@ -192,33 +206,76 @@ export class Interface implements IOrgInterface<HelmType> {
     const c = scil.Utils.isNullOrEmpty(color) ? org.helm.webeditor.Monomers.getColor(a) : color;
     const w = fontsize * org.helm.webeditor.atomscale;
     const lw = linewidth / 2; //(c.nature ? 1 : 2);
-    if (biotype == org.helm.webeditor.HELM.LINKER)
-      JSDraw2.Drawer.drawEllipse(surface, org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w), c.linecolor, lw).setFill(c.backgroundcolor);
-    else if (biotype == org.helm.webeditor.HELM.SUGAR)
-      JSDraw2.Drawer.drawRect(surface, org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w), c.linecolor, lw, linewidth * 3).setFill(c.backgroundcolor);
-    else if (biotype == org.helm.webeditor.HELM.BASE)
-      JSDraw2.Drawer.drawDiamond(surface, org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w), c.linecolor, lw).setFill(c.backgroundcolor);
-    else if (biotype == org.helm.webeditor.HELM.AA)
-      JSDraw2.Drawer.drawHexgon(surface, org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w), c.linecolor, lw, linewidth * 3).setFill(c.backgroundcolor);
-    else if (biotype == org.helm.webeditor.HELM.CHEM)
-      JSDraw2.Drawer.drawRect(surface, org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w), c.linecolor, lw).setFill(c.backgroundcolor);
-    else if (biotype == org.helm.webeditor.HELM.BLOB)
-      JSDraw2.Drawer.drawRect(surface, org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w), c.linecolor, lw * 2, linewidth * 5).setFill(c.backgroundcolor);
-    else if (biotype == org.helm.webeditor.HELM.NUCLEOTIDE)
-      JSDraw2.Drawer.drawPentagon(surface, org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w), c.linecolor, lw, linewidth * 3).setFill(c.backgroundcolor);
+
+    const rect = org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w);
+    if (DrawSteps.highlight === drawStep && a.highlighted) {
+      const hlLW = lw + 7;
+      const hlColor = '#FFB2B2';
+      if (biotype == org.helm.webeditor.HELM.LINKER)
+        JSDraw2.Drawer.drawEllipse(surface, rect, hlColor, hlLW).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.SUGAR)
+        JSDraw2.Drawer.drawRect(surface, rect, hlColor, hlLW, linewidth * 3).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.BASE)
+        JSDraw2.Drawer.drawDiamond(surface, rect, hlColor, hlLW).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.AA) {
+        JSDraw2.Drawer.drawHexgon(surface, rect, hlColor, hlLW).setFill(c.backgroundcolor);
+      } else if (biotype == org.helm.webeditor.HELM.CHEM)
+        JSDraw2.Drawer.drawRect(surface, rect, hlColor, hlLW, linewidth * 3).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.BLOB)
+        JSDraw2.Drawer.drawRect(surface, rect, hlColor, hlLW * 2, linewidth * 5).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.NUCLEOTIDE)
+        JSDraw2.Drawer.drawPentagon(surface, rect, hlColor, hlLW).setFill(c.backgroundcolor);
+    } else if (DrawSteps.select === drawStep && a.selected) {
+      const selLW = lw + 9;
+      // const selColor = '#F8F8DD';
+      const selColor = '#FFD29B';
+      const rect = org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w);
+      if (biotype == org.helm.webeditor.HELM.LINKER)
+        JSDraw2.Drawer.drawEllipse(surface, rect, selColor, selLW).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.SUGAR)
+        JSDraw2.Drawer.drawRect(surface, rect, selColor, selLW, linewidth * 3).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.BASE)
+        JSDraw2.Drawer.drawDiamond(surface, rect, selColor, selLW).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.AA) {
+        JSDraw2.Drawer.drawHexgon(surface, rect, selColor, selLW).setFill(c.backgroundcolor);
+      } else if (biotype == org.helm.webeditor.HELM.CHEM)
+        JSDraw2.Drawer.drawRect(surface, rect, selColor, selLW, linewidth * 3).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.BLOB)
+        JSDraw2.Drawer.drawRect(surface, rect, selColor, selLW * 2, linewidth * 5).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.NUCLEOTIDE)
+        JSDraw2.Drawer.drawPentagon(surface, rect, selColor, selLW).setFill(c.backgroundcolor);
+    } else (DrawSteps.main === drawStep);
+    {
+      if (biotype == org.helm.webeditor.HELM.LINKER)
+        JSDraw2.Drawer.drawEllipse(surface, rect, c.linecolor, lw).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.SUGAR)
+        JSDraw2.Drawer.drawRect(surface, rect, c.linecolor, lw, linewidth * 3).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.BASE)
+        JSDraw2.Drawer.drawDiamond(surface, rect, c.linecolor, lw).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.AA) {
+        JSDraw2.Drawer.drawHexgon(surface, rect, c.linecolor, lw).setFill(c.backgroundcolor);
+      } else if (biotype == org.helm.webeditor.HELM.CHEM)
+        JSDraw2.Drawer.drawRect(surface, rect, c.linecolor, lw, linewidth * 3).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.BLOB)
+        JSDraw2.Drawer.drawRect(surface, rect, c.linecolor, lw * 2, linewidth * 5).setFill(c.backgroundcolor);
+      else if (biotype == org.helm.webeditor.HELM.NUCLEOTIDE)
+        JSDraw2.Drawer.drawPentagon(surface, rect, c.linecolor, lw).setFill(c.backgroundcolor);
+    }
+
+    if (DrawSteps.main !== drawStep) return;
     const pt = p.clone();
     p.offset(0, -1);
     JSDraw2.Drawer.drawLabel(surface, p, a.elem, c.textcolor, fontsize * (a.elem.length > 1 ? 2 / a.elem.length : 1.0), null, null, null, false);
 
-    if ((a.bio.id as number) > 0) {
+    if ((a.bio!.id as number) > 0) {
       const p1 = p.clone();
       p1.offset(-fontsize * 1.2, -fontsize * 1.2);
-      JSDraw2.Drawer.drawLabel(surface, p1, a.bio.id, "#00FF00", fontsize, null, null, null, false);
+      JSDraw2.Drawer.drawLabel(surface, p1, a.bio!.id, "#00FF00", fontsize, null, null, null, false);
     }
-    if (!scil.Utils.isNullOrEmpty(a.bio.annotation)) {
+    if (!scil.Utils.isNullOrEmpty(a.bio!.annotation!)) {
       const p1 = p.clone();
-      const s = a.bio.annotation;
-      if (a.bio.annotationshowright) {
+      const s = a.bio!.annotation;
+      if (a.bio!.annotationshowright) {
         const c: number = a.biotype() == org.helm.webeditor.HELM.AA ? 0.7 : 1;
         p1.offset(fontsize * c, -fontsize * 1.5);
         JSDraw2.Drawer.drawLabel(surface, p1, s, "#FFA500", fontsize, null, "start", null, false);
@@ -235,7 +292,7 @@ export class Interface implements IOrgInterface<HelmType> {
     }
   }
 
-  addToolbar(buttons, flat, sub, options) {
+  addToolbar(buttons: ToolbarButtonDescType[], flat: boolean, sub: any, options: any) {
     sub = [
       {c: "helm_base", t: "Base", label: "Base"},
       {c: "helm_sugar", t: "Sugar", label: "Sugar"},
@@ -244,7 +301,7 @@ export class Interface implements IOrgInterface<HelmType> {
       {c: "helm_chem", t: "Chemistry", label: "Chemistry"}
     ];
 
-    var main = {c: "helm_nucleotide", t: "Nucleotide", label: "Nucleotide", sub: sub, hidden: true};
+    const main: ToolbarButtonDescType = {c: "helm_nucleotide", t: "Nucleotide", label: "Nucleotide", sub: sub, hidden: true};
     buttons.push(main);
 
     buttons.push({c: "new", t: "New", label: "New"});
@@ -263,7 +320,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {array} selecttools
    * @param {dict} options
    */
-  getHelmToolbar(buttons, filesubmenus, selecttools, options) {
+  getHelmToolbar(buttons: ToolbarButtonDescType[], filesubmenus: any[], selecttools: any[], options: {}) {
     this.addToolbar(buttons, true, null, options);
 
     if (org.helm.webeditor.ambiguity) {
@@ -298,7 +355,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {Event} e - Javascript event
    * @param {bool} viewonly - indicate if this is viewonly mode
    */
-  onContextMenu<TBio = any>(ed: Editor<TBio>, e: Event, viewonly: boolean): any[] {
+  onContextMenu(ed: Editor<HelmType>, e: Event, viewonly: boolean): any[] {
     const items = [];
 
     if (ed.options.helmtoolbar) {
@@ -325,7 +382,7 @@ export class Interface implements IOrgInterface<HelmType> {
           if (items.length > 0)
             items.push("-");
           if (biotype == org.helm.webeditor.HELM.BLOB)
-            items.push({caption: "Blob Type", callback: function(cmd, obj) { ed.helm.setHelmBlobType(obj, cmd); }, children: org.helm.webeditor.blobtypes});
+            items.push({caption: "Blob Type", callback: function(cmd: string, obj: Atom<HelmType>) { ed.helm.setHelmBlobType(obj, cmd); }, children: org.helm.webeditor.blobtypes});
           else if (a.group == null)
             items.push({caption: "Create Group", key: "helm_create_group"});
           items.push("-");
@@ -343,7 +400,7 @@ export class Interface implements IOrgInterface<HelmType> {
     } else {
       const a = JSDraw2.Atom.cast(ed.curObject);
       if (a != null && a.bio == null)
-        items.push({caption: "R Group", callback: function(cmd, obj) { ed.menuSetAtomType(cmd, obj); }, children: ["R1", "R2", "R3", "R4", "R5"]});
+        items.push({caption: "R Group", callback: function(cmd: string, obj: any) { ed.menuSetAtomType(cmd, obj); }, children: ["R1", "R2", "R3", "R4", "R5"]});
 
       items.push({caption: "Copy Molfile", key: "copymolfile"});
     }

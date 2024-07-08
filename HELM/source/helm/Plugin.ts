@@ -29,6 +29,7 @@ import type {HelmType} from '@datagrok-libraries/js-draw-lite/src/types/org';
 import type {OrgType} from '../src/types/org-helm';
 import type {IOrgPlugin} from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
 import type {IMolHandler} from '@datagrok-libraries/js-draw-lite/src/types/mol-handler';
+import {Atom} from '@datagrok-libraries/js-draw-lite/src/Atom';
 
 declare const scil: ScilModuleType;
 declare const JSDraw2: JSDraw2ModuleType<HelmType>;
@@ -490,7 +491,7 @@ export class Plugin implements IOrgPlugin<HelmType> {
     return chain.makeComplementaryStrand(this.jsd.m, this.jsd.bondlength);
   }
 
-  setHelmBlobType(a, type) {
+  setHelmBlobType(a: Atom<HelmType>, type: string) {
     if (a.biotype() == org.helm.webeditor.HELM.BLOB && a.bio.blobtype != type) {
       this.jsd.pushundo();
       a.bio.blobtype = type;
