@@ -272,7 +272,7 @@ export class Interface implements IOrgInterface<HelmType> {
       p1.offset(-fontsize * 1.2, -fontsize * 1.2);
       JSDraw2.Drawer.drawLabel(surface, p1, a.bio!.id, "#00FF00", fontsize, null, null, null, false);
     }
-    if (!scil.Utils.isNullOrEmpty(a.bio!.annotation!)) {
+    if (!scil.Utils.isNullOrEmpty(a.bio!.annotation)) {
       const p1 = p.clone();
       const s = a.bio!.annotation;
       if (a.bio!.annotationshowright) {
@@ -382,7 +382,7 @@ export class Interface implements IOrgInterface<HelmType> {
           if (items.length > 0)
             items.push("-");
           if (biotype == org.helm.webeditor.HELM.BLOB)
-            items.push({caption: "Blob Type", callback: function(cmd: string, obj: Atom<HelmType>) { ed.helm.setHelmBlobType(obj, cmd); }, children: org.helm.webeditor.blobtypes});
+            items.push({caption: "Blob Type", callback: function(cmd: string, obj: Atom<HelmType>) { ed.helm!.setHelmBlobType(obj, cmd); }, children: org.helm.webeditor.blobtypes});
           else if (a.group == null)
             items.push({caption: "Create Group", key: "helm_create_group"});
           items.push("-");

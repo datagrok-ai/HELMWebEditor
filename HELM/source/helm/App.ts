@@ -27,7 +27,7 @@
 import type {DojoType} from '@datagrok-libraries/js-draw-lite/src/types/dojo';
 
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
-import type {IAppOptions, OrgType} from '../src/types/org-helm';
+import type {IAppOptions, IRuleSet, OrgType} from '../src/types/org-helm';
 import type {IPageForm, Page} from '@datagrok-libraries/js-draw-lite/page/Page';
 import type {PageTab} from '@datagrok-libraries/js-draw-lite/page/Page.Tab';
 import type {MonomerExplorer} from './MonomerExplorer';
@@ -70,18 +70,18 @@ export class App {
   private readonly T: string;
   private readonly options: Partial<IAppOptions>;
   public readonly toolbarheight: number;
-  public mex: MonomerExplorer;
-  public canvas: Editor<HelmType>;
+  public mex: MonomerExplorer | null;
+  public canvas: Editor<HelmType> | null;
   public sequence: any;
-  public notation: HTMLElement;
-  public properties: Form;
-  public structureview: Editor;
-  private page: Page;
-  private treediv: HTMLDivElement;
-  private handle: HTMLDivElement;
-  private canvasform: IPageForm;
-  private sequencebuttons: any[];
-  private tabs: PageTab;
+  public notation: HTMLElement | null;
+  public properties: Form | null;
+  public structureview: Editor | null;
+  private page!: Page;
+  private treediv!: HTMLDivElement;
+  private handle!: HTMLDivElement;
+  private canvasform!: IPageForm;
+  private sequencebuttons!: any[];
+  private tabs!: PageTab;
 
 
   /**
@@ -112,12 +112,12 @@ export class App {
    *    &lt;/script&gt;
    * </pre>
    **/
-  constructor(parent: HTMLElement | string, options) {
+  constructor(parent: HTMLElement | string, options: Partial<IAppOptions> = {}) {
     this.T = "APP";
     this.toolbarheight = 30;
 
-    if (typeof (parent) == "string")
-      parent = scil.byId(parent);
+    const parentEl: HTMLElement = typeof (parent) == "string" ? scil.byId(parent) : parent;
+
     this.mex = null;
     this.canvas = null;
     this.sequence = null;
@@ -136,7 +136,7 @@ export class App {
       org.helm.webeditor.Monomers.cleanupurl = this.options.monomercleanupurl;
 
     if (this.options.rulesurl != null) {
-      scil.Utils.ajax(this.options.rulesurl, function(ret) {
+      scil.Utils.ajax(this.options.rulesurl, function(ret: any) {
         if (ret.rules != null)
           ret = ret.rules;
         org.helm.webeditor.RuleSet.loadDB(ret);
@@ -145,14 +145,14 @@ export class App {
 
     if (this.options.monomersurl != null) {
       const me = this;
-      scil.Utils.ajax(this.options.monomersurl, function(ret) {
+      scil.Utils.ajax(this.options.monomersurl, function(ret: any) {
         if (ret.monomers != null)
           ret = ret.monomers;
         org.helm.webeditor.Monomers.loadDB(ret, me.options.monomerfun);
-        me.init(parent);
+        me.init(parentEl);
       });
     } else {
-      this.init(parent);
+      this.init(parentEl);
     }
   };
 
@@ -162,8 +162,8 @@ export class App {
    */
   calculateSizes() {
     const d = dojo.window.getBox();
-    if (this.options.topmargin > 0)
-      d.h -= this.options.topmargin;
+    if (this.options.topmargin! > 0)
+      d.h -= this.options.topmargin!;
 
     let leftwidth = 0;
     if (this.page != null && this.page.explorer != null && this.page.explorer.left != null)
@@ -185,16 +185,16 @@ export class App {
    * Intialize the App (internal use)
    * @function init
    */
-  init(parent) {
+  init(parent: HTMLElement) {
     const me = this;
     const sizes = this.calculateSizes();
 
     const tree = {
-      caption: this.options.topmargin > 0 ? null : "Palette",
+      caption: this.options.topmargin! > 0 ? null : "Palette",
       marginBottom: "2px",
-      marginTop: this.options.topmargin > 0 ? "17px" : null,
-      onresizetree: function(width) { me.resizeWindow(); },
-      onrender: function(div) {
+      marginTop: this.options.topmargin! > 0 ? "17px" : null,
+      onresizetree: function(width: number) { me.resizeWindow(); },
+      onrender: function(div: HTMLDivElement) {
         me.treediv = div;
         me.createPalette(div, sizes.leftwidth - 10, sizes.height);
       }
@@ -210,10 +210,10 @@ export class App {
       //caption: "Canvas",
       type: "custom",
       marginBottom: "2px",
-      oncreate: function(div) { me.createCanvas(div, sizes.rightwidth, sizes.topheight); }
-    });
+      oncreate: function(div: HTMLDivElement) { me.createCanvas(div, sizes.rightwidth, sizes.topheight); }
+    })!;
 
-    this.handle = this.page.addResizeHandle(function(delta) { return me.onresize(delta); }, 8);
+    this.handle = this.page.addResizeHandle(function(delta: number) { return me.onresize(delta); }, 8);
 
     this.sequencebuttons = [
       {label: "Format", type: "select", items: ["", "RNA", "Peptide"], key: "format"},
@@ -227,7 +227,7 @@ export class App {
       type: "custom",
       tabkey: "sequence",
       buttons: this.options.sequenceviewonly ? null : this.sequencebuttons,
-      oncreate: function(div) { me.createSequence(div, sizes.rightwidth, sizes.bottomheight); }
+      oncreate: function(div: HTMLDivElement) { me.createSequence(div, sizes.rightwidth, sizes.bottomheight); }
     });
 
     this.tabs.addForm({
@@ -239,24 +239,24 @@ export class App {
         {src: scil.Utils.imgSrc("img/add.gif"), label: "Append", title: "Append HELM Notation", onclick: function() { me.updateCanvas("notation", true); }},
         {src: scil.Utils.imgSrc("img/tick.gif"), label: "Validate", title: "Validate HELM Notation", onclick: function() { me.validateHelm(); }}
       ],
-      oncreate: function(div) { me.createNotation(div, sizes.rightwidth, sizes.bottomheight); }
+      oncreate: function(div: HTMLDivElement) { me.createNotation(div, sizes.rightwidth, sizes.bottomheight); }
     });
 
     this.tabs.addForm({
       caption: "Properties",
       type: "custom",
       tabkey: "properties",
-      oncreate: function(div) { me.createProperties(div, sizes.rightwidth, sizes.bottomheight); }
+      oncreate: function(div: HTMLDivElement) { me.createProperties(div, sizes.rightwidth, sizes.bottomheight); }
     });
 
     this.tabs.addForm({
       caption: "Structure View",
       type: "custom",
       tabkey: "structureview",
-      oncreate: function(div) { me.createStructureView(div, sizes.rightwidth, sizes.bottomheight); }
+      oncreate: function(div: HTMLDivElement) { me.createStructureView(div, sizes.rightwidth, sizes.bottomheight); }
     });
 
-    scil.connect(window, "onresize", function(e) { me.resizeWindow(); });
+    scil.connect(window, "onresize", function(_e: any) { me.resizeWindow(); });
   }
 
   validateHelm() {
@@ -265,19 +265,19 @@ export class App {
       return;
     }
 
-    const url = this.options.validateurl;
+    const url: string = this.options.validateurl!;
     if (scil.Utils.isNullOrEmpty(url)) {
       scil.Utils.alert("The validation url is not configured yet");
       return;
     }
 
     this.setNotationBackgroundColor("white");
-    const helm = scil.Utils.getInnerText(this.notation);
+    const helm = scil.Utils.getInnerText(this.notation!);
     if (scil.Utils.isNullOrEmpty(helm))
       return;
 
     const me = this;
-    scil.Utils.ajax(url, function(ret) {
+    scil.Utils.ajax(url, function(ret: any) {
       me.setNotationBackgroundColor(ret.valid ? "#9fc" : "#fcf");
     }, {helm: helm});
   }
@@ -287,6 +287,9 @@ export class App {
    * @function resizeWindow
    */
   resizeWindow() {
+    if (!this.canvas || !this.properties || !this.structureview || !this.mex || !this.notation)
+      throw new Error('Initialization is incomplete');
+
     const sizes = this.calculateSizes();
     this.canvas.resize(sizes.rightwidth, sizes.topheight - 70);
 
@@ -311,11 +314,11 @@ export class App {
     const h = this.handle;
     const b = this.tabs.tabs.dom;
     if (h.nextSibling == b) {
-      a.parentNode.insertBefore(b, a);
-      a.parentNode.insertBefore(h, a);
+      a.parentNode!.insertBefore(b, a);
+      a.parentNode!.insertBefore(h, a);
     } else {
-      a.parentNode.insertBefore(b, a.nextSibling);
-      a.parentNode.insertBefore(h, a.nextSibling);
+      a.parentNode!.insertBefore(b, a.nextSibling);
+      a.parentNode!.insertBefore(h, a.nextSibling);
     }
   }
 
@@ -323,7 +326,10 @@ export class App {
    * Event handler when change window size (internal use)
    * @function onresize
    */
-  onresize(delta) {
+  onresize(delta: number) {
+    if (!this.canvas || !this.properties || !this.structureview || !this.mex || !this.notation)
+      throw new Error('Initialization is incomplete');
+
     if (this.handle.nextSibling == this.tabs.tabs.dom) {
       const top = this.canvas.dimension.y;
       const bottom = scil.Utils.parsePixel(this.sequence.style.height);
@@ -354,7 +360,7 @@ export class App {
    * create monomer explorer (internal use)
    * @function createPalette
    */
-  createPalette(div, width, height) {
+  createPalette(div: HTMLDivElement, width: number, height: number): void {
     const opt = scil.clone(this.options);
     opt.width = width;
     opt.height = height;
@@ -365,7 +371,7 @@ export class App {
    * create drawing canvas (internal use)
    * @function createCanvas
    */
-  createCanvas(div, width, height) {
+  createCanvas(div: HTMLDivElement, width: number, height: number): void {
     div.style.border = "solid 1px #eee";
 
     const me = this;
@@ -378,7 +384,7 @@ export class App {
     };
 
     this.canvas = org.helm.webeditor.Interface.createCanvas(div, args);
-    this.canvas.helm.monomerexplorer = this.mex;
+    this.canvas.helm!.monomerexplorer = this.mex;
     this.mex.plugin = this.canvas.helm; // TODO: ?
 
     this.canvas._testdeactivation = function(e, ed) {
