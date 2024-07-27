@@ -398,7 +398,7 @@ export class Monomers implements IOrgHelmMonomers {
    * Get a monomer by an object or its name (internal use)
    * @function getMonomer
    */
-  getMonomer: GetMonomerFunc = (a: Atom<HelmType> | HelmType, name?: string): IWebEditorMonomer => {
+  getMonomer: GetMonomerFunc = (a: Atom<HelmType> | HelmType, name?: string): IWebEditorMonomer | null => {
     if (a == null && name == null)
       return null;
 
