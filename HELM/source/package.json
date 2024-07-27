@@ -4,7 +4,7 @@
   "version": "1.1.6",
   "description": "HELMWebEditor forked from Pistoia Alliance",
   "dependencies": {
-    "@datagrok-libraries/js-draw-lite": "^0.0.4"
+    "@datagrok-libraries/js-draw-lite": "../../../JSDraw.Lite/source/web"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
