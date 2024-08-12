@@ -161,7 +161,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @function getElementMass
    * @param {string} e - element name
    */
-  getElementMass(e: string) {
+  getElementMass(e: string): number {
     return JSDraw2.PT[e].m;
   }
 
@@ -270,11 +270,11 @@ export class Interface implements IOrgInterface<HelmType> {
     if ((a.bio!.id as number) > 0) {
       const p1 = p.clone();
       p1.offset(-fontsize * 1.2, -fontsize * 1.2);
-      JSDraw2.Drawer.drawLabel(surface, p1, a.bio!.id, "#00FF00", fontsize, null, null, null, false);
+      JSDraw2.Drawer.drawLabel(surface, p1, a.bio!.id as string, "#00FF00", fontsize, null, null, null, false);
     }
-    if (!scil.Utils.isNullOrEmpty(a.bio!.annotation!)) {
+    if (!scil.Utils.isNullOrEmpty(a.bio!.annotation)) {
       const p1 = p.clone();
-      const s = a.bio!.annotation;
+      const s = a.bio!.annotation!;
       if (a.bio!.annotationshowright) {
         const c: number = a.biotype() == org.helm.webeditor.HELM.AA ? 0.7 : 1;
         p1.offset(fontsize * c, -fontsize * 1.5);
@@ -382,7 +382,7 @@ export class Interface implements IOrgInterface<HelmType> {
           if (items.length > 0)
             items.push("-");
           if (biotype == org.helm.webeditor.HELM.BLOB)
-            items.push({caption: "Blob Type", callback: function(cmd: string, obj: Atom<HelmType>) { ed.helm.setHelmBlobType(obj, cmd); }, children: org.helm.webeditor.blobtypes});
+            items.push({caption: "Blob Type", callback: function(cmd: string, obj: Atom<HelmType>) { ed.helm!.setHelmBlobType(obj, cmd); }, children: org.helm.webeditor.blobtypes});
           else if (a.group == null)
             items.push({caption: "Create Group", key: "helm_create_group"});
           items.push("-");

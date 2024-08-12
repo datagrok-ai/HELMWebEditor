@@ -22,19 +22,17 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-// @ts-nocheck
-
 import type {DojoType} from '@datagrok-libraries/js-draw-lite/src/types/dojo';
 
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
-import type {HweHelmType, IExplorerMonomer, IMonomerExplorerOptions, OrgType, TabDescType} from '../src/types/org-helm';
+import type {HweHelmType, IExplorerMonomer, IMonomerExplorerOptions, OrgType} from '../src/types/org-helm';
 import type {HelmType, HelmTypes, IOrgMonomer, IWebEditorMonomer} from '@datagrok-libraries/js-draw-lite/src/types/org';
 import type {StyleType} from '@datagrok-libraries/js-draw-lite/src/types/common';
 import type {IDnD} from '@datagrok-libraries/js-draw-lite/src/types/scil';
 import type {Editor} from '@datagrok-libraries/js-draw-lite/src/JSDraw.Editor';
+import type {TabDescType, Tabs} from '@datagrok-libraries/js-draw-lite/form/Tab';
 
 declare const dojo: DojoType;
-declare const scilligence: ScilModuleType;
 declare const scil: ScilModuleType;
 declare const org: OrgType;
 declare const JSDraw2: JSDraw2ModuleType<any>;
@@ -47,7 +45,7 @@ declare let JSDrawServices: any;
 export class MonomerExplorerInt {
   private readonly T: string;
   public plugin: any; // TODO: ?
-  private readonly options: any;
+  private readonly options: Partial<IMonomerExplorerOptions>;
   private height: number | null;
   private kStyle: any;
   private selected: { [type: string]: string };
@@ -63,7 +61,7 @@ export class MonomerExplorerInt {
   private rules_category!: HTMLSelectElement;
   private curtab: any;
 
-  private monomerstabs: any;
+  private monomerstabs?: Tabs;
   private rnatabs: any;
 
   private divRule?: HTMLDivElement;
@@ -73,6 +71,8 @@ export class MonomerExplorerInt {
 
   private lastdiv?: HTMLDivElement;
   private pinmenu: any;
+
+  private readonly logger: Console = window.console;
 
   /**
    * @constructor MonomerExplorer
@@ -85,7 +85,7 @@ export class MonomerExplorerInt {
     this.plugin = plugin;
     this.options = options == null ? {} : options;
     this.height = null;
-    const w = this.options.monomerwidth > 0 ? this.options.monomerwidth : 50;
+    const w = this.options.monomerwidth! > 0 ? this.options.monomerwidth : 50;
     this.kStyle = {borderRadius: '5px', border: 'solid 1px gray', backgroundRepeat: 'no-repeat', display: 'table', width: w, height: w, float: 'left', margin: 2};
 
     if (this.options.mexuseshape)
@@ -130,12 +130,19 @@ export class MonomerExplorerInt {
       });
     }
 
-    const tabs: TabDescType[] = [];
+    // Monomers
+    let tabs: Partial<TabDescType>[] = [];
     if (this.options.mexmonomerstab)
       tabs.push({caption: 'Monomers', tabkey: 'monomers'});
     else
       this.addMonomerTabs(tabs);
+
+    // Rules
     tabs.push({caption: 'Rules', tabkey: 'rule'});
+
+    // Override tabs from options
+    if (this.options.overrideTabs)
+      tabs = this.options.overrideTabs(tabs);
 
     const width = this.options.width != null ? this.options.width : 300;
     this.height = this.options.height != null ? this.options.height : 400;
@@ -145,7 +152,7 @@ export class MonomerExplorerInt {
       },
       tabpadding: this.options.mexmonomerstab ? '10px' : '5px 2px 1px 2px',
       tabs: tabs,
-      marginBottom: 0,
+      marginBottom: `0`,
     });
 
     this.dnd = this.createDnD(this.div);
@@ -160,7 +167,7 @@ export class MonomerExplorerInt {
    * Add Monomer Tabs (internal use)
    * @function addMonomerTabs
    */
-  addMonomerTabs(tabs: TabDescType[]) {
+  addMonomerTabs(tabs: Partial<TabDescType>[]) {
     if (this.options.mexfavoritetab != false)
       tabs.push({caption: 'Favorite', tabkey: 'favorite'});
 
@@ -219,7 +226,7 @@ export class MonomerExplorerInt {
           } else if (s.length >= 3 || org.helm.webeditor.MonomerExplorer.filtername) {
             const type = d.getAttribute('helm');
             const set = type == org.helm.webeditor.MonomerExplorer.kNucleotide ? org.helm.webeditor.MonomerExplorer.nucleotides : org.helm.webeditor.Monomers.getMonomerSet(type);
-            const m = set[scil.helm.symbolCase(name)];
+            const m = set![scil.helm.symbolCase(name)];
             const monomer = m as IWebEditorMonomer;
             if (monomer != null && monomer.n != null) {
               if (scil.Utils.startswith(monomer.n.toLowerCase(), s))
@@ -250,9 +257,9 @@ export class MonomerExplorerInt {
         parent.insertBefore(d.div, parent.childNodes[i]);
         last = d.div;
         if (s != null)
-          (d.div.firstChild!.firstChild as HTMLElement).innerHTML = this.highlightString(d.id, s);
+          (d.div.firstChild!.firstChild as HTMLElement).innerHTML = this.highlightString(d.id!, s);
         else
-          (d.div.firstChild!.firstChild as HTMLElement).innerHTML = d.html != null ? d.html : d.id;
+          (d.div.firstChild!.firstChild as HTMLElement).innerHTML = d.html != null ? d.html : d.id!;
         d.div.style.display = 'table';
       }
 
@@ -376,6 +383,7 @@ export class MonomerExplorerInt {
    * @function onShowTab
    */
   onShowTab(td: HTMLTableCellElement & any, forcerecreate?: boolean): void {
+    const logPrefix = `HWE: MonomerExplorer.onShowTab()`;
     if (td == null)
       return;
 
@@ -384,6 +392,7 @@ export class MonomerExplorerInt {
     this.filterGroup('');
 
     const key = td.getAttribute('key');
+    this.logger.debug(`${logPrefix}, key = ${key}`);
     if (forcerecreate || key == 'favorite' && org.helm.webeditor.MonomerExplorer.favorites.changed) {
       td._childrencreated = false;
       if (key == 'favorite')
@@ -396,72 +405,128 @@ export class MonomerExplorerInt {
       return;
     td._childrencreated = true;
 
-    const me = this;
-    const div = td.clientarea;
+    const div: HTMLDivElement = td.clientarea;
     scil.Utils.unselectable(div);
     scil.Utils.removeAll(div);
 
-    if (key == 'favorite') {
-      this.divFavorite = scil.Utils.createElement(div, 'div', null, {width: '100%', height: `{this.getHeight(key)}px`, overflowY: 'scroll'});
-      this.recreateFavorites(this.divFavorite);
-    } else if (key == 'rna') {
-      const d = scil.Utils.createElement(div, 'div');
-      this.createMonomerGroup3(d, 'RNA', 0, false);
-    } else if (key == 'nucleotide') {
-      const dict = org.helm.webeditor.MonomerExplorer.loadNucleotides();
-      const list = scil.Utils.getDictKeys(dict);
-      this.createMonomerGroup4(div, key, list);
-    } else if (key == 'aa') {
-      this.divAA = scil.Utils.createElement(div, 'div', null, {width: '100%', height: `${this.getHeight(key)}px`, overflowY: 'scroll'});
-      dojo.connect(this.divAA, 'onmousedown', function(e: MouseEvent) {
-        me.select(e);
-      });
-      dojo.connect(this.divAA, 'ondblclick', function(e: MouseEvent) {
-        me.dblclick(e);
-      });
-      this.createMonomerGroup4(this.divAA, org.helm.webeditor.HELM.AA, null, false, this.options.mexgroupanalogs != false);
-    } else if (key == 'chem') {
-      this.divChem = scil.Utils.createElement(div, 'div', null, {width: '100%', height: `${this.getHeight(key)}px`, overflowY: 'scroll'});
-      this.createMonomerGroup(this.divChem, org.helm.webeditor.HELM.CHEM);
-    } else if (key == 'base') {
-      this.createMonomerGroup4(div, org.helm.webeditor.HELM.BASE, null, null, this.options.mexgroupanalogs != false);
-    } else if (key == 'sugar') {
-      this.createMonomerGroup4(div, org.helm.webeditor.HELM.SUGAR, null);
-    } else if (key == 'linker') {
-      this.createMonomerGroup4(div, org.helm.webeditor.HELM.LINKER, null, true);
-    } else if (key == 'rule') {
-      const toolbar = scil.Utils.createElement(div, 'div', null, {background: '#ccc'});
-      scil.Utils.createElement(toolbar, 'span', 'Category:');
-      this.rules_category = scil.Utils.createElement(toolbar, 'select');
-      scil.Utils.listOptions(this.rules_category, org.helm.webeditor.RuleSetApp.categories);
-      const me = this;
-      scil.connect(this.rules_category, 'onchange', function() {
-        org.helm.webeditor.RuleSet.filterRules(me.rules, me.filterInput.value, me.rules_category?.value);
-      });
+    switch (key) {
+    case 'favorite':
+      this.onShowTabFavorite(div);
+      break;
+    case 'rna':
+      this.onShowTabRna(div);
+      break;
+    case 'nucleotide':
+      this.onShowTabNucleotide(div, key);
+      break;
+    case 'aa':
+      this.onShowTabAa(div, key);
+      break;
+    case 'chem':
+      this.onShowTabChem(div, key);
+      break;
+    case 'base':
+      this.onShowTabBase(div);
+      break;
+    case 'sugar':
+      this.onShowTabSugar(div);
+      break;
+    case 'linker':
+      this.onShowTabLinker(div);
+      break;
+    case 'rule':
+      this.onShowTabRule(div, key);
+      break;
+    case 'monomers':
+      this.onShowTabMonomers(div);
+      break;
+    default:
+      if (this.options.onShowTab)
+        this.options.onShowTab(this, div, key);
+      break;
+    }
+  }
 
-      this.divRule = scil.Utils.createElement(div, 'div', null, {width: '100%', height: `${this.getHeight(key)}px`, overflowY: 'scroll'});
-      this.listRules();
-    } else if (key == 'monomers') {
-      const d = scil.Utils.createElement(div, 'div', null, {paddingTop: '5px'});
+  private onShowTabFavorite(div: HTMLDivElement) {
+    this.divFavorite = scil.Utils.createElement(div, 'div', null, {width: '100%', height: `{this.getHeight(key)}px`, overflowY: 'scroll'});
+    this.recreateFavorites(this.divFavorite);
+  }
 
-      if (this.options.canvastoolbar == false) {
-        const b = scil.Utils.createElement(d, 'div', '<img src=\'' + scil.Utils.imgSrc('helm/arrow.png') + '\' style=\'vertical-align:middle\'>Mouse Pointer', {cursor: 'pointer', padding: '2px', border: 'solid 1px gray', margin: '5px'});
-        scil.connect(b, 'onclick', function() {
-          me.plugin.jsd.doCmd('lasso');
-        });
-      }
+  private onShowTabRna(div: HTMLDivElement) {
+    const d = scil.Utils.createElement(div, 'div');
+    this.createMonomerGroup3(d, 'RNA', 0, false);
+  }
 
-      const tabs: TabDescType[] = [];
-      this.addMonomerTabs(tabs);
-      this.monomerstabs = new scil.Tabs(d, {
-        onShowTab(td: HTMLTableCellElement) {
-          me.onShowTab(td);
-        },
-        tabpadding: '5px 2px 1px 2px',
-        tabs: tabs,
-        marginBottom: 0,
+  private onShowTabNucleotide(div: HTMLDivElement, key: string) {
+    const dict = org.helm.webeditor.MonomerExplorer.loadNucleotides();
+    const list = scil.Utils.getDictKeys(dict);
+    this.createMonomerGroup4(div, key as HweHelmType, list);
+  }
+
+  private onShowTabAa(div: HTMLDivElement, key: string) {
+    const me = this;
+    this.divAA = scil.Utils.createElement(div, 'div', null, {width: '100%', height: `${this.getHeight(key)}px`, overflowY: 'scroll'});
+    dojo.connect(this.divAA, 'onmousedown', function(e: MouseEvent) {
+      me.select(e);
+    });
+    dojo.connect(this.divAA, 'ondblclick', function(e: MouseEvent) {
+      me.dblclick(e);
+    });
+    this.createMonomerGroup4(this.divAA, org.helm.webeditor.HELM.AA, null, false, this.options.mexgroupanalogs != false);
+  }
+
+  private onShowTabChem(div: HTMLDivElement, key: string) {
+    this.divChem = scil.Utils.createElement(div, 'div', null, {width: '100%', height: `${this.getHeight(key)}px`, overflowY: 'scroll'});
+    this.createMonomerGroup(this.divChem, org.helm.webeditor.HELM.CHEM);
+  }
+
+  private onShowTabBase(div: HTMLDivElement) {
+    this.createMonomerGroup4(div, org.helm.webeditor.HELM.BASE, null, null, this.options.mexgroupanalogs != false);
+  }
+
+  private onShowTabSugar(div: HTMLDivElement) {
+    this.createMonomerGroup4(div, org.helm.webeditor.HELM.SUGAR, null);
+  }
+
+  private onShowTabLinker(div: HTMLDivElement) {
+    this.createMonomerGroup4(div, org.helm.webeditor.HELM.LINKER, null, true);
+  }
+
+  private onShowTabRule(div: HTMLDivElement, key: string) {
+    const toolbar = scil.Utils.createElement(div, 'div', null, {background: '#ccc'});
+    scil.Utils.createElement(toolbar, 'span', 'Category:');
+    this.rules_category = scil.Utils.createElement(toolbar, 'select');
+    scil.Utils.listOptions(this.rules_category, org.helm.webeditor.RuleSetApp.categories);
+    const me = this;
+    scil.connect(this.rules_category, 'onchange', function() {
+      org.helm.webeditor.RuleSet.filterRules(me.rules, me.filterInput.value, me.rules_category?.value);
+    });
+
+    this.divRule = scil.Utils.createElement(div, 'div', null, {width: '100%', height: `${this.getHeight(key)}px`, overflowY: 'scroll'});
+    this.listRules();
+  }
+
+  private onShowTabMonomers(div: HTMLDivElement) {
+    const me = this;
+    const d = scil.Utils.createElement(div, 'div', null, {paddingTop: '5px'});
+
+    if (this.options.canvastoolbar == false) {
+      const b = scil.Utils.createElement(d, 'div', '<img src=\'' + scil.Utils.imgSrc('helm/arrow.png') + '\' style=\'vertical-align:middle\'>Mouse Pointer', {cursor: 'pointer', padding: '2px', border: 'solid 1px gray', margin: '5px'});
+      scil.connect(b, 'onclick', function() {
+        me.plugin.jsd.doCmd('lasso');
       });
     }
+
+    const mTabs: TabDescType[] = [];
+    this.addMonomerTabs(mTabs);
+    this.monomerstabs = new scil.Tabs(d, {
+      onShowTab(td: HTMLTableCellElement) {
+        me.onShowTab(td);
+      },
+      tabpadding: '5px 2px 1px 2px',
+      tabs: mTabs,
+      marginBottom: `0`,
+    });
   }
 
   listRules() {
@@ -470,14 +535,14 @@ export class MonomerExplorerInt {
       me.plugin.applyRule(script);
     }, function(scripts: any[]) {
       me.plugin.applyRules(scripts);
-    });
+    })!;
   }
 
   /**
    * Get monomers by natural analog (internal use)
    * @function getMonomerDictGroupByAnalog
    */
-  getMonomerDictGroupByAnalog(type: string): { [k: string]: any[] } {
+  getMonomerDictGroupByAnalog(type: HelmType): { [k: string]: any[] } {
     const set = org.helm.webeditor.Monomers.getMonomerSet(type);
     //for (var k in set)
     //    set[k].id = k;
@@ -493,9 +558,9 @@ export class MonomerExplorerInt {
       const m: IWebEditorMonomer = set[k];
       let na: string = m.na!;
       if (aa) {
-        if (m.at.R1 == null)
+        if (m.at!.R1 == null)
           na = 'N-Term';
-        else if (m.at.R2 == null)
+        else if (m.at!.R2 == null)
           na = 'C-Term';
       }
       if (scil.Utils.isNullOrEmpty(na))
@@ -515,13 +580,13 @@ export class MonomerExplorerInt {
    * Get monomer list of a monomer type (internal use)
    * @function getMonomerList
    */
-  getMonomerList(list: any, type: string, addnull?: boolean | null): string[] {
+  getMonomerList(list: any, type: HelmType, addnull?: boolean | null): string[] {
     if (list != null) {
       list.sort();
       return list;
     }
 
-    var set = org.helm.webeditor.Monomers.getMonomerSet(type);
+    const set = org.helm.webeditor.Monomers.getMonomerSet(type);
     //for (var k in set)
     //    set[k].id = k;
     list = scil.Utils.getDictValues(set);
@@ -539,7 +604,7 @@ export class MonomerExplorerInt {
 
     list.sort(org.helm.webeditor.MonomerExplorer.compareMonomers);
     for (let i = 0; i < list.length; ++i)
-      ret.push(list[i].id);
+      ret.push(list[i].id!);
 
     return ret;
   }
@@ -599,11 +664,11 @@ export class MonomerExplorerInt {
       const linker = org.helm.webeditor.Monomers.linkers['P'] == null ? 'p' : 'P';
       const sugar = org.helm.webeditor.Monomers.sugars['R'] == null ? 'r' : 'R';
 
-      const tabs = [
+      const tabs: Partial<TabDescType>[] = [
         {
           caption: this.createRNATabCaption('nucleotide', 'R(A)P'), tabkey: 'nucleotide', onmenu: this.options.mexrnapinontab ? function(e: any) {
             me.onPinMenu(e);
-          } : null,
+          } : undefined,
         },
         {caption: this.createRNATabCaption('base', base), tabkey: 'base'},
         {caption: this.createRNATabCaption('sugar', sugar), tabkey: 'sugar'},
@@ -615,7 +680,7 @@ export class MonomerExplorerInt {
         }, //function (td) { me.onShowRNATab(td); },
         tabpadding: '2px',
         tabs: tabs,
-        marginBottom: 0,
+        marginBottom: `0`,
         clientareaheight: this.getHeight('RNA'),
       });
     }
@@ -664,7 +729,7 @@ export class MonomerExplorerInt {
    */
   createMonomerGroup4(div: HTMLDivElement, type: HweHelmType, list: string[] | null, addnull?: boolean | null, groupbyanalog?: boolean | null): void {
     if (groupbyanalog) {
-      const dict: { [k: string]: any[] } = this.getMonomerDictGroupByAnalog(type);
+      const dict: { [k: string]: any[] } = this.getMonomerDictGroupByAnalog(type as HelmType);
 
       if (org.helm.webeditor.ambiguity) {
         if (type == org.helm.webeditor.HELM.AA)
@@ -705,13 +770,13 @@ export class MonomerExplorerInt {
     } else {
       if (type == 'nucleotide' && !this.options.mexrnapinontab) {
         const me = this;
-        const d = this.createMonomerDiv(div, scil.Utils.imgTag('pin.png'), 'nucleotide', null, false);
+        const d = this.createMonomerDiv(div, scil.Utils.imgTag('pin.png'), 'nucleotide', undefined, false);
         d.setAttribute('title', 'Pin This Nucleotide');
         scil.connect(d, 'onclick', function() {
           me.addNucleotide();
         });
       }
-      list = this.getMonomerList(list, type, addnull);
+      list = this.getMonomerList(list, type as HelmType, addnull);
       if (org.helm.webeditor.ambiguity) {
         if (type == org.helm.webeditor.HELM.SUGAR)
           list.splice(0, 0, '*');
@@ -751,7 +816,7 @@ export class MonomerExplorerInt {
    * Inner loop listing all monomer of a monomer type (internal use)
    * @function
    */
-  _listMonomer2(div: HTMLDivElement, k: string, list: any[], type: string, width: number) {
+  _listMonomer2(div: HTMLDivElement, k: string, list: any[], type: HweHelmType, width: number) {
     if (list.length == 0)
       return;
 
@@ -759,7 +824,8 @@ export class MonomerExplorerInt {
     const tr = scil.Utils.createElement(tbody, 'tr');
     const left = scil.Utils.createElement(tr, 'td', null, {verticalAlign: 'top'});
     const right = scil.Utils.createElement(tr, 'td', null, {verticalAlign: 'top'});
-    scil.Utils.createElement(left, 'div', k, {width: `${width}px`, background: '#eee', border: 'solid 1px #aaa', textAlign: 'center'});
+    const groupKeyDiv = scil.Utils.createElement(left, 'div', k, {width: `${width}px`, background: '#eee', border: 'solid 1px #aaa', textAlign: 'center'});
+    groupKeyDiv.classList.add('hwe-group-key');
     this._listMonomers(right, list, type);
   }
 
@@ -767,7 +833,7 @@ export class MonomerExplorerInt {
    * Create favorite monomer group (internal use)
    * @function createMonomerGroupFav
    */
-  createMonomerGroupFav(div: HTMLDivElement, caption: string, type: string) {
+  createMonomerGroupFav(div: HTMLDivElement, caption: string, type: HweHelmType): void {
     const list = org.helm.webeditor.MonomerExplorer.favorites.getList(type);
     if (list == null || list.length == 0)
       return;
@@ -790,7 +856,7 @@ export class MonomerExplorerInt {
    * List a monomer group (internal use)
    * @function _listMonomers
    */
-  _listMonomers(div: HTMLElement, list: any[], type: string, mexfavoritefirst?: boolean) {
+  _listMonomers(div: HTMLElement, list: any[], type: HweHelmType, mexfavoritefirst?: boolean) {
     div.className = 'filtergroup';
 
     if (mexfavoritefirst) {
@@ -815,7 +881,7 @@ export class MonomerExplorerInt {
    * @function
    */
   recreateFavorites(d: HTMLDivElement) {
-    this.createMonomerGroupFav(d, 'Nucleotide', org.helm.webeditor.MonomerExplorer.kNucleotide);
+    this.createMonomerGroupFav(d, 'Nucleotide', org.helm.webeditor.MonomerExplorer.kNucleotide as HweHelmType);
     this.createMonomerGroupFav(d, 'Base', org.helm.webeditor.HELM.BASE);
     this.createMonomerGroupFav(d, 'Sugar', org.helm.webeditor.HELM.SUGAR);
     this.createMonomerGroupFav(d, 'Linker', org.helm.webeditor.HELM.LINKER);
@@ -827,13 +893,14 @@ export class MonomerExplorerInt {
    * Create a monomer block (internal use)
    * @function createMonomerDiv
    */
-  createMonomerDiv(parent: HTMLElement, name: string | null, type: string, style?: any, star?: any) {
+  createMonomerDiv(
+    parent: HTMLElement, name: string | null, type?: HweHelmType,
+    argStyle?: Partial<CSSStyleDeclaration>, star: boolean = false
+  ): HTMLDivElement {
     const fav = org.helm.webeditor.MonomerExplorer.favorites.contains(name, type);
 
-    if (style == null)
-      style = scil.clone(this.kStyle);
-    else
-      style = scil.apply(scil.clone(this.kStyle), style);
+    const style = argStyle ? scil.apply(scil.clone(this.kStyle), argStyle) :
+      scil.clone(this.kStyle);
 
     if (this.options.mexusecolor != false) {
       let color;
@@ -841,7 +908,7 @@ export class MonomerExplorerInt {
       if (type == 'nucleotide' && custom != null && custom[name!] != null)
         color = {backgroundcolor: '#afa'};
       else
-        color = style.backgroundColor = org.helm.webeditor.Monomers.getColor2(type, name);
+        color = style.backgroundColor = org.helm.webeditor.Monomers.getColor2(type as HelmType, name!);
       style.backgroundColor = color == null ? null : color.backgroundcolor;
     }
 
@@ -959,11 +1026,12 @@ export class MonomerExplorerInt {
     let src = this.getMonomerDiv(e);
     if (src != null && !this.dnd.isDragging()) {
       const type = src.getAttribute('helm')!;
-      const set = type == org.helm.webeditor.MonomerExplorer.kNucleotide ? org.helm.webeditor.MonomerExplorer.nucleotides : org.helm.webeditor.Monomers.getMonomerSet(type);
+      const set = type == org.helm.webeditor.MonomerExplorer.kNucleotide ?
+        org.helm.webeditor.MonomerExplorer.nucleotides : org.helm.webeditor.Monomers.getMonomerSet(type as HelmType);
       const s = scil.Utils.getInnerText(src);
-      let m = set[scil.helm.symbolCase(s)];
+      let m = set![scil.helm.symbolCase(s)];
       if (m == null)
-        m = set[s];
+        m = set![s];
       org.helm.webeditor.MolViewer.show(e, type as HelmType, m, s);
     } else {
       src = (e.srcElement || e.target) as HTMLDivElement;

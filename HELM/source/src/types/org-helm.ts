@@ -1,6 +1,12 @@
 import type {
-  HelmType, IOrgMonomer, IOrgMonomers, IWebEditorMonomer, PolymerType,
+  HelmType, IOrgMonomer, IOrgMonomers, IWebEditorMonomer, MonomerSetType, PolymerType,
 } from '@datagrok-libraries/js-draw-lite/src/types/org';
+
+export type HelmAtom = Atom<HelmType>;
+export type HelmBond = Bond<HelmType>;
+export type HelmMol = Mol<HelmType>;
+export type HelmBracket = Bracket<HelmType>;
+export type HelmString = string;
 
 export type IMolFindResType = {
   b: Bond<HelmType>,
@@ -53,7 +59,17 @@ export interface IWebEditorSizes {
 //   calculateSizes(): IWebEditorSizes;
 // }
 
+export const enum HelmTabKeys {
+  Sequence = 'sequence',
+  Helm = 'notation',
+  Properties = 'properties',
+  StructureView = 'structureview',
+}
+
+export type HelmTabKey = typeof HelmTabKeys[keyof typeof HelmTabKeys];
+
 export interface IAppOptions {
+  ambiguity: boolean;
   showabout: boolean;
   mexfontsize: string;
   mexrnapinontab: boolean;
@@ -81,7 +97,21 @@ export interface IAppOptions {
   onCleanUpStructure: Function;
 
   calculatorurl: string;
+
+  // MonomerExplorer
+  alwaysdrawnucleotide?: boolean;
+  monomerwidth?: number;
+  mexuseshape?: any;
+  useshape?: any;
+  mexfavoritetab?: boolean;
+  mexgroupanalogs?: boolean;
+  mexusecolor?: boolean;
+  currentTabKey?: HelmTabKey;
+  overrideTabs: (tabs: Partial<TabDescType>[]) => Partial<TabDescType>[];
+  onShowTab: (mex: MonomerExplorer, div: HTMLDivElement, key: string) => void;
 }
+
+export interface IMonomerExplorerOptions extends IAppOptions {}
 
 export type AppSizesType = {
   height: number,
@@ -92,18 +122,27 @@ export type AppSizesType = {
 }
 
 export type GetMonomerResType = IWebEditorMonomer | null;
-export type GetMonomerFunc = (a: Atom<HelmType> | HelmType, name?: string) => GetMonomerResType;
+export type GetMonomerFunc = (a: HelmAtom | HelmType, name?: string) => GetMonomerResType;
+
+export type GetMonomerSetFunc = (a: HelmAtom | HelmType | null) => MonomerSetType | null;
+
+export type MonomersFuncs = {
+  getMonomer: GetMonomerFunc,
+  getMonomerSet: GetMonomerSetFunc,
+}
 
 export interface IOrgHelmMonomers extends IOrgMonomers<HelmType> {
-  cleanupurl: string | null;
+  cleanupurl?: string;
 
-  bases: { [name: string]: string };
-  linkers: { [name: string]: string };
-  sugars: { [name: string]: string };
+  sugars: MonomerSetType;
+  linkers: MonomerSetType;
+  bases: MonomerSetType;
+  aas: MonomerSetType;
+  chems: MonomerSetType;
 
   addOneMonomer(monomer: IWebEditorMonomer): void;
   getDefaultMonomer(type: HelmType): string;
-  getMolfile(monomer: IWebEditorMonomer): string;
+  getMolfile(monomer: IWebEditorMonomer): string | null | undefined;
   clear(): void;
   writeOne(m: IWebEditorMonomer): string;
   loadDB(list: any[], makeMon?: Function, clearall?: boolean): void;
@@ -115,7 +154,7 @@ export interface IChain {
   atoms: Atom<HelmType>[];
   bonds: Bond<HelmType>[];
   bases: Atom<HelmType>[];
-  readonly annotation: string;
+  annotation: string;
   type: PolymerType;
 
   new(sid: string): IChain;
@@ -206,42 +245,6 @@ export interface IAppendix {
   str: string;
 }
 
-export type IOType = {
-  // get kVersion(): string;
-  //
-  _detachAppendix(s: string, token: string): IAppendix;
-  detachAnnotation(s: string): IAnnotation;
-  parseConnection(s: string): IConnection2 | null;
-
-  // getHelm<TBio = any>(m: IMol<TBio>, highlightselection: boolean): string | null;
-  // getHelm2<TBio = any>(m: IMol<TBio>, highlightselection: boolean, ret: any, groupatom: any): string | null;
-  // getGroupHelm<TBio = any>(ret: IRet<TBio>, id: string, a, highlightselection: boolean): void;
-  //
-  // addConnection<TBio = any>(ret: IRet<TBio>, c1: ChainId, c2: ChainId, a1: IAtom<TBio>, a2: IAtom<TBio>, r1: RNote, r2: RNote, ratio1: number, ratio2: number, tag: string, h: any): void;
-  // renderConnection<TBio = any>(ret: IRet<TBio>, conn: IConnection): string;
-  // connectionStr(aaid1: string, r1: RNote, aaid2: string, r2: RNote): string;
-  // rStr(aaid: string, r: string): string;
-  // allBelongToGroup<TBio>(atoms: IAtom<TBio>[], g: AtomGroupType): boolean;
-  // getHelmString<TBio = any>(ret: IRet<TBio>, highlightselection: boolean): string;
-
-  // _scanGroup(ret: any, g: any, id: any): void;
-
-  addNode(plugin: IPlugin, chain: IChain, atoms: Atom<HelmType>[], p: Point, type: HelmType, elem: string, renamedmonomers: any): Atom<HelmType>;
-
-  addAAs(plugin: IPlugin, ss: string, chain: IChain, origin: Point, renamedmonomers: any): number;
-  addHELMRNAs(plugin: IPlugin, ss: string, chain: IChain, origin: Point, renamedmonomers: any): number;
-  addChem(plugin: IPlugin, ss: string, chain: IChain, origin: Point, renamedmonomers: any): number;
-  addBlob(plugin: IPlugin, name: string, chain: IChain, origin: Point, renamedmonomers: any, annotation: string): number;
-
-  parseHelm(plugin: IPlugin, s: string, origin: Point, renamedmonomers: any): void;
-
-  getMonomers(m: Mol<HelmType>): { [monomerKey: string]: IHelmMonomer };
-
-  split(s: string, sep: string): string[];
-
-  [p: string]: any;
-}
-
 export interface IRule {
   id: number;
   category: string;
@@ -250,10 +253,11 @@ export interface IRule {
 }
 
 export interface IRuleSet {
-  rules: IRule[];
-  loadDB(list: IRule[]): void;
+  loadDB(list: IRule[], makeMon?: Function, clearAll?: boolean): void;
 
-  [p: string]: any;
+  filterRules(...args: any[]): void;
+  listRules(...args: any[]): void;
+  applyRules(...args: any[]): void;
 }
 
 import type {IOrgWebEditor, IOrgInterface} from '@datagrok-libraries/js-draw-lite/src/types/org';
@@ -264,11 +268,15 @@ import type {Point} from '@datagrok-libraries/js-draw-lite/src/Point';
 import type {Bond} from '@datagrok-libraries/js-draw-lite/src/Bond';
 import type {Atom} from '@datagrok-libraries/js-draw-lite/src/Atom';
 import type {Mol} from '@datagrok-libraries/js-draw-lite/src/Mol';
+import type {Bracket} from '@datagrok-libraries/js-draw-lite/src/Bracket';
 
+import type {IO} from '../../helm/IO';
+import type {Monomers} from '../../helm/Monomers';
 import type {MonomerExplorer} from '../../helm/MonomerExplorer';
 import type {App} from '../../helm/App';
 import type {Interface} from '../../helm/Interface';
-import type {Monomers} from '../../helm/Monomers';
+import {ButtonTypes} from '@datagrok-libraries/js-draw-lite/form/Form';
+import {TabDescType} from '@datagrok-libraries/js-draw-lite/form/Tab';
 
 export interface IExplorerMonomer extends IOrgMonomer {
   div: HTMLDivElement;
@@ -287,25 +295,8 @@ export interface IExplorerMonomer extends IOrgMonomer {
   "width": 290,
   "height": 852
 } */
-export interface IMonomerExplorerOptions {
-  showabout: boolean;
-  mexfontsize: string;
-  mexrnapinontab: boolean;
-  topmargin: number;
-  mexmonomerstab: boolean;
-  sequenceviewonly: boolean;
-  mexfavoritefirst: boolean,
-  mexfilter: boolean,
-  width: number,
-  height: number,
-}
 
 export type HweHelmType = HelmType | 'nucleotide';
-
-export type TabDescType = {
-  caption: string;
-  tabkey: string;
-}
 
 export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType>, 'Interface' | 'Plugin' | 'Monomers'> {
   ambiguity: boolean;
@@ -317,7 +308,7 @@ export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType>, 'Interf
   App: typeof App;
   RuleSetApp: any;
   readonly MolViewer: IMolViewer;
-  IO: IOType;
+  IO: IO;
 
   RuleSet: IRuleSet;
 
@@ -325,7 +316,7 @@ export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType>, 'Interf
 
   Interface: Interface; /* single instance */
   Monomers: Monomers; /* single instance */
-  monomers: void;
+  monomers: Monomers; // TODO: Eliminate
 
   monomerTypeList(): { [type: string]: string };
 

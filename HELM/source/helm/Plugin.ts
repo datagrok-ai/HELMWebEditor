@@ -24,12 +24,15 @@
 
 // @ts-nocheck
 
+import {Atom} from '@datagrok-libraries/js-draw-lite/src/Atom';
+
+import type {MonomerExplorer} from './MonomerExplorer';
+import type {IOrgPlugin} from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
+import type {IMolHandler} from '@datagrok-libraries/js-draw-lite/src/types/mol-handler';
+
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
 import type {HelmType} from '@datagrok-libraries/js-draw-lite/src/types/org';
 import type {OrgType} from '../src/types/org-helm';
-import type {IOrgPlugin} from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
-import type {IMolHandler} from '@datagrok-libraries/js-draw-lite/src/types/mol-handler';
-import {Atom} from '@datagrok-libraries/js-draw-lite/src/Atom';
 
 declare const scil: ScilModuleType;
 declare const JSDraw2: JSDraw2ModuleType<HelmType>;
@@ -48,6 +51,8 @@ export class Plugin implements IOrgPlugin<HelmType> {
   /**
    @property {JSDraw2.Editor} jsd - Drawing Canvas
    **/
+  private readonly jsd: IMolHandler<HelmType>;
+  private monomerexplorer: MonomerExplorer | null;
 
   /**
    * @constructor Plugin
@@ -1193,7 +1198,7 @@ export class Plugin implements IOrgPlugin<HelmType> {
    * @param {string} s - The HELM string
    * @param {string} renamedmonomers - internal use only, using null always
    */
-  setHelm(s, renamedmonomers) {
+  setHelm(s: string, renamedmonomers: string): void {
     this.jsd.clear();
 
     let n = 0;
