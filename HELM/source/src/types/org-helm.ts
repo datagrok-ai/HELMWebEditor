@@ -5,7 +5,11 @@ import type {
 export type HelmAtom = Atom<HelmType>;
 export type HelmBond = Bond<HelmType>;
 export type HelmMol = Mol<HelmType>;
+export type HelmGroup = Group<HelmType>;
 export type HelmBracket = Bracket<HelmType>;
+
+export type HelmEditor = Editor<HelmType, IHelmDrawOptions>;
+
 export type HelmString = string;
 
 export type IMolFindResType = {
@@ -14,14 +18,21 @@ export type IMolFindResType = {
   a1: Atom<HelmType>,
 }
 
+export const enum MonomerNumberingTypes {
+  default,
+  continuous,
+}
+
+export type MonomerNumberingType = typeof MonomerNumberingTypes[keyof typeof MonomerNumberingTypes];
+
 export interface IMolViewer {
   molscale: number;
 
   hide(): void;
-  show(e: MouseEvent, type: HelmType, m: any, code: string, ed?: Editor<HelmType>, text?: Atom<HelmType>): void;
-  show2(xy: Point, type: HelmType, m: any, code: string, ed: Editor<HelmType>, a: Atom<HelmType>): void;
+  show(e: MouseEvent, type: HelmType, m: any, code: string, ed?: HelmEditor, text?: Atom<HelmType>): void;
+  show2(xy: Point, type: HelmType, m: any, code: string, ed: HelmEditor, a: Atom<HelmType>): void;
 
-  findR(m: Mol<HelmType>, r: string): IMolFindResType | null;
+  findR(m: Mol<HelmType>, r: string, a?: HelmAtom): IMolFindResType | null;
   joinMol(m: Mol<HelmType>, r1: string, src: Mol<HelmType>, r2: string, a1?: any, a2?: any): void;
 }
 
@@ -150,18 +161,18 @@ export interface IOrgHelmMonomers extends IOrgMonomers<HelmType> {
   [p: string]: any;
 }
 
-export interface IChain {
-  atoms: Atom<HelmType>[];
-  bonds: Bond<HelmType>[];
-  bases: Atom<HelmType>[];
-  annotation: string;
-  type: PolymerType;
-
-  new(sid: string): IChain;
-  new(): IChain;
-  getChains(m: Mol<HelmType>, branches: any): any[];
-  getAtomByAAID(aid: string): Atom<HelmType>;
-}
+// export interface IChain {
+//   atoms: Atom<HelmType>[];
+//   bonds: Bond<HelmType>[];
+//   bases: Atom<HelmType>[];
+//   annotation: string;
+//   type: PolymerType;
+//
+//   new(sid: string): IChain;
+//   new(): IChain;
+//   getChains(m: Mol<HelmType>, branches: any): any[];
+//   getAtomByAAID(aid: string): Atom<HelmType>;
+// }
 
 export type ChainId = string;
 
@@ -198,22 +209,22 @@ export interface IConnection2 {
   tag?: string;
 }
 
-export interface ISequence {
-
-}
-
-export interface IGroup {
-
-}
-
-export interface IRet {
-  chains: { [k: ChainId]: IChain };
-  connections: IConnection[];
-  sequences: { [k: string]: ISequence };
-  groups: { [k: string]: IGroup };
-  groupatoms: Atom<HelmType>[];
-  singletons: { [k: ChainId]: ChainId };
-}
+// export interface ISequence {
+//
+// }
+//
+// export interface IGroup {
+//
+// }
+//
+// export interface IRet {
+//   chains: { [k: ChainId]: IChain };
+//   connections: IConnection[];
+//   sequences: { [k: string]: ISequence };
+//   groups: { [k: string]: IGroup };
+//   groupatoms: Atom<HelmType>[];
+//   singletons: { [k: ChainId]: ChainId };
+// }
 
 export type RNote = string;
 
@@ -268,15 +279,23 @@ import type {Point} from '@datagrok-libraries/js-draw-lite/src/Point';
 import type {Bond} from '@datagrok-libraries/js-draw-lite/src/Bond';
 import type {Atom} from '@datagrok-libraries/js-draw-lite/src/Atom';
 import type {Mol} from '@datagrok-libraries/js-draw-lite/src/Mol';
+import type {Group} from '@datagrok-libraries/js-draw-lite/src/Group';
 import type {Bracket} from '@datagrok-libraries/js-draw-lite/src/Bracket';
 
 import type {IO} from '../../helm/IO';
 import type {Monomers} from '../../helm/Monomers';
 import type {MonomerExplorer} from '../../helm/MonomerExplorer';
 import type {App} from '../../helm/App';
+import type {Plugin} from '../../helm/Plugin';
+import type {Chain} from '../../helm/Chain';
+import type {Formula} from '../../helm/Formula';
 import type {Interface} from '../../helm/Interface';
-import {ButtonTypes} from '@datagrok-libraries/js-draw-lite/form/Form';
-import {TabDescType} from '@datagrok-libraries/js-draw-lite/form/Tab';
+import type {MolViewer} from '../../helm/MolViewer';
+import type {Layout} from '../../helm/Layout';
+
+import type {ButtonTypes} from '@datagrok-libraries/js-draw-lite/form/Form';
+import type {TabDescType} from '@datagrok-libraries/js-draw-lite/form/Tab';
+import type {IDrawOptions, IEditorOptions} from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
 
 export interface IExplorerMonomer extends IOrgMonomer {
   div: HTMLDivElement;
@@ -298,7 +317,11 @@ export interface IExplorerMonomer extends IOrgMonomer {
 
 export type HweHelmType = HelmType | 'nucleotide';
 
-export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType>, 'Interface' | 'Plugin' | 'Monomers'> {
+export interface IHelmDrawOptions extends IDrawOptions {
+  monomerNumbering: MonomerNumberingType;
+}
+
+export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType, IHelmDrawOptions>, 'Interface' | 'Plugin' | 'Monomers' | 'Formula'> {
   ambiguity: boolean;
   kCaseSensitive: boolean;
   defaultbondratio: number;
@@ -306,14 +329,17 @@ export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType>, 'Interf
 
   MonomerExplorer: typeof MonomerExplorer;
   App: typeof App;
+  Plugin: typeof Plugin;
+  Chain: typeof Chain;
+
   RuleSetApp: any;
-  readonly MolViewer: IMolViewer;
-  IO: IO;
+  MolViewer: MolViewer;
+  Layout: Layout;
+  IO: IO; /* single instance */
 
   RuleSet: IRuleSet;
 
-  readonly Chain: IChain;
-
+  Formula: Formula;
   Interface: Interface; /* single instance */
   Monomers: Monomers; /* single instance */
   monomers: Monomers; // TODO: Eliminate

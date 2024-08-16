@@ -25,7 +25,7 @@
 import type {DojoType} from '@datagrok-libraries/js-draw-lite/src/types/dojo';
 
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
-import type {HweHelmType, IExplorerMonomer, IMonomerExplorerOptions, OrgType} from '../src/types/org-helm';
+import type {HelmEditor, HweHelmType, IExplorerMonomer, IMonomerExplorerOptions, OrgType} from '../src/types/org-helm';
 import type {HelmType, HelmTypes, IOrgMonomer, IWebEditorMonomer} from '@datagrok-libraries/js-draw-lite/src/types/org';
 import type {StyleType} from '@datagrok-libraries/js-draw-lite/src/types/common';
 import type {IDnD} from '@datagrok-libraries/js-draw-lite/src/types/scil';
@@ -35,7 +35,7 @@ import type {TabDescType, Tabs} from '@datagrok-libraries/js-draw-lite/form/Tab'
 declare const dojo: DojoType;
 declare const scil: ScilModuleType;
 declare const org: OrgType;
-declare const JSDraw2: JSDraw2ModuleType<any>;
+declare const JSDraw2: JSDraw2ModuleType;
 declare let JSDrawServices: any;
 
 /**
@@ -80,7 +80,7 @@ export class MonomerExplorerInt {
    * @param {Plugin} plugin - The Plugin object
    * @param {dict} options - options on how to render the Monomer Explorer
    */
-  constructor(parent: HTMLDivElement, plugin: Editor<HelmType>, options: Partial<IMonomerExplorerOptions> | null) {
+  constructor(parent: HTMLDivElement, plugin: HelmEditor, options: Partial<IMonomerExplorerOptions> | null) {
     this.T = 'MONOMER_EXPLORER';
     this.plugin = plugin;
     this.options = options == null ? {} : options;

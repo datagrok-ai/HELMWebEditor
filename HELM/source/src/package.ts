@@ -31,7 +31,7 @@ async function loadModules(): Promise<void> {
   require('../helm/MonomerColors');
   require('../helm/Monomers');
   await import(/* webpackMode: "eager" */ '../helm/Plugin');
-  require('../helm/Chain');
+  await import(/* webpackMode: "eager" */ '../helm/Chain');
   require('../helm/Layout');
   await import(/* webpackMode: "eager" */ '../helm/IO');
   await import(/* webpackMode: "eager" */ '../helm/MonomerExplorer');

@@ -26,16 +26,19 @@
 
 import {Atom} from '@datagrok-libraries/js-draw-lite/src/Atom';
 
-import type {MonomerExplorer} from './MonomerExplorer';
+import type {HelmType} from '@datagrok-libraries/js-draw-lite/src/types/org';
+import type {Point} from '@datagrok-libraries/js-draw-lite/src/Point';
 import type {IOrgPlugin} from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
 import type {IMolHandler} from '@datagrok-libraries/js-draw-lite/src/types/mol-handler';
 
+import type {HelmAtom, HelmBond, HelmEditor, IHelmDrawOptions} from '../src/types/org-helm';
+import type {MonomerExplorer} from './MonomerExplorer';
+
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
-import type {HelmType} from '@datagrok-libraries/js-draw-lite/src/types/org';
 import type {OrgType} from '../src/types/org-helm';
 
 declare const scil: ScilModuleType;
-declare const JSDraw2: JSDraw2ModuleType<HelmType>;
+declare const JSDraw2: JSDraw2ModuleType;
 declare const org: OrgType;
 
 
@@ -43,7 +46,7 @@ declare const org: OrgType;
  * HELM Editor Plugin class
  * @class org.helm.webeditor.Plugin
  */
-export class Plugin implements IOrgPlugin<HelmType> {
+export class Plugin implements IOrgPlugin<HelmType, IHelmDrawOptions> {
   /**
    @property {MonomerExplorer} monomerexplorer - Monomer Explorer
    **/
@@ -51,8 +54,10 @@ export class Plugin implements IOrgPlugin<HelmType> {
   /**
    @property {JSDraw2.Editor} jsd - Drawing Canvas
    **/
-  private readonly jsd: IMolHandler<HelmType>;
+  public readonly jsd: HelmEditor;
   private monomerexplorer: MonomerExplorer | null;
+  private atomPropDlg: any;
+  private bondPropDlg: any;
 
   /**
    * @constructor Plugin
@@ -69,7 +74,7 @@ export class Plugin implements IOrgPlugin<HelmType> {
    * @param {bool} html - indicate if html format is needed
    * @returns the molecular formula as a string
    */
-  getMF(html) {
+  getMF(html: boolean): string | null {
     return org.helm.webeditor.Formula.getMF(this.jsd.m, html);
   }
 
@@ -78,7 +83,7 @@ export class Plugin implements IOrgPlugin<HelmType> {
    * @function getMW
    * @returns the molecular weight as a number
    */
-  getMW() {
+  getMW(): number | null {
     return org.helm.webeditor.Formula.getMW(this.jsd.m);
   }
 
@@ -91,7 +96,7 @@ export class Plugin implements IOrgPlugin<HelmType> {
     return org.helm.webeditor.ExtinctionCoefficient.calculate(this.jsd.m);
   }
 
-  getSpareRs(a, rs) {
+  getSpareRs(a: HelmAtom, rs?): number[] | null {
     if (a.bio == null) // not bio
       return [];
 
@@ -113,18 +118,18 @@ export class Plugin implements IOrgPlugin<HelmType> {
       rs[i] = true;
     }
 
-    const used = [];
+    const used: boolean[] = [];
     const bonds = this.jsd.m.getNeighborBonds(a);
     for (let i = 0; i < bonds.length; ++i) {
-      const b = bonds[i];
+      const b: HelmBond = bonds[i];
       if (b.a1 == a) {
-        used[b.r1] = true;
-        if (rs[b.r1] != null)
-          rs[b.r1] = false;
+        used[b.r1 as number] = true;
+        if (rs[b.r1!] != null)
+          rs[b.r1!] = false;
       } else if (b.a2 == a) {
-        used[b.r2] = true;
-        if (rs[b.r2] != null)
-          rs[b.r2] = false;
+        used[b.r2 as number] = true;
+        if (rs[b.r2!] != null)
+          rs[b.r2!] = false;
       }
     }
 
@@ -140,7 +145,7 @@ export class Plugin implements IOrgPlugin<HelmType> {
     return ret.length == 0 ? null : ret;
   }
 
-  setAtomProp(obj) {
+  setAtomProp(obj: any) {
     const a = JSDraw2.Atom.cast(obj);
     if (a == null)
       return;
@@ -157,8 +162,8 @@ export class Plugin implements IOrgPlugin<HelmType> {
     }
 
     let elem = a.elem;
-    if (elem == "?" && !scil.Utils.isNullOrEmpty(a.bio.ambiguity))
-      elem = a.bio.ambiguity;
+    if (elem == "?" && !scil.Utils.isNullOrEmpty(a.bio!.ambiguity))
+      elem = a.bio!.ambiguity!;
 
     if (elem == "Blob" || elem == "Group")
       this.atomPropDlg.form.fields.elem.setAttribute("readonly", "readonly");
@@ -184,7 +189,7 @@ export class Plugin implements IOrgPlugin<HelmType> {
     const clone = this.jsd.clone();
     const a = this.atomPropDlg.atom;
     if (a.elem != data.elem || (a.tag == null ? "" : a.tag) != data.tag) {
-      const set = org.helm.webeditor.Monomers.getMonomerSet(a.biotype());
+      const set = org.helm.webeditor.Monomers.getMonomerSet(a.biotype())!;
       const m = set[scil.helm.symbolCase(data.elem)];
       if (m == null) {
         if (!org.helm.webeditor.isAmbiguous(data.elem, a.biotype())) {
@@ -214,12 +219,13 @@ export class Plugin implements IOrgPlugin<HelmType> {
     }
   }
 
-  setBondProp(obj) {
-    const b = JSDraw2.Bond.cast(obj);
+  setBondProp(obj: any) {
+    const b = JSDraw2.Bond.cast<HelmType>(obj);
     if (b == null)
       return;
 
-    const data: { a1ratio?: string, a2ratio?: string } = {};
+    const data: { a1ratio?: string | number | null, a2ratio?: string | number | null } =
+      {a1ratio: null, a2ratio: null};
     const blob1 = this._getDisplayName(b, data, 1);
     const blob2 = this._getDisplayName(b, data, 2);
     if (!blob1 && !blob2)
@@ -259,7 +265,7 @@ export class Plugin implements IOrgPlugin<HelmType> {
     this.bondPropDlg.bond = b;
   }
 
-  _getDisplayName(b, data, i) {
+  _getDisplayName(b: any, data: any, i: number): boolean {
     const ai = "a" + i;
     const ri = "r" + i;
     const air = "a" + i + "r";
@@ -363,7 +369,7 @@ export class Plugin implements IOrgPlugin<HelmType> {
     return true;
   }
 
-  hasSpareR(a, r) {
+  hasSpareR(a: HelmAtom, r: string | number): boolean {
     if (a == null)
       return false;
     if (a.bio == null)
@@ -375,8 +381,8 @@ export class Plugin implements IOrgPlugin<HelmType> {
     if (a.biotype() == org.helm.webeditor.HELM.BLOB)
       return true;
 
-    const rs = this.getSpareRs(a);
-    if (rs == null || rs.indexOf(r) < 0) {
+    const rs: number[] | null = this.getSpareRs(a);
+    if (rs == null || rs.indexOf(r as number) < 0) {
       //scil.Utils.alert("The monomer, " + a.elem + ", does define R" + r);
       return false;
     }
@@ -740,7 +746,7 @@ export class Plugin implements IOrgPlugin<HelmType> {
     org.helm.webeditor.RuleSet.applyRules(this, funs);
   }
 
-  addNode(p, biotype, elem) {
+  addNode(p: Point, biotype: HelmType, elem: string): HelmAtom | null {
     elem = org.helm.webeditor.IO.trimBracket(elem);
 
     let m = org.helm.webeditor.Monomers.getMonomer(biotype, elem);
@@ -764,20 +770,20 @@ export class Plugin implements IOrgPlugin<HelmType> {
     return a;
   }
 
-  addBond(a1, a2, r1, r2) {
+  addBond(a1: HelmAtom, a2: HelmAtom, r1: string | number, r2: string | number): HelmBond | null {
     if (a1 == null || a2 == null || a1 == a2 || r1 != "?" && !this.hasSpareR(a1, r1) || r2 != "?" && !this.hasSpareR(a2, r2))
       return null;
     //if (a1.biotype() == org.helm.webeditor.HELM.SUGAR && a2.biotype() == org.helm.webeditor.HELM.SUGAR || a1.biotype() == org.helm.webeditor.HELM.AA && a2.biotype() == org.helm.webeditor.HELM.AA) {
     //    if ((r1 == 1 || r1 == 2) && r1 == r2)
     //        return null;
     //}
-    const b = org.helm.webeditor.Interface.createBond(this.jsd.m, a1, a2);
+    const b = org.helm.webeditor.Interface.createBond(this.jsd.m, a1, a2)!;
     b.r1 = r1;
     b.r2 = r2;
     return b;
   }
 
-  addHydrogenBond(a1, a2) {
+  addHydrogenBond(a1: HelmAtom, a2: HelmAtom): HelmBond | null {
     if (a1 == null || a2 == null || a1 == a2)
       return null;
     const b = org.helm.webeditor.Interface.createBond(this.jsd.m, a1, a2);
@@ -1179,7 +1185,7 @@ export class Plugin implements IOrgPlugin<HelmType> {
    * @param {bool} highlightselection - internal use only, using null always
    * @returns the sequence as a string
    */
-  getSequence(highlightselection) {
+  getSequence(highlightselection: boolean): string {
     return org.helm.webeditor.IO.getSequence(this.jsd.m, highlightselection);
   }
 

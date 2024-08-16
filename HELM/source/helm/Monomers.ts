@@ -33,7 +33,7 @@ import type {
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
 
 declare const scil: ScilModuleType;
-declare const JSDraw2: JSDraw2ModuleType<any>;
+declare const JSDraw2: JSDraw2ModuleType;
 declare const org: OrgType;
 
 /**

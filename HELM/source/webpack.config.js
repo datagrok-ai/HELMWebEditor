@@ -15,11 +15,14 @@ module.exports = {
   },
   resolve: {
     fallback: {'url': false},
-    extensions: ['.wasm', '.mjs', '.ts', '.tsx', '.js', '.json'],
+    extensions: ['.ts', '.tsx', '.js', '.wasm', '.mjs', '.json'],
   },
   module: {
     rules: [
-      {test: /\.js$/, enforce: 'pre', use: ['source-map-loader'], exclude: /node_modules/},
+      {
+        test: /\.js$/, enforce: 'pre', use: ['source-map-loader'],
+        exclude: (path) => { return /node_modules/.test(path) && !/@datagrok-libraries/.test(path); },
+      },
       {test: /\.ts(x?)$/, use: 'ts-loader', exclude: /node_modules/},
       {test: /\.css$/, use: ['style-loader', 'css-loader']},
     ],

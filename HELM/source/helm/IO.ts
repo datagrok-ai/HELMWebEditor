@@ -24,41 +24,66 @@
 
 // @ts-nocheck
 
-import type {ScilModuleType} from "@datagrok-libraries/js-draw-lite/src/types/scil";
+import type {Point} from '@datagrok-libraries/js-draw-lite/src/Point';
+import type {HelmType, IWebEditorMonomer, PolymerType} from "@datagrok-libraries/js-draw-lite/src/types/org";
+
+import type {Chain} from './Chain';
+import type {Plugin} from "./Plugin";
+import type {ChainId, HelmGroup, HelmMol, IConnection2} from "../src/types/org-helm";
+import {HelmAtom} from '../src/types/org-helm';
+
 import type {IPako} from "../src/types/pako";
-import type {ChainId, HelmMol, IChain, IConnection, IConnection2, IGroup, OrgType, RNote} from "../src/types/org-helm";
+import type {ScilModuleType} from "@datagrok-libraries/js-draw-lite/src/types/scil";
 import type {JSDraw2ModuleType} from "@datagrok-libraries/js-draw-lite/src/types";
-import type {HelmType, PolymerType} from "@datagrok-libraries/js-draw-lite/src/types/org";
-import type {Mol} from '@datagrok-libraries/js-draw-lite/src/Mol';
+import type {OrgType} from '../src/types/org-helm';
 
 declare const pako: IPako;
-
-declare const JSDraw2: JSDraw2ModuleType<any>;
-declare const org: OrgType;
 declare const scil: ScilModuleType;
+declare const JSDraw2: JSDraw2ModuleType;
+declare const org: OrgType;
 
-export type HelmParseChainType = {};
-
-export type HelmParseConnectionType = {};
+export type HelmParseConnectionType = {
+  c1: any,
+  c2: any,
+  ai1: string;
+  ai2: string;
+};
 export type HelmParsePairType = {};
 export type HelmParseGroupAtomType = {};
-export type HelmParseGroupType = {};
+export type HelmParseGroupType = string[];
 export type HelmParseAnnotationType = {};
 export type HelmParseSingletonType = {};
 export type HelmParseRatioType = {};
 
+export type ValueType = { tag: string, repeat: string, str: string };
+
+export type LoopType = {
+  n: number,
+  firstatom: HelmAtom,
+  a1: HelmAtom,
+  a2: HelmAtom,
+  a3: HelmAtom,
+  p: Point,
+  delta: number,
+  count: number,
+};
+
 export type HelmParseRetType = {
   chainid: { RNA: number, PEPTIDE: number, CHEM: number, BLOB: number, G: number, };
-  sequences: {};
-  connections: HelmParseConnectionType[];
-  chains: { [k: string]: HelmParseChainType };
+  sequences: { [name: string]: string };
+  connections: HelmParseConnectionType[]; // TODO:
+  chains: { [name: string]: HelmAtom[] };
   pairs: HelmParsePairType[];
-  groupatoms: HelmParseGroupAtomType[];
+  groupatoms: { [name: string]: HelmParseGroupAtomType };
   groups: { [k: string]: HelmParseGroupType };
   annotations: { [k: string]: HelmParseAnnotationType };
   singletons: { [k: string]: HelmParseSingletonType };
   ratios: { [k: string]: HelmParseRatioType };
 };
+
+export type HelmParseChainType = 'RNA' | 'PEPTIDE' | 'CHEM' | 'BLOB' | 'G';
+
+export type ComboItemType = { symbol: string, base?: string };
 
 /**
  * IO class
@@ -71,7 +96,7 @@ export class IO {
    * Get HELM Notation
    * @function getHelm
    */
-  getHelm(m: HelmMol, highlightselection: boolean): string | null {
+  getHelm(m: HelmMol, highlightselection?: boolean): string | null {
     // I#12164
     for (let i = 0; i < m.atoms.length; ++i) {
       const a = m.atoms[i];
@@ -106,9 +131,9 @@ export class IO {
     return this.getHelmString(ret, highlightselection);
   }
 
-  getHelm2(m: HelmMol, highlightselection: boolean, ret: any, groupatom?: any): void | null {
+  getHelm2(m: HelmMol, highlightselection: boolean, ret: HelmParseRetType, groupatom?: any): void | null {
     const branches: any = {};
-    const chains = org.helm.webeditor.Chain.getChains(m, branches);
+    const chains = org.helm.webeditor.Chain.getChains(m, branches)!;
 
     for (let i = 0; i < m.atoms.length; ++i)
       m.atoms[i]._aaid = null;
@@ -142,7 +167,7 @@ export class IO {
       }
     }
 
-    const groups = [];
+    const groups: HelmGroup[] = [];
     for (let i = 0; i < m.graphics.length; ++i) {
       const g = JSDraw2.Group.cast(m.graphics[i]);
       if (g != null)
@@ -231,7 +256,7 @@ export class IO {
     }
   }
 
-  _scanGroup(ret, g, id) {
+  _scanGroup(ret: HelmParseRetType, g, id: string): void {
     const combo = [];
     for (const c in ret.chains) {
       if (this.allBelongToGroup(ret.chains[c], g)) {
@@ -245,8 +270,8 @@ export class IO {
     ret.ratios[id] = g.ratio;
   }
 
-  getGroupHelm(ret, id, a, highlightselection) {
-    const existing = {};
+  getGroupHelm(ret: HelmParseRetType, id: string, a: HelmAtom, highlightselection: boolean): void {
+    const existing: { [name: string]: string } = {};
     for (const k in ret.sequences)
       existing[k] = true;
 
@@ -266,13 +291,13 @@ export class IO {
     }
   }
 
-  addConnection(ret, c1, c2, a1, a2, r1, r2, ratio1, ratio2, tag, h) {
+  addConnection(ret: HelmParseRetType, c1, c2, a1, a2, r1, r2, ratio1, ratio2, tag, h) {
     const ai1 = a1.biotype() == org.helm.webeditor.HELM.BLOB ? "?" : a1._aaid;
     const ai2 = a2.biotype() == org.helm.webeditor.HELM.BLOB ? "?" : a2._aaid;
     ret.connections.push({c1: c1, c2: c2, ai1: ai1, ai2: ai2, r1: r1, r2: r2, ratio1: ratio1, ratio2: ratio2, tag: tag, h: h});
   }
 
-  renderConnection(ret, conn) {
+  renderConnection(ret: HelmParseRetType, conn: HelmParseConnectionType): string {
     // if it is G1(PEPTID1), then directly use PEPTIDE1, and not G1
     if (ret.singletons[conn.c1] != null) {
       conn.c1 = ret.singletons[conn.c1];
@@ -296,11 +321,11 @@ export class IO {
     return c;
   }
 
-  connectionStr(aaid1, r1, aaid2, r2): string {
+  connectionStr(aaid1: number, r1: number, aaid2: number, r2: number): string {
     return this.rStr(aaid1, r1) + "-" + this.rStr(aaid2, r2);
   }
 
-  rStr(aaid, r): string {
+  rStr(aaid: number, r: number | string): string {
     if (typeof (r) == "string" && r.indexOf(':') > 0)
       return r;
 
@@ -310,7 +335,7 @@ export class IO {
     return s + "R" + r;
   }
 
-  allBelongToGroup(atoms, g): boolean {
+  allBelongToGroup(atoms: HelmAtom[], g): boolean {
     for (let i = 0; i < atoms.length; ++i) {
       if (atoms[i].group != g)
         return false;
@@ -382,7 +407,7 @@ export class IO {
    * Get the natural sequence of the molecule
    * @function getSequence
    */
-  getSequence(m, highlightselection) {
+  getSequence(m: HelmMol, highlightselection: boolean): string {
     const branches = {};
     const chains = org.helm.webeditor.Chain.getChains(m, branches);
     if (chains == null)
@@ -528,7 +553,7 @@ export class IO {
    * Read a generic string (internal use)
    * @function read
    */
-  read(plugin, s, format, renamedmonomers, sugar, linker, separator) {
+  read(plugin: Plugin, s: string, format: string, renamedmonomers?: string, sugar?, linker?, separator?) {
     if (scil.Utils.isNullOrEmpty(s))
       return 0;
 
@@ -569,10 +594,10 @@ export class IO {
    * Parse a HELM string (internal use)
    * @function parseHelm
    */
-  parseHelm(plugin, s, origin, renamedmonomers): number {
+  parseHelm(plugin: Plugin, s: string, origin: Point, renamedmonomers?: string): number {
     let n = 0;
     const sections: string[] = this.split(s, "$");
-    const chains: { [k: ChainId]: IChain } = {};
+    const chains: { [k: ChainId]: Chain } = {};
 
     let gi: number = 100;
     const groups: { [k: ChainId]: string } = {};
@@ -622,6 +647,13 @@ export class IO {
           groups[sid] = g;
           groupannotations[g] = e.tag;
         }
+      }
+
+      // Continuous atom / monomer numbering
+      const m: HelmMol = plugin.jsd.m;
+      for (let aI = 0; aI < m.atoms.length; ++aI) {
+        const a: HelmAtom = m.atoms[aI];
+        a.bio.continuousId = aI + 1; // natural numbering
       }
     }
 
@@ -850,7 +882,7 @@ export class IO {
     return true;
   }
 
-  createGroupForChains(plugin, chains, chainid, c, tag) {
+  createGroupForChains(plugin: Plugin, chains, chainid, c, tag) {
     let logic = null;
     let ss = this.splitString(c, "+");
     if (ss.length > 1) {
@@ -1024,7 +1056,7 @@ export class IO {
    * Remove bracket (internal use)
    * @function trimBracket
    */
-  trimBracket(s) {
+  trimBracket(s: string): string {
     if (s != null && scil.Utils.startswith(s, "[") && scil.Utils.endswith(s, "]"))
       return s.substr(1, s.length - 2);
     return s;
@@ -1034,7 +1066,7 @@ export class IO {
    * Make a renamed monomer (internal use)
    * @function getRenamedMonomer
    */
-  getRenamedMonomer(type, elem, monomers) {
+  getRenamedMonomer(type: HelmType, elem: string, monomers?: IWebEditorMonomer[]): string {
     if (monomers == null || monomers.length == 0)
       return elem;
 
@@ -1042,7 +1074,7 @@ export class IO {
     for (let i = 0; i < monomers.length; ++i) {
       const m = monomers[i];
       if (m.oldname == elem)
-        return m.id;
+        return m.id!;
     }
     return elem;
   }
@@ -1051,7 +1083,7 @@ export class IO {
    * Remove annotation (internal use)
    * @function detachAnnotation
    */
-  detachAnnotation(s) {
+  detachAnnotation(s: string): ValueType {
     const ret = this._detachAppendix(s, '\"');
     if (ret.tag != null)
       return ret;
@@ -1060,7 +1092,7 @@ export class IO {
     return {tag: ret.tag, repeat: r.tag, str: r.str};
   }
 
-  _detachAppendix(s, c) {
+  _detachAppendix(s: string, c: string): ValueType {
     let tag = null;
     if (scil.Utils.endswith(s, c)) {
       let p = s.length - 1;
@@ -1120,9 +1152,9 @@ export class IO {
    * Add a monomer (internal use)
    * @function addNode
    */
-  addNode(plugin, chain, atoms, p, type, elem, renamedmonomers) {
+  addNode(plugin: Plugin, chain: Chain, atoms: HelmAtom[], p: Point, type: HelmType, elem: string, renamedmonomers?: string): HelmAtom {
     const e = this.detachAnnotation(elem);
-    const a2 = plugin.addNode(p, type, this.getRenamedMonomer(type, e.str, renamedmonomers));
+    const a2 = plugin.addNode(p, type, this.getRenamedMonomer(type, e.str, renamedmonomers as IWebEditorMonomer[]));
     if (a2 == null)
       throw new Error("Failed to creating node: " + e.str);
 
@@ -1136,7 +1168,7 @@ export class IO {
    * Add a CHEM node (internal use)
    * @function addChem
    */
-  addChem(plugin, name, chain, origin, renamedmonomers) {
+  addChem(plugin: Plugin, name: string, chain, origin: Point, renamedmonomers) {
     this.addNode(plugin, chain, chain.atoms, origin.clone(), org.helm.webeditor.HELM.CHEM, name, renamedmonomers);
     return 1;
   }
@@ -1145,10 +1177,10 @@ export class IO {
    * Add a BLOB node (internal use)
    * @function addBlob
    */
-  addBlob(plugin, name, chain, origin, renamedmonomers, annotation) {
+  addBlob(plugin: Plugin, name: string, chain, origin, renamedmonomers?: IWebEditorMonomer[], annotation) {
     const e = this.detachAnnotation(name);
     const a = this.addNode(plugin, chain, chain.atoms, origin.clone(), org.helm.webeditor.HELM.BLOB, "Blob", renamedmonomers);
-    a.bio.blobtype = e.str == "Blob" || e.str == "[Blob]" ? null : e.str;
+    a.bio!.blobtype = e.str == "Blob" || e.str == "[Blob]" ? null : e.str;
     if (!scil.Utils.isNullOrEmpty(a.tag))
       a.tag = e.tag;
     else if (!scil.Utils.isNullOrEmpty(annotation))
@@ -1160,9 +1192,9 @@ export class IO {
    * Add Amino Acid (internal use)
    * @function addAAs
    */
-  addAAs(plugin, ss, chain, origin, renamedmonomers) {
+  addAAs(plugin: Plugin, ss: string[], chain: Chain, origin: Point, renamedmonomers?: IWebEditorMonomer[]) {
     const mol = plugin.jsd.m;
-    const loop = {n: 0, firstatom: null, a1: null, a2: null, p: origin.clone(), delta: org.helm.webeditor.bondscale * plugin.jsd.bondlength};
+    const loop: LoopType = {n: 0, firstatom: null, a1: null, a2: null, p: origin.clone(), delta: org.helm.webeditor.bondscale * plugin.jsd.bondlength};
     for (let i = 0; i < ss.length; ++i) {
       if (i == ss.length - 1 && ss[i] == ">") {
         if (loop.firstatom != loop.a1)
@@ -1206,7 +1238,7 @@ export class IO {
     return loop.n;
   }
 
-  _addOneAA(plugin, chain, s, tag, renamedmonomers, loop) {
+  _addOneAA(plugin: Plugin, chain: Chain, s: string, tag: string, renamedmonomers?: string, loop: LoopType): HelmAtom {
     loop.p.x += loop.delta;
     const a = this.addNode(plugin, chain, chain.atoms, loop.p.clone(), org.helm.webeditor.HELM.AA, s, renamedmonomers);
     loop.a2 = a;
@@ -1219,7 +1251,7 @@ export class IO {
       loop.firstatom = loop.a2;
 
     loop.a1 = loop.a2;
-    loop.a1.bio.id = ++loop.n;
+    loop.a1.bio!.id = ++loop.n;
     return a;
   }
 
@@ -1227,9 +1259,9 @@ export class IO {
    * Add RNA HELM string (internal use)
    * @function addHELMRNAs
    */
-  addHELMRNAs(plugin, ss, chain, origin, renamedmonomers) {
+  addHELMRNAs(plugin: Plugin, ss: string[], chain: Chain, origin: Point, renamedmonomers?: string): number {
     const mol = plugin.jsd.m;
-    const loop = {n: 0, count: 0, firstatom: null, a1: null, a2: null, a3: null, p: origin.clone(), delta: org.helm.webeditor.bondscale * plugin.jsd.bondlength};
+    const loop: LoopType = {n: 0, count: 0, firstatom: null, a1: null, a2: null, a3: null, p: origin.clone(), delta: org.helm.webeditor.bondscale * plugin.jsd.bondlength};
     for (let i = 0; i < ss.length; ++i) {
       const e = this.detachAnnotation(ss[i]);
       if (scil.Utils.startswith(e.str, "(") && scil.Utils.endswith(e.str, ")")) {
@@ -1255,7 +1287,7 @@ export class IO {
     return loop.count;
   }
 
-  _addOneHELMRNA(plugin, chain, s, renamedmonomers, loop, atoms) {
+  _addOneHELMRNA(plugin: Plugin, chain: Chain, s: string, renamedmonomers?: string, loop: LoopType, atoms: HelmAtom[]): void {
     const combo = this.splitCombo(s);
     for (let k = 0; k < combo.length; ++k) {
       const c = combo[k];
@@ -1265,7 +1297,7 @@ export class IO {
         loop.p.x += loop.delta;
         loop.a2 = this.addNode(plugin, chain, chain.atoms, loop.p.clone(), org.helm.webeditor.HELM.SUGAR, c.symbol, renamedmonomers);
         if (loop.a1 != null)
-          chain.bonds.push(plugin.addBond(loop.a1, loop.a2, 2, 1));
+          chain.bonds.push(plugin.addBond(loop.a1, loop.a2, 2, 1)!);
         loop.a1 = loop.a2;
 
         if (!scil.Utils.isNullOrEmpty(c.base)) {
@@ -1299,7 +1331,7 @@ export class IO {
    * Add RNA sequence (internal use)
    * @function addRNAs
    */
-  addRNAs(plugin, ss, chain, origin, sugar, linker) {
+  addRNAs(plugin: Plugin, ss: string, chain: Chain, origin: Point, sugar: string, linker: string) {
     let n = 0;
 
     if (scil.Utils.isNullOrEmpty(sugar))
@@ -1319,9 +1351,9 @@ export class IO {
           // linker
           p.x += delta;
           const a0 = this.addNode(plugin, chain, chain.atoms, p.clone(), org.helm.webeditor.HELM.LINKER, linker);
-          chain.bonds.push(plugin.addBond(a1, a0, 2, 1));
+          chain.bonds.push(plugin.addBond(a1!, a0, 2, 1)!);
 
-          chain.bonds.push(plugin.addBond(a0, firstatom, 2, 1));
+          chain.bonds.push(plugin.addBond(a0, firstatom!, 2, 1)!);
         }
         break;
       }
@@ -1330,7 +1362,7 @@ export class IO {
       if (a1 != null) {
         p.x += delta;
         const a0 = this.addNode(plugin, chain, chain.atoms, p.clone(), org.helm.webeditor.HELM.LINKER, linker);
-        chain.bonds.push(plugin.addBond(a1, a0, 2, 1));
+        chain.bonds.push(plugin.addBond(a1, a0, 2, 1)!);
         a1 = a0;
       }
 
@@ -1338,7 +1370,7 @@ export class IO {
       p.x += delta;
       a2 = this.addNode(plugin, chain, chain.atoms, p.clone(), org.helm.webeditor.HELM.SUGAR, sugar);
       if (a1 != null)
-        chain.bonds.push(plugin.addBond(a1, a2, 2, 1));
+        chain.bonds.push(plugin.addBond(a1, a2, 2, 1)!);
       a1 = a2;
 
       if (firstatom == null)
@@ -1348,7 +1380,7 @@ export class IO {
       const a3 = this.addNode(plugin, chain, chain.bases, org.helm.webeditor.Interface.createPoint(p.x, p.y + delta), org.helm.webeditor.HELM.BASE, ss[i]);
       plugin.addBond(a1, a3, 3, 1);
 
-      a3.bio.id = ++n;
+      a3.bio!.id = ++n;
     }
 
     return n;
@@ -1358,8 +1390,8 @@ export class IO {
    * Split a RNA Combo (internal use)
    * @function splitCombo
    */
-  splitCombo(s) {
-    const ret = [];
+  splitCombo(s: string): ComboItemType[] {
+    const ret: ComboItemType = [];
 
     const m = null;
     let i = 0;

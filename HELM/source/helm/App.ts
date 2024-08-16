@@ -42,7 +42,7 @@ import {HelmTabKeys} from '../src/types/org-helm';
 
 declare const dojo: DojoType;
 declare const scil: ScilModuleType;
-declare const JSDraw2: JSDraw2ModuleType<HelmType>;
+declare const JSDraw2: JSDraw2ModuleType;
 declare const org: OrgType;
 declare let JSDrawServices: any;
 
@@ -722,7 +722,7 @@ export class App {
 
       let nb: Bond<HelmType> = null;
       if (b1 == null) {
-        nb = new JSDraw2.Bond(null, null, JSDraw2.BONDTYPES.SINGLE);
+        nb = new JSDraw2.Bond<HelmType>(null, null, JSDraw2.BONDTYPES.SINGLE);
         nb.r1 = 2;
         nb.r2 = 1;
       } else {

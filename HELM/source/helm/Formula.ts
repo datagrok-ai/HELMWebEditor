@@ -28,7 +28,7 @@ import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-dra
 import type {HelmType, IWebEditorMonomer} from '@datagrok-libraries/js-draw-lite/src/types/org';
 
 declare const scil: ScilModuleType;
-declare const JSDraw2: JSDraw2ModuleType<HelmType>;
+declare const JSDraw2: JSDraw2ModuleType;
 declare const org: OrgType;
 
 export type AtomStatsType = { [elem: string]: number }

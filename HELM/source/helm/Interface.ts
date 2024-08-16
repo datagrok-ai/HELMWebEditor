@@ -24,7 +24,9 @@
 
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
 import type {HelmType, IOrgInterface} from '@datagrok-libraries/js-draw-lite/src/types/org';
-import type {OrgType} from '../src/types/org-helm';
+import type {
+  HelmAtom, HelmEditor, HelmMol, IHelmDrawOptions, OrgType
+} from '../src/types/org-helm';
 
 import type {Editor} from '@datagrok-libraries/js-draw-lite/src/JSDraw.Editor';
 import type {Point} from '@datagrok-libraries/js-draw-lite/src/Point';
@@ -33,13 +35,13 @@ import type {Rect} from '@datagrok-libraries/js-draw-lite/src/Rect';
 import type {Mol} from '@datagrok-libraries/js-draw-lite/src/Mol';
 import type {Bond} from '@datagrok-libraries/js-draw-lite/src/Bond';
 import type {
-  BondType, IEditorOptions, DrawStep
+  BondType, IEditorOptions, DrawStep, IDrawOptions
 } from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
-import type {ButtonDescType} from '@datagrok-libraries/js-draw-lite/form/Form';
 
 import {DrawSteps} from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
+import {MonomerNumberingTypes} from '../src/types/org-helm';
 
-declare const JSDraw2: JSDraw2ModuleType<any>;
+declare const JSDraw2: JSDraw2ModuleType;
 declare const scil: ScilModuleType;
 declare const org: OrgType;
 declare const JSDrawServices: any;
@@ -56,15 +58,15 @@ export interface ToolbarButtonDescType {
  * Interface class
  * @class org.helm.webeditor.Interface
  */
-export class Interface implements IOrgInterface<HelmType> {
+export class Interface implements IOrgInterface<HelmType, IHelmDrawOptions> {
   /**
    * Create the canvas
    * @function createCanvas
    * @param {DOM} div
    * @param {dict} args - check <a href='http://www.scilligence.com/sdk/jsdraw/logical/scilligence/JSDraw2/Editor.html'>JSDraw SDK</a>
    */
-  createCanvas(div: HTMLDivElement, args: Partial<IEditorOptions>): Editor<HelmType> {
-    return new JSDraw2.Editor(div, args);
+  createCanvas(div: HTMLDivElement, args: Partial<IEditorOptions<IHelmDrawOptions>>): HelmEditor {
+    return new JSDraw2.Editor<HelmType, IHelmDrawOptions>(div, args);
   }
 
   /**
@@ -106,8 +108,8 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {JSDraw2.Mol} m
    * @param {JSDraw2.Point} p - the coordinate
    */
-  createAtom<TBio>(m: Mol<TBio>, p: Point): Atom<TBio> | null {
-    return m.addAtom(new JSDraw2.Atom(p));
+  createAtom(m: HelmMol, p: Point): HelmAtom | null {
+    return m.addAtom(new JSDraw2.Atom<HelmType>(p));
   }
 
   /**
@@ -117,8 +119,8 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {JSDraw2.Atom} a1
    * @param {JSDraw2.Atom} a2
    */
-  createBond(m: Mol<HelmType>, a1: Atom<HelmType>, a2: Atom<HelmType>, bondtype: BondType): Bond<HelmType> | null {
-    return m.addBond(new JSDraw2.Bond(a1, a2, bondtype == null ? JSDraw2.BONDTYPES.SINGLE : bondtype));
+  createBond(m: Mol<HelmType>, a1: Atom<HelmType>, a2: Atom<HelmType>, bondtype?: BondType): Bond<HelmType> | null {
+    return m.addBond(new JSDraw2.Bond<HelmType>(a1, a2, bondtype == null ? JSDraw2.BONDTYPES.SINGLE : bondtype));
   }
 
   /**
@@ -170,7 +172,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @function getCurrentAtom
    * @param {JSDraw2.Editor} jsd - JSDraw Editor
    */
-  getCurrentAtom(jsd: Editor<HelmType>): Atom<HelmType> | null {
+  getCurrentAtom(jsd: HelmEditor): HelmAtom | null {
     return JSDraw2.Atom.cast(jsd.curObject);
   }
 
@@ -179,7 +181,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @function scaleCanvas
    * @param {JSDraw2.Editor} jsd - JSDraw Editor
    */
-  scaleCanvas(jsd: Editor<HelmType>) {
+  scaleCanvas(jsd: HelmEditor): void {
     const scale = JSDraw2.Editor.BONDLENGTH / jsd.bondlength;
     if (JSDraw2.Editor.BONDLENGTH / jsd.bondlength > 1)
       jsd.scale(JSDraw2.Editor.BONDLENGTH / jsd.bondlength);
@@ -195,11 +197,14 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {number} linewidth
    * @param {string} color
    */
-  drawMonomer(surface: SVGSVGElement, a: Atom<HelmType>, p: Point, fontsize: number, linewidth: number, color: any,
+  drawMonomer(surface: any, a: Atom<HelmType>, p: Point, drawOpts: IHelmDrawOptions, color: any,
     drawStep: DrawStep
   ): void {
     if (a.hidden)
       return;
+
+    const fontsize: number = drawOpts.fontsize;
+    const linewidth: number = drawOpts.linewidth;
 
     color = null;
     const biotype = a.biotype();
@@ -244,8 +249,7 @@ export class Interface implements IOrgInterface<HelmType> {
         JSDraw2.Drawer.drawRect(surface, rect, selColor, selLW * 2, linewidth * 5).setFill(c.backgroundcolor);
       else if (biotype == org.helm.webeditor.HELM.NUCLEOTIDE)
         JSDraw2.Drawer.drawPentagon(surface, rect, selColor, selLW).setFill(c.backgroundcolor);
-    } else (DrawSteps.main === drawStep);
-    {
+    } else if (DrawSteps.main === drawStep) {
       if (biotype == org.helm.webeditor.HELM.LINKER)
         JSDraw2.Drawer.drawEllipse(surface, rect, c.linecolor, lw).setFill(c.backgroundcolor);
       else if (biotype == org.helm.webeditor.HELM.SUGAR)
@@ -270,7 +274,11 @@ export class Interface implements IOrgInterface<HelmType> {
     if ((a.bio!.id as number) > 0) {
       const p1 = p.clone();
       p1.offset(-fontsize * 1.2, -fontsize * 1.2);
-      JSDraw2.Drawer.drawLabel(surface, p1, a.bio!.id as string, "#00FF00", fontsize, null, null, null, false);
+      if (drawOpts.monomerNumbering == null || drawOpts.monomerNumbering === MonomerNumberingTypes.default) {
+        JSDraw2.Drawer.drawLabel(surface, p1, a.bio!.id as string, "#00FF00", drawOpts.fontsize, null, null, null, false);
+      } else if (drawOpts.monomerNumbering === MonomerNumberingTypes.continuous) {
+        JSDraw2.Drawer.drawLabel(surface, p1, a.bio!.continuousId as string, "#00FF00", drawOpts.fontsize, null, null, null, false);
+      }
     }
     if (!scil.Utils.isNullOrEmpty(a.bio!.annotation)) {
       const p1 = p.clone();
@@ -355,7 +363,7 @@ export class Interface implements IOrgInterface<HelmType> {
    * @param {Event} e - Javascript event
    * @param {bool} viewonly - indicate if this is viewonly mode
    */
-  onContextMenu(ed: Editor<HelmType>, e: Event, viewonly: boolean): any[] {
+  onContextMenu(ed: HelmEditor, e: Event, viewonly: boolean): any[] {
     const items = [];
 
     if (ed.options.helmtoolbar) {

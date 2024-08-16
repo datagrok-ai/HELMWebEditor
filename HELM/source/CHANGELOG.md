@@ -1,5 +1,9 @@
 # HELMWebEditor changelog
 
+## 1.1.8 (2024-08-16)
+
+* Add option for continuous numbering, typing
+
 ## 1.1.7 (2024-08-12)
 
 * Typing
