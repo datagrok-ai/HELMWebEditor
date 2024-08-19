@@ -386,7 +386,8 @@ export class App {
       inktools: false, width: width, height: height, ondatachange: function() { me.updateProperties(); },
       onselectionchanged: function() { me.onselectionchanged(); },
       onselectcurrent: function(e, obj, ed) { me.onselectcurrent(e, obj, ed); },
-      onvalidatetext: function(s, editor) { return me.onvalidatetext(s, editor); }
+      onvalidatetext: function(s, editor) { return me.onvalidatetext(s, editor); },
+      ondatachange: function(args: any[]) { me.updateProperties(); },
     };
 
     this.canvas = org.helm.webeditor.Interface.createCanvas(div, args);

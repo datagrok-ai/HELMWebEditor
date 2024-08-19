@@ -1,5 +1,9 @@
 # HELMWebEditor changelog
 
+## 1.1.9 (2024-08-19)
+
+* Fix fill-in Helm tab while default
+
 ## 1.1.8 (2024-08-16)
 
 * Add option for continuous numbering, typing
