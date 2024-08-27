@@ -1,5 +1,9 @@
 # HELMWebEditor changelog
 
+## 1.1.10 (2024-08-27)
+
+Public Mol.name attribute (bump JSDraw dependency version)
+
 ## 1.1.9 (2024-08-19)
 
 * Fix fill-in Helm tab while default

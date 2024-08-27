@@ -111,8 +111,6 @@ export class IO {
     };
     this.getHelm2(m, highlightselection, ret);
 
-    const t = typeof ret;
-
     for (const k in ret.chains) {
       const chain = ret.chains[k];
       const a = chain[0];
@@ -343,7 +341,7 @@ export class IO {
     return true;
   }
 
-  getHelmString(ret, highlightselection) {
+  getHelmString(ret: HelmParseRetType, highlightselection) {
     let s = "";
     const keys = [];
     for (const k in ret.sequences)
@@ -365,7 +363,7 @@ export class IO {
     s += "$";
     const groups = [];
     for (let i = 0; i < ret.connections.length; ++i) {
-      const c = ret.connections[i];
+      const c: HelmParseConnectionType = ret.connections[i];
       s += (++count > 1 ? "|" : "") + this.renderConnection(ret, c);
       if ((c.ratio1 > 0 || c.ratio1 == "?") && (c.ratio2 > 0 || c.ratio1 == "?")) {
         const s2 = c.c1 + ":" + c.ratio1 + "+" + c.c2 + ":" + c.ratio2;
