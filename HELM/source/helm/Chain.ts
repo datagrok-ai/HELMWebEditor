@@ -709,18 +709,20 @@ class ChainInt {
 
     if (this.isCircle()) {
       const b = this.bonds[this.bonds.length - 1];
-      // RNA1,RNA1,1:R1-21:R2
-      let conn;
-      if (this.atoms[0] == b.a1)
-        conn = b.a1._aaid + ":R" + b.r1 + "-" + b.a2._aaid + ":R" + b.r2;
-      else
-        conn = b.a2._aaid + ":R" + b.r2 + "-" + b.a1._aaid + ":R" + b.r1;
+      // // RNA1,RNA1,1:R1-21:R2
+      // let conn;
+      // if (this.atoms[0] == b.a1)
+      //   conn = b.a1._aaid + ":R" + b.r1 + "-" + b.a2._aaid + ":R" + b.r2;
+      // else
+      //   conn = b.a2._aaid + ":R" + b.r2 + "-" + b.a1._aaid + ":R" + b.r1;
+      //
+      // let tag = "";
+      // if (!scil.Utils.isNullOrEmpty(b.tag))
+      //   tag = '\"' + b.tag.replace(/"/g, "\\\"") + '\"';
+      //
+      // ret.connections.push(firstseqid + "," + lastseqid + "," + conn);
 
-      let tag = "";
-      if (!scil.Utils.isNullOrEmpty(b.tag))
-        tag = '\"' + b.tag.replace(/"/g, "\\\"") + '\"';
-
-      ret.connections.push(firstseqid + "," + lastseqid + "," + conn);
+      org.helm.webeditor.IO.addConnection(ret, firstseqid, lastseqid, b.a1, b.a2, b.r1, b.r2, null, null, b.tag, highlightselection && b.selected);
     }
   }
 

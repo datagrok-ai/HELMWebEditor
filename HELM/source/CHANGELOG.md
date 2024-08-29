@@ -1,5 +1,9 @@
 # HELMWebEditor changelog
 
+## 1.1.11 (2024-08-29)
+
+Fix Chain getHelm for cyclic
+
 ## 1.1.10 (2024-08-27)
 
 Public Mol.name attribute (bump JSDraw dependency version)
