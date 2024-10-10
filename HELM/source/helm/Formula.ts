@@ -23,9 +23,8 @@
  *******************************************************************************/
 
 
-import type {HelmAtom, HelmBracket, HelmMol, OrgType} from '../src/types/org-helm';
+import type {HelmAtom, HelmBracket, HelmMol, IWebEditorMonomer, OrgType} from '../src/types/org-helm';
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
-import type {HelmType, IWebEditorMonomer} from '@datagrok-libraries/js-draw-lite/src/types/org';
 
 declare const scil: ScilModuleType;
 declare const JSDraw2: JSDraw2ModuleType;
@@ -146,14 +145,14 @@ export class Formula {
       return stats;
 
     for (let i = 0; i < list.length; ++i)
-      this.countMonomer(stats, scil.helm.Monomers.getMonomer(list[i])!);
+      this.countMonomer(stats, org.helm.webeditor.Monomers.getMonomer(list[i])!);
 
     for (let i = 0; i < m.bonds.length; ++i) {
       const b = m.bonds[i];
       if (scil.helm.isHelmNode(b.a1))
-        this.deductR(stats, scil.helm.Monomers.getMonomer(b.a1)!, b.r1 as number);
+        this.deductR(stats, org.helm.webeditor.Monomers.getMonomer(b.a1)!, b.r1 as number);
       if (scil.helm.isHelmNode(b.a2))
-        this.deductR(stats, scil.helm.Monomers.getMonomer(b.a2)!, b.r2 as number);
+        this.deductR(stats, org.helm.webeditor.Monomers.getMonomer(b.a2)!, b.r2 as number);
     }
 
     return stats;

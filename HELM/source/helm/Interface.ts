@@ -25,7 +25,7 @@
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
 import type {HelmType, IOrgInterface} from '@datagrok-libraries/js-draw-lite/src/types/org';
 import type {
-  HelmAtom, HelmEditor, HelmMol, IHelmDrawOptions, OrgType
+  HelmAtom, HelmEditor, HelmMol, IHelmDrawOptions, IHelmEditorOptions, IMonomerColors, OrgType
 } from '../src/types/org-helm';
 
 import type {Editor} from '@datagrok-libraries/js-draw-lite/src/JSDraw.Editor';
@@ -58,15 +58,15 @@ export interface ToolbarButtonDescType {
  * Interface class
  * @class org.helm.webeditor.Interface
  */
-export class Interface implements IOrgInterface<HelmType, IHelmDrawOptions> {
+export class Interface implements IOrgInterface<HelmType, IHelmEditorOptions> {
   /**
    * Create the canvas
    * @function createCanvas
    * @param {DOM} div
    * @param {dict} args - check <a href='http://www.scilligence.com/sdk/jsdraw/logical/scilligence/JSDraw2/Editor.html'>JSDraw SDK</a>
    */
-  createCanvas(div: HTMLDivElement, args: Partial<IEditorOptions<IHelmDrawOptions>>): HelmEditor {
-    return new JSDraw2.Editor<HelmType, IHelmDrawOptions>(div, args);
+  createCanvas(div: HTMLDivElement, args: Partial<IEditorOptions>): HelmEditor {
+    return new JSDraw2.Editor<HelmType, IHelmEditorOptions>(div, args);
   }
 
   /**
@@ -207,8 +207,10 @@ export class Interface implements IOrgInterface<HelmType, IHelmDrawOptions> {
     const linewidth: number = drawOpts.linewidth;
 
     color = null;
-    const biotype = a.biotype();
-    const c = scil.Utils.isNullOrEmpty(color) ? org.helm.webeditor.Monomers.getColor(a) : color;
+    const biotype: HelmType = a.biotype()!;
+    const c: IMonomerColors = !scil.Utils.isNullOrEmpty(color) ? color :
+      drawOpts.getMonomer ? drawOpts.getMonomer(biotype, a.elem) :
+        org.helm.webeditor.Monomers.getColor(a);
     const w = fontsize * org.helm.webeditor.atomscale;
     const lw = linewidth / 2; //(c.nature ? 1 : 2);
 

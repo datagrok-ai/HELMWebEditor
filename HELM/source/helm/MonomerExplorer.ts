@@ -25,18 +25,16 @@
 import type {DojoType} from '@datagrok-libraries/js-draw-lite/src/types/dojo';
 
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
-import type {HelmEditor, HweHelmType, IExplorerMonomer, IMonomerExplorerOptions, OrgType} from '../src/types/org-helm';
-import type {HelmType, HelmTypes, IOrgMonomer, IWebEditorMonomer} from '@datagrok-libraries/js-draw-lite/src/types/org';
+import type {HelmType, HelmTypes, IOrgMonomer} from '@datagrok-libraries/js-draw-lite/src/types/org';
+import type {HelmEditor, HweHelmType, IExplorerMonomer, IMonomerExplorerOptions, IWebEditorMonomer, OrgType} from '../src/types/org-helm';
 import type {StyleType} from '@datagrok-libraries/js-draw-lite/src/types/common';
 import type {IDnD} from '@datagrok-libraries/js-draw-lite/src/types/scil';
-import type {Editor} from '@datagrok-libraries/js-draw-lite/src/JSDraw.Editor';
 import type {TabDescType, Tabs} from '@datagrok-libraries/js-draw-lite/form/Tab';
 
 declare const dojo: DojoType;
 declare const scil: ScilModuleType;
 declare const org: OrgType;
 declare const JSDraw2: JSDraw2ModuleType;
-declare let JSDrawServices: any;
 
 /**
  * MonomerExplorer class

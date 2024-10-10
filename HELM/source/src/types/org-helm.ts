@@ -1,5 +1,5 @@
 import type {
-  HelmType, IOrgMonomer, IOrgMonomers, IWebEditorMonomer, MonomerSetType, PolymerType,
+  HelmType, IMonomer, IOrgMonomer, IOrgMonomers, MonomerSetType, PolymerType,
 } from '@datagrok-libraries/js-draw-lite/src/types/org';
 
 export type HelmAtom = Atom<HelmType>;
@@ -8,7 +8,7 @@ export type HelmMol = Mol<HelmType>;
 export type HelmGroup = Group<HelmType>;
 export type HelmBracket = Bracket<HelmType>;
 
-export type HelmEditor = Editor<HelmType, IHelmDrawOptions>;
+export type HelmEditor = Editor<HelmType, IHelmEditorOptions>;
 
 export type HelmString = string;
 
@@ -17,6 +17,15 @@ export type IMolFindResType = {
   a0: Atom<HelmType>,
   a1: Atom<HelmType>,
 }
+
+export interface IMonomerColors {
+  linecolor: string;
+  backgroundcolor: string;
+  textcolor: string;
+  nature?: string;
+}
+
+export interface IWebEditorMonomer extends IMonomer, Partial<IMonomerColors> {}
 
 export const enum MonomerNumberingTypes {
   default,
@@ -228,23 +237,6 @@ export interface IConnection2 {
 
 export type RNote = string;
 
-export interface IPlugin {
-  jsd: IMolHandler<HelmType>;
-
-  // TODO: jsd: any
-  new(jsd: IMolHandler<HelmType>): IPlugin;
-
-  addNode(p: Point, biotype: HelmType, elem: string): Atom<HelmType>;
-  addBond(a1: Atom<HelmType>, a2: Atom<HelmType>, r1: number, r2: number): Bond<HelmType>;
-
-  groupExpand(a: Atom<HelmType>): void;
-  addHydrogenBond(a1: Atom<HelmType>, a2: Atom<HelmType>): void;
-}
-
-export interface IHelmMonomer {
-
-}
-
 export interface IAnnotation {
   tag: string;
   repeat: string;
@@ -319,9 +311,14 @@ export type HweHelmType = HelmType | 'nucleotide';
 
 export interface IHelmDrawOptions extends IDrawOptions {
   monomerNumbering: MonomerNumberingType;
+  getMonomer: GetMonomerFunc | undefined;
 }
 
-export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType, IHelmDrawOptions>, 'Interface' | 'Plugin' | 'Monomers' | 'Formula'> {
+export interface IHelmEditorOptions extends IEditorOptions {
+  drawOptions: Partial<IHelmDrawOptions>;
+}
+
+export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType, IHelmEditorOptions>, 'Interface' | 'Plugin' | 'Monomers' | 'Formula'> {
   ambiguity: boolean;
   kCaseSensitive: boolean;
   defaultbondratio: number;

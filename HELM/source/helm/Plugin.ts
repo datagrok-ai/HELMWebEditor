@@ -31,7 +31,7 @@ import type {Point} from '@datagrok-libraries/js-draw-lite/src/Point';
 import type {IOrgPlugin} from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
 import type {IMolHandler} from '@datagrok-libraries/js-draw-lite/src/types/mol-handler';
 
-import type {HelmAtom, HelmBond, HelmEditor, IHelmDrawOptions} from '../src/types/org-helm';
+import type {HelmAtom, HelmBond, HelmEditor, IHelmEditorOptions, IHelmDrawOptions} from '../src/types/org-helm';
 import type {MonomerExplorer} from './MonomerExplorer';
 
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
@@ -63,9 +63,14 @@ export class Plugin implements IOrgPlugin<HelmType, IHelmDrawOptions> {
    * @constructor Plugin
    * @param {JSDraw2.Editor} jsd - The JSDraw canvas
    **/
-  constructor(jsd: IMolHandler<HelmType>) {
+  constructor(jsd: IMolHandler<HelmType, IHelmEditorOptions>) {
     this.jsd = jsd;
     this.monomerexplorer = null;
+  }
+
+  private getMonomer(a: HelmAtom | HelmType, name?: string) {
+    return this.jsd.options.getMonomer ? this.jsd.options.getMonomer(a, name) :
+      org.helm.webeditor.Monomers.getMonomer(a, name);
   }
 
   /**
@@ -100,7 +105,7 @@ export class Plugin implements IOrgPlugin<HelmType, IHelmDrawOptions> {
     if (a.bio == null) // not bio
       return [];
 
-    const m = org.helm.webeditor.Monomers.getMonomer(a);
+    const m = this.getMonomer(a);
     if (m == null)
       return null;
 
@@ -418,7 +423,7 @@ export class Plugin implements IOrgPlugin<HelmType, IHelmDrawOptions> {
   }
 
   setNodeType(a, biotype, elem) {
-    const mon = org.helm.webeditor.Monomers.getMonomer(biotype, elem);
+    const mon = this.getMonomer(biotype, elem);
     let id;
     if (mon != null) {
       id = a.bio == null ? null : a.bio.id;
@@ -749,13 +754,13 @@ export class Plugin implements IOrgPlugin<HelmType, IHelmDrawOptions> {
   addNode(p: Point, biotype: HelmType, elem: string): HelmAtom | null {
     elem = org.helm.webeditor.IO.trimBracket(elem);
 
-    let m = org.helm.webeditor.Monomers.getMonomer(biotype, elem);
+    let m = this.getMonomer(biotype, elem);
     if (m == null)
       m = org.helm.webeditor.Monomers.addSmilesMonomer(biotype, elem);
 
     let ambiguity = null;
     if (m == null && org.helm.webeditor.isAmbiguous(elem, biotype)) {
-      m = org.helm.webeditor.Monomers.getMonomer(biotype, "?");
+      m = this.getMonomer(biotype, "?");
       ambiguity = elem;
     }
 
@@ -989,8 +994,8 @@ export class Plugin implements IOrgPlugin<HelmType, IHelmDrawOptions> {
     this.chooseRDlg.form.fields.r1.disabled = rs1.length <= 1;
     this.chooseRDlg.form.fields.r2.disabled = rs2.length <= 1;
 
-    const m1 = org.helm.webeditor.Monomers.getMonomer(a1);
-    const m2 = org.helm.webeditor.Monomers.getMonomer(a2);
+    const m1 = this.getMonomer(a1);
+    const m2 = this.getMonomer(a2);
     this.chooseRDlg.form.fields.s1.jsd.setMolfile(org.helm.webeditor.Monomers.getMolfile(m1));
     this.chooseRDlg.form.fields.s2.jsd.setMolfile(org.helm.webeditor.Monomers.getMolfile(m2));
 

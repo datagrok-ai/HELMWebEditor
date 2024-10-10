@@ -1,10 +1,10 @@
 {
   "name": "@datagrok-libraries/helm-web-editor",
   "friendlyName": "HELMWebEditor",
-  "version": "1.1.11",
+  "version": "1.1.12",
   "description": "HELMWebEditor forked from Pistoia Alliance",
   "dependencies": {
-    "@datagrok-libraries/js-draw-lite": "^0.0.8"
+    "@datagrok-libraries/js-draw-lite": "^0.0.9"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
