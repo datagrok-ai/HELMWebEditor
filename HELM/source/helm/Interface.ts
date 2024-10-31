@@ -25,7 +25,7 @@
 import type {JSDraw2ModuleType, ScilModuleType} from '@datagrok-libraries/js-draw-lite/src/types';
 import type {HelmType, IOrgInterface} from '@datagrok-libraries/js-draw-lite/src/types/org';
 import type {
-  HelmAtom, HelmEditor, HelmMol, IHelmDrawOptions, IHelmEditorOptions, IMonomerColors, OrgType
+  HelmAtom, HelmBond, HelmEditor, HelmMol, IHelmBio, IHelmDrawOptions, IHelmEditorOptions, IMonomerColors, OrgType
 } from '../src/types/org-helm';
 
 import type {Editor} from '@datagrok-libraries/js-draw-lite/src/JSDraw.Editor';
@@ -58,7 +58,7 @@ export interface ToolbarButtonDescType {
  * Interface class
  * @class org.helm.webeditor.Interface
  */
-export class Interface implements IOrgInterface<HelmType, IHelmEditorOptions> {
+export class Interface implements IOrgInterface<HelmType, IHelmBio, IHelmEditorOptions> {
   /**
    * Create the canvas
    * @function createCanvas
@@ -66,7 +66,7 @@ export class Interface implements IOrgInterface<HelmType, IHelmEditorOptions> {
    * @param {dict} args - check <a href='http://www.scilligence.com/sdk/jsdraw/logical/scilligence/JSDraw2/Editor.html'>JSDraw SDK</a>
    */
   createCanvas(div: HTMLDivElement, args: Partial<IEditorOptions>): HelmEditor {
-    return new JSDraw2.Editor<HelmType, IHelmEditorOptions>(div, args);
+    return new JSDraw2.Editor<HelmType, IHelmBio, IHelmEditorOptions>(div, args);
   }
 
   /**
@@ -74,8 +74,8 @@ export class Interface implements IOrgInterface<HelmType, IHelmEditorOptions> {
    * @function createMol
    * @param {string} molfile
    */
-  createMol(molfile: string): Mol<HelmType> {
-    const m = new JSDraw2.Mol();
+  createMol(molfile: string): HelmMol {
+    const m = new JSDraw2.Mol<HelmType, IHelmBio>();
     m.setMolfile(molfile);
     return m;
   }
@@ -109,7 +109,7 @@ export class Interface implements IOrgInterface<HelmType, IHelmEditorOptions> {
    * @param {JSDraw2.Point} p - the coordinate
    */
   createAtom(m: HelmMol, p: Point): HelmAtom | null {
-    return m.addAtom(new JSDraw2.Atom<HelmType>(p));
+    return m.addAtom(new JSDraw2.Atom<HelmType, IHelmBio>(p));
   }
 
   /**
@@ -119,8 +119,8 @@ export class Interface implements IOrgInterface<HelmType, IHelmEditorOptions> {
    * @param {JSDraw2.Atom} a1
    * @param {JSDraw2.Atom} a2
    */
-  createBond(m: Mol<HelmType>, a1: Atom<HelmType>, a2: Atom<HelmType>, bondtype?: BondType): Bond<HelmType> | null {
-    return m.addBond(new JSDraw2.Bond<HelmType>(a1, a2, bondtype == null ? JSDraw2.BONDTYPES.SINGLE : bondtype));
+  createBond(m: HelmMol, a1: HelmAtom, a2: HelmAtom, bondtype?: BondType): HelmBond | null {
+    return m.addBond(new JSDraw2.Bond<HelmType, IHelmBio>(a1, a2, bondtype == null ? JSDraw2.BONDTYPES.SINGLE : bondtype));
   }
 
   /**
@@ -129,7 +129,7 @@ export class Interface implements IOrgInterface<HelmType, IHelmEditorOptions> {
    * @param {JSDraw2.Mol} m
    * @param {array} atoms
    */
-  getAtomStats(m: Mol<HelmType>, atoms: Atom<HelmType>[]) {
+  getAtomStats(m: HelmMol, atoms: HelmAtom[]) {
     const mol = {atoms: atoms, bonds: m.bonds};
     const ret = JSDraw2.FormulaParser.getAtomStats(m);
     return ret == null ? null : ret.elements;
@@ -197,7 +197,7 @@ export class Interface implements IOrgInterface<HelmType, IHelmEditorOptions> {
    * @param {number} linewidth
    * @param {string} color
    */
-  drawMonomer(surface: any, a: Atom<HelmType>, p: Point, drawOpts: IHelmDrawOptions, color: any,
+  drawMonomer(surface: any, a: Atom<HelmType, IHelmBio>, p: Point, drawOpts: IHelmDrawOptions, color: any,
     drawStep: DrawStep
   ): void {
     if (a.hidden)
@@ -208,8 +208,9 @@ export class Interface implements IOrgInterface<HelmType, IHelmEditorOptions> {
 
     color = null;
     const biotype: HelmType = a.biotype()!;
+    // a of type Atom to getMonomer gives drawOpts much more context than HelmType and a.elem.
     const c: IMonomerColors = !scil.Utils.isNullOrEmpty(color) ? color :
-      drawOpts.getMonomer ? drawOpts.getMonomer(biotype, a.elem) :
+      drawOpts.getMonomer ? drawOpts.getMonomer(a) :
         org.helm.webeditor.Monomers.getColor(a);
     const w = fontsize * org.helm.webeditor.atomscale;
     const lw = linewidth / 2; //(c.nature ? 1 : 2);
@@ -279,7 +280,7 @@ export class Interface implements IOrgInterface<HelmType, IHelmEditorOptions> {
       if (drawOpts.monomerNumbering == null || drawOpts.monomerNumbering === MonomerNumberingTypes.default) {
         JSDraw2.Drawer.drawLabel(surface, p1, a.bio!.id as string, "#00FF00", drawOpts.fontsize, null, null, null, false);
       } else if (drawOpts.monomerNumbering === MonomerNumberingTypes.continuous) {
-        JSDraw2.Drawer.drawLabel(surface, p1, a.bio!.continuousId as string, "#00FF00", drawOpts.fontsize, null, null, null, false);
+        JSDraw2.Drawer.drawLabel(surface, p1, String(a.bio!.continuousId), "#00FF00", drawOpts.fontsize, null, null, null, false);
       }
     }
     if (!scil.Utils.isNullOrEmpty(a.bio!.annotation)) {
@@ -392,7 +393,7 @@ export class Interface implements IOrgInterface<HelmType, IHelmEditorOptions> {
           if (items.length > 0)
             items.push("-");
           if (biotype == org.helm.webeditor.HELM.BLOB)
-            items.push({caption: "Blob Type", callback: function(cmd: string, obj: Atom<HelmType>) { ed.helm!.setHelmBlobType(obj, cmd); }, children: org.helm.webeditor.blobtypes});
+            items.push({caption: "Blob Type", callback: function(cmd: string, obj: HelmAtom) { ed.helm!.setHelmBlobType(obj, cmd); }, children: org.helm.webeditor.blobtypes});
           else if (a.group == null)
             items.push({caption: "Create Group", key: "helm_create_group"});
           items.push("-");

@@ -1,5 +1,15 @@
 # HELMWebEditor changelog
 
+## 1.1.13 (2024-10-34)
+
+Add IHelmBio for Atom.bio
+Add generic typing for Atom.bio
+Fix Interface.drawMonomer to get monomer for atom
+
+## 1.1.12 (2024-10-10)
+
+Add overridden getMonomer to Editor.options.drawOptions
+
 ## 1.1.11 (2024-08-29)
 
 Fix Chain getHelm for cyclic

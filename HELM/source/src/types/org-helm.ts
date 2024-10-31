@@ -2,20 +2,25 @@ import type {
   HelmType, IMonomer, IOrgMonomer, IOrgMonomers, MonomerSetType, PolymerType,
 } from '@datagrok-libraries/js-draw-lite/src/types/org';
 
-export type HelmAtom = Atom<HelmType>;
-export type HelmBond = Bond<HelmType>;
-export type HelmMol = Mol<HelmType>;
-export type HelmGroup = Group<HelmType>;
-export type HelmBracket = Bracket<HelmType>;
+export interface IHelmBio extends IBio<HelmType> {
+  /** continuous (outer) position 1-based index*/
+  continuousId: number;
+}
 
-export type HelmEditor = Editor<HelmType, IHelmEditorOptions>;
+export type HelmAtom = Atom<HelmType, IHelmBio>;
+export type HelmBond = Bond<HelmType, IHelmBio>;
+export type HelmMol = Mol<HelmType, IHelmBio>;
+export type HelmGroup = Group<HelmType, IHelmBio>;
+export type HelmBracket = Bracket<HelmType, IHelmBio>;
+
+export type HelmEditor = Editor<HelmType, IHelmBio, IHelmEditorOptions>;
 
 export type HelmString = string;
 
 export type IMolFindResType = {
-  b: Bond<HelmType>,
-  a0: Atom<HelmType>,
-  a1: Atom<HelmType>,
+  b: HelmBond,
+  a0: HelmAtom,
+  a1: HelmAtom,
 }
 
 export interface IMonomerColors {
@@ -38,11 +43,11 @@ export interface IMolViewer {
   molscale: number;
 
   hide(): void;
-  show(e: MouseEvent, type: HelmType, m: any, code: string, ed?: HelmEditor, text?: Atom<HelmType>): void;
-  show2(xy: Point, type: HelmType, m: any, code: string, ed: HelmEditor, a: Atom<HelmType>): void;
+  show(e: MouseEvent, type: HelmType, m: any, code: string, ed?: HelmEditor, text?: HelmAtom): void;
+  show2(xy: Point, type: HelmType, m: any, code: string, ed: HelmEditor, a: HelmAtom): void;
 
-  findR(m: Mol<HelmType>, r: string, a?: HelmAtom): IMolFindResType | null;
-  joinMol(m: Mol<HelmType>, r1: string, src: Mol<HelmType>, r2: string, a1?: any, a2?: any): void;
+  findR(m: HelmMol, r: string, a?: HelmAtom): IMolFindResType | null;
+  joinMol(m: HelmMol, r1: string, src: HelmMol, r2: string, a1?: any, a2?: any): void;
 }
 
 export interface IWebEditorHelm {
@@ -151,7 +156,7 @@ export type MonomersFuncs = {
   getMonomerSet: GetMonomerSetFunc,
 }
 
-export interface IOrgHelmMonomers extends IOrgMonomers<HelmType> {
+export interface IOrgHelmMonomers extends IOrgMonomers<HelmType, IHelmBio> {
   cleanupurl?: string;
 
   sugars: MonomerSetType;
@@ -186,8 +191,8 @@ export interface IOrgHelmMonomers extends IOrgMonomers<HelmType> {
 export type ChainId = string;
 
 export interface ICollection<HelmType> {
-  atoms: Atom<HelmType>[];
-  bonds: Bond<HelmType>[];
+  atoms: HelmAtom[];
+  bonds: HelmBond[];
 }
 
 export interface IConnection {
@@ -287,7 +292,7 @@ import type {Layout} from '../../helm/Layout';
 
 import type {ButtonTypes} from '@datagrok-libraries/js-draw-lite/form/Form';
 import type {TabDescType} from '@datagrok-libraries/js-draw-lite/form/Tab';
-import type {IDrawOptions, IEditorOptions} from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
+import type {IBio, IDrawOptions, IEditorOptions} from '@datagrok-libraries/js-draw-lite/src/types/jsdraw2';
 
 export interface IExplorerMonomer extends IOrgMonomer {
   div: HTMLDivElement;
@@ -318,7 +323,7 @@ export interface IHelmEditorOptions extends IEditorOptions {
   drawOptions: Partial<IHelmDrawOptions>;
 }
 
-export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType, IHelmEditorOptions>, 'Interface' | 'Plugin' | 'Monomers' | 'Formula'> {
+export interface IOrgHelmWebEditor extends Omit<IOrgWebEditor<HelmType, IHelmBio, IHelmEditorOptions>, 'Interface' | 'Plugin' | 'Monomers' | 'Formula'> {
   ambiguity: boolean;
   kCaseSensitive: boolean;
   defaultbondratio: number;
