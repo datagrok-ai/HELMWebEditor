@@ -2551,7 +2551,7 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             return;
         }
 
-        if (n > 0) {
+        if (n > 0 && !this.noDraw) {
             this.clean();
             this.jsd.fitToWindow();
             this.jsd.refresh();

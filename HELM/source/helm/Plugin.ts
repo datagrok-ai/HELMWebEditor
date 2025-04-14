@@ -58,6 +58,7 @@ export class Plugin implements IOrgPlugin<HelmType, IHelmDrawOptions> {
   private monomerexplorer: MonomerExplorer | null;
   private atomPropDlg: any;
   private bondPropDlg: any;
+  public noDraw: boolean = false;
 
   /**
    * @constructor Plugin
@@ -1221,7 +1222,7 @@ export class Plugin implements IOrgPlugin<HelmType, IHelmDrawOptions> {
       return;
     }
 
-    if (n > 0) {
+    if (n > 0 && !this.noDraw) {
       this.clean();
       this.jsd.fitToWindow();
       this.jsd.refresh();
