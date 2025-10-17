@@ -1,20 +1,20 @@
 ﻿/*******************************************************************************
 * Copyright (C)2018, The Pistoia Alliance
 *  Version 1.1.0.2018--03-13
-* 
+*
 * Created by Scilligence, built on JSDraw.Lite
-* 
+*
 * Permission is hereby granted, free of charge, to any person obtaining
 * a copy of this software and associated documentation files (the
 * "Software"), to deal in the Software without restriction, including
 * without limitation the rights to use, copy, modify, merge, publish,
 * distribute, sublicense, and/or sell copies of the Software, and to
-* permit persons to whom the Software is furnished to do so, subject to the 
+* permit persons to whom the Software is furnished to do so, subject to the
 * following conditions:
-* 
+*
 * The above copyright notice and this permission notice shall be
 * included in all copies or substantial portions of the Software.
-* 
+*
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -25,11 +25,11 @@
 *******************************************************************************/
 
 // https://github.com/PistoiaHELM/HELMEditor/blob/master/resources/conf/DefaultMonomerCategorizationTemplate.xml
-// 
+//
 
 /**
 @project HELM Web Editor
-@version 1.1.2
+@version 1.1.4
 @description HELM Web Editor built on JSDraw.Lite
 */
 
@@ -50,7 +50,7 @@ if (org.helm == null)
     org.helm = {};
 
 org.helm.webeditor = {
-    kVersion: "1.1.2",
+    kVersion: "1.1.4",
     atomscale: 2,
     bondscale: 1.6,
     allowHeadToHeadConnection: true,
@@ -146,268 +146,301 @@ org.helm.webeditor = {
 };
 
 scil.helm = org.helm.webeditor;
-﻿/*******************************************************************************
-* Copyright (C) 2018, The Pistoia Alliance
-* Created by Scilligence, built on JSDraw.Lite
-* 
-* Permission is hereby granted, free of charge, to any person obtaining
-* a copy of this software and associated documentation files (the
-* "Software"), to deal in the Software without restriction, including
-* without limitation the rights to use, copy, modify, merge, publish,
-* distribute, sublicense, and/or sell copies of the Software, and to
-* permit persons to whom the Software is furnished to do so, subject to the 
-* following conditions:
-* 
-* The above copyright notice and this permission notice shall be
-* included in all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*******************************************************************************/
-
+/*******************************************************************************
+ * Copyright (C) 2018, The Pistoia Alliance
+ * Created by Scilligence, built on JSDraw.Lite
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the
+ * following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *******************************************************************************/
 /**
-* Interface class
-* @class org.helm.webeditor.Interface
-*/
-org.helm.webeditor.Interface = {
+ * Interface class
+ * @class org.helm.webeditor.Interface
+ */
+export class Interface {
     /**
-    * Create the canvas
-    * @function createCanvas
-    * @param {DOM} div
-    * @param {dict} args - check <a href='http://www.scilligence.com/sdk/jsdraw/logical/scilligence/JSDraw2/Editor.html'>JSDraw SDK</a>
-    */
-    createCanvas: function (div, args) {
+     * Create the canvas
+     * @function createCanvas
+     * @param {DOM} div
+     * @param {dict} args - check <a href='http://www.scilligence.com/sdk/jsdraw/logical/scilligence/JSDraw2/Editor.html'>JSDraw SDK</a>
+     */
+    createCanvas(div, args) {
         return new JSDraw2.Editor(div, args);
-    },
-
+    }
     /**
-    * Create a molecule object
-    * @function createMol
-    * @param {string} molfile
-    */
-    createMol: function (molfile) {
-        var m = new JSDraw2.Mol();
+     * Create a molecule object
+     * @function createMol
+     * @param {string} molfile
+     */
+    createMol(molfile) {
+        const m = new JSDraw2.Mol();
         m.setMolfile(molfile);
         return m;
-    },
-
+    }
     /**
-    * Create a point
-    * @function createPoint
-    * @param {number} x
-    * @param {number} y
-    */
-    createPoint: function (x, y) {
+     * Create a point
+     * @function createPoint
+     * @param {number} x
+     * @param {number} y
+     */
+    createPoint(x, y) {
         return new JSDraw2.Point(x, y);
-    },
-
+    }
     /**
-    * Create a rectangle object
-    * @function createRect
-    * @param {number} l - left
-    * @param {number} t - top
-    * @param {number} w - width
-    * @param {number} h - height
-    */
-    createRect: function (l, t, w, h) {
+     * Create a rectangle object
+     * @function createRect
+     * @param {number} l - left
+     * @param {number} t - top
+     * @param {number} w - width
+     * @param {number} h - height
+     */
+    createRect(l, t, w, h) {
         return new JSDraw2.Rect(l, t, w, h);
-    },
-
+    }
     /**
-    * Create an atom
-    * @function createAtom
-    * @param {JSDraw2.Mol} m
-    * @param {JSDraw2.Point} p - the coordinate
-    */
-    createAtom: function (m, p) {
+     * Create an atom
+     * @function createAtom
+     * @param {JSDraw2.Mol} m
+     * @param {JSDraw2.Point} p - the coordinate
+     */
+    createAtom(m, p) {
         return m.addAtom(new JSDraw2.Atom(p));
-    },
-
+    }
     /**
-    * Create a bond between two atoms
-    * @function createBond
-    * @param {JSDraw2.Mol} m
-    * @param {JSDraw2.Atom} a1
-    * @param {JSDraw2.Atom} a2
-    */
-    createBond: function (m, a1, a2, bondtype) {
-        return m.addBond(new JSDraw2.Bond(a1, a2, bondtype == null ? JSDraw2.BONDTYPES.SINGLE : bondtype));
-    },
-
+     * Create a bond between two atoms
+     * @function createBond
+     * @param {JSDraw2.Mol} m
+     * @param {JSDraw2.Atom} a1
+     * @param {JSDraw2.Atom} a2
+     */
+    createBond(m, a1, a2, bondtype) {
+        return m.addBond(new JSDraw2.Bond(a1, a2, bondtype == null ? 1 /* JSDraw2.BONDTYPES.SINGLE */ : bondtype));
+    }
     /**
-    * Get atom counts
-    * @function getAtomStats
-    * @param {JSDraw2.Mol} m
-    * @param {array} atoms
-    */
-    getAtomStats: function (m, atoms) {
-        var mol = { atoms: atoms, bonds: m.bonds };
-        var ret = JSDraw2.FormulaParser.getAtomStats(m);
+     * Get atom counts
+     * @function getAtomStats
+     * @param {JSDraw2.Mol} m
+     * @param {array} atoms
+     */
+    getAtomStats(m, atoms) {
+        const mol = { atoms: atoms, bonds: m.bonds };
+        const ret = JSDraw2.FormulaParser.getAtomStats(m);
         return ret == null ? null : ret.elements;
-    },
-
+    }
     /**
-    * Test if two molecules are equal
-    * @function molEquals
-    * @param {JSDraw2.Mol} m1
-    * @param {JSDraw2.Mol} m2
-    */
-    molEquals: function (m1, m2) {
-        var mol1 = m1.mol != null ? m1.mol : (m1.mol = this.createMol(scil.helm.Monomers.getMolfile(m1)));
-        var mol2 = m2.mol != null ? m2.mol : (m2.mol = this.createMol(scil.helm.Monomers.getMolfile(m2)));
+     * Test if two molecules are equal
+     * @function molEquals
+     * @param {JSDraw2.Mol} m1
+     * @param {JSDraw2.Mol} m2
+     */
+    molEquals(m1, m2) {
+        const mol1 = m1.mol != null ? m1.mol : (m1.mol = this.createMol(scil.helm.Monomers.getMolfile(m1)));
+        const mol2 = m2.mol != null ? m2.mol : (m2.mol = this.createMol(scil.helm.Monomers.getMolfile(m2)));
         return mol2.fullstructureMatch(mol1);
-    },
-
+    }
     /**
-    * count atoms and bonds to calculate MF and MW
-    * @function molStats
-    * @param {string} molfile
-    */
-    molStats: function (molfile) {
-        var mol = this.createMol(molfile);
+     * count atoms and bonds to calculate MF and MW
+     * @function molStats
+     * @param {string} molfile
+     */
+    molStats(molfile) {
+        const mol = this.createMol(molfile);
         mol.calcHCount();
         return JSDraw2.FormulaParser.getAtomStats(mol).elements;
-    },
-
+    }
     /**
-    * Get element mass
-    * @function getElementMass
-    * @param {string} e - element name
-    */
-    getElementMass: function (e) {
+     * Get element mass
+     * @function getElementMass
+     * @param {string} e - element name
+     */
+    getElementMass(e) {
         return JSDraw2.PT[e].m;
-    },
-
+    }
     /**
-    * Get the current object
-    * @function getCurrentAtom
-    * @param {JSDraw2.Editor} jsd - JSDraw Editor
-    */
-    getCurrentAtom: function (jsd) {
-        return JSDraw2.Atom.cast(jsd.curObject)
-    },
-
+     * Get the current object
+     * @function getCurrentAtom
+     * @param {JSDraw2.Editor} jsd - JSDraw Editor
+     */
+    getCurrentAtom(jsd) {
+        return JSDraw2.Atom.cast(jsd.curObject);
+    }
     /**
-    * Scale the canvas
-    * @function scaleCanvas
-    * @param {JSDraw2.Editor} jsd - JSDraw Editor
-    */
-    scaleCanvas: function (jsd) {
-        var scale = JSDraw2.Editor.BONDLENGTH / jsd.bondlength;
+     * Scale the canvas
+     * @function scaleCanvas
+     * @param {JSDraw2.Editor} jsd - JSDraw Editor
+     */
+    scaleCanvas(jsd) {
+        const scale = JSDraw2.Editor.BONDLENGTH / jsd.bondlength;
         if (JSDraw2.Editor.BONDLENGTH / jsd.bondlength > 1)
             jsd.scale(JSDraw2.Editor.BONDLENGTH / jsd.bondlength);
-    },
-
+    }
     /**
-    * called by the canvas to draw a monomer
-    * @function drawMonomer
-    * @param {SVG} surface
-    * @param {JSDraw2.Atom} a - monomer object
-    * @param {JSDraw2.Point} p - coordinate
-    * @param {number} fontsize
-    * @param {number} linewidth
-    * @param {string} color
-    */
-    drawMonomer: function (surface, a, p, fontsize, linewidth, color) {
+     * called by the canvas to draw a monomer
+     * @function drawMonomer
+     * @param {SVG} surface
+     * @param {JSDraw2.Atom} a - monomer object
+     * @param {JSDraw2.Point} p - coordinate
+     * @param {number} fontsize
+     * @param {number} linewidth
+     * @param {string} color
+     */
+    drawMonomer(surface, a, p, drawOpts, color, drawStep) {
         if (a.hidden)
             return;
-
+        const fontsize = drawOpts.fontsize;
+        const linewidth = drawOpts.linewidth;
         color = null;
-        var biotype = a.biotype();
-        var c = scil.Utils.isNullOrEmpty(color) ? org.helm.webeditor.Monomers.getColor(a) : color;
-        var w = fontsize * org.helm.webeditor.atomscale;
-        var lw = linewidth / 2; //(c.nature ? 1 : 2);
-        if (biotype == org.helm.webeditor.HELM.LINKER)
-            JSDraw2.Drawer.drawEllipse(surface, org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w), c.linecolor, lw).setFill(c.backgroundcolor);
-        else if (biotype == org.helm.webeditor.HELM.SUGAR)
-            JSDraw2.Drawer.drawRect(surface, org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w), c.linecolor, lw, linewidth * 3).setFill(c.backgroundcolor);
-        else if (biotype == org.helm.webeditor.HELM.BASE)
-            JSDraw2.Drawer.drawDiamond(surface, org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w), c.linecolor, lw).setFill(c.backgroundcolor);
-        else if (biotype == org.helm.webeditor.HELM.AA)
-            JSDraw2.Drawer.drawHexgon(surface, org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w), c.linecolor, lw, linewidth * 3).setFill(c.backgroundcolor);
-        else if (biotype == org.helm.webeditor.HELM.CHEM)
-            JSDraw2.Drawer.drawRect(surface, org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w), c.linecolor, lw).setFill(c.backgroundcolor);
-        else if (biotype == org.helm.webeditor.HELM.BLOB)
-            JSDraw2.Drawer.drawRect(surface, org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w), c.linecolor, lw * 2, linewidth * 5).setFill(c.backgroundcolor);
-        else if (biotype == org.helm.webeditor.HELM.NUCLEOTIDE)
-            JSDraw2.Drawer.drawPentagon(surface, org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w), c.linecolor, lw, linewidth * 3).setFill(c.backgroundcolor);
-        var pt = p.clone();
+        const biotype = a.biotype();
+        // a of type Atom to getMonomer gives drawOpts much more context than HelmType and a.elem.
+        const c = !scil.Utils.isNullOrEmpty(color) ? color :
+            drawOpts.getMonomer ? drawOpts.getMonomer(a) :
+                org.helm.webeditor.Monomers.getColor(a);
+        const w = fontsize * org.helm.webeditor.atomscale;
+        const lw = linewidth / 2; //(c.nature ? 1 : 2);
+        const rect = org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w);
+        if (0 /* DrawSteps.highlight */ === drawStep && a.highlighted) {
+            const hlLW = lw + 7;
+            const hlColor = '#FFB2B2';
+            if (biotype == org.helm.webeditor.HELM.LINKER)
+                JSDraw2.Drawer.drawEllipse(surface, rect, hlColor, hlLW).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.SUGAR)
+                JSDraw2.Drawer.drawRect(surface, rect, hlColor, hlLW, linewidth * 3).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.BASE)
+                JSDraw2.Drawer.drawDiamond(surface, rect, hlColor, hlLW).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.AA) {
+                JSDraw2.Drawer.drawHexgon(surface, rect, hlColor, hlLW).setFill(c.backgroundcolor);
+            }
+            else if (biotype == org.helm.webeditor.HELM.CHEM)
+                JSDraw2.Drawer.drawRect(surface, rect, hlColor, hlLW, linewidth * 3).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.BLOB)
+                JSDraw2.Drawer.drawRect(surface, rect, hlColor, hlLW * 2, linewidth * 5).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.NUCLEOTIDE)
+                JSDraw2.Drawer.drawPentagon(surface, rect, hlColor, hlLW).setFill(c.backgroundcolor);
+        }
+        else if (1 /* DrawSteps.select */ === drawStep && a.selected) {
+            const selLW = lw + 9;
+            // const selColor = '#F8F8DD';
+            const selColor = '#FFD29B';
+            const rect = org.helm.webeditor.Interface.createRect(p.x - w / 2, p.y - w / 2, w, w);
+            if (biotype == org.helm.webeditor.HELM.LINKER)
+                JSDraw2.Drawer.drawEllipse(surface, rect, selColor, selLW).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.SUGAR)
+                JSDraw2.Drawer.drawRect(surface, rect, selColor, selLW, linewidth * 3).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.BASE)
+                JSDraw2.Drawer.drawDiamond(surface, rect, selColor, selLW).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.AA) {
+                JSDraw2.Drawer.drawHexgon(surface, rect, selColor, selLW).setFill(c.backgroundcolor);
+            }
+            else if (biotype == org.helm.webeditor.HELM.CHEM)
+                JSDraw2.Drawer.drawRect(surface, rect, selColor, selLW, linewidth * 3).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.BLOB)
+                JSDraw2.Drawer.drawRect(surface, rect, selColor, selLW * 2, linewidth * 5).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.NUCLEOTIDE)
+                JSDraw2.Drawer.drawPentagon(surface, rect, selColor, selLW).setFill(c.backgroundcolor);
+        }
+        else if (2 /* DrawSteps.main */ === drawStep) {
+            if (biotype == org.helm.webeditor.HELM.LINKER)
+                JSDraw2.Drawer.drawEllipse(surface, rect, c.linecolor, lw).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.SUGAR)
+                JSDraw2.Drawer.drawRect(surface, rect, c.linecolor, lw, linewidth * 3).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.BASE)
+                JSDraw2.Drawer.drawDiamond(surface, rect, c.linecolor, lw).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.AA) {
+                JSDraw2.Drawer.drawHexgon(surface, rect, c.linecolor, lw).setFill(c.backgroundcolor);
+            }
+            else if (biotype == org.helm.webeditor.HELM.CHEM)
+                JSDraw2.Drawer.drawRect(surface, rect, c.linecolor, lw, linewidth * 3).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.BLOB)
+                JSDraw2.Drawer.drawRect(surface, rect, c.linecolor, lw * 2, linewidth * 5).setFill(c.backgroundcolor);
+            else if (biotype == org.helm.webeditor.HELM.NUCLEOTIDE)
+                JSDraw2.Drawer.drawPentagon(surface, rect, c.linecolor, lw).setFill(c.backgroundcolor);
+        }
+        if (2 /* DrawSteps.main */ !== drawStep)
+            return;
+        const pt = p.clone();
         p.offset(0, -1);
         JSDraw2.Drawer.drawLabel(surface, p, a.elem, c.textcolor, fontsize * (a.elem.length > 1 ? 2 / a.elem.length : 1.0), null, null, null, false);
-
         if (a.bio.id > 0) {
-            var p1 = p.clone();
+            const p1 = p.clone();
             p1.offset(-fontsize * 1.2, -fontsize * 1.2);
-            JSDraw2.Drawer.drawLabel(surface, p1, a.bio.id, "#00FF00", fontsize, null, null, null, false);
+            if (drawOpts.monomerNumbering == null || drawOpts.monomerNumbering === 0 /* MonomerNumberingTypes.default */) {
+                JSDraw2.Drawer.drawLabel(surface, p1, a.bio.id, "#00FF00", drawOpts.fontsize, null, null, null, false);
+            }
+            else if (drawOpts.monomerNumbering === 1 /* MonomerNumberingTypes.continuous */) {
+                JSDraw2.Drawer.drawLabel(surface, p1, String(a.bio.continuousId), "#00FF00", drawOpts.fontsize, null, null, null, false);
+            }
         }
         if (!scil.Utils.isNullOrEmpty(a.bio.annotation)) {
-            var p1 = p.clone();
-            var s = a.bio.annotation;
+            const p1 = p.clone();
+            const s = a.bio.annotation;
             if (a.bio.annotationshowright) {
-                var c = a.biotype() == org.helm.webeditor.HELM.AA ? 0.7 : 1;
+                const c = a.biotype() == org.helm.webeditor.HELM.AA ? 0.7 : 1;
                 p1.offset(fontsize * c, -fontsize * 1.5);
                 JSDraw2.Drawer.drawLabel(surface, p1, s, "#FFA500", fontsize, null, "start", null, false);
             }
             else {
-                var c = a.biotype() == org.helm.webeditor.HELM.AA ? 1.5 : 1;
+                const c = a.biotype() == org.helm.webeditor.HELM.AA ? 1.5 : 1;
                 p1.offset(-fontsize * c, -fontsize * 1.5);
                 JSDraw2.Drawer.drawLabel(surface, p1, s, "#FFA500", fontsize, null, "end", null, false);
             }
         }
-
         if (!scil.Utils.isNullOrEmpty(a.tag)) {
             var r = fontsize / 2;
             JSDraw2.Drawer.drawEllipse(surface, org.helm.webeditor.Interface.createRect(pt.x + r / 2, pt.y - w / 3 - r / 2, r, r), "white", lw).setFill("red");
         }
-    },
-
-    addToolbar: function (buttons, flat, sub, options) {
-        var sub = [
-                { c: "helm_base", t: "Base", label: "Base" },
-                { c: "helm_sugar", t: "Sugar", label: "Sugar" },
-                { c: "helm_linker", t: "Linker", label: "Linker" },
-                { c: "helm_aa", t: "Peptide", label: "Peptide" },
-                { c: "helm_chem", t: "Chemistry", label: "Chemistry" }
+    }
+    addToolbar(buttons, flat, sub, options) {
+        sub = [
+            { c: "helm_base", t: "Base", label: "Base" },
+            { c: "helm_sugar", t: "Sugar", label: "Sugar" },
+            { c: "helm_linker", t: "Linker", label: "Linker" },
+            { c: "helm_aa", t: "Peptide", label: "Peptide" },
+            { c: "helm_chem", t: "Chemistry", label: "Chemistry" }
         ];
-
-        var main = { c: "helm_nucleotide", t: "Nucleotide", label: "Nucleotide", sub: sub, hidden: true };
+        const main = { c: "helm_nucleotide", t: "Nucleotide", label: "Nucleotide", sub: sub, hidden: true };
         buttons.push(main);
-
         buttons.push({ c: "new", t: "New", label: "New" });
         if (typeof (JSDrawServices) != "undefined" && JSDrawServices.url != null) {
             buttons.push({ c: "open", t: "Load", label: "Load" });
             buttons.push({ c: "save", t: "Save", label: "Save" });
         }
         buttons.push({ c: "|" });
-    },
-
+    }
     /**
-    * called when the canvas is creating toolbar
-    * @function getHelmToolbar
-    * @param {array} buttons
-    * @param {array} filesubmenus
-    * @param {array} selecttools
-    * @param {dict} options
-    */
-    getHelmToolbar: function (buttons, filesubmenus, selecttools, options) {
+     * called when the canvas is creating toolbar
+     * @function getHelmToolbar
+     * @param {array} buttons
+     * @param {array} filesubmenus
+     * @param {array} selecttools
+     * @param {dict} options
+     */
+    getHelmToolbar(buttons, filesubmenus, selecttools, options) {
         this.addToolbar(buttons, true, null, options);
-
         if (org.helm.webeditor.ambiguity) {
             buttons.push({ c: "helm_blob", t: "BLOB", label: "BLOB" });
             buttons.push({ c: "bracket", t: "Bracket", label: "Bracket" });
         }
         buttons.push({ c: "single", t: "Single bond", label: "Single" });
         buttons.push({ c: "|" });
-
         buttons.push({ c: "undo", t: "Undo", label: "Undo" });
         buttons.push({ c: "redo", t: "Redo", label: "Redo" });
         buttons.push({ c: "|" });
-
         buttons.push({ c: "eraser", t: "Eraser", label: "Eraser" });
         buttons.push({ c: "|" });
         buttons.push({ c: "select", t: "Box Selection", label: "Select", sub: selecttools });
@@ -420,26 +453,22 @@ org.helm.webeditor.Interface = {
         buttons.push({ c: "|" });
         buttons.push({ c: "center", t: "Move to center", label: "Center" });
         buttons.push({ c: "moveview", t: "Move/View", label: "Move" });
-    },
-
+    }
     /**
-    * called when the canvas is trying to display context menu
-    * @function onContextMenu
-    * @param {JSDraw2.Editor} ed - JSDraw Editor
-    * @param {Event} e - Javascript event
-    * @param {bool} viewonly - indicate if this is viewonly mode
-    */
-    onContextMenu: function (ed, e, viewonly) {
-        var items = [];
-
-        if (ed.options.toolbarmode == "helm") {
-            var a = JSDraw2.Atom.cast(ed.curObject);
-            var b = JSDraw2.Bond.cast(ed.curObject);
-            var grp = JSDraw2.Group.cast(ed.curObject);
-            if (a != null && a.hidden)
-                a = null;
+     * called when the canvas is trying to display context menu
+     * @function onContextMenu
+     * @param {JSDraw2.Editor} ed - JSDraw Editor
+     * @param {Event} e - Javascript event
+     * @param {bool} viewonly - indicate if this is viewonly mode
+     */
+    onContextMenu(ed, e, viewonly) {
+        const items = [];
+        if (ed.options.helmtoolbar) {
+            const a = JSDraw2.Atom.cast(ed.curObject);
+            const b = JSDraw2.Bond.cast(ed.curObject);
+            const grp = JSDraw2.Group.cast(ed.curObject);
             if (a != null) {
-                var biotype = a.biotype();
+                const biotype = a.biotype();
                 if (biotype == scil.helm.HELM.SUGAR && a.bio != null) {
                     items.push({ caption: "Set as Sense", key: "helm_set_sense" });
                     items.push({ caption: "Set as Antisense", key: "helm_set_antisense" });
@@ -447,13 +476,11 @@ org.helm.webeditor.Interface = {
                     items.push("-");
                     items.push({ caption: "Create Complementary Strand", key: "helm_complementary_strand" });
                 }
-
                 if (a.superatom != null) {
                     if (items.length > 0)
                         items.push("-");
                     items.push({ caption: "Expand" });
                 }
-
                 if (org.helm.webeditor.ambiguity && org.helm.webeditor.isHelmNode(biotype) && a.superatom == null) {
                     if (items.length > 0)
                         items.push("-");
@@ -477,27 +504,26 @@ org.helm.webeditor.Interface = {
             }
         }
         else {
-            var a = JSDraw2.Atom.cast(ed.curObject);
+            const a = JSDraw2.Atom.cast(ed.curObject);
             if (a != null && a.bio == null)
                 items.push({ caption: "R Group", callback: function (cmd, obj) { ed.menuSetAtomType(cmd, obj); }, children: ["R1", "R2", "R3", "R4", "R5"] });
-
             items.push({ caption: "Copy Molfile", key: "copymolfile" });
         }
-
-        var br = JSDraw2.Bracket.cast(ed.curObject);
+        const br = JSDraw2.Bracket.cast(ed.curObject);
         if (br != null)
             items.push({ caption: "Set Subscript", key: "setbracketsubscription" });
-
         if (items.length > 0)
             items.push("-");
-
-        if (ed.options.toolbarmode == "helm")
-            ; //items.push({ caption: "About HELM Web Editor", key: "abouthelm" });
+        if (ed.options.helmtoolbar) {
+            //items.push({ caption: "About HELM Web Editor", key: "abouthelm" });
+        }
         else
             items.push({ caption: "About JSDraw", key: "about" });
         return items;
     }
-};﻿/*******************************************************************************
+}
+org.helm.webeditor.Interface = new Interface();
+//# sourceMappingURL=Interface.js.map﻿/*******************************************************************************
 * Copyright (C) 2018, The Pistoia Alliance
 * Created by Scilligence, built on JSDraw.Lite
 * 
@@ -578,63 +604,111 @@ org.helm.webeditor.MonomerColors = {
         G: "#e2e2e2"
     }
 };
-﻿/*******************************************************************************
-* Copyright (C) 2018, The Pistoia Alliance
-* Created by Scilligence, built on JSDraw.Lite
-* 
-* Permission is hereby granted, free of charge, to any person obtaining
-* a copy of this software and associated documentation files (the
-* "Software"), to deal in the Software without restriction, including
-* without limitation the rights to use, copy, modify, merge, publish,
-* distribute, sublicense, and/or sell copies of the Software, and to
-* permit persons to whom the Software is furnished to do so, subject to the 
-* following conditions:
-* 
-* The above copyright notice and this permission notice shall be
-* included in all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*******************************************************************************/
-
-
+/*******************************************************************************
+ * Copyright (C) 2018, The Pistoia Alliance
+ * Created by Scilligence, built on JSDraw.Lite
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the
+ * following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *******************************************************************************/
 /**
-* Monomers class
-* @class org.helm.webeditor.Monomers
-*/
-org.helm.webeditor.Monomers = {
-    smilesmonomerid: 0,
-    smilesmonomers: {},
-    aliasset: {},
-    defaultmonomers: { HELM_BASE: null, HELM_SUGAR: null, HELM_LINKER: null, HELM_AA: null, HELM_CHEM: null },
-    blobs: { blob: { n: 'Blob', id: "Blob", na: 'B', rs: 0, at: {}, m: '' }, group: { n: 'Group', id: "Group", na: 'G', rs: 0, at: {}, m: ''} },
-
-    /**
-    * Clear monomer database (internal use)
-    * @function clear
-    */
-    clear: function () {
+ * Monomers class
+ * @class org.helm.webeditor.Monomers
+ */
+export class Monomers {
+    constructor() {
+        this.smilesmonomerid = 0;
+        this.smilesmonomers = {};
+        this.aliasset = {};
+        this.defaultmonomers = {
+            HELM_BASE: null, HELM_SUGAR: null, HELM_LINKER: null, HELM_AA: null, HELM_CHEM: null
+        };
+        this.blobs = {
+            blob: { n: 'Blob', id: "Blob", na: 'B', rs: 0, at: {}, m: '' },
+            group: { n: 'Group', id: "Group", na: 'G', rs: 0, at: {}, m: '' }
+        };
         this.sugars = {};
         this.linkers = {};
         this.bases = {};
         this.aas = {};
         this.chems = {};
-    },
-
+        /**
+         * Get a monomer by an object or its name (internal use)
+         * @function getMonomer
+         */
+        this.getMonomer = (a, name) => {
+            if (a == null && name == null)
+                return null;
+            let s;
+            let biotype;
+            if (name == null) {
+                const atom = a;
+                biotype = atom.biotype();
+                s = atom.elem;
+            }
+            else {
+                biotype = a;
+                s = org.helm.webeditor.IO.trimBracket(name);
+            }
+            if (s == "?") {
+                const m = { id: '?', n: "?", na: '?', rs: 2, at: {}, m: "" }; // https://github.com/PistoiaHELM/HELMWebEditor/issues/213
+                if (biotype == org.helm.webeditor.HELM.SUGAR)
+                    m.at.R3 = "H";
+                return m;
+            }
+            if (biotype == org.helm.webeditor.HELM.LINKER && s == "null")
+                return { id: 'null', n: "?", na: '?', rs: 2, at: { R1: 'H', R2: 'H' }, m: "" };
+            let set = this.getMonomerSet(biotype);
+            if (set == null)
+                return null;
+            let m = set[scil.helm.symbolCase(s)];
+            if (m != null)
+                return m;
+            set = this.getAliases(biotype);
+            if (set == null)
+                return null;
+            m = set[scil.helm.symbolCase(s)];
+            if (m != null)
+                return m;
+            return null;
+        };
+        this.clear();
+    }
     /**
-    * Get the default monomer of a given monomer type (internal use)
-    * @function getDefaultMonomer
-    */
-    getDefaultMonomer: function (monomertype) {
-        var r = this.defaultmonomers[monomertype];
+     * Clear monomer database (internal use)
+     * @function clear
+     */
+    clear() {
+        this.sugars = {};
+        this.linkers = {};
+        this.bases = {};
+        this.aas = {};
+        this.chems = {};
+    }
+    /**
+     * Get the default monomer of a given monomer type (internal use)
+     * @function getDefaultMonomer
+     */
+    getDefaultMonomer(monomertype) {
+        const r = this.defaultmonomers[monomertype];
         if (r != null)
             return r;
-
         if (monomertype == org.helm.webeditor.HELM.BASE)
             return this._getFirstKey(org.helm.webeditor.Monomers.bases, "a");
         else if (monomertype == org.helm.webeditor.HELM.SUGAR)
@@ -648,150 +722,128 @@ org.helm.webeditor.Monomers = {
         else if (monomertype == org.helm.webeditor.HELM.BLOB)
             return this._getFirstKey(org.helm.webeditor.Monomers.blobs);
         return "?";
-    },
-
+    }
     /**
-    * Tool function (internal use)
-    * @function _getFirstKey
-    */
-    _getFirstKey: function (set, key1, key2) {
+     * Tool function (internal use)
+     * @function _getFirstKey
+     */
+    _getFirstKey(set, key1, key2) {
         if (key1 != null && set[scil.helm.symbolCase(key1)] != null)
             return set[scil.helm.symbolCase(key1)].id;
         if (key2 != null && set[scil.helm.symbolCase(key2)] != null)
             return set[scil.helm.symbolCase(key2)].id;
-
-        for (var k in set)
+        for (const k in set)
             return k;
         return "?";
-    },
-
+    }
     /**
-    * Save monomers as text database (internal use)
-    * @function saveTextDB
-    */
-    saveTextDB: function (url) {
-        var cols = ["id", "symbol", "name", "naturalanalog", "molfile", "smiles", "polymertype", "monomertype", "r1", "r2", "r3", "r4", "r5", "author", "createddate"];
-        var s = "";
-        var n = { n: 0 };
+     * Save monomers as text database (internal use)
+     * @function saveTextDB
+     */
+    saveTextDB(url) {
+        const cols = ["id", "symbol", "name", "naturalanalog", "molfile", "smiles", "polymertype", "monomertype", "r1", "r2", "r3", "r4", "r5", "author", "createddate"];
+        let s = "";
+        const n = { n: 0 };
         s += this.saveMonomersAsText(this.aas, "PEPTIDE", "Undefined", cols, n);
         s += this.saveMonomersAsText(this.sugars, "RNA", "Backbone", cols, n);
         s += this.saveMonomersAsText(this.linkers, "RNA", "Backbone", cols, n);
         s += this.saveMonomersAsText(this.bases, "RNA", "Branch", cols, n);
         s += this.saveMonomersAsText(this.chems, "CHEM", "Undefined", cols, n);
-
         s = n.n + "\n" + s;
         if (url == null)
             return s;
-
-        var args = { client: "jsdraw", wrapper: "none", filename: "monomers.txt", directsave: 1, contents: s };
+        const args = { client: "jsdraw", wrapper: "none", filename: "monomers.txt", directsave: 1, contents: s };
         scil.Utils.post(url, args, "_blank");
-    },
-
+    }
     /**
-    * Save monomers into xml string (internal use)
-    * @function saveMonomerDB
-    */
-    saveMonomerDB: function (url) {
-        var s = "<MONOMER_DB>\n";
+     * Save monomers into xml string (internal use)
+     * @function saveMonomerDB
+     */
+    saveMonomerDB(url) {
+        let s = "<MONOMER_DB>\n";
         s += "<PolymerList>\n";
-
         s += "<Polymer polymerType='PEPTIDE'>\n";
         s += this.saveMonomers(this.aas, "PEPTIDE", "Undefined");
         s += "</Polymer>\n";
-
         s += "<Polymer polymerType='RNA'>\n";
         s += this.saveMonomers(this.sugars, "RNA", "Backbone");
         s += this.saveMonomers(this.linkers, "RNA", "Backbone");
         s += this.saveMonomers(this.bases, "RNA", "Branch");
         s += "</Polymer>\n";
-
         s += "<Polymer polymerType='CHEM'>\n";
         s += this.saveMonomers(this.chems, "CHEM", "Undefined");
         s += "</Polymer>\n";
-
         s += "</PolymerList>\n";
         s += "</MONOMER_DB>";
-
         if (url == null)
             return s;
-
-        var args = { client: "jsdraw", wrapper: "none", filename: "HELMMonomerDB.xml", directsave: 1, contents: s };
+        const args = { client: "jsdraw", wrapper: "none", filename: "HELMMonomerDB.xml", directsave: 1, contents: s };
         scil.Utils.post(url, args, "_blank");
-    },
-
+    }
     /**
-    * Save all monomers into a text file
-    * @function saveMonomersAsText
-    */
-    saveMonomersAsText: function (set, type, mt, cols, n) {
-        var ret = "";
-        for (var id in set) {
-            var s = this.writeOneAsText({ id: ++n.n, symbol: id, monomertype: mt, polymertype: type, name: set[id].n, naturalanalog: set[id].na, m: set[id] }, cols);
+     * Save all monomers into a text file
+     * @function saveMonomersAsText
+     */
+    saveMonomersAsText(set, type, mt, cols, n) {
+        let ret = "";
+        for (const id in set) {
+            const s = this.writeOneAsText({ id: ++n.n, symbol: id, monomertype: mt, polymertype: type, name: set[id].n, naturalanalog: set[id].na, m: set[id] }, cols);
             ret += JSDraw2.Base64.encode(s) + "\n";
         }
-
         return ret;
-    },
-
+    }
     /**
-    * Save all Monomers into xml 
-    * @function saveMonomers
-    */
-    saveMonomers: function (set, type, mt) {
-        var s = "";
-        for (var id in set)
+     * Save all Monomers into xml
+     * @function saveMonomers
+     */
+    saveMonomers(set, type, mt) {
+        let s = "";
+        for (const id in set)
             s += this.writeOne({ id: id, mt: mt, type: type, m: set[id] });
         return s;
-    },
-
+    }
     /**
-    * Load monomer from a web service
-    * @function loadFromUrl
-    */
-    loadFromUrl: function (url, callback) {
-        var fn = function (xml) {
-            org.helm.webeditor.monomers.loadFromXml(xml);
+     * Load monomer from a web service
+     * @function loadFromUrl
+     */
+    loadFromUrl(url, callback) {
+        const fn = function (xml) {
+            org.helm.webeditor.Monomers.loadFromXml(xml);
             if (callback != null)
                 callback();
         };
         scil.Utils.download(url, fn);
-    },
-
+    }
     /**
-    * Load monomer from xml string 
-    * @function loadFromXml
-    */
-    loadFromXml: function (s) {
-        var doc = scil.Utils.parseXml(s);
+     * Load monomer from xml string
+     * @function loadFromXml
+     */
+    loadFromXml(s) {
+        const doc = scil.Utils.parseXml(s);
         if (doc == null)
             return false;
         this.loadMonomers(doc);
-    },
-
+    }
     /**
-    * Load monomer from json array coming from database
-    * @function loadDB
-    */
-    loadDB: function (list, makeMon, clearall) {
+     * Load monomer from json array coming from database
+     * @function loadDB
+     */
+    loadDB(list, makeMon, clearall) {
         if (clearall != false)
             this.clear();
-
         if (list.length == null && list.list != null)
             list = list.list;
-
-        for (var i = 0; i < list.length; ++i) {
-            var x = list[i];
-
-            var m = null;
+        for (let i = 0; i < list.length; ++i) {
+            const x = list[i];
+            let m = null;
             if (makeMon != null) {
                 m = makeMon(x);
             }
             else {
                 m = { id: x.symbol, n: x.name, na: x.naturalanalog, type: x.polymertype, mt: x.monomertype, m: x.molfile };
-
                 m.at = {};
-                var rs = 0;
-                for (var r = 1; r <= 5; ++r) {
+                let rs = 0;
+                for (let r = 1; r <= 5; ++r) {
                     if (x["r" + r]) {
                         m.at["R" + r] = x["r" + r];
                         ++rs;
@@ -799,34 +851,30 @@ org.helm.webeditor.Monomers = {
                 }
                 m.rs = rs;
             }
-
             this.addOneMonomer(m);
         }
-    },
-
+    }
     /**
-    * Load monomer from XML 
-    * @function loadMonomers
-    */
-    loadMonomers: function (doc, callback) {
-        var list = doc.getElementsByTagName("Monomer");
+     * Load monomer from XML
+     * @function loadMonomers
+     */
+    loadMonomers(doc, callback) {
+        const list = doc.getElementsByTagName("Monomer");
         if (list == null || list.length == 0)
             return false;
-
         if (callback == null) {
-            for (var i = 0; i < list.length; ++i) {
-                var m = this.readOne(list[i]);
+            for (let i = 0; i < list.length; ++i) {
+                const m = this.readOne(list[i]);
                 if (m != null)
                     this.addOneMonomer(m);
             }
             return true;
         }
-
-        var newmonomers = [];
-        var overlapped = [];
-        for (var i = 0; i < list.length; ++i) {
-            var m = this.readOne(list[i]);
-            var old = this.getMonomer(this.helm2Type(m), m.id);
+        const newmonomers = [];
+        const overlapped = [];
+        for (let i = 0; i < list.length; ++i) {
+            const m = this.readOne(list[i]);
+            const old = this.getMonomer(this.helm2Type(m), m.id);
             if (old == null)
                 newmonomers.push(m);
             else {
@@ -834,37 +882,34 @@ org.helm.webeditor.Monomers = {
                     overlapped.push(m);
             }
         }
-
-        var me = this;
+        const me = this;
         this.renameNextMonomer(newmonomers, overlapped, function () {
-            var renamed = [];
-            for (var i = 0; i < newmonomers.length; ++i) {
-                var m = newmonomers[i];
+            const renamed = [];
+            for (let i = 0; i < newmonomers.length; ++i) {
+                const m = newmonomers[i];
                 me.addOneMonomer(m);
                 if (m.oldname != null)
                     renamed.push(m);
             }
             callback(renamed);
         });
-    },
-
+    }
     /**
-    * Rename a monomer (internal use)
-    * @function renameNextMonomer
-    */
-    renameNextMonomer: function (newmonomers, overlapped, callback) {
+     * Rename a monomer (internal use)
+     * @function renameNextMonomer
+     */
+    renameNextMonomer(newmonomers, overlapped, callback) {
         if (overlapped.length == 0) {
             callback();
             return;
         }
-
-        var me = this;
-        var m = overlapped[0];
-
+        const me = this;
+        const m = overlapped[0];
         scil.Utils.prompt2({
             caption: "Duplicate Monomer",
             message: "Monomer name, " + m.id + ", is used. Please enter a new name for it:",
             callback: function (s) {
+                // @ts-ignore
                 if (me.getMonomer(m.type, s) == null) {
                     m.oldname = m.id;
                     m.id = s;
@@ -874,45 +919,44 @@ org.helm.webeditor.Monomers = {
                 me.renameNextMonomer(newmonomers, overlapped, callback);
             }
         });
-    },
-
-    getAliases: function (biotype) {
+    }
+    getAliases(biotype) {
         return null;
-    },
-
+    }
     /**
-    * Get the monomer set by its type (internal use)
-    * @function getMonomerSet
-    */
-    getMonomerSet: function (a) {
+     * Get the monomer set by its type (internal use)
+     * @function getMonomerSet
+     */
+    getMonomerSet(a) {
         if (a == null)
             return null;
-        if (a.T == "ATOM")
-            a = a.biotype();
+        const atom = a;
+        if (atom.T == "ATOM")
+            a = atom.biotype();
         if (a == org.helm.webeditor.HELM.BASE)
-            return org.helm.webeditor.monomers.bases;
+            return org.helm.webeditor.Monomers.bases;
         else if (a == org.helm.webeditor.HELM.SUGAR)
-            return org.helm.webeditor.monomers.sugars;
+            return org.helm.webeditor.Monomers.sugars;
         else if (a == org.helm.webeditor.HELM.LINKER)
-            return org.helm.webeditor.monomers.linkers;
+            return org.helm.webeditor.Monomers.linkers;
         else if (a == org.helm.webeditor.HELM.AA)
-            return org.helm.webeditor.monomers.aas;
+            return org.helm.webeditor.Monomers.aas;
         else if (a == org.helm.webeditor.HELM.CHEM)
-            return org.helm.webeditor.monomers.chems;
+            return org.helm.webeditor.Monomers.chems;
         else if (a == org.helm.webeditor.HELM.BLOB)
-            return org.helm.webeditor.monomers.blobs;
+            return org.helm.webeditor.Monomers.blobs;
         return null;
-    },
-
+    }
     /**
-    * Get all monomer colors (internal use)
-    * @function getMonomerColors
-    */
-    getMonomerColors: function (a) {
+     * Get all monomer colors (internal use)
+     * @function getMonomerColors
+     */
+    getMonomerColors(a) {
         if (a == null)
             return null;
-        if (a.T == "ATOM")
-            a = a.biotype();
+        const atom = a;
+        if (atom.T == "ATOM")
+            a = atom.biotype();
         if (a == org.helm.webeditor.HELM.BASE)
             return org.helm.webeditor.MonomerColors.bases;
         else if (a == org.helm.webeditor.HELM.SUGAR)
@@ -926,141 +970,83 @@ org.helm.webeditor.Monomers = {
         else if (a == org.helm.webeditor.HELM.BLOB)
             return org.helm.webeditor.MonomerColors.blobs;
         return null;
-    },
-
+    }
     /**
-    * Get monomer list of a type (internal use)
-    * @function getMonomerList
-    */
-    getMonomerList: function (a) {
-        var set = this.getMonomerSet(a);
+     * Get monomer list of a type (internal use)
+     * @function getMonomerList
+     */
+    getMonomerList(a) {
+        const set = this.getMonomerSet(a);
         if (set == null)
             return null;
-
-        var ret = [];
-        for (var k in set)
+        const ret = [];
+        for (const k in set)
             ret.push(set[k].id);
-
         return ret;
-    },
-
+    }
     /**
-    * Get a monomer by an object or its name (internal use)
-    * @function getMonomer
-    */
-    getMonomer: function (a, name) {
-        if (a == null && name == null)
-            return null;
-
-        var s;
-        var biotype;
-        if (name == null) {
-            biotype = a.biotype();
-            s = a.elem;
-        }
-        else {
-            biotype = a;
-            s = org.helm.webeditor.IO.trimBracket(name);
-        }
-
-        if (s == "?") {
-            var m = { id: '?', n: "?", na: '?', rs: 2, at: {}, m: "" }; // https://github.com/PistoiaHELM/HELMWebEditor/issues/213
-            if (biotype == org.helm.webeditor.HELM.SUGAR)
-                m.at.R3 = "H";
-            return m;
-        }
-
-        if (biotype == org.helm.webeditor.HELM.LINKER && s == "null")
-            return { id: 'null', n: "?", na: '?', rs: 2, at: { R1: 'H', R2: 'H' }, m: "" };
-
-        var set = this.getMonomerSet(biotype);
-        if (set == null)
-            return null;
-
-        var m = set[scil.helm.symbolCase(s)];
-        if (m != null)
-            return m;
-
-        var set = this.getAliases(biotype);
-        if (set == null)
-            return null;
-
-        var m = set[scil.helm.symbolCase(s)];
-        if (m != null)
-            return m;
-  },
-
-    /**
-    * Check if the monomer have a R group (internal use)
-    * @function hasR
-    */
-    hasR: function (type, name, r) {
-        var m = this.getMonomer(type, name);
+     * Check if the monomer have a R group (internal use)
+     * @function hasR
+     */
+    hasR(type, name, r) {
+        const m = this.getMonomer(type, name);
         return m != null && m.at != null && m.at[r] != null;
-    },
-
+    }
     /**
-    * Get monomer color by a monomer object (internal use)
-    * @function getColor
-    */
-    getColor: function (a) {
-        var m = this.getMonomer(a, a.elem);
+     * Get monomer color by a monomer object (internal use)
+     * @function getColor
+     */
+    getColor(a) {
+        const aa = a;
+        let m = this.getMonomer(aa, aa.elem);
         if (m == null)
             m = {};
-
-        var mc = this.getMonomerColors(a);
+        let mc = this.getMonomerColors(a);
         if (mc == null)
             mc = {};
-        var color = mc[m.na];
-
-        if (m.backgroundcolor == null && a.elem == "?")
+        const color = mc[m.na];
+        if (m.backgroundcolor == null && aa.elem == "?")
             m.backgroundcolor = org.helm.webeditor.MonomerColors.unknown;
-
         return {
             linecolor: m.linecolor == null ? "#000" : m.linecolor,
             backgroundcolor: m.backgroundcolor == null ? (color == null ? "#eee" : color) : m.backgroundcolor,
             textcolor: m.textcolor == null ? "#000" : m.textcolor,
-            nature: m.nature
+            nature: m.nature,
         };
-    },
-
+    }
     /**
-    * Get monomer color by type by name (internal use)
-    * @function getColor2
-    */
-    getColor2: function (type, name) {
-        var m = this.getMonomer(type, name);
+     * Get monomer color by type by name (internal use)
+     * @function getColor2
+     */
+    getColor2(type, name) {
+        let m = this.getMonomer(type, name);
         if (m == null)
             m = {};
-
-        var mc = this.getMonomerColors(type);
+        let mc = this.getMonomerColors(type);
         if (mc == null)
             mc = {};
-        var color = mc[m.na];
-
+        const color = mc[m.na];
         return {
             linecolor: m.linecolor == null ? "#000" : m.linecolor,
             backgroundcolor: m.backgroundcolor == null ? (color == null ? "#eee" : color) : m.backgroundcolor,
             textcolor: m.textcolor == null ? "#000" : m.textcolor,
             nature: m.nature
         };
-    },
-
+    }
     /**
-    * Get the molfile of a monomer (internal use)
-    * @function getMolfile
-    */
-    getMolfile: function (m) {
+     * Get the molfile of a monomer (internal use)
+     * @function getMolfile
+     */
+    getMolfile(m) {
         if (m != null && m.m == null && m.mz != null)
             m.m = org.helm.webeditor.IO.uncompressGz(m.mz);
-        return m == null ? null : m.m;
-    },
-
+        return m == null || !m.m ? null : m.m;
+    }
     /**
-    * Convert XML type to HELM Editor type (internal use)
-    * @function helm2Type
-    */
-    helm2Type: function (m) {
+     * Convert XML type to HELM Editor type (internal use)
+     * @function helm2Type
+     */
+    helm2Type(m) {
         if (m.type == "PEPTIDE")
             return org.helm.webeditor.HELM.AA;
         else if (m.type == "CHEM")
@@ -1076,37 +1062,31 @@ org.helm.webeditor.Monomers = {
             }
         }
         return null;
-    },
-
-    convertAtomMapping2Rs: function (smiles) {
+    }
+    convertAtomMapping2Rs(smiles) {
         if (smiles == null)
             return null;
-
         // represented with atom mapping: CHEM1{[[*:2]C(=O)[C@H](C)N([*:1])CC]}$$$$
-        for (var i = 1; i <= 10; ++i)
+        for (let i = 1; i <= 10; ++i)
             smiles = smiles.replace(new RegExp("\\[\\*\\:" + i + "\\]"), "[R" + i + "]");
         return smiles;
-    },
-
-    addSmilesMonomer: function (type, smiles) {
+    }
+    addSmilesMonomer(type, smiles) {
         smiles = this.convertAtomMapping2Rs(smiles);
-        var ss = this.findSmilesRs(smiles);
+        const ss = this.findSmilesRs(smiles);
         if (ss == null || ss.length == 0)
             return null;
-
         smiles = this.chemAxon2JSDrawSmiles(smiles);
         if (this.smilesmonomers[smiles] != null)
             return this.smilesmonomers[smiles];
-
-        var m = { at: {}, smiles: smiles, issmiles: true };
+        const m = { at: {}, smiles: smiles, issmiles: true };
         m.id = "#" + (++this.smilesmonomerid);
         m.name = "SMILES Monomer #" + this.smilesmonomerid;
-        for (var i = 0; i < ss.length; ++i)
+        for (let i = 0; i < ss.length; ++i)
             m.at[ss[i]] = "H";
         m.rs = ss.length;
-        var set = this.getMonomerSet(type);
+        const set = this.getMonomerSet(type);
         set[scil.helm.symbolCase(m.id)] = m;
-
         if (this.cleanupurl != null) {
             if (this.onMonomerSmiles != null) {
                 this.onMonomerSmiles(m, smiles);
@@ -1118,96 +1098,82 @@ org.helm.webeditor.Monomers = {
                 }, { input: smiles, inputformat: "smiles", outputformat: "mol" });
             }
         }
-
         this.smilesmonomers[smiles] = m;
         return m;
-    },
-
-    chemAxon2JSDrawSmiles: function (smiles) {
+    }
+    chemAxon2JSDrawSmiles(smiles) {
         return smiles;
-    },
-
-    findSmilesRs: function (s) {
+    }
+    findSmilesRs(s) {
         // "C[13C@H](N[*])C([*])=O |$;;;_R1;;_R2;$|"
-
-        var ret = [];
+        const ret = [];
         // JSDraw like Rs
-        for (var i = 1; i <= 10; ++i) {
-            var s2 = s.replace(new RegExp("\\[R" + i + "\\]"), "");
+        for (let i = 1; i <= 10; ++i) {
+            const s2 = s.replace(new RegExp("\\[R" + i + "\\]"), "");
             if (s2.length == s.length)
                 continue;
             s = s2;
             ret.push("R" + i);
         }
-
         if (ret.length == 0) {
             // ChemAxon like Rs
-            for (var i = 1; i <= 10; ++i) {
-                var s2 = s.replace(new RegExp("_R" + i), "");
+            for (let i = 1; i <= 10; ++i) {
+                const s2 = s.replace(new RegExp("_R" + i), "");
                 if (s2.length == s.length)
                     continue;
                 s = s2;
                 ret.push("R" + i);
             }
         }
-
         return ret;
-    },
-
+    }
     /**
-    * add one monomer to HELM Editor (internal use)
-    * @function addOneMonomer
-    */
-    addOneMonomer: function (m) {
-        var set = this.getMonomerSet(this.helm2Type(m));
+     * add one monomer to HELM Editor (internal use)
+     * @function addOneMonomer
+     */
+    addOneMonomer(m) {
+        const set = this.getMonomerSet(this.helm2Type(m));
         if (set == null)
             return false;
-
         delete m.type;
         delete m.mt;
-
         set[scil.helm.symbolCase(m.id)] = m;
         return true;
-    },
-
+    }
     /**
-    * Write one monomer into text file (internal use)
-    * @function writeOneAsText
-    */
-    writeOneAsText: function (m, cols) {
-        var molfile = m.m.mz;
+     * Write one monomer into text file (internal use)
+     * @function writeOneAsText
+     */
+    writeOneAsText(m, cols) {
+        let molfile = m.m.mz;
         if (scil.Utils.isNullOrEmpty(molfile) && m.m.m != null)
             molfile = m.m.m;
-
         m.molfile = molfile;
         if (m.m.at != null) {
-            for (var x in m.m.at)
+            for (const x in m.m.at)
                 m[scil.helm.symbolCase(x)] = m.m.at[x];
         }
-
-        var s = "";
-        for (var i = 0; i < cols.length; ++i) {
+        let s = "";
+        for (let i = 0; i < cols.length; ++i) {
             if (i > 0)
                 s += "|";
-            var k = cols[i];
+            const k = cols[i];
             s += m[k] == null ? "" : m[k];
         }
         return s;
-    },
-
+    }
     /**
-    * Save one monomer into xml (internal use)
-    * @function writeOne
-    */
-    writeOne: function (m) {
-        var molfile = this.getMolfile(m.m);
+     * Save one monomer into xml (internal use)
+     * @function writeOne
+     */
+    writeOne(m) {
+        let molfile = this.getMolfile(m.m);
         if (molfile != null) {
-            var s = org.helm.webeditor.IO.compressGz(molfile); // compress molfile
+            const s = org.helm.webeditor.IO.compressGz(molfile); // compress molfile
             if (s != null)
                 molfile = s;
         }
-
-        var s = "<Monomer>\n";
+        let s = "<Monomer>\n";
         s += "<MonomerID>" + scil.Utils.escXmlValue(m.id) + "</MonomerID>\n";
         s += "<MonomerSmiles>" + scil.Utils.escXmlValue(m.smiles) + "</MonomerSmiles>\n";
         s += "<MonomerMolFile>" + scil.Utils.escXmlValue(molfile) + "</MonomerMolFile>\n";
@@ -1216,8 +1182,8 @@ org.helm.webeditor.Monomers = {
         s += "<PolymerType>" + scil.Utils.escXmlValue(m.type) + "</PolymerType>\n";
         if (m.m.at != null) {
             s += "<Attachments>\n";
-            for (var r in m.m.at) {
-                var cap = m.m.at[r];
+            for (const r in m.m.at) {
+                const cap = m.m.at[r];
                 s += "<Attachment>\n";
                 s += "<AttachmentID>" + r + "-" + cap + "</AttachmentID>\n";
                 s += "<AttachmentLabel>" + r + "</AttachmentLabel>\n";
@@ -1229,204 +1195,188 @@ org.helm.webeditor.Monomers = {
         }
         s += "</Monomer>\n";
         return s;
-    },
-
+    }
     /**
-    * Read one monomer from XML (internal use)
-    * @function readOne
-    */
-    readOne: function (e) {
-        var s = this.readValue(e, "MonomerMolFile");
-        var m = null;
-        var mz = null;
+     * Read one monomer from XML (internal use)
+     * @function readOne
+     */
+    readOne(e) {
+        const s = this.readValue(e, "MonomerMolFile");
+        let m = null;
+        let mz = null;
         if (s != null) {
             if (s.indexOf("M  END") > 0)
                 m = s; // uncompressed molfile
             else
                 mz = s; // compressed molfile
         }
-
-        var m = {
+        const mon = {
             type: this.readValue(e, "PolymerType"),
             mt: this.readValue(e, "MonomerType"),
-            id: this.readValue(e, "MonomerID"),
-            n: this.readValue(e, "MonomerName"),
-            na: this.readValue(e, "NaturalAnalog"),
+            id: this.readValue(e, "MonomerID") ?? undefined,
+            n: this.readValue(e, "MonomerName") ?? undefined,
+            na: this.readValue(e, "NaturalAnalog") ?? undefined,
             mz: mz,
-            m: m,
+            m: m ?? undefined,
             at: {}
         };
-
-        var rs = 0;
-        var list = e.getElementsByTagName("Attachment");
+        let rs = 0;
+        const list = e.getElementsByTagName("Attachment");
         if (list != null) {
-            for (var i = 0; i < list.length; ++i) {
-                var a = list[i];
-                var r = this.readValue(a, "AttachmentLabel");
-                var cap = this.readValue(a, "CapGroupName");
-                if (m.at[r] == null)
+            for (let i = 0; i < list.length; ++i) {
+                const a = list[i];
+                const r = this.readValue(a, "AttachmentLabel");
+                const cap = this.readValue(a, "CapGroupName");
+                if (mon.at[r] == null)
                     ++rs;
-                m.at[r] = cap;
+                mon.at[r] = cap;
             }
         }
-
-        m.rs = rs;
-        return m;
-    },
-
+        mon.rs = rs;
+        return mon;
+    }
     /**
-    * Tool function to ready XML text (internal use)
-    * @function readValue
-    */
-    readValue: function (e, name) {
-        var list = e.getElementsByTagName(name);
+     * Tool function to ready XML text (internal use)
+     * @function readValue
+     */
+    readValue(e, name) {
+        const list = e.getElementsByTagName(name);
         if (list == null || list.length == 0)
             return null;
         return scil.Utils.getInnerText(list[0]);
     }
-};
-
-org.helm.webeditor.monomers = org.helm.webeditor.Monomers;
-
-
-
+}
+org.helm.webeditor.monomers = org.helm.webeditor.Monomers = new Monomers();
+//@formatter:off
+/* eslint-disable */
 scil.helm.Monomers.aas = {
-    'd': { id: 'D', n: 'Aspartic acid', na: 'D', m: '\n  Marvin  12021015502D          \n\n 10  9  0  0  0  0            999 V2000\n    7.4800   -2.7926    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.7655   -3.2050    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n    6.0510   -2.7925    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    5.3365   -3.2049    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    4.6220   -2.7924    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    5.3364   -4.0299    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    7.4801   -1.9676    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    6.7654   -4.0300    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    8.1945   -3.2052    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    6.0510   -4.4425    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  7  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1  9  1  0  0  0  0\n  2  8  1  0  0  0  0\n  2  3  1  1  0  0  0\n  3  4  1  0  0  0  0\n  4  6  1  0  0  0  0\n  4  5  2  0  0  0  0\n  8 10  1  0  0  0  0\nM  RGP  3   6   3   9   2  10   1\nM  END\n\n$$$$\n', rs: 3, at: { R2: 'OH', R3: 'OH', R1: 'H'} },
-    'e': { id: 'E', n: 'Glutamic acid', na: 'E', m: '\n  Marvin  12021015512D          \n\n 11 10  0  0  0  0            999 V2000\n    0.8787   -0.2594    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n    0.1643    0.1532    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.5503   -0.2592    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2646    0.1534    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    1.5933    0.1530    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9792   -0.2590    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2645    0.9784    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    1.5934    0.9780    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    0.8786   -1.0844    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    2.3077   -0.2596    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    0.1641   -1.4969    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  5  1  1  0  0  0  0\n  1  9  1  0  0  0  0\n  1  2  1  1  0  0  0\n  2  3  1  0  0  0  0\n  3  4  1  0  0  0  0\n  4  7  2  0  0  0  0\n  4  6  1  0  0  0  0\n  5  8  2  0  0  0  0\n  5 10  1  0  0  0  0\n  9 11  1  0  0  0  0\nM  RGP  3   6   3  10   2  11   1\nM  END\n\n$$$$\n', rs: 3, at: { R2: 'OH', R3: 'OH', R1: 'H'} },
-    'f': { id: 'F', n: 'Phenylalanine', na: 'F', m: '\n  Marvin  08190815502D          \n\n 13 13  0  0  0  0            999 V2000\n   -3.6075    2.0774    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.3219    1.6650    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.3220    0.8400    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.6077    0.4274    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.8931    0.8398    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.8930    1.6648    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.1785    2.0772    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.4640    1.6646    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n   -1.4641    0.8396    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.7495    2.0770    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.7493    2.9021    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.0351    1.6644    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -2.1786    0.4271    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  2  1  0  0  0  0\n  1  6  2  0  0  0  0\n  2  3  2  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  2  0  0  0  0\n  5  6  1  0  0  0  0\n  6  7  1  0  0  0  0\n  8  7  1  1  0  0  0\n  8  9  1  0  0  0  0\n  8 10  1  0  0  0  0\n 10 11  2  0  0  0  0\n 10 12  1  0  0  0  0\n  9 13  1  0  0  0  0\nM  RGP  2  12   2  13   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    'g': { id: 'G', n: 'Glycine', na: 'G', m: '\n  Marvin  08190815292D          \n\n  6  5  0  0  0  0            999 V2000\n   -0.7189   -0.6069    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.0044   -0.1945    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.0043    0.6304    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.7190   -1.4318    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    0.7101   -0.6071    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -1.4335   -1.8443    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  4  1  1  0  0  0  0\n  1  2  1  0  0  0  0\n  2  3  2  0  0  0  0\n  2  5  1  0  0  0  0\n  4  6  1  0  0  0  0\nM  RGP  2   5   2   6   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    'a': { id: 'A', n: 'Alanine', na: 'A', m: '\n  Marvin  06250814262D          \n\n  7  6  0  0  0  0            999 V2000\n    5.4886   -3.0482    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.2031   -3.4608    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n    6.9176   -3.0483    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.2030   -4.2858    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    6.9177   -2.2233    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    7.6321   -3.4609    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    5.4886   -4.6983    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  2  1  1  1  0  0  0\n  4  2  1  0  0  0  0\n  2  3  1  0  0  0  0\n  3  5  2  0  0  0  0\n  3  6  1  0  0  0  0\n  4  7  1  0  0  0  0\nM  RGP  2   6   2   7   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    'c': { id: 'C', n: 'Cysteine', na: 'C', m: '\n  Marvin  12021015502D          \n\n  9  8  0  0  0  0            999 V2000\n    0.8481    0.4124    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    0.1336    0.0000    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n   -0.5808    0.4126    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2952    0.0001    0.0000 S   0  0  0  0  0  0  0  0  0  0  0  0\n    0.1335   -0.8249    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    0.8482    1.2374    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    1.5625   -0.0001    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -0.5810   -1.2374    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0097    0.4126    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  6  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1  7  1  0  0  0  0\n  2  5  1  0  0  0  0\n  2  3  1  1  0  0  0\n  3  4  1  0  0  0  0\n  5  8  1  0  0  0  0\n  4  9  1  0  0  0  0\nM  RGP  3   7   2   8   1   9   3\nM  END\n\n$$$$\n', rs: 3, at: { R2: 'OH', R1: 'H', R3: 'H'} },
-    'l': { id: 'L', n: 'Leucine', na: 'L', m: '\n  Marvin  08200815002D          \n\n 10  9  0  0  0  0            999 V2000\n   -2.7541    2.1476    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.4686    0.9102    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.4686    1.7352    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.1830    2.1477    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0397    1.7351    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -1.3250    2.1476    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.3250    2.9726    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0397    0.9101    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.6105    1.7350    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -2.7542    0.4976    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  3  1  1  0  0  0  0\n  5  1  1  1  0  0  0\n  3  2  1  0  0  0  0\n  3  4  1  0  0  0  0\n  5  8  1  0  0  0  0\n  5  6  1  0  0  0  0\n  6  7  2  0  0  0  0\n  6  9  1  0  0  0  0\n  8 10  1  0  0  0  0\nM  RGP  2   9   2  10   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    'm': { id: 'M', n: 'Methionine', na: 'M', m: '\n  Marvin  08190815482D          \n\n 10  9  0  0  0  0            999 V2000\n   -4.1128    0.8183    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.8273   -0.4191    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.1127    1.6433    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.8272    0.4059    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -5.5418    0.8185    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.2563    0.4061    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -7.6852    0.4062    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.9707    0.8186    0.0000 S   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.3983    0.4057    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -5.5418   -0.8316    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  3  1  2  0  0  0  0\n  1  4  1  0  0  0  0\n  1  9  1  0  0  0  0\n  4  2  1  0  0  0  0\n  4  5  1  1  0  0  0\n  5  6  1  0  0  0  0\n  6  8  1  0  0  0  0\n  8  7  1  0  0  0  0\n  2 10  1  0  0  0  0\nM  RGP  2   9   2  10   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    'n': { id: 'N', n: 'Asparagine', na: 'N', m: '\n  Marvin  08190815142D          \n\n 10  9  0  0  0  0            999 V2000\n    6.9268   -2.8241    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.2123   -3.2366    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n    5.4978   -2.8241    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.9268   -1.9991    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    6.2123   -4.0616    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    4.7834   -3.2366    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    4.0690   -2.8242    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    4.7834   -4.0616    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    7.6413   -3.2366    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    5.6290   -4.6450    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  4  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1  9  1  0  0  0  0\n  2  5  1  0  0  0  0\n  2  3  1  1  0  0  0\n  3  6  1  0  0  0  0\n  6  8  1  0  0  0  0\n  6  7  2  0  0  0  0\n  5 10  1  0  0  0  0\nM  RGP  2   9   2  10   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    'h': { id: 'H', n: 'Histidine', na: 'H', m: '\n  Marvin  08190815312D          \n\n 12 12  0  0  0  0            999 V2000\n    1.2557    0.4210    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    0.5412    0.0086    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n   -0.1733    0.4211    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.8878    0.0087    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.1685   -0.3674    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.9114   -0.8159    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.6648    0.2860    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.7029   -1.0484    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    0.5411   -0.8164    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    1.2558    1.2461    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    1.9702    0.0084    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -0.1733   -1.2289    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n 10  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1 11  1  0  0  0  0\n  2  9  1  0  0  0  0\n  2  3  1  1  0  0  0\n  3  4  1  0  0  0  0\n  6  4  2  0  0  0  0\n  7  4  1  0  0  0  0\n  7  5  2  0  0  0  0\n  5  8  1  0  0  0  0\n  8  6  1  0  0  0  0\n  9 12  1  0  0  0  0\nM  RGP  2  11   2  12   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    'i': { id: 'I', n: 'Isoleucine', na: 'I', m: '\n  Marvin  08190815422D          \n\n 10  9  0  0  0  0            999 V2000\n   -0.7783   -0.6153    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.4928   -0.2028    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    0.6506   -0.6155    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n    1.3652   -0.2031    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    1.3653    0.6219    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    0.6505   -1.4405    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.0638   -0.2029    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -0.0637    0.6221    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    2.0796   -0.6157    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -0.0640   -1.8530    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  7  1  0  0  0  0\n  1  2  1  0  0  0  0\n  3  7  1  0  0  0  0\n  3  6  1  0  0  0  0\n  3  4  1  1  0  0  0\n  4  5  2  0  0  0  0\n  4  9  1  0  0  0  0\n  7  8  1  6  0  0  0\n  6 10  1  0  0  0  0\nM  RGP  2   9   2  10   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    'k': { id: 'K', n: 'Lysine', na: 'K', m: '\n  Marvin  12021015522D          \n\n 12 11  0  0  0  0            999 V2000\n   -1.2102    2.0919    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9248    1.6794    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n   -2.6392    2.0920    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.3538    1.6795    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.0682    2.0920    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.7828    1.6795    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.4972    2.0921    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9248    0.8544    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2102    2.9169    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.4958    1.6794    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6393    0.4419    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -6.2117    1.6796    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  9  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1 10  1  0  0  0  0\n  2  8  1  0  0  0  0\n  2  3  1  1  0  0  0\n  3  4  1  0  0  0  0\n  4  5  1  0  0  0  0\n  5  6  1  0  0  0  0\n  6  7  1  0  0  0  0\n  8 11  1  0  0  0  0\n  7 12  1  0  0  0  0\nM  RGP  3  10   2  11   1  12   3\nM  END\n\n$$$$\n', rs: 3, at: { R2: 'OH', R1: 'H', R3: 'H'} },
-    't': { id: 'T', n: 'Threonine', na: 'T', m: '\n  Marvin  08190820372D          \n\n  9  8  0  0  0  0            999 V2000\n   -3.2927    2.1067    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.0072    0.8691    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.2926    2.9316    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.0071    1.6941    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -5.4360    1.6943    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.7216    2.1068    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -4.7215    2.9317    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.5783    1.6942    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -4.7217    0.4566    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  3  1  2  0  0  0  0\n  4  1  1  1  0  0  0\n  1  8  1  0  0  0  0\n  4  2  1  0  0  0  0\n  4  6  1  0  0  0  0\n  6  5  1  0  0  0  0\n  6  7  1  1  0  0  0\n  2  9  1  0  0  0  0\nM  RGP  2   8   2   9   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    'w': { id: 'W', n: 'Tryptophan', na: 'W', m: '\n  Marvin  08190820412D          \n\n 16 17  0  0  0  0            999 V2000\n   -0.4698    2.4303    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.4698    3.2553    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.1843    1.1927    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.1843    2.0177    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -1.8988    2.4303    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6133    2.0177    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6271    1.1929    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.3935    2.2860    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.8895    1.6267    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.7164    3.0451    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.5353    3.1451    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.0313    2.4859    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.7084    1.7267    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.4159    0.9513    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    0.2447    2.0178    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -1.8988    0.7802    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  2  1  2  0  0  0  0\n  1  4  1  0  0  0  0\n  1 15  1  0  0  0  0\n  4  3  1  0  0  0  0\n  4  5  1  1  0  0  0\n  5  6  1  0  0  0  0\n  7  6  2  0  0  0  0\n  8  6  1  0  0  0  0\n 14  7  1  0  0  0  0\n  8  9  2  0  0  0  0\n  8 10  1  0  0  0  0\n  9 14  1  0  0  0  0\n 13  9  1  0  0  0  0\n 10 11  2  0  0  0  0\n 11 12  1  0  0  0  0\n 12 13  2  0  0  0  0\n  3 16  1  0  0  0  0\nM  RGP  2  15   2  16   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    'v': { id: 'V', n: 'Valine', na: 'V', m: '\n  Marvin  08190820502D          \n\n  9  8  0  0  0  0            999 V2000\n   -5.2963    0.6040    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.0107    0.1915    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n   -6.7252    1.4290    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.7252    0.6040    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -7.4396    0.1915    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.2963    1.4290    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.0107   -0.6335    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.5818    0.1915    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -6.7252   -1.0460    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  6  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1  8  1  0  0  0  0\n  2  7  1  0  0  0  0\n  2  4  1  1  0  0  0\n  4  3  1  0  0  0  0\n  4  5  1  0  0  0  0\n  7  9  1  0  0  0  0\nM  RGP  2   8   2   9   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    'q': { id: 'Q', n: 'Glutamine', na: 'Q', m: '\n  Marvin  08190815272D          \n\n 11 10  0  0  0  0            999 V2000\n    2.8012   -4.0307    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    2.0867   -4.4433    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n    1.3722   -4.0307    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    0.6578   -4.4433    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    2.8013   -3.2057    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.7711   -4.4432    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    2.0867   -5.2683    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.0565   -3.2056    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.0566   -4.0306    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    3.5157   -4.4432    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    1.3722   -5.6808    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  5  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1 10  1  0  0  0  0\n  2  7  1  0  0  0  0\n  2  3  1  1  0  0  0\n  3  4  1  0  0  0  0\n  4  9  1  0  0  0  0\n  9  6  1  0  0  0  0\n  9  8  2  0  0  0  0\n  7 11  1  0  0  0  0\nM  RGP  2  10   2  11   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    'p': { id: 'P', n: 'Proline', na: 'P', m: '\n  Marvin  08190815522D          \n\n  9  9  0  0  0  0            999 V2000\n   -3.4704    1.8073    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.9525    1.1377    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.4647    0.4725    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6812    0.7308    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6848    1.5558    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n   -1.9703    1.9683    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9703    2.7933    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2558    1.5558    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0978    0.1474    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  2  1  0  0  0  0\n  5  1  1  1  0  0  0\n  2  3  1  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  1  0  0  0  0\n  5  6  1  0  0  0  0\n  6  7  2  0  0  0  0\n  6  8  1  0  0  0  0\n  4  9  1  0  0  0  0\nM  RGP  2   8   2   9   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    's': { id: 'S', n: 'Serine', na: 'S', m: '\n  Marvin  08190820582D          \n\n  8  7  0  0  0  0            999 V2000\n   -2.0394    2.5340    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0394    3.3589    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.7539    1.2964    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.7539    2.1214    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -3.4683    2.5340    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.1827    2.1215    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.3249    2.1215    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -3.4684    0.8839    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  2  1  2  0  0  0  0\n  1  4  1  0  0  0  0\n  1  7  1  0  0  0  0\n  4  3  1  0  0  0  0\n  4  5  1  1  0  0  0\n  5  6  1  0  0  0  0\n  3  8  1  0  0  0  0\nM  RGP  2   7   2   8   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    'r': { id: 'R', n: 'Arginine', na: 'R', m: '\n  Marvin  08190814412D          \n\n 13 12  0  0  0  0            999 V2000\n    8.4822   -2.8352    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    7.7677   -3.2478    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n    7.0532   -2.8351    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.3388   -3.2477    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    5.6244   -2.8351    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    7.7676   -4.0214    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    8.4822   -2.0102    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    4.9099   -3.2477    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    4.1954   -2.8351    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    4.1954   -2.0101    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    3.4810   -3.2477    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    9.1967   -3.2477    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    6.9708   -4.2349    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  7  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1 12  1  0  0  0  0\n  2  6  1  0  0  0  0\n  2  3  1  1  0  0  0\n  3  4  1  0  0  0  0\n  4  5  1  0  0  0  0\n  5  8  1  0  0  0  0\n  8  9  1  0  0  0  0\n  9 11  1  0  0  0  0\n  9 10  2  0  0  0  0\n  6 13  1  0  0  0  0\nM  RGP  2  12   2  13   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'} },
-    'y': { id: 'Y', n: 'Tyrosine', na: 'Y', m: '\n  Marvin  08190820432D          \n\n 14 14  0  0  0  0            999 V2000\n   -2.8122    1.4277    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.5268    0.1903    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.8121    2.2527    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.5267    1.0153    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -4.2412    1.4279    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.9557    1.0154    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.6701    1.4280    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.3846    1.0155    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.6702   -0.2220    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.9558    0.1904    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.3847    0.1905    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -7.0992   -0.2219    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0977    1.0151    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -4.2412   -0.2222    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  3  1  2  0  0  0  0\n  1  4  1  0  0  0  0\n  1 13  1  0  0  0  0\n  4  2  1  0  0  0  0\n  4  5  1  1  0  0  0\n  5  6  1  0  0  0  0\n 10  6  1  0  0  0  0\n  7  6  2  0  0  0  0\n  7  8  1  0  0  0  0\n  8 11  2  0  0  0  0\n 11  9  1  0  0  0  0\n  9 10  2  0  0  0  0\n 11 12  1  0  0  0  0\n  2 14  1  0  0  0  0\nM  RGP  2  13   2  14   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H'}}
+    'd': { id: 'D', n: 'Aspartic acid', na: 'D', m: '\n  Marvin  12021015502D          \n\n 10  9  0  0  0  0            999 V2000\n    7.4800   -2.7926    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.7655   -3.2050    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n    6.0510   -2.7925    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    5.3365   -3.2049    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    4.6220   -2.7924    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    5.3364   -4.0299    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    7.4801   -1.9676    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    6.7654   -4.0300    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    8.1945   -3.2052    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    6.0510   -4.4425    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  7  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1  9  1  0  0  0  0\n  2  8  1  0  0  0  0\n  2  3  1  1  0  0  0\n  3  4  1  0  0  0  0\n  4  6  1  0  0  0  0\n  4  5  2  0  0  0  0\n  8 10  1  0  0  0  0\nM  RGP  3   6   3   9   2  10   1\nM  END\n\n$$$$\n', rs: 3, at: { R2: 'OH', R3: 'OH', R1: 'H' } },
+    'e': { id: 'E', n: 'Glutamic acid', na: 'E', m: '\n  Marvin  12021015512D          \n\n 11 10  0  0  0  0            999 V2000\n    0.8787   -0.2594    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n    0.1643    0.1532    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.5503   -0.2592    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2646    0.1534    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    1.5933    0.1530    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9792   -0.2590    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2645    0.9784    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    1.5934    0.9780    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    0.8786   -1.0844    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    2.3077   -0.2596    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    0.1641   -1.4969    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  5  1  1  0  0  0  0\n  1  9  1  0  0  0  0\n  1  2  1  1  0  0  0\n  2  3  1  0  0  0  0\n  3  4  1  0  0  0  0\n  4  7  2  0  0  0  0\n  4  6  1  0  0  0  0\n  5  8  2  0  0  0  0\n  5 10  1  0  0  0  0\n  9 11  1  0  0  0  0\nM  RGP  3   6   3  10   2  11   1\nM  END\n\n$$$$\n', rs: 3, at: { R2: 'OH', R3: 'OH', R1: 'H' } },
+    'f': { id: 'F', n: 'Phenylalanine', na: 'F', m: '\n  Marvin  08190815502D          \n\n 13 13  0  0  0  0            999 V2000\n   -3.6075    2.0774    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.3219    1.6650    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.3220    0.8400    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.6077    0.4274    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.8931    0.8398    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.8930    1.6648    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.1785    2.0772    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.4640    1.6646    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n   -1.4641    0.8396    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.7495    2.0770    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.7493    2.9021    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.0351    1.6644    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -2.1786    0.4271    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  2  1  0  0  0  0\n  1  6  2  0  0  0  0\n  2  3  2  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  2  0  0  0  0\n  5  6  1  0  0  0  0\n  6  7  1  0  0  0  0\n  8  7  1  1  0  0  0\n  8  9  1  0  0  0  0\n  8 10  1  0  0  0  0\n 10 11  2  0  0  0  0\n 10 12  1  0  0  0  0\n  9 13  1  0  0  0  0\nM  RGP  2  12   2  13   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    'g': { id: 'G', n: 'Glycine', na: 'G', m: '\n  Marvin  08190815292D          \n\n  6  5  0  0  0  0            999 V2000\n   -0.7189   -0.6069    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.0044   -0.1945    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.0043    0.6304    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.7190   -1.4318    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    0.7101   -0.6071    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -1.4335   -1.8443    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  4  1  1  0  0  0  0\n  1  2  1  0  0  0  0\n  2  3  2  0  0  0  0\n  2  5  1  0  0  0  0\n  4  6  1  0  0  0  0\nM  RGP  2   5   2   6   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    'a': { id: 'A', n: 'Alanine', na: 'A', m: '\n  Marvin  06250814262D          \n\n  7  6  0  0  0  0            999 V2000\n    5.4886   -3.0482    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.2031   -3.4608    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n    6.9176   -3.0483    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.2030   -4.2858    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    6.9177   -2.2233    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    7.6321   -3.4609    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    5.4886   -4.6983    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  2  1  1  1  0  0  0\n  4  2  1  0  0  0  0\n  2  3  1  0  0  0  0\n  3  5  2  0  0  0  0\n  3  6  1  0  0  0  0\n  4  7  1  0  0  0  0\nM  RGP  2   6   2   7   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    'c': { id: 'C', n: 'Cysteine', na: 'C', m: '\n  Marvin  12021015502D          \n\n  9  8  0  0  0  0            999 V2000\n    0.8481    0.4124    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    0.1336    0.0000    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n   -0.5808    0.4126    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2952    0.0001    0.0000 S   0  0  0  0  0  0  0  0  0  0  0  0\n    0.1335   -0.8249    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    0.8482    1.2374    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    1.5625   -0.0001    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -0.5810   -1.2374    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0097    0.4126    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  6  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1  7  1  0  0  0  0\n  2  5  1  0  0  0  0\n  2  3  1  1  0  0  0\n  3  4  1  0  0  0  0\n  5  8  1  0  0  0  0\n  4  9  1  0  0  0  0\nM  RGP  3   7   2   8   1   9   3\nM  END\n\n$$$$\n', rs: 3, at: { R2: 'OH', R1: 'H', R3: 'H' } },
+    'l': { id: 'L', n: 'Leucine', na: 'L', m: '\n  Marvin  08200815002D          \n\n 10  9  0  0  0  0            999 V2000\n   -2.7541    2.1476    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.4686    0.9102    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.4686    1.7352    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.1830    2.1477    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0397    1.7351    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -1.3250    2.1476    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.3250    2.9726    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0397    0.9101    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.6105    1.7350    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -2.7542    0.4976    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  3  1  1  0  0  0  0\n  5  1  1  1  0  0  0\n  3  2  1  0  0  0  0\n  3  4  1  0  0  0  0\n  5  8  1  0  0  0  0\n  5  6  1  0  0  0  0\n  6  7  2  0  0  0  0\n  6  9  1  0  0  0  0\n  8 10  1  0  0  0  0\nM  RGP  2   9   2  10   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    'm': { id: 'M', n: 'Methionine', na: 'M', m: '\n  Marvin  08190815482D          \n\n 10  9  0  0  0  0            999 V2000\n   -4.1128    0.8183    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.8273   -0.4191    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.1127    1.6433    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.8272    0.4059    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -5.5418    0.8185    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.2563    0.4061    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -7.6852    0.4062    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.9707    0.8186    0.0000 S   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.3983    0.4057    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -5.5418   -0.8316    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  3  1  2  0  0  0  0\n  1  4  1  0  0  0  0\n  1  9  1  0  0  0  0\n  4  2  1  0  0  0  0\n  4  5  1  1  0  0  0\n  5  6  1  0  0  0  0\n  6  8  1  0  0  0  0\n  8  7  1  0  0  0  0\n  2 10  1  0  0  0  0\nM  RGP  2   9   2  10   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    'n': { id: 'N', n: 'Asparagine', na: 'N', m: '\n  Marvin  08190815142D          \n\n 10  9  0  0  0  0            999 V2000\n    6.9268   -2.8241    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.2123   -3.2366    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n    5.4978   -2.8241    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.9268   -1.9991    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    6.2123   -4.0616    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    4.7834   -3.2366    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    4.0690   -2.8242    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    4.7834   -4.0616    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    7.6413   -3.2366    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    5.6290   -4.6450    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  4  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1  9  1  0  0  0  0\n  2  5  1  0  0  0  0\n  2  3  1  1  0  0  0\n  3  6  1  0  0  0  0\n  6  8  1  0  0  0  0\n  6  7  2  0  0  0  0\n  5 10  1  0  0  0  0\nM  RGP  2   9   2  10   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    'h': { id: 'H', n: 'Histidine', na: 'H', m: '\n  Marvin  08190815312D          \n\n 12 12  0  0  0  0            999 V2000\n    1.2557    0.4210    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    0.5412    0.0086    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n   -0.1733    0.4211    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.8878    0.0087    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.1685   -0.3674    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.9114   -0.8159    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.6648    0.2860    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.7029   -1.0484    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    0.5411   -0.8164    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    1.2558    1.2461    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    1.9702    0.0084    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -0.1733   -1.2289    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n 10  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1 11  1  0  0  0  0\n  2  9  1  0  0  0  0\n  2  3  1  1  0  0  0\n  3  4  1  0  0  0  0\n  6  4  2  0  0  0  0\n  7  4  1  0  0  0  0\n  7  5  2  0  0  0  0\n  5  8  1  0  0  0  0\n  8  6  1  0  0  0  0\n  9 12  1  0  0  0  0\nM  RGP  2  11   2  12   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    'i': { id: 'I', n: 'Isoleucine', na: 'I', m: '\n  Marvin  08190815422D          \n\n 10  9  0  0  0  0            999 V2000\n   -0.7783   -0.6153    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.4928   -0.2028    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    0.6506   -0.6155    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n    1.3652   -0.2031    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    1.3653    0.6219    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    0.6505   -1.4405    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.0638   -0.2029    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -0.0637    0.6221    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    2.0796   -0.6157    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -0.0640   -1.8530    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  7  1  0  0  0  0\n  1  2  1  0  0  0  0\n  3  7  1  0  0  0  0\n  3  6  1  0  0  0  0\n  3  4  1  1  0  0  0\n  4  5  2  0  0  0  0\n  4  9  1  0  0  0  0\n  7  8  1  6  0  0  0\n  6 10  1  0  0  0  0\nM  RGP  2   9   2  10   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    'k': { id: 'K', n: 'Lysine', na: 'K', m: '\n  Marvin  12021015522D          \n\n 12 11  0  0  0  0            999 V2000\n   -1.2102    2.0919    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9248    1.6794    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n   -2.6392    2.0920    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.3538    1.6795    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.0682    2.0920    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.7828    1.6795    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.4972    2.0921    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9248    0.8544    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2102    2.9169    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.4958    1.6794    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6393    0.4419    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -6.2117    1.6796    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  9  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1 10  1  0  0  0  0\n  2  8  1  0  0  0  0\n  2  3  1  1  0  0  0\n  3  4  1  0  0  0  0\n  4  5  1  0  0  0  0\n  5  6  1  0  0  0  0\n  6  7  1  0  0  0  0\n  8 11  1  0  0  0  0\n  7 12  1  0  0  0  0\nM  RGP  3  10   2  11   1  12   3\nM  END\n\n$$$$\n', rs: 3, at: { R2: 'OH', R1: 'H', R3: 'H' } },
+    't': { id: 'T', n: 'Threonine', na: 'T', m: '\n  Marvin  08190820372D          \n\n  9  8  0  0  0  0            999 V2000\n   -3.2927    2.1067    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.0072    0.8691    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.2926    2.9316    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.0071    1.6941    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -5.4360    1.6943    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.7216    2.1068    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -4.7215    2.9317    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.5783    1.6942    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -4.7217    0.4566    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  3  1  2  0  0  0  0\n  4  1  1  1  0  0  0\n  1  8  1  0  0  0  0\n  4  2  1  0  0  0  0\n  4  6  1  0  0  0  0\n  6  5  1  0  0  0  0\n  6  7  1  1  0  0  0\n  2  9  1  0  0  0  0\nM  RGP  2   8   2   9   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    'w': { id: 'W', n: 'Tryptophan', na: 'W', m: '\n  Marvin  08190820412D          \n\n 16 17  0  0  0  0            999 V2000\n   -0.4698    2.4303    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.4698    3.2553    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.1843    1.1927    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.1843    2.0177    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -1.8988    2.4303    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6133    2.0177    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6271    1.1929    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.3935    2.2860    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.8895    1.6267    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.7164    3.0451    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.5353    3.1451    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.0313    2.4859    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.7084    1.7267    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.4159    0.9513    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    0.2447    2.0178    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -1.8988    0.7802    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  2  1  2  0  0  0  0\n  1  4  1  0  0  0  0\n  1 15  1  0  0  0  0\n  4  3  1  0  0  0  0\n  4  5  1  1  0  0  0\n  5  6  1  0  0  0  0\n  7  6  2  0  0  0  0\n  8  6  1  0  0  0  0\n 14  7  1  0  0  0  0\n  8  9  2  0  0  0  0\n  8 10  1  0  0  0  0\n  9 14  1  0  0  0  0\n 13  9  1  0  0  0  0\n 10 11  2  0  0  0  0\n 11 12  1  0  0  0  0\n 12 13  2  0  0  0  0\n  3 16  1  0  0  0  0\nM  RGP  2  15   2  16   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    'v': { id: 'V', n: 'Valine', na: 'V', m: '\n  Marvin  08190820502D          \n\n  9  8  0  0  0  0            999 V2000\n   -5.2963    0.6040    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.0107    0.1915    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n   -6.7252    1.4290    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.7252    0.6040    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -7.4396    0.1915    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.2963    1.4290    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.0107   -0.6335    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.5818    0.1915    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -6.7252   -1.0460    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  6  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1  8  1  0  0  0  0\n  2  7  1  0  0  0  0\n  2  4  1  1  0  0  0\n  4  3  1  0  0  0  0\n  4  5  1  0  0  0  0\n  7  9  1  0  0  0  0\nM  RGP  2   8   2   9   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    'q': { id: 'Q', n: 'Glutamine', na: 'Q', m: '\n  Marvin  08190815272D          \n\n 11 10  0  0  0  0            999 V2000\n    2.8012   -4.0307    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    2.0867   -4.4433    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n    1.3722   -4.0307    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    0.6578   -4.4433    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    2.8013   -3.2057    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.7711   -4.4432    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    2.0867   -5.2683    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.0565   -3.2056    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.0566   -4.0306    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    3.5157   -4.4432    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    1.3722   -5.6808    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  5  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1 10  1  0  0  0  0\n  2  7  1  0  0  0  0\n  2  3  1  1  0  0  0\n  3  4  1  0  0  0  0\n  4  9  1  0  0  0  0\n  9  6  1  0  0  0  0\n  9  8  2  0  0  0  0\n  7 11  1  0  0  0  0\nM  RGP  2  10   2  11   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    'p': { id: 'P', n: 'Proline', na: 'P', m: '\n  Marvin  08190815522D          \n\n  9  9  0  0  0  0            999 V2000\n   -3.4704    1.8073    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.9525    1.1377    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.4647    0.4725    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6812    0.7308    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6848    1.5558    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n   -1.9703    1.9683    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9703    2.7933    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2558    1.5558    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0978    0.1474    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  2  1  0  0  0  0\n  5  1  1  1  0  0  0\n  2  3  1  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  1  0  0  0  0\n  5  6  1  0  0  0  0\n  6  7  2  0  0  0  0\n  6  8  1  0  0  0  0\n  4  9  1  0  0  0  0\nM  RGP  2   8   2   9   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    's': { id: 'S', n: 'Serine', na: 'S', m: '\n  Marvin  08190820582D          \n\n  8  7  0  0  0  0            999 V2000\n   -2.0394    2.5340    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0394    3.3589    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.7539    1.2964    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.7539    2.1214    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -3.4683    2.5340    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.1827    2.1215    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.3249    2.1215    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -3.4684    0.8839    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  2  1  2  0  0  0  0\n  1  4  1  0  0  0  0\n  1  7  1  0  0  0  0\n  4  3  1  0  0  0  0\n  4  5  1  1  0  0  0\n  5  6  1  0  0  0  0\n  3  8  1  0  0  0  0\nM  RGP  2   7   2   8   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    'r': { id: 'R', n: 'Arginine', na: 'R', m: '\n  Marvin  08190814412D          \n\n 13 12  0  0  0  0            999 V2000\n    8.4822   -2.8352    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    7.7677   -3.2478    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n    7.0532   -2.8351    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.3388   -3.2477    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    5.6244   -2.8351    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    7.7676   -4.0214    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    8.4822   -2.0102    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    4.9099   -3.2477    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    4.1954   -2.8351    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    4.1954   -2.0101    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    3.4810   -3.2477    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    9.1967   -3.2477    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    6.9708   -4.2349    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  7  1  2  0  0  0  0\n  1  2  1  0  0  0  0\n  1 12  1  0  0  0  0\n  2  6  1  0  0  0  0\n  2  3  1  1  0  0  0\n  3  4  1  0  0  0  0\n  4  5  1  0  0  0  0\n  5  8  1  0  0  0  0\n  8  9  1  0  0  0  0\n  9 11  1  0  0  0  0\n  9 10  2  0  0  0  0\n  6 13  1  0  0  0  0\nM  RGP  2  12   2  13   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } },
+    'y': { id: 'Y', n: 'Tyrosine', na: 'Y', m: '\n  Marvin  08190820432D          \n\n 14 14  0  0  0  0            999 V2000\n   -2.8122    1.4277    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.5268    0.1903    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.8121    2.2527    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.5267    1.0153    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n   -4.2412    1.4279    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.9557    1.0154    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.6701    1.4280    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.3846    1.0155    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.6702   -0.2220    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.9558    0.1904    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.3847    0.1905    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -7.0992   -0.2219    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0977    1.0151    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -4.2412   -0.2222    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  3  1  2  0  0  0  0\n  1  4  1  0  0  0  0\n  1 13  1  0  0  0  0\n  4  2  1  0  0  0  0\n  4  5  1  1  0  0  0\n  5  6  1  0  0  0  0\n 10  6  1  0  0  0  0\n  7  6  2  0  0  0  0\n  7  8  1  0  0  0  0\n  8 11  2  0  0  0  0\n 11  9  1  0  0  0  0\n  9 10  2  0  0  0  0\n 11 12  1  0  0  0  0\n  2 14  1  0  0  0  0\nM  RGP  2  13   2  14   1\nM  END\n\n$$$$\n', rs: 2, at: { R2: 'OH', R1: 'H' } }
 };
 scil.helm.Monomers.sugars = {
-    'r': { id: 'R', n: 'Ribose', na: 'R', m: '\n  Marvin  06150820452D          \n\n 12 12  0  0  0  0            999 V2000\n    1.4617    2.2807    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    0.7479    1.8672    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n    2.1768    1.8692    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n    0.9625    1.0707    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n    1.9644    1.0721    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n    0.9637    0.2457    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    1.9656    0.2471    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    0.5994    2.7216    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    2.1756    2.9004    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    0.1279    3.0752    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.6971    3.2298    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    1.6650   -0.3083    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  2  1  0  0  0  0\n  1  3  1  0  0  0  0\n  2  4  1  0  0  0  0\n  2  8  1  1  0  0  0\n  3  5  1  0  0  0  0\n  3  9  1  1  0  0  0\n  4  5  1  0  0  0  0\n  4  6  1  6  0  0  0\n  5  7  1  6  0  0  0\n  6 12  1  0  0  0  0\n  8 10  1  0  0  0  0\n 10 11  1  0  0  0  0\nM  RGP  3   9   3  11   1  12   2\nM  END\n\n$$$$\n', rs: 3, at: { R3: 'OH', R1: 'H', R2: 'H'}}
+    'r': { id: 'R', n: 'Ribose', na: 'R', m: '\n  Marvin  06150820452D          \n\n 12 12  0  0  0  0            999 V2000\n    1.4617    2.2807    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    0.7479    1.8672    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n    2.1768    1.8692    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n    0.9625    1.0707    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0\n    1.9644    1.0721    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0\n    0.9637    0.2457    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    1.9656    0.2471    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    0.5994    2.7216    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    2.1756    2.9004    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    0.1279    3.0752    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.6971    3.2298    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    1.6650   -0.3083    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  2  1  0  0  0  0\n  1  3  1  0  0  0  0\n  2  4  1  0  0  0  0\n  2  8  1  1  0  0  0\n  3  5  1  0  0  0  0\n  3  9  1  1  0  0  0\n  4  5  1  0  0  0  0\n  4  6  1  6  0  0  0\n  5  7  1  6  0  0  0\n  6 12  1  0  0  0  0\n  8 10  1  0  0  0  0\n 10 11  1  0  0  0  0\nM  RGP  3   9   3  11   1  12   2\nM  END\n\n$$$$\n', rs: 3, at: { R3: 'OH', R1: 'H', R2: 'H' } }
 };
 scil.helm.Monomers.linkers = {
-    'p': { id: 'P', n: 'Phosphate', na: 'P', m: '\n  Marvin  06150820472D          \n\n  5  4  0  0  0  0            999 V2000\n    0.1179    0.7366    0.0000 P   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.7071    0.7366    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    0.1179    1.5616    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    0.9429    0.7366    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    0.1179   -0.0884    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n  1  2  1  0  0  0  0\n  1  3  2  0  0  0  0\n  1  4  1  0  0  0  0\n  1  5  1  0  0  0  0\nM  RGP  2   2   1   4   2\nM  END\n\n$$$$\n', rs: 2, at: { R1: 'OH', R2: 'OH'}}
+    'p': { id: 'P', n: 'Phosphate', na: 'P', m: '\n  Marvin  06150820472D          \n\n  5  4  0  0  0  0            999 V2000\n    0.1179    0.7366    0.0000 P   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.7071    0.7366    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    0.1179    1.5616    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    0.9429    0.7366    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    0.1179   -0.0884    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n  1  2  1  0  0  0  0\n  1  3  2  0  0  0  0\n  1  4  1  0  0  0  0\n  1  5  1  0  0  0  0\nM  RGP  2   2   1   4   2\nM  END\n\n$$$$\n', rs: 2, at: { R1: 'OH', R2: 'OH' } }
 };
 scil.helm.Monomers.bases = {
-    'g': { id: 'G', n: 'Guanine', na: 'G', m: '\n  Marvin  06150820502D          \n\n 12 13  0  0  0  0            999 V2000\n   -1.7509   -3.8489    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.0364   -4.2614    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.0364   -5.0864    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.7509   -5.4989    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.4654   -5.0864    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.4654   -4.2614    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.3220   -5.4989    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    0.3925   -5.0864    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    0.3925   -4.2614    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.7509   -3.0239    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.1798   -5.4989    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.3220   -6.3239    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1 10  2  0  0  0  0\n  1  6  1  0  0  0  0\n  1  2  1  0  0  0  0\n  9  2  1  0  0  0  0\n  2  3  2  0  0  0  0\n  7  3  1  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  2  0  0  0  0\n  5  6  1  0  0  0  0\n  5 11  1  0  0  0  0\n  7  8  1  0  0  0  0\n  7 12  1  0  0  0  0\n  8  9  2  0  0  0  0\nM  RGP  1  12   1\nM  END\n\n$$$$\n', rs: 1, at: { R1: 'H'} },
-    'a': { id: 'A', n: 'Adenine', na: 'A', m: '\n  Marvin  06150816552D          \n\n 11 12  0  0  0  0            999 V2000\n   -4.0674   -0.7795    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.3529   -1.1920    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.3529   -2.0170    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.0674   -2.4295    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.7818   -2.0170    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.7818   -1.1920    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6384   -2.4295    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9240   -2.0170    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9240   -1.1920    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.0674    0.0455    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6384   -3.2545    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1 10  1  0  0  0  0\n  1  6  2  0  0  0  0\n  1  2  1  0  0  0  0\n  9  2  1  0  0  0  0\n  2  3  2  0  0  0  0\n  7  3  1  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  2  0  0  0  0\n  5  6  1  0  0  0  0\n  7  8  1  0  0  0  0\n  7 11  1  0  0  0  0\n  8  9  2  0  0  0  0\nM  RGP  1  11   1\nM  END\n\n$$$$\n', rs: 1, at: { R1: 'H'} },
-    'c': { id: 'C', n: 'Cytosine', na: 'C', m: '\n  Marvin  06150820522D          \n\n  9  9  0  0  0  0            999 V2000\n   -1.3611   -7.5896    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.6466   -8.0021    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.6466   -8.8271    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.3611   -9.2396    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0755   -8.8271    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0755   -8.0021    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.3611   -6.7646    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.7900   -9.2396    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.3611  -10.0646    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  2  1  0  0  0  0\n  1  6  2  0  0  0  0\n  1  7  1  0  0  0  0\n  2  3  2  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  1  0  0  0  0\n  4  9  1  0  0  0  0\n  5  6  1  0  0  0  0\n  5  8  2  0  0  0  0\nM  RGP  1   9   1\nM  END\n\n$$$$\n', rs: 1, at: { R1: 'H'} },
-    'u': { id: 'U', n: 'Uracil', na: 'U', m: '\n  Marvin  06150820512D          \n\n  9  9  0  0  0  0            999 V2000\n   -1.2138  -11.7383    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.4993  -12.1508    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.4993  -12.9758    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2138  -13.3884    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9283  -12.9758    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9283  -12.1508    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2138  -10.9133    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6427  -13.3883    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2138  -14.2134    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  7  2  0  0  0  0\n  1  6  1  0  0  0  0\n  1  2  1  0  0  0  0\n  2  3  2  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  1  0  0  0  0\n  4  9  1  0  0  0  0\n  5  8  2  0  0  0  0\n  5  6  1  0  0  0  0\nM  RGP  1   9   1\nM  END\n\n$$$$\n', rs: 1, at: { R1: 'H'} },
-    't': { id: 'T', n: 'Thymine', na: 'T', m: '\n  Marvin  06150820542D          \n\n 10 10  0  0  0  0            999 V2000\n    5.8512   -2.0140    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.5686   -2.4215    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.5744   -3.2465    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    5.8628   -3.6641    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    5.1454   -3.2565    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    5.1396   -2.4315    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    5.8455   -1.1891    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    4.4339   -3.6740    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    5.8686   -4.4891    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    7.3655   -2.2080    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n  1  7  2  0  0  0  0\n  1  6  1  0  0  0  0\n  1  2  1  0  0  0  0\n  2  3  2  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  1  0  0  0  0\n  4  9  1  0  0  0  0\n  5  8  2  0  0  0  0\n  5  6  1  0  0  0  0\n  2 10  1  0  0  0  0\nM  RGP  1   9   1\nM  END\n\n$$$$\n', rs: 1, at: { R1: 'H'}}
+    'g': { id: 'G', n: 'Guanine', na: 'G', m: '\n  Marvin  06150820502D          \n\n 12 13  0  0  0  0            999 V2000\n   -1.7509   -3.8489    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.0364   -4.2614    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.0364   -5.0864    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.7509   -5.4989    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.4654   -5.0864    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.4654   -4.2614    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.3220   -5.4989    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    0.3925   -5.0864    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    0.3925   -4.2614    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.7509   -3.0239    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.1798   -5.4989    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.3220   -6.3239    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1 10  2  0  0  0  0\n  1  6  1  0  0  0  0\n  1  2  1  0  0  0  0\n  9  2  1  0  0  0  0\n  2  3  2  0  0  0  0\n  7  3  1  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  2  0  0  0  0\n  5  6  1  0  0  0  0\n  5 11  1  0  0  0  0\n  7  8  1  0  0  0  0\n  7 12  1  0  0  0  0\n  8  9  2  0  0  0  0\nM  RGP  1  12   1\nM  END\n\n$$$$\n', rs: 1, at: { R1: 'H' } },
+    'a': { id: 'A', n: 'Adenine', na: 'A', m: '\n  Marvin  06150816552D          \n\n 11 12  0  0  0  0            999 V2000\n   -4.0674   -0.7795    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.3529   -1.1920    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.3529   -2.0170    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.0674   -2.4295    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.7818   -2.0170    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.7818   -1.1920    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6384   -2.4295    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9240   -2.0170    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9240   -1.1920    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.0674    0.0455    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6384   -3.2545    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1 10  1  0  0  0  0\n  1  6  2  0  0  0  0\n  1  2  1  0  0  0  0\n  9  2  1  0  0  0  0\n  2  3  2  0  0  0  0\n  7  3  1  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  2  0  0  0  0\n  5  6  1  0  0  0  0\n  7  8  1  0  0  0  0\n  7 11  1  0  0  0  0\n  8  9  2  0  0  0  0\nM  RGP  1  11   1\nM  END\n\n$$$$\n', rs: 1, at: { R1: 'H' } },
+    'c': { id: 'C', n: 'Cytosine', na: 'C', m: '\n  Marvin  06150820522D          \n\n  9  9  0  0  0  0            999 V2000\n   -1.3611   -7.5896    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.6466   -8.0021    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.6466   -8.8271    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.3611   -9.2396    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0755   -8.8271    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0755   -8.0021    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.3611   -6.7646    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.7900   -9.2396    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.3611  -10.0646    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  2  1  0  0  0  0\n  1  6  2  0  0  0  0\n  1  7  1  0  0  0  0\n  2  3  2  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  1  0  0  0  0\n  4  9  1  0  0  0  0\n  5  6  1  0  0  0  0\n  5  8  2  0  0  0  0\nM  RGP  1   9   1\nM  END\n\n$$$$\n', rs: 1, at: { R1: 'H' } },
+    'u': { id: 'U', n: 'Uracil', na: 'U', m: '\n  Marvin  06150820512D          \n\n  9  9  0  0  0  0            999 V2000\n   -1.2138  -11.7383    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.4993  -12.1508    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.4993  -12.9758    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2138  -13.3884    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9283  -12.9758    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9283  -12.1508    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2138  -10.9133    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.6427  -13.3883    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2138  -14.2134    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  7  2  0  0  0  0\n  1  6  1  0  0  0  0\n  1  2  1  0  0  0  0\n  2  3  2  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  1  0  0  0  0\n  4  9  1  0  0  0  0\n  5  8  2  0  0  0  0\n  5  6  1  0  0  0  0\nM  RGP  1   9   1\nM  END\n\n$$$$\n', rs: 1, at: { R1: 'H' } },
+    't': { id: 'T', n: 'Thymine', na: 'T', m: '\n  Marvin  06150820542D          \n\n 10 10  0  0  0  0            999 V2000\n    5.8512   -2.0140    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.5686   -2.4215    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    6.5744   -3.2465    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    5.8628   -3.6641    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    5.1454   -3.2565    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    5.1396   -2.4315    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    5.8455   -1.1891    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    4.4339   -3.6740    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    5.8686   -4.4891    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    7.3655   -2.2080    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n  1  7  2  0  0  0  0\n  1  6  1  0  0  0  0\n  1  2  1  0  0  0  0\n  2  3  2  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  1  0  0  0  0\n  4  9  1  0  0  0  0\n  5  8  2  0  0  0  0\n  5  6  1  0  0  0  0\n  2 10  1  0  0  0  0\nM  RGP  1   9   1\nM  END\n\n$$$$\n', rs: 1, at: { R1: 'H' } }
 };
 scil.helm.Monomers.chems = {
-    'example': { id: 'Example', n: 'Symmetric Doubler', na: null, m: '\n  Marvin  09241011262D          \n\n 23 22  0  0  0  0            999 V2000\n   -3.8304    2.5045    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.8304    1.6795    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.1159    1.2670    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.4014    1.6795    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.6869    1.2670    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.9725    1.6795    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.2580    1.2670    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    0.4565    1.6795    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    0.4565    2.5045    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.6869    0.4420    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    1.1709    2.9170    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    1.1709    3.7420    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    1.8854    4.1545    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    1.8854    4.9795    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.5448    2.9170    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.5448    3.7420    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.2593    4.1545    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.2593    4.9795    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    1.1709    1.2670    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.5448    1.2670    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0994   -0.2725    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -5.9738    5.3920    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    2.5999    5.3920    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  2  1  0  0  0  0\n  2  3  1  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  1  0  0  0  0\n  5  6  1  0  0  0  0\n  6  7  1  0  0  0  0\n  7  8  1  0  0  0  0\n  8  9  1  0  0  0  0\n  5 10  1  0  0  0  0\n  9 11  1  0  0  0  0\n 11 12  1  0  0  0  0\n 12 13  1  0  0  0  0\n 13 14  1  0  0  0  0\n  1 15  1  0  0  0  0\n 15 16  1  0  0  0  0\n 16 17  1  0  0  0  0\n 17 18  1  0  0  0  0\n  8 19  2  0  0  0  0\n  2 20  2  0  0  0  0\n 10 21  1  0  0  0  0\n 18 22  1  0  0  0  0\n 14 23  1  0  0  0  0\nM  RGP  3  21   1  22   2  23   3\nM  END\n\n$$$$\n', rs: 3, at: { R1: 'H', R2: 'H', R3: 'H'} },
-    'r': { id: 'R', n: 'R', na: null, m: null, rs: 0, at: {}}
-};﻿/*******************************************************************************
-* Copyright (C) 2018, The Pistoia Alliance
-* Created by Scilligence, built on JSDraw.Lite
-* 
-* Permission is hereby granted, free of charge, to any person obtaining
-* a copy of this software and associated documentation files (the
-* "Software"), to deal in the Software without restriction, including
-* without limitation the rights to use, copy, modify, merge, publish,
-* distribute, sublicense, and/or sell copies of the Software, and to
-* permit persons to whom the Software is furnished to do so, subject to the 
-* following conditions:
-* 
-* The above copyright notice and this permission notice shall be
-* included in all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*******************************************************************************/
-
+    'example': { id: 'Example', n: 'Symmetric Doubler', na: null, m: '\n  Marvin  09241011262D          \n\n 23 22  0  0  0  0            999 V2000\n   -3.8304    2.5045    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.8304    1.6795    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.1159    1.2670    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.4014    1.6795    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.6869    1.2670    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.9725    1.6795    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.2580    1.2670    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0\n    0.4565    1.6795    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    0.4565    2.5045    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.6869    0.4420    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    1.1709    2.9170    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    1.1709    3.7420    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    1.8854    4.1545    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    1.8854    4.9795    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.5448    2.9170    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.5448    3.7420    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.2593    4.1545    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.2593    4.9795    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n    1.1709    1.2670    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.5448    1.2670    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.0994   -0.2725    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n   -5.9738    5.3920    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n    2.5999    5.3920    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  2  1  0  0  0  0\n  2  3  1  0  0  0  0\n  3  4  1  0  0  0  0\n  4  5  1  0  0  0  0\n  5  6  1  0  0  0  0\n  6  7  1  0  0  0  0\n  7  8  1  0  0  0  0\n  8  9  1  0  0  0  0\n  5 10  1  0  0  0  0\n  9 11  1  0  0  0  0\n 11 12  1  0  0  0  0\n 12 13  1  0  0  0  0\n 13 14  1  0  0  0  0\n  1 15  1  0  0  0  0\n 15 16  1  0  0  0  0\n 16 17  1  0  0  0  0\n 17 18  1  0  0  0  0\n  8 19  2  0  0  0  0\n  2 20  2  0  0  0  0\n 10 21  1  0  0  0  0\n 18 22  1  0  0  0  0\n 14 23  1  0  0  0  0\nM  RGP  3  21   1  22   2  23   3\nM  END\n\n$$$$\n', rs: 3, at: { R1: 'H', R2: 'H', R3: 'H' } },
+    'r': { id: 'R', n: 'R', na: null, m: null, rs: 0, at: {} }
+};
+/* eslint-enable */
+//@formatter:on
+//# sourceMappingURL=Monomers.js.map/*******************************************************************************
+ * Copyright (C) 2018, The Pistoia Alliance
+ * Created by Scilligence, built on JSDraw.Lite
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the
+ * following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *******************************************************************************/
 /**
-* HELM Editor Plugin class
-* @class org.helm.webeditor.Plugin
-*/
-org.helm.webeditor.Plugin = scil.extend(scil._base, {
+ * HELM Editor Plugin class
+ * @class org.helm.webeditor.Plugin
+ */
+export class Plugin {
     /**
-    @property {MonomerExplorer} monomerexplorer - Monomer Explorer
-    **/
-    /**
-    @property {JSDraw2.Editor} jsd - Drawing Canvas
-    **/
-
-    /**
-    * @constructor Plugin
-    * @param {JSDraw2.Editor} jsd - The JSDraw canvas
-    **/
-    constructor: function (jsd) {
+     * @constructor Plugin
+     * @param {JSDraw2.Editor} jsd - The JSDraw canvas
+     **/
+    constructor(jsd) {
+        this.noDraw = false;
         this.jsd = jsd;
         this.monomerexplorer = null;
-    },
-
+    }
+    getMonomer(a, name) {
+        return this.jsd.options.getMonomer ? this.jsd.options.getMonomer(a, name) :
+            org.helm.webeditor.Monomers.getMonomer(a, name);
+    }
     /**
-    * Get the molecule formula
-    * @function getMF
-    * @param {bool} html - indicate if html format is needed
-    * @returns the molecular formula as a string
-    */
-    getMF: function (html) {
+     * Get the molecule formula
+     * @function getMF
+     * @param {bool} html - indicate if html format is needed
+     * @returns the molecular formula as a string
+     */
+    getMF(html) {
         return org.helm.webeditor.Formula.getMF(this.jsd.m, html);
-    },
-
+    }
     /**
-    * Get the molecule weight
-    * @function getMW
-    * @returns the molecular weight as a number
-    */
-    getMW: function () {
+     * Get the molecule weight
+     * @function getMW
+     * @returns the molecular weight as a number
+     */
+    getMW() {
         return org.helm.webeditor.Formula.getMW(this.jsd.m);
-    },
-
+    }
     /**
-    * Get the Extinction Coefficient
-    * @function getExtinctionCoefficient
-    * @returns the Extinction Coefficient as a number
-    */
-    getExtinctionCoefficient: function () {
+     * Get the Extinction Coefficient
+     * @function getExtinctionCoefficient
+     * @returns the Extinction Coefficient as a number
+     */
+    getExtinctionCoefficient() {
         return org.helm.webeditor.ExtinctionCoefficient.calculate(this.jsd.m);
-    },
-
-    getSpareRs: function (a, rs) {
+    }
+    getSpareRs(a, rs) {
         if (a.bio == null) // not bio
             return [];
-
-        var m = org.helm.webeditor.Monomers.getMonomer(a);
+        const m = this.getMonomer(a);
         if (m == null)
             return null;
-
         // https://github.com/PistoiaHELM/HELMWebEditor/issues/213
         if (m.id == "?")
             return "?";
-
         if (rs == null)
             rs = [];
         else
             rs.splice(0, rs.length);
-
-        for (var r in m.at) {
-            var i = parseInt(r.substr(1));
+        for (const r in m.at) {
+            const i = parseInt(r.substr(1));
             rs[i] = true;
         }
-
-        var used = [];
-        var bonds = this.jsd.m.getNeighborBonds(a);
-        for (var i = 0; i < bonds.length; ++i) {
-            var b = bonds[i];
+        const used = [];
+        const bonds = this.jsd.m.getNeighborBonds(a);
+        for (let i = 0; i < bonds.length; ++i) {
+            const b = bonds[i];
             if (b.a1 == a) {
                 used[b.r1] = true;
                 if (rs[b.r1] != null)
@@ -1438,27 +1388,22 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
                     rs[b.r2] = false;
             }
         }
-
-        var ret = [];
-        for (var i = 1; i <= rs.length; ++i) {
+        const ret = [];
+        for (let i = 1; i <= rs.length; ++i) {
             if (rs[i])
                 ret.push(i);
         }
-
         if (ret.length == 0 && a.biotype() == org.helm.webeditor.HELM.BLOB)
             return "?";
-
         return ret.length == 0 ? null : ret;
-    },
-
-    setAtomProp: function (obj) {
-        var a = JSDraw2.Atom.cast(obj);
+    }
+    setAtomProp(obj) {
+        const a = JSDraw2.Atom.cast(obj);
         if (a == null)
             return;
-
         if (this.atomPropDlg == null) {
-            var me = this;
-            var fields = {
+            const me = this;
+            const fields = {
                 elem: { label: "Monomer Symbol" },
                 tag: { label: "Annotation" }
             };
@@ -1467,37 +1412,31 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
         else {
             this.atomPropDlg.show();
         }
-
-        var elem = a.elem;
+        let elem = a.elem;
         if (elem == "?" && !scil.Utils.isNullOrEmpty(a.bio.ambiguity))
             elem = a.bio.ambiguity;
-
         if (elem == "Blob" || elem == "Group")
             this.atomPropDlg.form.fields.elem.setAttribute("readonly", "readonly");
         else
             this.atomPropDlg.form.fields.elem.removeAttribute("readonly");
-
-        var data = { elem: elem, tag: a.tag };
+        const data = { elem: elem, tag: a.tag };
         this.atomPropDlg.form.setData(data);
         this.atomPropDlg.atom = a;
-    },
-
-    setAtomProp2: function () {
-        var data = this.atomPropDlg.form.getData();
+    }
+    setAtomProp2() {
+        const data = this.atomPropDlg.form.getData();
         data.elem = scil.Utils.trim(data.elem);
         data.tag = scil.Utils.trim(data.tag);
-
         if (scil.Utils.isNullOrEmpty(data.elem)) {
             scil.Utils.alert("Monomer Type cannot be blank");
             return;
         }
-
-        var f = false;
-        var clone = this.jsd.clone();
-        var a = this.atomPropDlg.atom;
+        let f = false;
+        const clone = this.jsd.clone();
+        const a = this.atomPropDlg.atom;
         if (a.elem != data.elem || (a.tag == null ? "" : a.tag) != data.tag) {
-            var set = org.helm.webeditor.Monomers.getMonomerSet(a.biotype());
-            var m = set[scil.helm.symbolCase(data.elem)];
+            const set = org.helm.webeditor.Monomers.getMonomerSet(a.biotype());
+            const m = set[scil.helm.symbolCase(data.elem)];
             if (m == null) {
                 if (!org.helm.webeditor.isAmbiguous(data.elem, a.biotype())) {
                     data.elem = "(" + data.elem + ")";
@@ -1506,7 +1445,6 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
                         return;
                     }
                 }
-
                 a.elem = "?";
                 a.bio.ambiguity = data.elem;
             }
@@ -1514,36 +1452,29 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
                 a.elem = data.elem;
                 a.bio.ambiguity = null;
             }
-
             f = true;
             a.tag = data.tag == "" ? null : data.tag;
         }
-
         this.atomPropDlg.hide();
-
         if (f) {
             this.jsd.pushundo(clone);
             this.jsd.refresh(true);
         }
-    },
-
-    setBondProp: function (obj) {
-        var b = JSDraw2.Bond.cast(obj);
+    }
+    setBondProp(obj) {
+        const b = JSDraw2.Bond.cast(obj);
         if (b == null)
             return;
-
-        var data = {};
-        var blob1 = this._getDisplayName(b, data, 1);
-        var blob2 = this._getDisplayName(b, data, 2);
+        const data = { a1ratio: null, a2ratio: null };
+        const blob1 = this._getDisplayName(b, data, 1);
+        const blob2 = this._getDisplayName(b, data, 2);
         if (!blob1 && !blob2)
             return;
-
         data.a1ratio = b.ratio1;
         data.a2ratio = b.ratio2;
-
         if (this.bondPropDlg == null) {
-            var me = this;
-            var fields = {
+            const me = this;
+            const fields = {
                 a1: { label: "Monomer #1", viewonly: true },
                 a1pos: { label: "Position" },
                 a1r: { label: "R#" },
@@ -1558,32 +1489,27 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
         else {
             this.bondPropDlg.show();
         }
-
         this.bondPropDlg.form.fields.a1pos.disabled = !blob1;
         this.bondPropDlg.form.fields.a1r.disabled = !blob1;
         this.bondPropDlg.form.fields.a2pos.disabled = !blob2;
         this.bondPropDlg.form.fields.a2r.disabled = !blob2;
-
         if (scil.Utils.isNullOrEmpty(data.a1ratio))
             data.a1ratio = org.helm.webeditor.defaultbondratio;
         if (scil.Utils.isNullOrEmpty(data.a2ratio))
             data.a2ratio = org.helm.webeditor.defaultbondratio;
-
         this.bondPropDlg.form.setData(data);
         this.bondPropDlg.bond = b;
-    },
-
-    _getDisplayName: function (b, data, i) {
-        var ai = "a" + i;
-        var ri = "r" + i;
-        var air = "a" + i + "r";
-        var aipos = "a" + i + "pos";
-
-        var ret = false;
+    }
+    _getDisplayName(b, data, i) {
+        const ai = "a" + i;
+        const ri = "r" + i;
+        const air = "a" + i + "r";
+        const aipos = "a" + i + "pos";
+        let ret = false;
         if (b[ai].biotype() == org.helm.webeditor.HELM.BLOB) {
             ret = true;
             data[ai] = b[ai].elem;
-            var p = typeof (b[ri]) == "string" ? b[ri].indexOf(':') : -1;
+            const p = typeof (b[ri]) == "string" ? b[ri].indexOf(':') : -1;
             if (p > 0) {
                 data[aipos] = b[ri].substr(0, p);
                 data[air] = b[ri].substr(p + 1);
@@ -1596,14 +1522,11 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             data[ai] = b[ai].elem;
             data.a1r = b[ri];
         }
-
         return ret;
-    },
-
-    setBondProp2: function () {
-        var data = this.bondPropDlg.form.getData();
+    }
+    setBondProp2() {
+        const data = this.bondPropDlg.form.getData();
         this.bondPropDlg.hide();
-
         if (data.a1ratio == "?" || data.a2ratio == "?") {
             data.a1ratio = data.a2ratio = "?";
         }
@@ -1613,10 +1536,9 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             if (data.a2ratio == "")
                 data.a2ratio = org.helm.webeditor.defaultbondratio;
         }
-
-        var f = false;
-        var clone = this.jsd.clone();
-        var b = this.bondPropDlg.bond;
+        let f = false;
+        const clone = this.jsd.clone();
+        const b = this.bondPropDlg.bond;
         if (b.a1.biotype() == org.helm.webeditor.HELM.BLOB) {
             if (this._makeBondR(data.a1pos, data.a1r, b, "r1"))
                 f = true;
@@ -1625,7 +1547,6 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             b.ratio1 = data.a1ratio > 0 || data.a1ratio == "?" ? data.a1ratio : null;
             f = true;
         }
-
         if (b.a2.biotype() == org.helm.webeditor.HELM.BLOB) {
             if (this._makeBondR(data.a2pos, data.a2r, b, "r2"))
                 f = true;
@@ -1634,166 +1555,138 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             b.ratio2 = data.a2ratio > 0 || data.a2ratio == "?" ? data.a2ratio : null;
             f = true;
         }
-
         if (f) {
             this.jsd.pushundo(clone);
             this.jsd.refresh(true);
         }
-    },
-
-    _isRatioEq: function (r1, r2) {
+    }
+    _isRatioEq(r1, r2) {
         if (!(r1 > 0 || r1 == "?") || r1 == "")
             r1 = null;
         if (!(r2 > 0 || r2 == "?") || r2 == "")
             r2 = null;
-
         return r1 == r2;
-    },
-
-    _makeBondR: function (pos, r, b, key) {
+    }
+    _makeBondR(pos, r, b, key) {
         if (pos != null)
             pos = pos.trim();
         if (scil.Utils.isNullOrEmpty(pos))
             pos = "?";
-
         if (r != null)
             r = r.trim();
         if (scil.Utils.isNullOrEmpty(r))
             r = "?";
-
-        var s = pos + ":" + (!isNaN(r) && r > 0 ? "R" + r : r);
+        const s = pos + ":" + (!isNaN(r) && r > 0 ? "R" + r : r);
         if (b[key] == s)
             return false;
-
         b[key] = s;
         return true;
-    },
-
-    expandSuperAtom: function (obj) {
-        var a = JSDraw2.Atom.cast(obj);
+    }
+    expandSuperAtom(obj) {
+        const a = JSDraw2.Atom.cast(obj);
         if (a == null || a.bio == null || !org.helm.webeditor.isHelmNode(a))
             return false;
-
         this.jsd.pushundo();
         if (this.groupExpand(a))
             this.jsd.refresh(true);
         return true;
-    },
-
-    hasSpareR: function (a, r) {
+    }
+    hasSpareR(a, r) {
         if (a == null)
             return false;
         if (a.bio == null)
             return true;
-
         if (typeof (r) == "string" && scil.Utils.startswith(r, "R"))
             r = parseInt(r.substr(1));
-
         if (a.biotype() == org.helm.webeditor.HELM.BLOB)
             return true;
-
-        var rs = this.getSpareRs(a);
+        const rs = this.getSpareRs(a);
         if (rs == null || rs.indexOf(r) < 0) {
             //scil.Utils.alert("The monomer, " + a.elem + ", does define R" + r);
             return false;
         }
-
-        var bonds = this.jsd.m.getNeighborBonds(a);
-        for (var i = 0; i < bonds.length; ++i) {
-            var b = bonds[i];
+        const bonds = this.jsd.m.getNeighborBonds(a);
+        for (let i = 0; i < bonds.length; ++i) {
+            const b = bonds[i];
             if (b.a1 == a && b.r1 == r)
                 return false;
             else if (b.a2 == a && b.r2 == r)
                 return false;
         }
-
         return true;
-    },
-
-    getDefaultNodeType: function (a, c) {
-        var s = null;
+    }
+    getDefaultNodeType(a, c) {
+        let s = null;
         if (this.monomerexplorer != null)
             s = this.monomerexplorer.selected[a];
         if (!scil.Utils.isNullOrEmpty(s))
             return s;
-
-        var set = org.helm.webeditor.Monomers.getMonomerSet(a);
-        var m = set == null || this.jsd._keypresschar == null ? null : set[this.jsd._keypresschar];
+        const set = org.helm.webeditor.Monomers.getMonomerSet(a);
+        const m = set == null || this.jsd._keypresschar == null ? null : set[this.jsd._keypresschar];
         if (m != null)
             return m.id;
-
         if (c != null)
             return c;
-
         return org.helm.webeditor.Monomers.getDefaultMonomer(a);
-    },
-
-    setNodeType: function (a, biotype, elem) {
-        var mon = org.helm.webeditor.Monomers.getMonomer(biotype, elem);
+    }
+    setNodeType(a, biotype, elem) {
+        const mon = this.getMonomer(biotype, elem);
+        let id;
         if (mon != null) {
-            var id = a.bio == null ? null : a.bio.id;
+            id = a.bio == null ? null : a.bio.id;
             a.bio = { type: biotype, id: id };
             a.elem = mon.id;
             return true;
         }
-
-        var f = org.helm.webeditor.isAmbiguous(elem, biotype);
+        let f = org.helm.webeditor.isAmbiguous(elem, biotype);
         if (!f) {
             elem = "(" + elem + ")";
             f = org.helm.webeditor.isAmbiguous(elem, biotype);
         }
-
         if (f) {
             a.elem = "?";
             a.bio = { type: biotype, id: id, ambiguity: elem };
             return true;
         }
-
         return false;
-    },
-
-    setNodeTypeFromGui: function (a, s) {
-        var m = scil.helm.Monomers.getMonomer(a, s);
+    }
+    setNodeTypeFromGui(a, s) {
+        const m = scil.helm.Monomers.getMonomer(a, s);
         if (m != null) {
             a.elem = s;
             return true;
         }
-
-        var f = org.helm.webeditor.isAmbiguous(s, a.biotype());
+        let f = org.helm.webeditor.isAmbiguous(s, a.biotype());
         if (!f) {
             s = "(" + s + ")";
             f = org.helm.webeditor.isAmbiguous(s, a.biotype());
         }
-
         if (f) {
             a.elem = "?";
             a.bio.ambiguity = s;
             return true;
         }
-
         scil.Utils.alert("Unknown monomer type: " + s);
         return false;
-    },
-
-    cancelDnD: function () {
+    }
+    cancelDnD() {
         if (this.monomerexplorer != null)
             this.monomerexplorer.dnd.cancel();
-    },
-
+    }
     /**
-    * Replace monomers
-    * @function replaceMonomer
-    * @param {enum} monomertype - org.helm.webeditor.HELM.BASE/SUGAR/LINKER/AA/CHEM
-    * @param {string} find - the monomer name to be found
-    * @param {string} replacedwith - the monomer name to be replaced with
-    * @param {bool} selectedonly - indicate if seaching the selected part only
-    * @returns the count replaced
-    */
-    replaceMonomer: function (monomertype, find, replacedwith, selectedonly) {
-        var n = 0;
-        var atoms = this.jsd.m.atoms;
-        for (var i = 0; i < atoms.length; ++i) {
-            var a = atoms[i];
+     * Replace monomers
+     * @function replaceMonomer
+     * @param {enum} monomertype - org.helm.webeditor.HELM.BASE/SUGAR/LINKER/AA/CHEM
+     * @param {string} find - the monomer name to be found
+     * @param {string} replacedwith - the monomer name to be replaced with
+     * @param {bool} selectedonly - indicate if seaching the selected part only
+     * @returns the count replaced
+     */
+    replaceMonomer(monomertype, find, replacedwith, selectedonly) {
+        let n = 0;
+        const atoms = this.jsd.m.atoms;
+        for (let i = 0; i < atoms.length; ++i) {
+            const a = atoms[i];
             if ((selectedonly && a.selected || !selectedonly) &&
                 find == a.elem &&
                 (monomertype == "" || monomertype == a.biotype())) {
@@ -1802,149 +1695,126 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             }
         }
         return n;
-    },
-
-    makeComplementaryStrand: function (a) {
-        var chain = org.helm.webeditor.Chain.getChain(this.jsd.m, a);
+    }
+    makeComplementaryStrand(a) {
+        const chain = org.helm.webeditor.Chain.getChain(this.jsd.m, a);
         if (chain == null)
             return null;
-
         return chain.makeComplementaryStrand(this.jsd.m, this.jsd.bondlength);
-    },
-
-    setHelmBlobType: function (a, type) {
+    }
+    setHelmBlobType(a, type) {
         if (a.biotype() == org.helm.webeditor.HELM.BLOB && a.bio.blobtype != type) {
             this.jsd.pushundo();
             a.bio.blobtype = type;
             this.jsd.refresh(true);
         }
-    },
-
-    createGroup: function (a, collapse, resetid) {
-        var list = [];
-        var graphics = this.jsd.m.graphics;
-        for (var i = 0; i < graphics.length; ++i) {
+    }
+    createGroup(a, collapse, resetid) {
+        let list = [];
+        const graphics = this.jsd.m.graphics;
+        for (let i = 0; i < graphics.length; ++i) {
             if (JSDraw2.Group.cast(graphics[i]) != null && graphics[i].selected)
                 list.push(graphics[i]);
         }
-
         if (list.length > 1)
             return this.createGroup2(list, collapse);
-
         list = [];
-        var atoms = this.jsd.m.atoms;
-        for (var i = 0; i < atoms.length; ++i) {
+        const atoms = this.jsd.m.atoms;
+        for (let i = 0; i < atoms.length; ++i) {
             if (atoms[i].selected)
                 list.push(atoms[i]);
         }
-
         if (list.length == 0)
             return false;
-
-        var chain = null;
-        var chains = org.helm.webeditor.Chain.getChains(this.jsd.m);
+        let chain = null;
+        const chains = org.helm.webeditor.Chain.getChains(this.jsd.m);
         if (chains.length > 0) {
-            var a0 = list[0];
-            for (var i = 0; i < chains.length; ++i) {
+            const a0 = list[0];
+            for (let i = 0; i < chains.length; ++i) {
                 if (scil.Utils.indexOf(chains[i].atoms, a0) >= 0) {
                     chain = chains[i];
                     break;
                 }
             }
         }
-
         if (chain == null)
             return false;
-
-        for (var i = 0; i < list.length; ++i) {
+        for (let i = 0; i < list.length; ++i) {
             if (scil.Utils.indexOf(chain.atoms, list[i]) < 0 && scil.Utils.indexOf(chain.bases, list[i]) < 0) {
                 scil.Utils.alert("All monomer should be in one chain");
                 return false;
             }
         }
-
-        var openbonds = [];
-        for (var i = 0; i < chain.bonds.length; ++i) {
-            var b = chain.bonds[i];
-            var i1 = scil.Utils.indexOf(list, b.a1);
-            var i2 = scil.Utils.indexOf(list, b.a2);
+        const openbonds = [];
+        for (let i = 0; i < chain.bonds.length; ++i) {
+            const b = chain.bonds[i];
+            const i1 = scil.Utils.indexOf(list, b.a1);
+            const i2 = scil.Utils.indexOf(list, b.a2);
             if (i1 < 0 && i2 >= 0 || i1 >= 0 && i2 < 0)
                 openbonds.push({ bond: b, ai: i1 >= 0 ? 1 : 2 });
         }
-
-        var g = this.createGroup2(list, collapse);
+        const g = this.createGroup2(list, collapse);
         if (g != null && openbonds.length > 0) {
-            var sa = this.collapseGroup(g);
+            const sa = this.collapseGroup(g);
             org.helm.webeditor.Layout.resetIDs(sa.superatom, true);
             this.groupExpand(sa);
-
-            for (var i = 0; i < openbonds.length; ++i) {
-                var b = openbonds[i];
+            for (let i = 0; i < openbonds.length; ++i) {
+                const b = openbonds[i];
                 if (b.ai == 1) {
-                    var a1 = b.bond.a1;
+                    const a1 = b.bond.a1;
                     b.bond.a1 = sa;
                     b.bond.r1 = a1._aaid + ":R" + b.bond.r1;
                 }
                 else {
-                    var a2 = b.bond.a2;
+                    const a2 = b.bond.a2;
                     b.bond.a2 = sa;
                     b.bond.r2 = a2._aaid + ":R" + b.bond.r2;
                 }
             }
         }
-
         if (g != null && resetid)
             org.helm.webeditor.Layout.resetIDs(this.jsd.m);
         return g != null;
-    },
-
-    createGroup2: function (list, collapse) {
-        var g = new JSDraw2.Group("", "helmgroup");
+    }
+    createGroup2(list, collapse) {
+        const g = new JSDraw2.Group("", "helmgroup");
         g.gap = 10;
         this.jsd.m.addGraphics(g);
-
-        for (var i = 0; i < list.length; ++i)
+        for (let i = 0; i < list.length; ++i)
             list[i].group = g;
-
         //this.jsd.refresh(true);
         if (collapse)
             this.collapseGroup(g);
         return g;
-    },
-
-    collapseGroup: function (g, clean) {
+    }
+    collapseGroup(g, clean) {
         if (JSDraw2.Group.cast(g) == null)
             return null;
-
         this.jsd.m.clearFlag();
-        var ret = this._collapseGroup(g);
+        const ret = this._collapseGroup(g);
         if (ret != null && clean)
             this.clean();
-
         return ret;
-    },
-
-    _collapseGroup: function (g) {
-        var sa = g.a != null ? g.a : org.helm.webeditor.Interface.createAtom(this.jsd.m, new JSDraw2.Point());
+    }
+    _collapseGroup(g) {
+        const sa = g.a != null ? g.a : org.helm.webeditor.Interface.createAtom(this.jsd.m, new JSDraw2.Point());
         //sa.tag = "Group";
-        var mol = new JSDraw2.Mol();
+        const mol = new JSDraw2.Mol();
         sa.superatom = mol;
         sa.hidden = null;
         sa.group = g.group;
         sa.ratio = g.ratio;
         sa.tag = g.tag;
         this.setNodeType(sa, org.helm.webeditor.HELM.BLOB, "group");
-
-        var graphics = scil.clone(this.jsd.m.graphics);
-        for (var i = 0; i < graphics.length; ++i) {
-            var g2 = graphics[i];
+        const graphics = scil.clone(this.jsd.m.graphics);
+        for (let i = 0; i < graphics.length; ++i) {
+            const g2 = graphics[i];
             if (g2.group == g)
                 this._collapseGroup(g2);
         }
-
-        var atoms = this.jsd.m.atoms;
-        for (var i = atoms.length - 1; i >= 0; --i) {
-            var a = atoms[i];
+        const atoms = this.jsd.m.atoms;
+        for (let i = atoms.length - 1; i >= 0; --i) {
+            const a = atoms[i];
             if (a.group == g) {
                 mol.atoms.push(a);
                 a.f = true;
@@ -1952,12 +1822,11 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
                 atoms.splice(i, 1);
             }
         }
-
-        var apo = 0;
-        var connections = [];
-        var bonds = this.jsd.m.bonds;
-        for (var i = bonds.length - 1; i >= 0; --i) {
-            var b = bonds[i];
+        let apo = 0;
+        const connections = [];
+        const bonds = this.jsd.m.bonds;
+        for (let i = bonds.length - 1; i >= 0; --i) {
+            const b = bonds[i];
             if (b.a1.f != b.a2.f) {
                 ++apo;
                 connections.push(b);
@@ -1977,27 +1846,22 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
                 bonds.splice(i, 1);
             }
         }
-
-        var r = org.helm.webeditor.Layout.getRect(mol.atoms);
+        const r = org.helm.webeditor.Layout.getRect(mol.atoms);
         sa.p = r.center();
-
         this.jsd.m.delGraphics(g);
         //this.clean();
-
         //this.jsd.refresh(true);
         return sa;
-    },
-
-    groupExpand: function (a) {
+    }
+    groupExpand(a) {
         if (a == null || a.superatom == null)
             return false;
-
-        var m = a.superatom;
-        var bonds = this.jsd.m.getAllBonds(a);
-        for (var i = 0; i < bonds.length; ++i) {
-            var b = bonds[i];
+        const m = a.superatom;
+        const bonds = this.jsd.m.getAllBonds(a);
+        for (let i = 0; i < bonds.length; ++i) {
+            const b = bonds[i];
             if (b.a1 == a) {
-                var oa = this.findAtomByAP(m, b.apo1);
+                const oa = this.findAtomByAP(m, b.apo1);
                 if (oa != null) {
                     b.a1 = oa;
                     scil.Utils.delFromArray(oa.attachpoints, b.apo1);
@@ -2005,7 +1869,7 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
                 }
             }
             else {
-                var oa = this.findAtomByAP(m, b.apo2);
+                const oa = this.findAtomByAP(m, b.apo2);
                 if (oa != null) {
                     b.a2 = oa;
                     scil.Utils.delFromArray(oa.attachpoints, b.apo2);
@@ -2013,18 +1877,14 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
                 }
             }
         }
-
-        var c = m.rect().center();
+        const c = m.rect().center();
         m.offset(a.p.x - c.x, a.p.y - c.y);
-
         this.jsd.m.mergeMol(m);
-
-        var g = new JSDraw2.Group("", "helmgroup");
+        const g = new JSDraw2.Group("", "helmgroup");
         g.gap = 10;
         this.jsd.m.addGraphics(g);
-        for (var i = 0; i < m.atoms.length; ++i)
+        for (let i = 0; i < m.atoms.length; ++i)
             m.atoms[i].group = g;
-
         g.a = a;
         g.group = a.group;
         g.ratio = a.ratio;
@@ -2033,87 +1893,74 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
         a.hidden = true;
         //this.jsd.m.delAtom(a);
         //this.clean();
-
         //this.jsd.refresh(true);
         return true;
-    },
-
-    findAtomByAP: function (m, apo) {
-        for (var i = 0; i < m.atoms.length; ++i) {
-            var a = m.atoms[i];
+    }
+    findAtomByAP(m, apo) {
+        for (let i = 0; i < m.atoms.length; ++i) {
+            const a = m.atoms[i];
             if (scil.Utils.indexOf(a.attachpoints, apo) >= 0)
                 return a;
         }
         return null;
-    },
-
+    }
     /**
-    * Apply a rule
-    * @function applyRule
-    * @param {function} rulefun - a rule function to be called: function(plugin) {}
-    */
-    applyRule: function (rulefun) {
+     * Apply a rule
+     * @function applyRule
+     * @param {function} rulefun - a rule function to be called: function(plugin) {}
+     */
+    applyRule(rulefun) {
         org.helm.webeditor.RuleSet.applyRule(this, rulefun);
-    },
-
-    applyRules: function (funs) {
+    }
+    applyRules(funs) {
         org.helm.webeditor.RuleSet.applyRules(this, funs);
-    },
-
-    addNode: function (p, biotype, elem) {
+    }
+    addNode(p, biotype, elem) {
         elem = org.helm.webeditor.IO.trimBracket(elem);
-
-        var m = org.helm.webeditor.Monomers.getMonomer(biotype, elem);
+        let m = this.getMonomer(biotype, elem);
         if (m == null)
             m = org.helm.webeditor.Monomers.addSmilesMonomer(biotype, elem);
-
-        var ambiguity = null;
+        let ambiguity = null;
         if (m == null && org.helm.webeditor.isAmbiguous(elem, biotype)) {
-            m = org.helm.webeditor.Monomers.getMonomer(biotype, "?");
+            m = this.getMonomer(biotype, "?");
             ambiguity = elem;
         }
-
         if (m == null) {
             scil.Utils.alert("Unknown " + biotype + " monomer name: " + elem);
             return null;
         }
-
-        var a = org.helm.webeditor.Interface.createAtom(this.jsd.m, p);
+        const a = org.helm.webeditor.Interface.createAtom(this.jsd.m, p);
         this.setNodeType(a, biotype, m.id == null ? elem : m.id);
         a.bio.ambiguity = ambiguity;
         return a;
-    },
-
-    addBond: function (a1, a2, r1, r2) {
+    }
+    addBond(a1, a2, r1, r2) {
         if (a1 == null || a2 == null || a1 == a2 || r1 != "?" && !this.hasSpareR(a1, r1) || r2 != "?" && !this.hasSpareR(a2, r2))
             return null;
         //if (a1.biotype() == org.helm.webeditor.HELM.SUGAR && a2.biotype() == org.helm.webeditor.HELM.SUGAR || a1.biotype() == org.helm.webeditor.HELM.AA && a2.biotype() == org.helm.webeditor.HELM.AA) {
         //    if ((r1 == 1 || r1 == 2) && r1 == r2)
         //        return null;
         //}
-        var b = org.helm.webeditor.Interface.createBond(this.jsd.m, a1, a2);
+        const b = org.helm.webeditor.Interface.createBond(this.jsd.m, a1, a2);
         b.r1 = r1;
         b.r2 = r2;
         return b;
-    },
-
-    addHydrogenBond: function (a1, a2) {
+    }
+    addHydrogenBond(a1, a2) {
         if (a1 == null || a2 == null || a1 == a2)
             return null;
-        var b = org.helm.webeditor.Interface.createBond(this.jsd.m, a1, a2);
-        b.type = JSDraw2.BONDTYPES.UNKNOWN;
+        const b = org.helm.webeditor.Interface.createBond(this.jsd.m, a1, a2);
+        b.type = 0 /* JSDraw2.BONDTYPES.UNKNOWN */;
         return b;
-    },
-
-    connnectGroup: function (p1, object) {
-        var object1 = this.jsd.toggle(p1);
-        var object2 = object;
-        var t1 = JSDraw2.Atom.cast(object1);
-        var t2 = JSDraw2.Atom.cast(object2);
-
-        var showmsg = false;
+    }
+    connnectGroup(p1, object) {
+        const object1 = this.jsd.toggle(p1);
+        const object2 = object;
+        let t1 = JSDraw2.Atom.cast(object1);
+        let t2 = JSDraw2.Atom.cast(object2);
+        let showmsg = false;
         if (t1 == null) {
-            var g1 = JSDraw2.Group.cast(object1);
+            const g1 = JSDraw2.Group.cast(object1);
             if (g1 != null && !scil.Utils.isNullOrEmpty(g1.ratio)) {
                 showmsg = true;
                 g1.ratio = null;
@@ -2121,9 +1968,8 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             t1 = this.collapseGroup(g1);
             this.groupExpand(t1);
         }
-
         if (t2 == null) {
-            var g2 = JSDraw2.Group.cast(object2);
+            const g2 = JSDraw2.Group.cast(object2);
             if (g2 != null && !scil.Utils.isNullOrEmpty(g2.ratio)) {
                 showmsg = true;
                 g2.ratio = null;
@@ -2131,52 +1977,42 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             t2 = this.collapseGroup(g2);
             this.groupExpand(t2);
         }
-
         if (showmsg)
             scil.Utils.alert("Ratios on groups are removed");
-
         if (t1 != null && t2 != null) {
             this.connectFragment(t1, t2);
             this.jsd.moveCenter();
             return true;
         }
-
         return false;
-    },
-
-    connectFragment: function (a1, a2, extendchain) {
-        var b = this.jsd.m.findBond(a1, a2);
+    }
+    connectFragment(a1, a2, extendchain) {
+        let b = this.jsd.m.findBond(a1, a2);
         if (b != null)
             return;
-
-        var a = null;
-        var frag = null;
-
-        var left = a1.p.x < a2.p.x ? a1 : a2;
+        let a = null;
+        let frag = null;
+        const left = a1.p.x < a2.p.x ? a1 : a2;
         if (a1.p.x > a2.p.x) {
-            var t = a1;
+            const t = a1;
             a1 = a2;
             a2 = t;
         }
-
-        var delta = org.helm.webeditor.bondscale * this.jsd.bondlength;
-
-        var bt1 = a1.biotype();
-        var bt2 = a2.biotype();
+        const delta = org.helm.webeditor.bondscale * this.jsd.bondlength;
+        let bt1 = a1.biotype();
+        let bt2 = a2.biotype();
         if (bt1 == org.helm.webeditor.HELM.LINKER && bt2 == org.helm.webeditor.HELM.SUGAR || bt1 == org.helm.webeditor.HELM.SUGAR && bt2 == org.helm.webeditor.HELM.LINKER || bt1 == org.helm.webeditor.HELM.SUGAR && bt2 == org.helm.webeditor.HELM.SUGAR ||
             bt1 == org.helm.webeditor.HELM.AA && bt2 == org.helm.webeditor.HELM.AA) {
-            var f = false;
+            let f = false;
             if (this.hasSpareR(a1, 2) && this.hasSpareR(a2, 1)) {
                 f = true;
             }
             else if (this.hasSpareR(a2, 2) && this.hasSpareR(a1, 1)) {
-                var t = a1;
+                const t = a1;
                 a1 = a2;
                 a2 = t;
-
                 f = true;
             }
-
             if (f) {
                 frag = this.jsd.getFragment(a2);
                 if (bt1 == org.helm.webeditor.HELM.AA) {
@@ -2193,35 +2029,33 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
                             b = this.addBond(a, a2, 2, 1);
                     }
                 }
-
                 this.finishConnect(extendchain, b, a, a1, a2, frag, delta);
                 return;
             }
         }
         else if (bt1 == org.helm.webeditor.HELM.SUGAR && bt2 == org.helm.webeditor.HELM.BASE || bt2 == org.helm.webeditor.HELM.SUGAR && bt1 == org.helm.webeditor.HELM.BASE) {
             if (bt2 == org.helm.webeditor.HELM.SUGAR) {
-                var t = a1;
+                const t = a1;
                 a1 = a2;
                 a2 = t;
             }
-            var b = this.addBond(a1, a2, 3, 1);
+            const b = this.addBond(a1, a2, 3, 1);
             if (b != null) {
                 a2.p = org.helm.webeditor.Interface.createPoint(a1.p.x, a1.p.y + Math.abs(delta));
                 this.finishConnect(false, b, null, b.a1);
             }
             return;
         }
-
-        var rs1 = this.getSpareRs(a1);
-        var rs2 = this.getSpareRs(a2);
+        const rs1 = this.getSpareRs(a1);
+        const rs2 = this.getSpareRs(a2);
         if ((rs1 == null || rs2 == null)) {
             if (this.canPair(a1, a2) && this.jsd.m.findBond(a1, a2) == null) {
                 // hydrogen bond
-                org.helm.webeditor.Interface.createBond(this.jsd.m, a1, a2, JSDraw2.BONDTYPES.UNKNOWN);
+                org.helm.webeditor.Interface.createBond(this.jsd.m, a1, a2, 0 /* JSDraw2.BONDTYPES.UNKNOWN */);
                 this.finishConnect(extendchain);
             }
             else {
-                var s = "";
+                let s = "";
                 if (rs1 == null && rs2 == null)
                     s = "Both monomers don't";
                 else if (rs1 == null)
@@ -2233,13 +2067,11 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             }
             return;
         }
-
         if (rs1.length <= 1 && rs2.length <= 1) {
             if (bt1 == org.helm.webeditor.HELM.LINKER)
                 bt1 = org.helm.webeditor.HELM.SUGAR;
             if (bt2 == org.helm.webeditor.HELM.LINKER)
                 bt2 = org.helm.webeditor.HELM.SUGAR;
-
             // https://github.com/PistoiaHELM/HELMWebEditor/issues/101
             // prevent head-to-head and tail-to-tail connection
             if (!org.helm.webeditor.allowHeadToHeadConnection) {
@@ -2248,15 +2080,13 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
                     return;
                 }
             }
-
             frag = this.jsd.getFragment(a2);
             b = this.addBond(a1, a2, rs1[0], rs2[0]);
         }
         else {
             if (extendchain)
                 this.jsd.refresh();
-
-            var me = this;
+            const me = this;
             this.chooseRs(rs1, rs2, a1, a2, function (r1, r2) {
                 frag = me.jsd.getFragment(a2);
                 b = me.addBond(a1, a2, r1, r2);
@@ -2264,85 +2094,71 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             });
             return;
         }
-
         this.finishConnect(extendchain, b, a, a1, a2, frag, delta);
-    },
-
-    canPair: function (a1, a2) {
+    }
+    canPair(a1, a2) {
         if (a1.biotype() == org.helm.webeditor.HELM.BASE && a2.biotype() == org.helm.webeditor.HELM.BASE) {
-            var c1 = a1.elem;
-            var c2 = a2.elem;
+            const c1 = a1.elem;
+            const c2 = a2.elem;
             return c1 == "A" && (c2 == "T" || c2 == "U") || (c1 == "T" || c1 == "U") && c2 == "A" ||
                 c1 == "G" && c2 == "C" || c1 == "C" && c2 == "G";
         }
         return false;
-    },
-
-    needLinker: function () {
-        var linker = this.getDefaultNodeType(org.helm.webeditor.HELM.LINKER);
+    }
+    needLinker() {
+        const linker = this.getDefaultNodeType(org.helm.webeditor.HELM.LINKER);
         return linker != "null";
-    },
-
-    finishConnect: function (extendchain, b, a, a1, a2, frag, delta) {
+    }
+    finishConnect(extendchain, b, a, a1, a2, frag, delta) {
         this.clean();
         this.jsd.refresh(extendchain || b != null);
-    },
-
-    chooseRs: function (rs1, rs2, a1, a2, callback) {
+    }
+    chooseRs(rs1, rs2, a1, a2, callback) {
         if (this.chooseRDlg == null) {
-            var me = this;
-            var fields = {
-                s1: { label: "Monomer 1", type: "jsdraw", width: 240, height: 150, viewonly: true, style: { border: "solid 1px gray"} },
+            const me = this;
+            const fields = {
+                s1: { label: "Monomer 1", type: "jsdraw", width: 240, height: 150, viewonly: true, style: { border: "solid 1px gray" } },
                 r1: { type: "select", width: 120 },
                 g: { type: "div" },
-                s2: { label: "Monomer 2", type: "jsdraw", width: 240, height: 150, viewonly: true, style: { border: "solid 1px gray"} },
+                s2: { label: "Monomer 2", type: "jsdraw", width: 240, height: 150, viewonly: true, style: { border: "solid 1px gray" } },
                 r2: { type: "select", width: 120 }
             };
             this.chooseRDlg = scil.Form.createDlgForm("Choose Connecting Points", fields, { label: "OK", width: 240, onclick: function () { me.chooseRs2(); } });
         }
-
         this.chooseRDlg.callback = callback;
         this.chooseRDlg.show2({ owner: this.jsd });
         this._listRs(this.chooseRDlg.form.fields.r1, rs1, 2);
         this._listRs(this.chooseRDlg.form.fields.r2, rs2, 1);
-
         this.chooseRDlg.form.fields.r1.disabled = rs1.length <= 1;
         this.chooseRDlg.form.fields.r2.disabled = rs2.length <= 1;
-
-        var m1 = org.helm.webeditor.Monomers.getMonomer(a1);
-        var m2 = org.helm.webeditor.Monomers.getMonomer(a2);
+        const m1 = this.getMonomer(a1);
+        const m2 = this.getMonomer(a2);
         this.chooseRDlg.form.fields.s1.jsd.setMolfile(org.helm.webeditor.Monomers.getMolfile(m1));
         this.chooseRDlg.form.fields.s2.jsd.setMolfile(org.helm.webeditor.Monomers.getMolfile(m2));
-
-        var tr1 = scil.Utils.getParent(this.chooseRDlg.form.fields.s1, "TR");
-        var tr2 = scil.Utils.getParent(this.chooseRDlg.form.fields.s2, "TR");
+        const tr1 = scil.Utils.getParent(this.chooseRDlg.form.fields.s1, "TR");
+        const tr2 = scil.Utils.getParent(this.chooseRDlg.form.fields.s2, "TR");
         tr1.childNodes[0].innerHTML = a1.elem + (a1.bio == null || a1.bio.id == null ? "" : a1.bio.id);
         tr2.childNodes[0].innerHTML = a2.elem + (a2.bio == null || a2.bio.id == null ? "" : a2.bio.id);
-
         this.chooseRDlg.rs1 = rs1;
         this.chooseRDlg.rs2 = rs2;
-    },
-
-    chooseRs2: function () {
-        var d = this.chooseRDlg.form.getData();
+    }
+    chooseRs2() {
+        const d = this.chooseRDlg.form.getData();
         if (scil.Utils.isNullOrEmpty(d.r1) && this.chooseRDlg.rs1.length > 0 || scil.Utils.isNullOrEmpty(d.r2) && this.chooseRDlg.rs2.length > 0) {
             scil.Utils.alert("Please select Rs for both Nodes");
             return;
         }
-
         this.chooseRDlg.hide();
         this.chooseRDlg.callback(d.r1 == null || d.r1 == "?" ? d.r1 : parseInt(d.r1), d.r2 == null || d.r2 == "?" ? d.r2 : parseInt(d.r2));
-    },
-
-    _listRs: function (sel, list, v) {
-        var ss = {};
-        for (var i = 0; i < list.length; ++i)
+    }
+    _listRs(sel, list, v) {
+        const ss = {};
+        for (let i = 0; i < list.length; ++i)
             ss[list[i] + ""] = list[i] == "?" ? "?" : ("R" + list[i]);
         scil.Utils.listOptions(sel, ss, v == null ? null : (v + ""), true, false);
-    },
-
-    changeMonomer: function (a, cloned) {
-        var s = this.getDefaultNodeType(a.biotype());
+    }
+    changeMonomer(a, cloned) {
+        const s = this.getDefaultNodeType(a.biotype());
         if (!scil.Utils.isNullOrEmpty(s) && a.elem != s && s != "null" && a.biotype() != org.helm.webeditor.HELM.BLOB) {
             this.jsd.pushundo(cloned);
             this.setNodeType(a, a.biotype(), s);
@@ -2351,24 +2167,21 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
         else {
             scil.Utils.beep();
         }
-    },
-
-    extendChain: function (a1, cmd, p1, p2, cloned) {
-        var rs = [];
-        var rgroups = this.getSpareRs(a1, rs);
+    }
+    extendChain(a1, cmd, p1, p2, cloned) {
+        const rs = [];
+        const rgroups = this.getSpareRs(a1, rs);
         if (rgroups == null) {
             scil.Utils.alert("No connecting points available");
             this.jsd.redraw();
             return;
         }
-
-        var delta = p2.x > p1.x ? org.helm.webeditor.bondscale * this.jsd.bondlength : -org.helm.webeditor.bondscale * this.jsd.bondlength;
-        var p = org.helm.webeditor.Interface.createPoint(a1.p.x + delta, a1.p.y);
-
-        var a2 = null;
-        var r1 = null;
-        var r2 = null;
-        var bond = null;
+        const delta = p2.x > p1.x ? org.helm.webeditor.bondscale * this.jsd.bondlength : -org.helm.webeditor.bondscale * this.jsd.bondlength;
+        let p = org.helm.webeditor.Interface.createPoint(a1.p.x + delta, a1.p.y);
+        let a2 = null;
+        let r1 = null;
+        let r2 = null;
+        let bond = null;
         if (cmd == "helm_chem") {
             if (Math.abs(p2.y - p1.y) / Math.abs(p2.x - p1.x) > 5)
                 p = org.helm.webeditor.Interface.createPoint(a1.p.x, a1.p.y + Math.abs(delta) * (p2.y > p1.y ? 1 : -1));
@@ -2409,11 +2222,10 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             }
             else {
                 if (rs[1] == true || rs[2] == true) {
-                    var m = this.getDefaultNodeType(org.helm.webeditor.HELM.SUGAR);
-                    var e = this.getDefaultNodeType(org.helm.webeditor.HELM.LINKER);
-                    var linker = null;
-                    var sugar = null;
-
+                    const m = this.getDefaultNodeType(org.helm.webeditor.HELM.SUGAR);
+                    const e = this.getDefaultNodeType(org.helm.webeditor.HELM.LINKER);
+                    let linker = null;
+                    let sugar = null;
                     if (delta < 0) {
                         if (rs[1])
                             r1 = 1;
@@ -2427,14 +2239,12 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
                             r1 = 1;
                     }
                     r2 = r1 == 1 ? 2 : 1;
-
                     if (r1 == 1) {
                         if (e != "null") {
                             linker = this.addNode(p.clone(), org.helm.webeditor.HELM.LINKER, e);
                             p.x += delta;
                         }
                         sugar = this.addNode(p.clone(), org.helm.webeditor.HELM.SUGAR, m);
-
                         if (linker != null) {
                             bond = this.addBond(a1, linker, r1, r2);
                             this.addBond(linker, sugar, r1, r2);
@@ -2448,7 +2258,6 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
                         p.x += delta;
                         if (e != "null")
                             linker = this.addNode(p.clone(), org.helm.webeditor.HELM.LINKER, e);
-
                         if (linker != null) {
                             bond = this.addBond(a1, sugar, r1, r2);
                             this.addBond(sugar, linker, r1, r2);
@@ -2457,25 +2266,21 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
                             bond = this.addBond(a1, sugar, r1, r2);
                         }
                     }
-
-                    var base = null;
+                    let base = null;
                     if (cmd == "helm_nucleotide" && org.helm.webeditor.Monomers.hasR(org.helm.webeditor.HELM.SUGAR, m, "R3")) {
                         base = this.addNode(sugar.p.clone(), org.helm.webeditor.HELM.BASE, this.getDefaultNodeType(org.helm.webeditor.HELM.BASE));
                         this.addBond(sugar, base, 3, 1);
-
-                        var leftR = bond.a1.p.x < bond.a2.p.x ? bond.r1 : bond.r2;
+                        const leftR = bond.a1.p.x < bond.a2.p.x ? bond.r1 : bond.r2;
                         if (leftR == 1) // reversed
                             base.p.y -= Math.abs(delta);
                         else
                             base.p.y += Math.abs(delta);
                     }
-
                     this.jsd.pushundo(cloned);
                     this.finishConnect(false, bond, null, a1);
                 }
             }
         }
-
         if (a2 != null) {
             if (r1 == null || r2 == null) {
                 if (this.hasSpareR(a1, 2) && !this.hasSpareR(a1, 1)) {
@@ -2493,7 +2298,6 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             }
             bond = this.addBond(a1, a2, r1, r2);
         }
-
         if (bond != null) {
             this.jsd.pushundo(cloned);
             this.finishConnect(false, bond, null, a1);
@@ -2501,47 +2305,42 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
         else {
             this.jsd.refresh();
         }
-    },
-
+    }
     /**
-    * Get HELM
-    * @function getHelm
-    * @param {bool} highlightselection - internal use only, using null always
-    * @returns the HELM as string
-    */
-    getHelm: function (highlightselection) {
+     * Get HELM
+     * @function getHelm
+     * @param {bool} highlightselection - internal use only, using null always
+     * @returns the HELM as string
+     */
+    getHelm(highlightselection) {
         return org.helm.webeditor.IO.getHelm(this.jsd.m, highlightselection);
-    },
-
+    }
     /**
-    * Get sequence of natuaral analogue
-    * @function getSequence
-    * @param {bool} highlightselection - internal use only, using null always
-    * @returns the sequence as a string
-    */
-    getSequence: function (highlightselection) {
+     * Get sequence of natuaral analogue
+     * @function getSequence
+     * @param {bool} highlightselection - internal use only, using null always
+     * @returns the sequence as a string
+     */
+    getSequence(highlightselection) {
         return org.helm.webeditor.IO.getSequence(this.jsd.m, highlightselection);
-    },
-
+    }
     /**
-    * Get XHELM
-    * @function getXHelm
-    * @returns XHELM as a string
-    */
-    getXHelm: function () {
+     * Get XHELM
+     * @function getXHelm
+     * @returns XHELM as a string
+     */
+    getXHelm() {
         return org.helm.webeditor.IO.getXHelm(this.jsd.m);
-    },
-
+    }
     /**
-    * Set HELM
-    * @function getSequence
-    * @param {string} s - The HELM string
-    * @param {string} renamedmonomers - internal use only, using null always
-    */
-    setHelm: function (s, renamedmonomers) {
+     * Set HELM
+     * @function getSequence
+     * @param {string} s - The HELM string
+     * @param {string} renamedmonomers - internal use only, using null always
+     */
+    setHelm(s, renamedmonomers) {
         this.jsd.clear();
-
-        var n = 0;
+        let n = 0;
         try {
             if (!scil.Utils.isNullOrEmpty(s))
                 n = org.helm.webeditor.IO.read(this, s, "HELM", renamedmonomers);
@@ -2550,182 +2349,160 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             this.jsd.clear();
             return;
         }
-
         if (n > 0 && !this.noDraw) {
             this.clean();
             this.jsd.fitToWindow();
             this.jsd.refresh();
         }
-    },
-
+    }
     /**
-    * Set XHELM 
-    * @function setXHelm
-    * @param {string} s - the xhelm string
-    */
-    setXHelm: function (s) {
-        var doc = typeof (s) == "string" ? scil.Utils.parseXml(s) : s;
+     * Set XHELM
+     * @function setXHelm
+     * @param {string} s - the xhelm string
+     */
+    setXHelm(s) {
+        const doc = typeof (s) == "string" ? scil.Utils.parseXml(s) : s;
         if (doc == null)
             return false;
-
-        var es = doc.getElementsByTagName("HelmNotation");
+        const es = doc.getElementsByTagName("HelmNotation");
         if (es == null || es.length == 0)
             return false;
-
-        var s = scil.Utils.getInnerText(es[0]);
-
-        var list = doc.getElementsByTagName("Monomers");
+        s = scil.Utils.getInnerText(es[0]);
+        const list = doc.getElementsByTagName("Monomers");
         if (list == null || list.length == 0) {
             this.setHelm(s);
             return;
         }
-
-        var me = this;
+        const me = this;
         org.helm.webeditor.monomers.loadMonomers(list[0], function (renamed) {
             if (me.monomerexplorer != null)
                 me.monomerexplorer.reloadTabs();
             me.setHelm(s, renamed);
         });
-    },
-
-    isXHelm: function (doc) {
-        var ret = doc == null ? null : doc.getElementsByTagName("Xhelm");
+    }
+    isXHelm(doc) {
+        const ret = doc == null ? null : doc.getElementsByTagName("Xhelm");
         return ret != null && ret.length == 1;
-    },
-
+    }
     /**
-    * Show Importing Sequence dialog
-    * @function showImportDlg
-    */
-    showImportDlg: function () {
+     * Show Importing Sequence dialog
+     * @function showImportDlg
+     */
+    showImportDlg() {
         if (this.inputSeqDlg == null) {
-            var fields = {
+            const fields = {
                 type: { label: "Sequence Type", type: "select", items: ["HELM", "Peptide", "RNA"] },
                 sequence: { label: "Sequence", type: "textarea", width: 800, height: 50 },
                 separator: { label: "Separator", width: 100, str: "(Legacy sequences with dedicated separator, e.g. dC.dA.xE)" }
             };
-
-            var me = this;
+            const me = this;
             this.inputSeqDlg = scil.Form.createDlgForm("Import Sequence", fields, [
                 { label: "Import", onclick: function () { me.importSequence(false); } },
                 { label: "Append", onclick: function () { me.importSequence(true); } }
             ]);
         }
-
         this.inputSeqDlg.show2({ owner: this.jsd });
-    },
-
-    importSequence: function (append) {
-        var data = this.inputSeqDlg.form.getData();
+    }
+    importSequence(append) {
+        const data = this.inputSeqDlg.form.getData();
         if (this.setSequence(data.sequence, data.type, null, null, append, data.separator))
             this.inputSeqDlg.hide();
-    },
-
+    }
     /**
-    * Set a sequence (natural analogue sequence, HELM,)
-    * @function setSequence
-    * @param {string} seq - the input sequence
-    * @param {string} format - input format: HELM, RNA, Peptide, or null
-    * @param {string} sugar - the sugar for RNA
-    * @param {string} linker - the linker for RNA
-    * @param {bool} append - set the sequence in appending mode or overwriting mode
-    */
-    setSequence: function (seq, format, sugar, linker, append, separator) {
-        var seq = scil.Utils.trim(seq);
+     * Set a sequence (natural analogue sequence, HELM,)
+     * @function setSequence
+     * @param {string} seq - the input sequence
+     * @param {string} format - input format: HELM, RNA, Peptide, or null
+     * @param {string} sugar - the sugar for RNA
+     * @param {string} linker - the linker for RNA
+     * @param {bool} append - set the sequence in appending mode or overwriting mode
+     */
+    setSequence(seq, format, sugar, linker, append, separator) {
+        seq = scil.Utils.trim(seq);
         if (/^[a-z]+$/.test(seq))
             seq = seq.toUpperCase();
-
-        var n = 0;
-        var cloned = this.jsd.clone();
+        let n = 0;
+        const cloned = this.jsd.clone();
         this.jsd.clear();
         try {
             n = org.helm.webeditor.IO.read(this, seq, format, null, sugar, linker, separator);
         }
         catch (e) {
             this.jsd.restoreClone(cloned);
-            var s = e.message == null ? e : e.message;
+            const s = e.message == null ? e : e.message;
             if (!scil.Utils.isNullOrEmpty(s))
                 scil.Utils.alert("Error: " + s);
             return false;
         }
-
         if (n > 0) {
             this.jsd.pushundo(cloned);
-
             this.clean();
-
             if (append) {
-                var m = cloned.mol.clone();
-                var rect = m.rect();
-                var r2 = this.jsd.m.rect();
+                const m = cloned.mol.clone();
+                const rect = m.rect();
+                const r2 = this.jsd.m.rect();
                 if (r2 != null && rect != null)
                     this.jsd.m.offset(rect.center().x - r2.center().x, rect.bottom() + this.jsd.bondlength * 4 - r2.bottom());
                 m.mergeMol(this.jsd.m);
                 this.jsd.m = m;
             }
-
             this.jsd.fitToWindow();
             this.jsd.refresh(true);
         }
         return true;
-    },
-
+    }
     /**
-    * Clean the layout
-    * @function clean
-    * @param {JSDraw2.Atom} a - the start monomer.  Use null to clean all
-    * @param {bool} redraw - indicate if redrawing the structure after cleaning
-    */
-    clean: function (a, redraw) {
+     * Clean the layout
+     * @function clean
+     * @param {JSDraw2.Atom} a - the start monomer.  Use null to clean all
+     * @param {bool} redraw - indicate if redrawing the structure after cleaning
+     */
+    clean(a, redraw) {
         if (redraw)
             this.jsd.pushundo();
-
         org.helm.webeditor.Layout.clean(this.jsd, a);
         if (redraw) {
             this.jsd.moveCenter();
             this.jsd.refresh(true);
         }
-    },
-
+    }
     /**
-    * Reset monomer IDs 
-    * @function resetIDs
-    */
-    resetIDs: function () {
+     * Reset monomer IDs
+     * @function resetIDs
+     */
+    resetIDs() {
         org.helm.webeditor.Layout.resetIDs(this.jsd.m);
-    },
-
-    dropMonomer: function (type, id, e) {
-        var p = this.jsd.eventPoint(e);
+    }
+    dropMonomer(type, id, e) {
+        const p = this.jsd.eventPoint(e);
         if (p.x <= 0 || p.y <= 0 || p.x >= this.jsd.dimension.x || p.y >= this.jsd.dimension.y || id == "null")
             return false;
-
-        var f = false;
+        let f = false;
         if (this.jsd.curObject == null) {
             // create new monomer
-            var cmd = type == "nucleotide" ? "helm_nucleotide" : scil.helm.symbolCase(type);
+            const cmd = type == "nucleotide" ? "helm_nucleotide" : scil.helm.symbolCase(type);
             if (this.isHelmCmd(cmd)) {
                 p.offset(this.jsd.bondlength * 0.4, this.jsd.bondlength * 0.4);
                 this.jsd.pushundo();
-                var a = org.helm.webeditor.Interface.createAtom(this.jsd.m, p);
+                const a = org.helm.webeditor.Interface.createAtom(this.jsd.m, p);
                 this.createIsolatedMonomer(cmd, a);
                 f = true;
             }
         }
         else {
             // modify the target monomer
-            var set = org.helm.webeditor.Monomers.getMonomerSet(type);
+            const set = org.helm.webeditor.Monomers.getMonomerSet(type);
+            let a;
             if (org.helm.webeditor.isAmbiguous(id, type)) {
-                var a = org.helm.webeditor.Interface.getCurrentAtom(this.jsd);
+                a = org.helm.webeditor.Interface.getCurrentAtom(this.jsd);
                 if (a == null || !org.helm.webeditor.isHelmNode(a) || a.biotype() != type || a.elem == id)
                     return false;
             }
             else {
                 if (set == null || set[scil.helm.symbolCase(id)] == null)
                     return false;
-
                 id = set[scil.helm.symbolCase(id)].id;
-                var a = org.helm.webeditor.Interface.getCurrentAtom(this.jsd);
+                a = org.helm.webeditor.Interface.getCurrentAtom(this.jsd);
                 if (a == null || !org.helm.webeditor.isHelmNode(a) || a.biotype() != type || a.elem == id)
                     return false;
             }
@@ -2733,66 +2510,57 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             this.setNodeType(a, a.biotype(), id);
             f = true;
         }
-
         if (f)
             this.jsd.refresh(true);
         return f;
-    },
-
-    showFindReplaceDlg: function () {
+    }
+    showFindReplaceDlg() {
         if (this.findDlg == null) {
-            var fields = {
+            const fields = {
                 finding: { label: "Find", width: 400, str: "<div>(Monomer symbol or position)</div>" },
                 monomertype: { label: "Monomer Type", type: "select", sort: false, items: org.helm.webeditor.monomerTypeList() },
                 replacewith: { label: "Replace With", width: 400 },
                 selectedonly: { label: "Scope", type: "checkbox", str: "Search Selected Only" }
             };
-
-            var me = this;
+            const me = this;
             this.findDlg = scil.Form.createDlgForm("Find and Replace", fields, [
                 { label: "Find", onclick: function () { me.showFindReplaceDlg2("find"); } },
                 { label: "Find All", onclick: function () { me.showFindReplaceDlg2("findall"); } },
                 { label: "Replace All", onclick: function () { me.showFindReplaceDlg2("replaceall"); } }
-            ])
+            ]);
         }
-
         this.findDlg.show2({ owner: this.jsd });
-    },
-
-    showFindReplaceDlg2: function (action) {
-        var data = this.findDlg.form.getData();
+    }
+    showFindReplaceDlg2(action) {
+        const data = this.findDlg.form.getData();
         if (scil.Utils.isNullOrEmpty(data.finding) || action == "replaceall" && scil.Utils.isNullOrEmpty(data.replacewith)) {
             scil.Utils.alert("Find and Replace With cannot be blank");
             return;
         }
-
         if (action == "find")
             this.find(data.finding, false, data.monomertype, data.selectedonly);
         else if (action == "findall")
             this.find(data.finding, true, data.monomertype, data.selectedonly);
         else if (action == "replaceall")
             this.replaceAll(data.finding, data.replacewith, data.monomertype, data.selectedonly);
-    },
-
-    getSelectedAtoms: function () {
-        var ret = [];
-        var atoms = this.jsd.m.atoms;
-        for (var i = 0; i < atoms.length; ++i) {
+    }
+    getSelectedAtoms() {
+        const ret = [];
+        const atoms = this.jsd.m.atoms;
+        for (let i = 0; i < atoms.length; ++i) {
             if (atoms[i].selected)
                 ret.push(atoms[i]);
         }
         return ret;
-    },
-
-    find: function (a, findall, monomertype, selectedonly) {
-        var atoms = selectedonly ? this.getSelectedAtoms() : this.jsd.m.atoms;
+    }
+    find(a, findall, monomertype, selectedonly) {
+        const atoms = selectedonly ? this.getSelectedAtoms() : this.jsd.m.atoms;
         this.jsd.m.setSelected(false);
-
-        var n = 0;
-        var atom = null;
+        let n = 0;
+        let atom = null;
         if (/^[0-9]+$/.test(a)) {
-            var aaid = parseInt(a);
-            for (var i = 0; i < atoms.length; ++i) {
+            const aaid = parseInt(a);
+            for (let i = 0; i < atoms.length; ++i) {
                 if (atoms[i].bio != null && aaid == atoms[i].bio.id && (scil.Utils.isNullOrEmpty(monomertype) || monomertype == atoms[i].biotype())) {
                     ++n;
                     atoms[i].selected = true;
@@ -2802,7 +2570,7 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             }
         }
         else {
-            for (var i = 0; i < atoms.length; ++i) {
+            for (let i = 0; i < atoms.length; ++i) {
                 if (a == atoms[i].elem && (monomertype == "" || monomertype == atoms[i].biotype())) {
                     ++n;
                     atoms[i].selected = true;
@@ -2813,7 +2581,6 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
                 }
             }
         }
-
         if (findall) {
             scil.Utils.alert(n + " node(s) found");
         }
@@ -2823,23 +2590,21 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
             }
             else {
                 org.helm.webeditor.Interface.scaleCanvas(this.jsd);
-                var dx = this.jsd.dimension.x / 2 - atom.p.x;
-                var dy = this.jsd.dimension.y / 2 - atom.p.y;
+                const dx = this.jsd.dimension.x / 2 - atom.p.x;
+                const dy = this.jsd.dimension.y / 2 - atom.p.y;
                 this.jsd.m.offset(dx, dy);
             }
         }
-
         if (n > 0)
             this.jsd.redraw();
-    },
-
-    replaceAll: function (a, a2, monomertype, selectedonly) {
-        var n = 0;
-        var cloned = this.jsd.clone();
+    }
+    replaceAll(a, a2, monomertype, selectedonly) {
+        let n = 0;
+        const cloned = this.jsd.clone();
         if (/^[0-9]+$/.test(a)) {
-            var aaid = parseInt(a);
-            var atoms = selectedonly ? this.getSelectedAtoms() : this.jsd.m.atoms;
-            for (var i = 0; i < atoms.length; ++i) {
+            const aaid = parseInt(a);
+            const atoms = selectedonly ? this.getSelectedAtoms() : this.jsd.m.atoms;
+            for (let i = 0; i < atoms.length; ++i) {
                 if (atoms[i].bio != null && aaid == atoms[i].bio.id && (monomertype == "" || monomertype == atoms[i].biotype())) {
                     if (this.setNodeType(atoms[i], atoms[i].biotype(), a2))
                         ++n;
@@ -2850,62 +2615,50 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
         else {
             n = this.replaceMonomer(monomertype, a, a2, selectedonly);
         }
-
         if (n > 0) {
             this.jsd.pushundo(cloned);
             this.jsd.refresh(true);
         }
-
         scil.Utils.alert(n + " node(s) replaced");
-    },
-
-    dblclickMomonor: function (type, monomer) {
+    }
+    dblclickMomonor(type, monomer) {
         if (monomer == "null")
             return;
-
-        var list = [];
-        var atoms = this.jsd.m.atoms;
-        for (var i = 0; i < atoms.length; ++i) {
+        const list = [];
+        const atoms = this.jsd.m.atoms;
+        for (let i = 0; i < atoms.length; ++i) {
             if (atoms[i].selected && atoms[i].biotype() == type && atoms[i].elem != monomer)
                 list.push(atoms[i]);
         }
-
         if (list.length > 0) {
             this.jsd.pushundo();
-            for (var i = 0; i < list.length; ++i)
+            for (let i = 0; i < list.length; ++i)
                 this.setNodeType(list[i], list[i].biotype(), monomer);
             this.jsd.refresh(true);
         }
-
         return list.length;
-    },
-
-    isHelmCmd: function (cmd) {
+    }
+    isHelmCmd(cmd) {
         return cmd == "helm_nucleotide" || cmd == "helm_base" || cmd == "helm_sugar" || cmd == "helm_chem" ||
             cmd == "helm_aa" || cmd == "helm_linker" || cmd == "helm_blob";
-    },
-
-    createIsolatedMonomer: function (cmd, a) {
+    }
+    createIsolatedMonomer(cmd, a) {
         if (cmd == "helm_nucleotide") {
-            var s = this.monomerexplorer == null ? null : scil.Utils.getInnerText(this.monomerexplorer.lastdiv);
+            const s = this.monomerexplorer == null ? null : scil.Utils.getInnerText(this.monomerexplorer.lastdiv);
             if (s == "*") {
                 this.setNodeType(a, org.helm.webeditor.HELM.NUCLEOTIDE, "*");
                 return true;
             }
-
-            var m = this.getDefaultNodeType(org.helm.webeditor.HELM.SUGAR);
+            const m = this.getDefaultNodeType(org.helm.webeditor.HELM.SUGAR);
             this.setNodeType(a, org.helm.webeditor.HELM.SUGAR, m);
-
             if (org.helm.webeditor.Monomers.hasR(org.helm.webeditor.HELM.SUGAR, m, "R3")) {
-                var a3 = this.addNode(org.helm.webeditor.Interface.createPoint(a.p.x, a.p.y + this.jsd.bondlength * org.helm.webeditor.bondscale), org.helm.webeditor.HELM.BASE, this.getDefaultNodeType(org.helm.webeditor.HELM.BASE));
+                const a3 = this.addNode(org.helm.webeditor.Interface.createPoint(a.p.x, a.p.y + this.jsd.bondlength * org.helm.webeditor.bondscale), org.helm.webeditor.HELM.BASE, this.getDefaultNodeType(org.helm.webeditor.HELM.BASE));
                 this.addBond(a, a3, 3, 1);
             }
-
-            var linker = this.getDefaultNodeType(org.helm.webeditor.HELM.LINKER);
+            const linker = this.getDefaultNodeType(org.helm.webeditor.HELM.LINKER);
             if (linker == null || linker == "null")
                 return;
-
-            var a2 = this.addNode(org.helm.webeditor.Interface.createPoint(a.p.x + this.jsd.bondlength * org.helm.webeditor.bondscale, a.p.y), org.helm.webeditor.HELM.LINKER, linker);
+            const a2 = this.addNode(org.helm.webeditor.Interface.createPoint(a.p.x + this.jsd.bondlength * org.helm.webeditor.bondscale, a.p.y), org.helm.webeditor.HELM.LINKER, linker);
             this.addBond(a, a2, 2, 1);
         }
         else if (cmd == "helm_base") {
@@ -2930,58 +2683,56 @@ org.helm.webeditor.Plugin = scil.extend(scil._base, {
         else {
             return false;
         }
-
         return true;
     }
-});
-﻿/*******************************************************************************
-* Copyright (C) 2018, The Pistoia Alliance
-* Created by Scilligence, built on JSDraw.Lite
-* 
-* Permission is hereby granted, free of charge, to any person obtaining
-* a copy of this software and associated documentation files (the
-* "Software"), to deal in the Software without restriction, including
-* without limitation the rights to use, copy, modify, merge, publish,
-* distribute, sublicense, and/or sell copies of the Software, and to
-* permit persons to whom the Software is furnished to do so, subject to the 
-* following conditions:
-* 
-* The above copyright notice and this permission notice shall be
-* included in all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*******************************************************************************/
-
+}
+org.helm.webeditor.Plugin = Plugin;
+//# sourceMappingURL=Plugin.js.map/*******************************************************************************
+ * Copyright (C) 2018, The Pistoia Alliance
+ * Created by Scilligence, built on JSDraw.Lite
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the
+ * following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *******************************************************************************/
 /**
-* Chain class
-* @class org.helm.webeditor.Chain
-*/
-org.helm.webeditor.Chain = scil.extend(scil._base, {
+ * Chain class
+ * @class org.helm.webeditor.Chain
+ */
+class ChainInt {
     /**
-    * Contructor of Chain
-    * @constructor Chain
-    */
-    constructor: function (id) {
+     * Contructor of Chain
+     * @constructor Chain
+     */
+    constructor(id = null) {
         this.id = id;
         this.bonds = [];
         this.atoms = [];
         this.basebonds = [];
         this.bases = [];
-    },
-
+    }
     /**
-    * Get the complementary of a given node
-    * @function getComplementary
-    * @param {Atom} a - the input Node
-    */
-    getComplementary: function (a) {
-        var m = org.helm.webeditor.Monomers.getMonomer(a);
+     * Get the complementary of a given node
+     * @function getComplementary
+     * @param {Atom} a - the input Node
+     */
+    getComplementary(a) {
+        const m = org.helm.webeditor.Monomers.getMonomer(a);
         switch (m.na) {
             case "A":
                 return "T";
@@ -2995,22 +2746,19 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
             default:
                 return "U";
         }
-    },
-
+    }
     /**
-    * Create the complementary strand (internal use)
-    * @function makeComplementaryStrand
-    */
-    makeComplementaryStrand: function (m, bondlength) {
+     * Create the complementary strand (internal use)
+     * @function makeComplementaryStrand
+     */
+    makeComplementaryStrand(m, bondlength) {
         var ret = new org.helm.webeditor.Chain(null);
-
         var lasta2 = null;
         var lastsugar = null;
         var d = bondlength * org.helm.webeditor.bondscale;
         for (var i = 0; i < this.atoms.length; ++i) {
             var a = this.atoms[i];
             var b = this.bases[i];
-
             var a2 = a.clone();
             ret.atoms.splice(0, 0, a2);
             a2.p.y += 3 * d;
@@ -3022,20 +2770,18 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                 b2.p.y += d;
                 b2.elem = this.getComplementary(b);
                 m.addAtom(b2);
-
                 var bond = new JSDraw2.Bond(a2, b2);
                 ret.basebonds.splice(0, 0, bond);
                 bond.r1 = 3;
                 bond.r2 = 1;
                 m.addBond(bond);
-
-                bond = new JSDraw2.Bond(b, b2, JSDraw2.BONDTYPES.UNKNOWN);
+                bond = new JSDraw2.Bond(b, b2, 0 /* JSDraw2.BONDTYPES.UNKNOWN */);
                 m.addBond(bond);
             }
             else {
+                // @ts-ignore
                 ret.bases.splice(0, 0, null);
             }
-
             if (lasta2 != null) {
                 var bond = new JSDraw2.Bond(lasta2, a2);
                 ret.bonds.splice(0, 0, bond);
@@ -3043,7 +2789,6 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                 bond.r2 = 2;
                 m.addBond(bond);
             }
-
             lasta2 = a2;
             if (a2.biotype() == org.helm.webeditor.HELM.SUGAR) {
                 lastsugar = a2;
@@ -3053,40 +2798,34 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                 a2.elem = org.helm.webeditor.Monomers.getDefaultMonomer(org.helm.webeditor.HELM.LINKER);
             }
         }
-
         if (lastsugar != null)
             lastsugar.bio.annotation = "5'";
-
         ret.resetIDs();
         return ret;
-    },
-
+    }
     /**
-    * Get separated polymer from this fragment(chain) (internal use)
-    * @function _getPolymers
-    */
-    _getPolymers: function () {
-        var ret = [];
-
-        var polymer = null;
-        var n = this.isCircle() ? this.atoms.length - 1 : this.atoms.length;
-        for (var i = 0; i < n; ++i) {
-            var a = this.atoms[i];
-            var biotype = a.biotype();
+     * Get separated polymer from this fragment(chain) (internal use)
+     * @function _getPolymers
+     */
+    _getPolymers() {
+        const ret = [];
+        let polymer = null;
+        let n = this.isCircle() ? this.atoms.length - 1 : this.atoms.length;
+        for (let i = 0; i < n; ++i) {
+            const a = this.atoms[i];
+            const biotype = a.biotype();
             if (biotype == org.helm.webeditor.HELM.AA) {
                 if (polymer != null && polymer.type != "Peptide")
                     polymer = null;
-
                 if (polymer == null) {
                     polymer = { type: "Peptide", atoms: [] };
                     ret.push(polymer);
                 }
                 polymer.atoms.push(a);
             }
-            else if (biotype == org.helm.webeditor.HELM.SUGAR || biotype == org.helm.webeditor.HELM.HELM_LINKER) {
+            else if (biotype == org.helm.webeditor.HELM.SUGAR || biotype == org.helm.webeditor.HELM.LINKER) {
                 if (polymer != null && polymer.type != "RNA")
                     polymer = null;
-
                 if (biotype == org.helm.webeditor.HELM.SUGAR) {
                     var b = this.bases[i];
                     if (b != null) {
@@ -3102,59 +2841,50 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                 polymer = null;
             }
         }
-
         return ret;
-    },
-
+    }
     /**
-    * Get whole chain as an expanded molecule (internal use)
-    * @function getMol
-    */
-    getMol: function (a, plugin) {
-        var mon = org.helm.webeditor.Monomers.getMonomer(a);
-        var molfile = org.helm.webeditor.monomers.getMolfile(mon);
-        var m = org.helm.webeditor.Interface.createMol(molfile);
-
+     * Get whole chain as an expanded molecule (internal use)
+     * @function getMol
+     */
+    getMol(a, plugin) {
+        const mon = org.helm.webeditor.Monomers.getMonomer(a);
+        const molfile = org.helm.webeditor.monomers.getMolfile(mon);
+        const m = org.helm.webeditor.Interface.createMol(molfile);
         if (plugin != null) {
-            for (var r in mon.at) {
+            for (const r in mon.at) {
                 if (plugin.hasSpareR(a, r))
                     org.helm.webeditor.MolViewer.capRGroup(m, r, mon);
             }
         }
-
-        for (var i = 0; i < m.atoms.length; ++i)
+        for (let i = 0; i < m.atoms.length; ++i)
             m.atoms[i]._helmgroup = a;
-
         return m;
-    },
-
+    }
     /**
-    * Expaned backbond (internal use)
-    * @function _expandBackbone
-    */
-    _expandBackbone: function (mol, plugin) {
-        var m1 = null;
-        var m2 = null;
-        var n = this.isCircle() ? this.atoms.length - 1 : this.atoms.length;
-        for (var i = 0; i < n; ++i) {
-            var a = this.atoms[i];
-            var b = this.bases[i];
-
+     * Expaned backbond (internal use)
+     * @function _expandBackbone
+     */
+    _expandBackbone(mol, plugin) {
+        let m1 = null;
+        let m2 = null;
+        let n = this.isCircle() ? this.atoms.length - 1 : this.atoms.length;
+        for (let i = 0; i < n; ++i) {
+            const a = this.atoms[i];
+            const b = this.bases[i];
             a.f = true;
             m2 = this.getMol(a, plugin);
-
             if (b != null) {
-                var m3 = this.getMol(b, plugin);
+                const m3 = this.getMol(b, plugin);
                 org.helm.webeditor.MolViewer.mergeMol(m2, "R3", m3, "R1", a, b);
             }
-
             if (m1 == null) {
                 m1 = m2;
             }
             else {
-                var r1, r2;
-                var a1, a2;
-                var bond = this.bonds[i - 1];
+                let r1, r2;
+                let a1, a2;
+                const bond = this.bonds[i - 1];
                 if (bond.a2 == a) {
                     r2 = bond.r2;
                     r1 = bond.r1;
@@ -3167,66 +2897,56 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                     a1 = bond.a2;
                     a2 = bond.a1;
                 }
-
                 org.helm.webeditor.MolViewer.mergeMol(m1, "R" + r1, m2, "R" + r2, a1, a2);
             }
         }
-
         if (this.isCircle()) {
-            var bond = this.bonds[n - 1];
-
+            const bond = this.bonds[n - 1];
             // circle
-            var t = org.helm.webeditor.MolViewer.findR(m1, "R" + bond.r1, bond.a1);
-            var s = org.helm.webeditor.MolViewer.findR(m1, "R" + bond.r2, bond.a2);
+            const t = org.helm.webeditor.MolViewer.findR(m1, "R" + bond.r1, bond.a1);
+            const s = org.helm.webeditor.MolViewer.findR(m1, "R" + bond.r2, bond.a2);
             if (t != null && s != null) {
                 m1.atoms.splice(scil.Utils.indexOf(m1.atoms, t.a1), 1);
                 m1.atoms.splice(scil.Utils.indexOf(m1.atoms, s.a1), 1);
                 m1.bonds.splice(scil.Utils.indexOf(m1.bonds, s.b), 1);
-
                 if (t.b.a1 == t.a1)
                     t.b.a1 = s.a0;
                 else
                     t.b.a2 = s.a0;
             }
         }
-
         mol.atoms = mol.atoms.concat(m1.atoms);
         mol.bonds = mol.bonds.concat(m1.bonds);
-    },
-
+    }
     /**
-    * Connect branches to the backbone (internal use)
-    * @function _connectBranches
-    */
-    _connectBranches: function (m, plugin, branches) {
+     * Connect branches to the backbone (internal use)
+     * @function _connectBranches
+     */
+    _connectBranches(m, plugin, branches) {
         if (branches == null || branches.bonds == null)
             return;
-
-        var n = this.isCircle() ? this.atoms.length - 1 : this.atoms.length;
-        for (var i = 0; i < n; ++i) {
-            var a = this.atoms[i];
+        const n = this.isCircle() ? this.atoms.length - 1 : this.atoms.length;
+        for (let i = 0; i < n; ++i) {
+            const a = this.atoms[i];
             this._connectBranches2(m, a, branches, plugin);
-
-            var b = this.bases[i];
+            const b = this.bases[i];
             if (b != null)
                 this._connectBranches2(m, b, branches, plugin);
         }
-    },
-
+    }
     /**
-    * Inner loop of connecting branches (internal use)
-    * @function _connectBranches2
-    */
-    _connectBranches2: function (m, a, branches, plugin) {
-        var r1 = null;
-        var r2 = null;
-        var a1 = null;
-        var a2 = null;
-        for (var i = 0; i < branches.bonds.length; ++i) {
-            var b = branches.bonds[i];
+     * Inner loop of connecting branches (internal use)
+     * @function _connectBranches2
+     */
+    _connectBranches2(m, a, branches, plugin) {
+        let r1 = null;
+        let r2 = null;
+        let a1 = null;
+        let a2 = null;
+        for (let i = 0; i < branches.bonds.length; ++i) {
+            const b = branches.bonds[i];
             if (b == null)
                 continue;
-
             if (b.a1 == a && !b.a2.f) {
                 r1 = b.r1;
                 r2 = b.r2;
@@ -3239,41 +2959,35 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                 a1 = b.a2;
                 a2 = b.a1;
             }
-
             if (a2 != null) {
                 b.f = true;
                 break;
             }
         }
-
         if (a2 == null)
             return;
-
-        var m2 = this.getMol(a2, plugin);
+        const m2 = this.getMol(a2, plugin);
         org.helm.webeditor.MolViewer.mergeMol(m, "R" + r1, m2, "R" + r2, a, a2);
-    },
-
+    }
     /**
-    * Check if this chain is a circle
-    * @function isCircle
-    */
-    isCircle: function () {
+     * Check if this chain is a circle
+     * @function isCircle
+     */
+    isCircle() {
         return this.atoms.length >= 3 && this.atoms[0] == this.atoms[this.atoms.length - 1];
-    },
-
+    }
     /**
-    * Reset chain monomer IDs
-    * @function resetIDs
-    */
-    resetIDs: function (resetaaid) {
-        var aaid = 0;
-        var _aaid = 0;
-        var baseid = 0;
-
-        var n = this.isCircle() ? this.atoms.length - 1 : this.atoms.length;
+     * Reset chain monomer IDs
+     * @function resetIDs
+     */
+    resetIDs(resetaaid) {
+        let aaid = 0;
+        let _aaid = 0;
+        let baseid = 0;
+        let n = this.isCircle() ? this.atoms.length - 1 : this.atoms.length;
         for (var i = 0; i < n; ++i) {
-            var a = this.atoms[i];
-            var biotype = a.biotype();
+            const a = this.atoms[i];
+            const biotype = a.biotype();
             if (biotype == org.helm.webeditor.HELM.AA) {
                 a._aaid = ++_aaid;
                 a.bio.id = ++aaid;
@@ -3287,7 +3001,6 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                 if (biotype == org.helm.webeditor.HELM.SUGAR && this.bases[i] != null) {
                     a._aaid = ++_aaid;
                     this.bases[i]._aaid = ++_aaid;
-
                     this.bases[i].bio.id = ++baseid;
                     if (baseid == 1) {
                         if (a.bio.annotation != "5'ss" && a.bio.annotation != "5'as")
@@ -3306,42 +3019,37 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                 baseid = 0;
             }
         }
-    },
-
+    }
     /**
-    * Set internal flags for all nodes and bonds (internal use)
-    * @function setFlag
-    */
-    setFlag: function (f) {
-        for (var i = 0; i < this.atoms.length; ++i)
+     * Set internal flags for all nodes and bonds (internal use)
+     * @function setFlag
+     */
+    setFlag(f) {
+        for (let i = 0; i < this.atoms.length; ++i)
             this.atoms[i].f = f;
-        for (var i = 0; i < this.bonds.length; ++i)
+        for (let i = 0; i < this.bonds.length; ++i)
             this.bonds[i].f = f;
-    },
-
+    }
     /**
-    * Test if the chain contains a node (internal use)
-    * @function containsAtom
-    */
-    containsAtom: function (a) {
+     * Test if the chain contains a node (internal use)
+     * @function containsAtom
+     */
+    containsAtom(a) {
         return scil.Utils.indexOf(this.atoms, a) != -1;
-    },
-
-    hasBase: function () {
+    }
+    hasBase() {
         for (var i = 0; i < this.bases.length; ++i) {
             if (this.bases[i] != null)
                 return true;
         }
         return false;
-    },
-
+    }
     /**
-    * Layout the chain as a line (internal use)
-    * @function layoutLine
-    */
-    layoutLine: function (bondlength) {
+     * Layout the chain as a line (internal use)
+     * @function layoutLine
+     */
+    layoutLine(bondlength) {
         var rect = this.getRect();
-
         var delta = org.helm.webeditor.bondscale * bondlength;
         var a = this.atoms[0];
         a.p = org.helm.webeditor.Interface.createPoint(rect.left, rect.top);
@@ -3350,15 +3058,14 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
             a = this.atoms[i];
             a.p = org.helm.webeditor.Interface.createPoint(p.x + delta, p.y);
         }
-    },
-
-    layoutRows: function (bondlength, countperrow) {
-        var n = 0;
-        var delta = org.helm.webeditor.bondscale * bondlength;
-        var x0 = this.atoms[0].p.x;
-        for (var i = 1; i < this.atoms.length; ++i) {
+    }
+    layoutRows(bondlength, countperrow) {
+        let n = 0;
+        const delta = org.helm.webeditor.bondscale * bondlength;
+        const x0 = this.atoms[0].p.x;
+        for (let i = 1; i < this.atoms.length; ++i) {
             ++n;
-            var p = this.atoms[i - 1].p;
+            const p = this.atoms[i - 1].p;
             if (n >= countperrow) {
                 n = 0;
                 //delta = -delta;
@@ -3369,40 +3076,35 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                 this.atoms[i].p = org.helm.webeditor.Interface.createPoint(p.x + delta, p.y);
             }
         }
-    },
-
+    }
     /**
-    * Layout the chain as a circle (internal use)
-    * @function layoutCircle
-    */
-    layoutCircle: function (bondlength) {
+     * Layout the chain as a circle (internal use)
+     * @function layoutCircle
+     */
+    layoutCircle(bondlength) {
         org.helm.webeditor.Layout.layoutCircle(this.atoms, bondlength, 0);
         //var delta = org.helm.webeditor.bondscale * bondlength;
         //var deg = 360 / (this.atoms.length - 1);
         //var radius = (delta / 2) / Math.sin((deg / 2) * Math.PI / 180);
-
         //var a = this.atoms[0];
         //a.p = org.helm.webeditor.Interface.createPoint(origin.x + radius, origin.y);
         //for (var i = 1; i < this.atoms.length - 1; ++i)
         //    this.atoms[i].p = this.atoms[i - 1].p.clone().rotateAround(origin, -deg);
-    },
-
+    }
     /**
-    * Rotate chain (internal use)
-    * @function rotate
-    */
-    rotate: function (deg, origin) {
+     * Rotate chain (internal use)
+     * @function rotate
+     */
+    rotate(deg, origin) {
         if (deg == 0)
             return;
-
-        var n = this.isCircle() ? this.atoms.length - 1 : this.atoms.length;
-        for (var i = 0; i < n; ++i) {
+        const n = this.isCircle() ? this.atoms.length - 1 : this.atoms.length;
+        for (let i = 0; i < n; ++i) {
             if (origin != null)
                 this.atoms[i].p.rotateAround(origin, deg);
             else
                 this.atoms[i].p.rotate(deg);
-
-            var a = this.bases[i];
+            const a = this.bases[i];
             if (a != null) {
                 if (origin != null)
                     a.p.rotateAround(origin, deg);
@@ -3410,13 +3112,12 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                     a.p.rotate(deg);
             }
         }
-    },
-
+    }
     /**
-    * Move chain's coordinates (internal use)
-    * @function move
-    */
-    move: function (delta) {
+     * Move chain's coordinates (internal use)
+     * @function move
+     */
+    move(delta) {
         var n = this.isCircle() ? this.atoms.length - 1 : this.atoms.length;
         for (var i = 0; i < n; ++i) {
             this.atoms[i].p.offset2(delta);
@@ -3424,20 +3125,18 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
             if (a != null)
                 a.p.offset2(delta);
         }
-    },
-
+    }
     /**
-    * Layout bases in a RNA chain (internal use)
-    * @function layoutBases
-    */
-    layoutBases: function () {
+     * Layout bases in a RNA chain (internal use)
+     * @function layoutBases
+     */
+    layoutBases() {
         var circle = this.isCircle();
         var n = circle ? this.atoms.length - 1 : this.atoms.length;
         for (var i = 0; i < n; ++i) {
             var a = this.bases[i];
             if (a == null)
                 continue;
-
             var center = this.atoms[i];
             var b1 = null;
             var b2 = null;
@@ -3450,11 +3149,9 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                 b1 = this.bonds[i - 1];
                 b2 = this.bonds[i];
             }
-
             if (b1 != null && b2 != null) {
                 var a1 = b1.a1 == center ? b1.a2 : b1.a1;
                 var a2 = b2.a1 == center ? b2.a2 : b2.a1;
-
                 var ang = center.p.angleAsOrigin(a1.p, a2.p);
                 if (Math.abs(ang - 180) > 10)
                     a.p = a1.p.clone().rotateAround(center.p, 180 + ang / 2);
@@ -3470,21 +3167,19 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                 a.p = a2.p.clone().rotateAround(center.p, 90);
             }
         }
-    },
-
+    }
     /**
-    * Get the rectangle of the chain (internal use)
-    * @function getRect
-    */
-    getRect: function () {
+     * Get the rectangle of the chain (internal use)
+     * @function getRect
+     */
+    getRect() {
         return org.helm.webeditor.Layout.getRect(this.atoms);
-    },
-
+    }
     /**
-    * Get the sequence of natural analog of the chain
-    * @function getSequence
-    */
-    getSequence: function (highlightselection) {
+     * Get the sequence of natural analog of the chain
+     * @function getSequence
+     */
+    getSequence(highlightselection) {
         var s = "";
         var n = this.isCircle() ? this.atoms.length - 1 : this.atoms.length;
         var lastbt = null;
@@ -3520,34 +3215,30 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
             }
             lastbt = bt;
         }
-
         return s;
-    },
-
+    }
     /**
-    * Get HELM notation (internal use)
-    * @function getHelm
-    */
-    getHelm: function (ret, highlightselection, m, groupatom) {
-        var sequence = [];
-        var aaid = 0;
-        var firstseqid = null;
-        var lastseqid = null;
-        var n = this.isCircle() ? this.atoms.length - 1 : this.atoms.length;
-        var chn = [];
-        var lastbt = null;
-
-        var count = 0;
-        for (var i = 0; i < n; ++i) {
-            var a = this.atoms[i];
+     * Get HELM notation (internal use)
+     * @function getHelm
+     */
+    getHelm(ret, highlightselection, m, groupatom) {
+        let sequence = [];
+        let aaid = 0;
+        let firstseqid = null;
+        let lastseqid = null;
+        const n = this.isCircle() ? this.atoms.length - 1 : this.atoms.length;
+        let chn = [];
+        let lastbt = null;
+        let count = 0;
+        for (let i = 0; i < n; ++i) {
+            const a = this.atoms[i];
             //if (a.hidden)
             //    continue;
-
-            var bt = a.biotype();
+            let bt = a.biotype();
             if (bt == org.helm.webeditor.HELM.LINKER || bt == org.helm.webeditor.HELM.SUGAR || bt == org.helm.webeditor.HELM.NUCLEOTIDE)
                 bt = org.helm.webeditor.HELM.BASE;
             if (bt != lastbt || bt == org.helm.webeditor.HELM.CHEM || bt == org.helm.webeditor.HELM.BLOB) {
-                var prefix = null;
+                let prefix = null;
                 if (bt == org.helm.webeditor.HELM.BASE)
                     prefix = "RNA";
                 else if (bt == org.helm.webeditor.HELM.AA)
@@ -3556,68 +3247,56 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                     prefix = "CHEM";
                 else if (bt == org.helm.webeditor.HELM.BLOB)
                     prefix = a.elem == "Group" ? "G" : "BLOB";
-
-                var seqid = prefix + (++ret.chainid[prefix]);
+                const seqid = prefix + (++ret.chainid[prefix]);
                 if (prefix == "G") {
                     org.helm.webeditor.IO.getGroupHelm(ret, seqid, a, highlightselection);
                     if (this.atoms.length == 1)
                         ret.groupatoms[seqid] = a;
                 }
-
                 if (i == 0) {
                     if (a.biotype() == org.helm.webeditor.HELM.SUGAR && a.bio.annotation == "5'ss" || a.bio.annotation == "5'as")
                         ret.annotations[seqid] = { strandtype: a.bio.annotation.substr(2) };
                 }
-
+                console.log({ i, n, seqid, lastseqid });
                 if (i > 0 && lastseqid != null) {
-                    var lasta = this.atoms[i - 1];
-                    var b = this.bonds[i - 1];
-                    var r1 = b.a1 == lasta ? b.r1 : b.r2;
-                    var r2 = b.a1 == lasta ? b.r2 : b.r1;
-                    var ratio1 = b.a1 == lasta ? b.ratio1 : b.ratio2;
-                    var ratio2 = b.a1 == lasta ? b.ratio2 : b.ratio1;
-
+                    const lasta = this.atoms[i - 1];
+                    const b = this.bonds[i - 1];
+                    const r1 = b.a1 == lasta ? b.r1 : b.r2;
+                    const r2 = b.a1 == lasta ? b.r2 : b.r1;
+                    const ratio1 = b.a1 == lasta ? b.ratio1 : b.ratio2;
+                    const ratio2 = b.a1 == lasta ? b.ratio2 : b.ratio1;
                     a._aaid = 1;
-                    org.helm.webeditor.IO.addConnection(ret, lastseqid, seqid, lasta, a, r1, r2, ratio1, ratio2, null, highlightselection && b.selected);
-
+                    org.helm.webeditor.IO.addConnection(ret, lastseqid, seqid, lasta, a, r1, r2, ratio1, ratio2, a.tag, highlightselection && b.selected);
                     if (!scil.Utils.startswith(lastseqid, "G")) {
                         ++count;
                         ret.sequences[lastseqid] = this._getSequence(sequence, m);
                     }
                     ret.chains[lastseqid] = chn;
                 }
-
                 if (firstseqid == null)
                     firstseqid = seqid;
-
                 chn = [];
                 aaid = 0;
                 sequence = [];
                 lastseqid = seqid;
                 lastbt = bt;
             }
-
             a._aaid = ++aaid;
             chn.push(a);
-
             //if (sequence.length == 0) || aaid > 1 && !(i > 0 && a.biotype() == org.helm.webeditor.HELM.LINKER && this.atoms[i - 1].biotype() == org.helm.webeditor.HELM.SUGAR)) {
             sequence.push({ atoms: [], code: "", type: a.biotype() });
             //}
-
-            var code = org.helm.webeditor.IO.getCode(a, highlightselection);
+            let code = org.helm.webeditor.IO.getCode(a, highlightselection);
             sequence[sequence.length - 1].atoms.push(a);
-
             if (this.bases[i] != null) {
-                var b = this.bases[i];
+                const b = this.bases[i];
                 code += org.helm.webeditor.IO.getCode(b, highlightselection, true);
                 sequence[sequence.length - 1].atoms.push(b);
                 b._aaid = ++aaid;
                 chn.push(b);
             }
-
             sequence[sequence.length - 1].code += code;
         }
-
         if (sequence.length > 0) {
             if (!scil.Utils.startswith(lastseqid, "G")) {
                 ret.sequences[lastseqid] = this._getSequence(sequence, m);
@@ -3625,31 +3304,27 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                     ret.ratios[lastseqid] = groupatom.ratio;
             }
             ret.chains[lastseqid] = chn;
-
             if (groupatom != null && firstseqid == lastseqid && !scil.Utils.isNullOrEmpty(groupatom.tag))
                 chn.annotation = groupatom.tag;
         }
-
         if (this.isCircle()) {
-            var b = this.bonds[this.bonds.length - 1];
-            //// RNA1,RNA1,1:R1-21:R2
-            //var conn;
-            //if (this.atoms[0] == b.a1)
-            //    conn = b.a1._aaid + ":R" + b.r1 + "-" + b.a2._aaid + ":R" + b.r2;
-            //else
-            //    conn = b.a2._aaid + ":R" + b.r2 + "-" + b.a1._aaid + ":R" + b.r1;
-
-            //var tag = "";
-            //if (!scil.Utils.isNullOrEmpty(b.tag))
-            //    tag = '\"' + b.tag.replace(/"/g, "\\\"") + '\"';
-
-            //ret.connections.push(firstseqid + "," + lastseqid + "," + conn);
-
+            const b = this.bonds[this.bonds.length - 1];
+            // // RNA1,RNA1,1:R1-21:R2
+            // let conn;
+            // if (this.atoms[0] == b.a1)
+            //   conn = b.a1._aaid + ":R" + b.r1 + "-" + b.a2._aaid + ":R" + b.r2;
+            // else
+            //   conn = b.a2._aaid + ":R" + b.r2 + "-" + b.a1._aaid + ":R" + b.r1;
+            //
+            // let tag = "";
+            // if (!scil.Utils.isNullOrEmpty(b.tag))
+            //   tag = '\"' + b.tag.replace(/"/g, "\\\"") + '\"';
+            //
+            // ret.connections.push(firstseqid + "," + lastseqid + "," + conn);
             org.helm.webeditor.IO.addConnection(ret, firstseqid, lastseqid, b.a1, b.a2, b.r1, b.r2, null, null, b.tag, highlightselection && b.selected);
         }
-    },
-
-    _getSequence: function (sequence, m) {
+    }
+    _getSequence(sequence, m) {
         var ret = "";
         var needseparator = false;
         for (var i = 0; i < sequence.length; ++i) {
@@ -3659,10 +3334,8 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                     needseparator = false;
                 }
             }
-
             var br = this._getBracket(sequence[i].atoms[0], m);
             var repeat = br == null ? null : br.getSubscript(m);
-
             if (!scil.Utils.isNullOrEmpty(repeat)) {
                 var end = -1;
                 var atoms = scil.clone(br.atoms);
@@ -3679,7 +3352,6 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                             break;
                         }
                     }
-
                     if (end == -2)
                         break;
                     if (atoms.length == 0) {
@@ -3687,11 +3359,9 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                         break;
                     }
                 }
-
                 if (end >= 0) {
                     if (ret.length > 0 && !scil.Utils.endswith(ret, "."))
                         ret += ".";
-
                     if (i == end) {
                         ret += sequence[i].code;
                     }
@@ -3708,42 +3378,34 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
                         ret += ")";
                     }
                     ret += "'" + repeat + "'";
-
                     i = end;
                     needseparator = true;
                     continue;
                 }
             }
-
             ret += sequence[i].code;
         }
         return ret;
-    },
-
-    _getBracket: function (a, m) {
+    }
+    _getBracket(a, m) {
         if (m == null)
             return null;
-
         for (var k = 0; k < m.graphics.length; ++k) {
             var br = JSDraw2.Bracket.cast(m.graphics[k]);
             if (br == null)
                 continue;
-
             if (scil.Utils.indexOf(br.atoms, a) >= 0)
                 return br;
         }
-
         return null;
-    },
-
+    }
     /**
-    * Get a node by its Monomer ID (internal use)
-    * @function getAtomByAAID
-    */
-    getAtomByAAID: function (aaid) {
+     * Get a node by its Monomer ID (internal use)
+     * @function getAtomByAAID
+     */
+    getAtomByAAID(aaid) {
         if (!(aaid > 0))
             return null;
-
         for (var i = 0; i < this.atoms.length; ++i) {
             if (this.atoms[i]._aaid == aaid)
                 return this.atoms[i];
@@ -3752,62 +3414,56 @@ org.helm.webeditor.Chain = scil.extend(scil._base, {
             if (this.bases[i]._aaid == aaid)
                 return this.bases[i];
         }
-
         return null;
     }
-});
-
-scil.apply(org.helm.webeditor.Chain, {
+}
+export class Chain extends ChainInt {
     /**
-    * Get the chain of a given node (internal use)
-    * @function getChain
-    */
-    getChain: function (m, startatom) {
+     * Get the chain of a given node (internal use)
+     * @function getChain
+     */
+    static getChain(m, startatom) {
         if (startatom == null)
             return null;
         var chains = this._getChains(m, startatom);
         return chains == null ? null : chains[0];
-    },
-
+    }
     /**
-    * Get all chains (internal use)
-    * @function getChains
-    */
-    getChains: function (m, branchcollection) {
+     * Get all chains (internal use)
+     * @function getChains
+     */
+    static getChains(m, branchcollection) {
         return this._getChains(m, null, branchcollection);
-    },
-
+    }
     /**
-    * Set Chain ID (internal use)
-    * @function _setChainID
-    */
-    _setChainID: function (chain, chainid) {
+     * Set Chain ID (internal use)
+     * @function _setChainID
+     */
+    static _setChainID(chain, chainid) {
         for (var k = 0; k < chain.atoms.length; ++k) {
             chain.atoms[k]._chainid = chainid;
             if (chain.bases[k] != null)
                 chain.bases[k]._chainid = chainid;
         }
-    },
-
+    }
     /**
-    * Remove Chain ID (internal use)
-    * @function _removeChainID
-    */
-    _removeChainID: function (atoms) {
+     * Remove Chain ID (internal use)
+     * @function _removeChainID
+     */
+    static _removeChainID(atoms) {
         for (var i = 0; i < atoms.length; ++i)
             delete atoms[i]._chainid;
-    },
-
+    }
     /**
-    * Inner loop getting chains (internal use)
-    * @function _getChains
-    */
-    _getChains: function (m, startatom, branchcollection) {
-        var b0 = null;
-        var bonds = [];
-        var branches = [];
-        for (var i = 0; i < m.bonds.length; ++i) {
-            var b = m.bonds[i];
+     * Inner loop getting chains (internal use)
+     * @function _getChains
+     */
+    static _getChains(m, startatom, branchcollection) {
+        let b0 = null;
+        const bonds = [];
+        const branches = [];
+        for (let i = 0; i < m.bonds.length; ++i) {
+            const b = m.bonds[i];
             if (b.r1 == 1 && b.r2 == 2 || b.r1 == 2 && b.r2 == 1) {
                 bonds.push(b);
                 if (b0 == null && startatom != null && b.a1 == startatom || b.a2 == startatom)
@@ -3817,16 +3473,13 @@ scil.apply(org.helm.webeditor.Chain, {
                 branches.push(b);
             }
         }
-
         if (startatom != null && b0 == null)
             return null;
-
-        var chains = [];
+        const chains = [];
         while (bonds.length > 0) {
-            var chain = new org.helm.webeditor.Chain();
+            const chain = new org.helm.webeditor.Chain();
             chains.splice(0, 0, chain);
-
-            var b = null;
+            let b = null;
             if (b0 == null) {
                 b = bonds[bonds.length - 1];
                 bonds.splice(bonds.length - 1, 1);
@@ -3836,24 +3489,20 @@ scil.apply(org.helm.webeditor.Chain, {
                 bonds.splice(b0, 1);
                 b0 = null;
             }
-            
-            var head = b.r1 == 2 ? b.a1 : b.a2;
-            var tail = b.r2 == 1 ? b.a2 : b.a1;
-
+            let head = b.r1 == 2 ? b.a1 : b.a2;
+            let tail = b.r2 == 1 ? b.a2 : b.a1;
             chain.bonds.push(b);
             chain.atoms.push(head);
             chain.atoms.push(tail);
-
             while (bonds.length > 0) {
-                var found = 0;
-                for (var i = bonds.length - 1; i >= 0; --i) {
+                let found = 0;
+                for (let i = bonds.length - 1; i >= 0; --i) {
                     b = bonds[i];
                     if (b.a1 == head || b.a2 == head) {
                         bonds.splice(i, 1);
                         head = b.a1 == head ? b.a2 : b.a1;
                         chain.bonds.splice(0, 0, b);
                         chain.atoms.splice(0, 0, head);
-
                         ++found;
                     }
                     else if (b.a1 == tail || b.a2 == tail) {
@@ -3861,33 +3510,27 @@ scil.apply(org.helm.webeditor.Chain, {
                         tail = b.a1 == tail ? b.a2 : b.a1;
                         chain.bonds.push(b);
                         chain.atoms.push(tail);
-
                         ++found;
                     }
                 }
-
                 if (found == 0)
                     break;
             }
-
             if (startatom != null)
                 break;
         }
-
         m.clearFlag();
-        for (var i = 0; i < chains.length; ++i) {
-            var atoms = chains[i].atoms;
-            for (var k = 0; k < atoms.length; ++k)
+        for (let i = 0; i < chains.length; ++i) {
+            const atoms = chains[i].atoms;
+            for (let k = 0; k < atoms.length; ++k)
                 atoms[k].f = true;
         }
-
         if (startatom == null) {
             var atoms = m.atoms;
             for (var k = 0; k < atoms.length; ++k) {
                 var a = atoms[k];
                 if (a.f)
                     continue;
-
                 //if (a.biotype() == org.helm.webeditor.HELM.AA || a.biotype() == org.helm.webeditor.HELM.SUGAR || a.biotype() == org.helm.webeditor.HELM.LINKER) {
                 if (a.biotype() != org.helm.webeditor.HELM.BASE) {
                     a.f = true;
@@ -3897,36 +3540,29 @@ scil.apply(org.helm.webeditor.Chain, {
                 }
             }
         }
-
-        for (var i = 0; i < chains.length; ++i) {
-            var atoms = chains[i].atoms;
-            var bonds = chains[i].bonds;
-
+        for (let i = 0; i < chains.length; ++i) {
+            const atoms = chains[i].atoms;
+            const bonds = chains[i].bonds;
             if (chains[i].isCircle()) {
                 // rotate circle if the first atom is a linker (P)
                 if (atoms[0].biotype() == org.helm.webeditor.HELM.LINKER && atoms[1].biotype() == org.helm.webeditor.HELM.SUGAR) {
                     atoms.splice(0, 1);
                     atoms.push(atoms[0]);
-
                     bonds.push(bonds[0]);
                     bonds.splice(0, 1);
                 }
-
                 // rotate if RNA/PEPTIDE/CHEM circle
-                for (var j = 0; j < atoms.length - 1; ++j) {
-                    var bt1 = atoms[j].biotype();
+                for (let j = 0; j < atoms.length - 1; ++j) {
+                    let bt1 = atoms[j].biotype();
                     if (bt1 == org.helm.webeditor.HELM.LINKER)
                         bt1 = org.helm.webeditor.HELM.SUGAR;
-
-                    var bt2 = atoms[j + 1].biotype();
+                    let bt2 = atoms[j + 1].biotype();
                     if (bt2 == org.helm.webeditor.HELM.LINKER)
                         bt2 = org.helm.webeditor.HELM.SUGAR;
-
                     if (bt1 != bt2) {
-                        for (var k = 0; k <= j; ++k) {
+                        for (let k = 0; k <= j; ++k) {
                             atoms.splice(0, 1);
                             atoms.push(atoms[0]);
-
                             bonds.push(bonds[0]);
                             bonds.splice(0, 1);
                         }
@@ -3934,19 +3570,17 @@ scil.apply(org.helm.webeditor.Chain, {
                     }
                 }
             }
-
             // detect bases
-            for (var k = 0; k < atoms.length; ++k) {
-                var a = atoms[k];
+            for (let k = 0; k < atoms.length; ++k) {
+                const a = atoms[k];
                 if (a.biotype() == org.helm.webeditor.HELM.SUGAR) {
-                    for (var j = branches.length - 1; j >= 0; --j) {
-                        var at = null;
-                        var b = branches[j];
+                    for (let j = branches.length - 1; j >= 0; --j) {
+                        let at = null;
+                        const b = branches[j];
                         if (b.a1 == a && b.r1 == 3 && b.r2 == 1 && b.a2.biotype() == org.helm.webeditor.HELM.BASE)
                             at = chains[i].bases[k] = b.a2;
                         else if (b.a2 == a && b.r2 == 3 && b.r1 == 1 && b.a1.biotype() == org.helm.webeditor.HELM.BASE)
                             at = chains[i].bases[k] = b.a1;
-
                         if (at != null) {
                             chains[i].basebonds.push(b);
                             branches.splice(j, 1);
@@ -3956,7 +3590,6 @@ scil.apply(org.helm.webeditor.Chain, {
                 }
             }
         }
-
         if (branchcollection != null) {
             var list = [];
             for (var i = 0; i < branches.length; ++i) {
@@ -3970,60 +3603,55 @@ scil.apply(org.helm.webeditor.Chain, {
                     list.push(b.a2);
                 }
             }
-
             branchcollection.bonds = branches;
             branchcollection.atoms = list;
         }
-
         return chains;
     }
-});﻿/*******************************************************************************
-* Copyright (C) 2018, The Pistoia Alliance
-* Created by Scilligence, built on JSDraw.Lite
-* 
-* Permission is hereby granted, free of charge, to any person obtaining
-* a copy of this software and associated documentation files (the
-* "Software"), to deal in the Software without restriction, including
-* without limitation the rights to use, copy, modify, merge, publish,
-* distribute, sublicense, and/or sell copies of the Software, and to
-* permit persons to whom the Software is furnished to do so, subject to the 
-* following conditions:
-* 
-* The above copyright notice and this permission notice shall be
-* included in all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*******************************************************************************/
-
+}
+org.helm.webeditor.Chain = Chain;
+//# sourceMappingURL=Chain.js.map/*******************************************************************************
+ * Copyright (C) 2018, The Pistoia Alliance
+ * Created by Scilligence, built on JSDraw.Lite
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the
+ * following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *******************************************************************************/
 /**
-* Layout class
-* @class org.helm.webeditor.Layout
-*/
-org.helm.webeditor.Layout = {
+ * Layout class
+ * @class org.helm.webeditor.Layout
+ */
+export class Layout {
     /**
-    * Clean/lay out a molecule
-    * @function clean
-    */
-    clean: function (jsd, a) {
-        var m = jsd.m;
-        var bondlength = jsd.bondlength;
-
+     * Clean/lay out a molecule
+     * @function clean
+     */
+    clean(jsd, a) {
+        const m = jsd.m;
+        const bondlength = jsd.bondlength;
         m.clearFlag();
-        var chains = org.helm.webeditor.Chain._getChains(m, a);
-
+        const chains = org.helm.webeditor.Chain._getChains(m, a);
         org.helm.webeditor.Chain._removeChainID(m.atoms);
-        for (var i = 0; i < chains.length; ++i) {
-            var chain = chains[i];
-
+        for (let i = 0; i < chains.length; ++i) {
+            const chain = chains[i];
             // set chain id
             org.helm.webeditor.Chain._setChainID(chain, i);
-
             if (!chain.hasBase() && chain.atoms.length > 50) {
                 chain.layoutRows(bondlength, 10);
             }
@@ -4037,71 +3665,60 @@ org.helm.webeditor.Layout = {
                 }
                 chain.layoutBases();
             }
-
             chain.setFlag(true);
             chain.resetIDs();
         }
-
         jsd.updateGroupRect();
-
         this.layoutCrossChainBonds(m, chains, bondlength);
         this.layoutBranches(m);
-
         this.layoutFragments(m, bondlength);
-
         // clear chain id
         org.helm.webeditor.Chain._removeChainID(m.atoms);
-    },
-
-    layoutFragments: function (m, bondlength) {
-        var frags = m.splitFragments(true);
+    }
+    layoutFragments(m, bondlength) {
+        const frags = m.splitFragments(true);
         if (frags.length < 2)
             return;
-
-        var r0 = frags[0].rect();
-        var x = r0.center().x;
-        var y = r0.bottom() + 3 * bondlength;
-        for (var i = 1; i < frags.length; ++i) {
-            var frag = frags[i];
-            var r = frag.rect();
+        const r0 = frags[0].rect();
+        const x = r0.center().x;
+        let y = r0.bottom() + 3 * bondlength;
+        for (let i = 1; i < frags.length; ++i) {
+            const frag = frags[i];
+            const r = frag.rect();
             frag.offset(x - r.center().x, y - r.top);
             y += r.height + 3 * bondlength;
         }
-    },
-
+    }
     /**
-    * Reset Monomer IDs (internal use)
-    * @function resetIDs
-    */
-    resetIDs: function (m, aaid) {
-        var chains = org.helm.webeditor.Chain._getChains(m);
-        for (var i = 0; i < chains.length; ++i)
+     * Reset Monomer IDs (internal use)
+     * @function resetIDs
+     */
+    resetIDs(m, aaid) {
+        const chains = org.helm.webeditor.Chain._getChains(m);
+        for (let i = 0; i < chains.length; ++i)
             chains[i].resetIDs(aaid);
-    },
-
+    }
     /**
-    * Lay out inner circle (internal use)
-    * @function layoutInnerCircle
-    */
-    layoutInnerCircle: function (chain, bondlength, m, chainid) {
-        var pairs = [];
-        for (var i = 0; i < m.bonds.length; ++i) {
-            var b = m.bonds[i];
+     * Lay out inner circle (internal use)
+     * @function layoutInnerCircle
+     */
+    layoutInnerCircle(chain, bondlength, m, chainid) {
+        const pairs = [];
+        for (let i = 0; i < m.bonds.length; ++i) {
+            const b = m.bonds[i];
             if (b.a1._chainid != null && b.a2._chainid != null && b.a1._chainid == chainid && b.a2._chainid == chainid && scil.Utils.indexOf(chain.bonds, b) < 0 && scil.Utils.indexOf(chain.basebonds, b) < 0) {
-                var ai1 = scil.Utils.indexOf(chain.atoms, b.a1);
-                var ai2 = scil.Utils.indexOf(chain.atoms, b.a2);
-                var p1 = { a1: ai1 < ai2 ? ai1 : ai2, a2: ai1 < ai2 ? ai2 : ai1 };
+                const ai1 = scil.Utils.indexOf(chain.atoms, b.a1);
+                const ai2 = scil.Utils.indexOf(chain.atoms, b.a2);
+                const p1 = { a1: ai1 < ai2 ? ai1 : ai2, a2: ai1 < ai2 ? ai2 : ai1 };
                 pairs.push(p1);
             }
         }
-
         if (pairs.length == 0)
             return false;
-
         // find the biggest circle
-        var pair = pairs[0];
-        for (var i = 1; i < pairs.length; ++i) {
-            var r = pairs[i];
+        let pair = pairs[0];
+        for (let i = 1; i < pairs.length; ++i) {
+            const r = pairs[i];
             if (r.a1 >= pair.a1 && r.a1 <= pair.a2 && r.a1 >= pair.a1 && r.a1 <= pair.a2) {
                 pair = r;
             }
@@ -4110,60 +3727,51 @@ org.helm.webeditor.Layout = {
                     pair = r;
             }
         }
-
-        var atoms = [];
-        for (var i = pair.a1; i <= pair.a2; ++i)
+        const atoms = [];
+        for (let i = pair.a1; i <= pair.a2; ++i)
             atoms.push(chain.atoms[i]);
         atoms.push(atoms[0]);
         this.layoutCircle(atoms, bondlength, -360 / (atoms.length - 1) / 2);
-
-        var delta = org.helm.webeditor.bondscale * bondlength;
-        var p = chain.atoms[pair.a1].p.clone();
-        for (var i = pair.a1 - 1; i >= 0; --i) {
+        const delta = org.helm.webeditor.bondscale * bondlength;
+        let p = chain.atoms[pair.a1].p.clone();
+        for (let i = pair.a1 - 1; i >= 0; --i) {
             p.x += delta;
             chain.atoms[i].p = p.clone();
         }
-
         p = chain.atoms[pair.a2].p.clone();
-        for (var i = pair.a2 + 1; i < chain.atoms.length; ++i) {
+        for (let i = pair.a2 + 1; i < chain.atoms.length; ++i) {
             p.x += delta;
             chain.atoms[i].p = p.clone();
         }
-
         return true;
-    },
-
+    }
     /**
-    * Lay out circle (internal use)
-    * @function layoutCircle
-    */
-    layoutCircle: function (atoms, bondlength, startdeg) {
-        var rect = this.getRect(atoms);
-        var origin = rect.center();
-
-        var delta = org.helm.webeditor.bondscale * bondlength;
-        var deg = 360 / (atoms.length - 1);
-        var radius = (delta / 2) / Math.sin((deg / 2) * Math.PI / 180);
-
-        var a = atoms[0];
+     * Lay out circle (internal use)
+     * @function layoutCircle
+     */
+    layoutCircle(atoms, bondlength, startdeg) {
+        const rect = this.getRect(atoms);
+        const origin = rect.center();
+        const delta = org.helm.webeditor.bondscale * bondlength;
+        const deg = 360 / (atoms.length - 1);
+        const radius = (delta / 2) / Math.sin((deg / 2) * Math.PI / 180);
+        const a = atoms[0];
         a.p = org.helm.webeditor.Interface.createPoint(origin.x + radius, origin.y);
         if (startdeg != null && startdeg != 0)
             a.p.rotateAround(origin, startdeg);
-
-        for (var i = 1; i < atoms.length - 1; ++i)
+        for (let i = 1; i < atoms.length - 1; ++i)
             atoms[i].p = atoms[i - 1].p.clone().rotateAround(origin, -deg);
-    },
-
+    }
     /**
-    * Lay out cross-chain bonds (internal use)
-    * @function layoutCrossChainBonds
-    */
-    layoutCrossChainBonds: function (m, chains, bondlength) {
-        var fixed = {};
-        for (var i = 0; i < m.bonds.length; ++i) {
-            var b = m.bonds[i];
+     * Lay out cross-chain bonds (internal use)
+     * @function layoutCrossChainBonds
+     */
+    layoutCrossChainBonds(m, chains, bondlength) {
+        const fixed = {};
+        for (let i = 0; i < m.bonds.length; ++i) {
+            const b = m.bonds[i];
             if (b.a1._chainid != null && b.a2._chainid != null && b.a1._chainid != b.a2._chainid) {
-                var a1, a2;
+                let a1, a2;
                 if (fixed[b.a1._chainid] && fixed[b.a2._chainid]) {
                     continue;
                 }
@@ -4187,8 +3795,7 @@ org.helm.webeditor.Layout = {
                         a2 = b.a2;
                     }
                 }
-
-                if (b.type == JSDraw2.BONDTYPES.UNKNOWN) {
+                if (b.type == 0 /* JSDraw2.BONDTYPES.UNKNOWN */) {
                     // hydrogen bond
                     if (b.a1.p.y > b.a2.p.y) {
                         a2 = b.a1;
@@ -4198,21 +3805,19 @@ org.helm.webeditor.Layout = {
                         a2 = b.a2;
                         a1 = b.a1;
                     }
-                    var chain = chains[a2._chainid];
+                    const chain = chains[a2._chainid];
                     chain.rotate(180);
-
-                    var delta = a1.p.clone().offset(0, bondlength * org.helm.webeditor.bondscale).offset(-a2.p.x, -a2.p.y);
+                    const delta = a1.p.clone().offset(0, bondlength * org.helm.webeditor.bondscale).offset(-a2.p.x, -a2.p.y);
                     chain.move(delta);
                 }
                 else {
                     // cross-chain connection
-                    var bonds = m.getNeighborBonds(a1);
+                    let bonds = m.getNeighborBonds(a1);
                     if (bonds.length == 3) {
                         scil.Utils.delFromArray(bonds, b);
-
-                        var p1 = bonds[0].otherAtom(a1).p;
-                        var p2 = bonds[1].otherAtom(a1).p;
-                        var p = new JSDraw2.Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                        const p1 = bonds[0].otherAtom(a1).p;
+                        const p2 = bonds[1].otherAtom(a1).p;
+                        let p = new JSDraw2.Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
                         if (p.distTo(a1.p) < bondlength / 30) {
                             // p1, a1.p and p2 in a line
                             p = p1.clone();
@@ -4221,82 +3826,70 @@ org.helm.webeditor.Layout = {
                         else {
                             p.rotateAround(a1.p, 180, bondlength * 3);
                         }
-
-                        var chain = chains[a2._chainid];
+                        const chain = chains[a2._chainid];
                         p.offset(-a2.p.x, -a2.p.y);
                         chain.move(p);
-
                         bonds = m.getNeighborBonds(a2);
                         if (bonds.length == 3) {
                             scil.Utils.delFromArray(bonds, b);
-
-                            var deg;
-                            var c = a2.p.clone();
-
-                            var ang1 = a1.p.angleTo(c);
-
-                            var p1 = bonds[0].otherAtom(a2).p;
-                            var p2 = bonds[1].otherAtom(a2).p;
-                            var p = new JSDraw2.Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+                            let deg;
+                            const c = a2.p.clone();
+                            const ang1 = a1.p.angleTo(c);
+                            const p1 = bonds[0].otherAtom(a2).p;
+                            const p2 = bonds[1].otherAtom(a2).p;
+                            p = new JSDraw2.Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
                             if (p.distTo(c) < bondlength / 30) {
                                 // p1, a2.p and p2 in a line
-                                var ang2 = p2.angleTo(c);
+                                const ang2 = p2.angleTo(c);
                                 deg = (ang1 - ang2) - 90;
                             }
                             else {
-                                var ang2 = p.angleTo(c);
+                                const ang2 = p.angleTo(c);
                                 deg = (ang1 + 180) - ang2;
                             }
-
                             chain.rotate(deg, c);
                         }
                     }
                     else {
-                        var p = a1.p.clone().offset(0, bondlength * 3);
+                        let p = a1.p.clone().offset(0, bondlength * 3);
                         if (this._hasOverlap(chains, fixed, p, bondlength / 30))
                             p = a1.p.clone().offset(0, -bondlength * 3);
-                        var delta = p.offset(-a2.p.x, -a2.p.y);
+                        const delta = p.offset(-a2.p.x, -a2.p.y);
                         chains[a2._chainid].move(delta);
                     }
                 }
-
                 fixed[a1._chainid] = true;
                 fixed[a2._chainid] = true;
             }
         }
-    },
-
-    _hasOverlap: function (chains, fixed, p, tor) {
-        for (var i = 0; i < chains.length; ++i) {
+    }
+    _hasOverlap(chains, fixed, p, tor) {
+        for (let i = 0; i < chains.length; ++i) {
             if (!fixed[i])
                 continue;
-
-            var atoms = chains[i].atoms;
-            for (var k = 0; k < atoms.length; ++k) {
+            const atoms = chains[i].atoms;
+            for (let k = 0; k < atoms.length; ++k) {
                 if (atoms[k].p.distTo(p) < tor)
                     return true;
             }
         }
-
         return false;
-    },
-
+    }
     /**
-    * Layout branches (internal use)
-    * @function layoutBranches
-    */
-    layoutBranches: function (m) {
-        for (var i = 0; i < m.bonds.length; ++i) {
-            var b = m.bonds[i];
+     * Layout branches (internal use)
+     * @function layoutBranches
+     */
+    layoutBranches(m) {
+        for (let i = 0; i < m.bonds.length; ++i) {
+            const b = m.bonds[i];
             if (!b.f && b.a1.f != b.a2.f) {
-                var center = b.a1.f ? b.a1 : b.a2;
-                var a = b.a1.f ? b.a2 : b.a1;
-
-                var b1 = null;
-                var b2 = null;
-                var bonds = m.getNeighborBonds(center);
-                for (var k = bonds.length - 1; k >= 0; --k) {
-                    var n = bonds[k];
+                const center = b.a1.f ? b.a1 : b.a2;
+                const a = b.a1.f ? b.a2 : b.a1;
+                let b1 = null;
+                let b2 = null;
+                const bonds = m.getNeighborBonds(center);
+                for (let k = bonds.length - 1; k >= 0; --k) {
+                    const n = bonds[k];
                     if (n.f) {
                         if (b1 == null && n.a1 == center && n.r1 == 2 || n.a2 == center && n.r2 == 2) {
                             b1 = n;
@@ -4308,13 +3901,11 @@ org.helm.webeditor.Layout = {
                         }
                     }
                 }
-
                 if (b1 != null || b2 != null) {
                     if (b1 != null && b2 != null) {
-                        var a1 = b1.a1 == center ? b1.a2 : b1.a1;
-                        var a2 = b2.a1 == center ? b2.a2 : b2.a1;
-
-                        var ang = center.p.angleAsOrigin(a1.p, a2.p);
+                        const a1 = b1.a1 == center ? b1.a2 : b1.a1;
+                        const a2 = b2.a1 == center ? b2.a2 : b2.a1;
+                        const ang = center.p.angleAsOrigin(a1.p, a2.p);
                         if (Math.abs(ang - 180) > 10)
                             a.p = a1.p.clone().rotateAround(center.p, ang / 2);
                         else
@@ -4322,32 +3913,29 @@ org.helm.webeditor.Layout = {
                     }
                     else {
                         if (b1 != null) {
-                            var a1 = b1.a1 == center ? b1.a2 : b1.a1;
+                            const a1 = b1.a1 == center ? b1.a2 : b1.a1;
                             a.p = a1.p.clone().rotateAround(center.p, 180);
                         }
                         else if (b2 != null) {
-                            var a2 = b2.a1 == center ? b2.a2 : b2.a1;
+                            const a2 = b2.a1 == center ? b2.a2 : b2.a1;
                             a.p = a2.p.clone().rotateAround(center.p, 180);
                         }
                     }
-
                     b.f = b.a1.f = b.a2.f = true;
                 }
             }
         }
-    },
-
+    }
     /**
-    * Get rectangle (internal use)
-    * @function getRect
-    */
-    getRect: function (atoms) {
+     * Get rectangle (internal use)
+     * @function getRect
+     */
+    getRect(atoms) {
         var a = atoms[0];
         var x1 = a.p.x;
         var y1 = a.p.y;
         var x2 = x1;
         var y2 = y1;
-
         for (var i = 1; i < atoms.length; ++i) {
             var p = atoms[i].p;
             if (p.x < x1)
@@ -4359,96 +3947,91 @@ org.helm.webeditor.Layout = {
             else if (p.y > y2)
                 y2 = p.y;
         }
-
         return org.helm.webeditor.Interface.createRect(x1, y1, x2 - x1, y2 - y1);
     }
-};
-﻿/*******************************************************************************
-* Copyright (C) 2018, The Pistoia Alliance
-* Created by Scilligence, built on JSDraw.Lite
-* 
-* Permission is hereby granted, free of charge, to any person obtaining
-* a copy of this software and associated documentation files (the
-* "Software"), to deal in the Software without restriction, including
-* without limitation the rights to use, copy, modify, merge, publish,
-* distribute, sublicense, and/or sell copies of the Software, and to
-* permit persons to whom the Software is furnished to do so, subject to the 
-* following conditions:
-* 
-* The above copyright notice and this permission notice shall be
-* included in all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*******************************************************************************/
-
+}
+org.helm.webeditor.Layout = new Layout();
+//# sourceMappingURL=Layout.js.map/*******************************************************************************
+ * Copyright (C) 2018, The Pistoia Alliance
+ * Created by Scilligence, built on JSDraw.Lite
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the
+ * following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *******************************************************************************/
 /**
-* IO class
-* @class org.helm.webeditor.IO
-*/
-org.helm.webeditor.IO = {
-    kVersion: "V2.0",
-
+ * IO class
+ * @class org.helm.webeditor.IO
+ */
+export class IO {
+    constructor() {
+        this.kVersion = "V2.0";
+    }
     /**
-    * Get HELM Notation
-    * @function getHelm
-    */
-    getHelm: function (m, highlightselection) {
+     * Get HELM Notation
+     * @function getHelm
+     */
+    getHelm(m, highlightselection) {
         // I#12164
-        for (var i = 0; i < m.atoms.length; ++i) {
-            var a = m.atoms[i];
+        for (let i = 0; i < m.atoms.length; ++i) {
+            const a = m.atoms[i];
             if (!org.helm.webeditor.isHelmNode(a) && !a.hidden)
                 return null;
         }
-
-        var ret = { chainid: { RNA: 0, PEPTIDE: 0, CHEM: 0, BLOB: 0, G: 0 }, sequences: {}, connections: [], chains: {}, pairs: [], groupatoms: [], groups: {}, annotations: {}, singletons: {}, ratios: {} };
+        const ret = {
+            chainid: { RNA: 0, PEPTIDE: 0, CHEM: 0, BLOB: 0, G: 0, },
+            sequences: {}, connections: [], chains: {}, pairs: [],
+            groupatoms: [], groups: {}, annotations: {}, singletons: {}, ratios: {},
+        };
         this.getHelm2(m, highlightselection, ret);
-
-        for (var k in ret.chains) {
-            var chain = ret.chains[k];
-            var a = chain[0];
+        for (const k in ret.chains) {
+            const chain = ret.chains[k];
+            const a = chain[0];
             if (chain.length == 1 && a.biotype() == org.helm.webeditor.HELM.BLOB && !scil.Utils.isNullOrEmpty(a.tag))
                 chain.annotation = a.tag;
         }
-
-        for (var k in ret.groups) {
+        for (const k in ret.groups) {
             if (ret.groups[k].length == 1)
                 ret.singletons[k] = ret.groups[k][0];
         }
-
-        for (var k in ret.singletons)
+        for (const k in ret.singletons)
             delete ret.groups[k];
-
         return this.getHelmString(ret, highlightselection);
-    },
-
-    getHelm2: function (m, highlightselection, ret, groupatom) {
-        var branches = {};
-        var chains = org.helm.webeditor.Chain.getChains(m, branches);
-
-        for (var i = 0; i < m.atoms.length; ++i)
+    }
+    getHelm2(m, highlightselection, ret, groupatom) {
+        const branches = {};
+        const chains = org.helm.webeditor.Chain.getChains(m, branches);
+        for (let i = 0; i < m.atoms.length; ++i)
             m.atoms[i]._aaid = null;
-
-        for (var i = 0; i < chains.length; ++i) {
-            var chain = chains[i];
+        for (let i = 0; i < chains.length; ++i) {
+            const chain = chains[i];
             chain.getHelm(ret, highlightselection, m, groupatom);
         }
-
-        for (var i = 0; i < branches.atoms.length; ++i) {
-            var a = branches.atoms[i];
+        for (let i = 0; i < branches.atoms.length; ++i) {
+            const a = branches.atoms[i];
             if (a.biotype() == org.helm.webeditor.HELM.CHEM) {
-                var id = "CHEM" + (++ret.chainid.CHEM);
+                const id = "CHEM" + (++ret.chainid.CHEM);
                 ret.sequences[id] = this.getCode(a, highlightselection);
                 ret.chains[id] = [a];
                 a._aaid = 1;
             }
             else if (a.biotype() == org.helm.webeditor.HELM.BLOB) {
-                var id;
+                let id;
                 if (a.elem == "Group") {
                     id = "G" + (++ret.chainid.G);
                     this.getGroupHelm(ret, id, a, highlightselection);
@@ -4465,31 +4048,27 @@ org.helm.webeditor.IO = {
                 return null;
             }
         }
-
-        var groups = [];
-        for (var i = 0; i < m.graphics.length; ++i) {
-            var g = JSDraw2.Group.cast(m.graphics[i]);
+        const groups = [];
+        for (let i = 0; i < m.graphics.length; ++i) {
+            const g = JSDraw2.Group.cast(m.graphics[i]);
             if (g != null)
                 groups.push(g);
         }
-
-        for (var i = 0; i < groups.length; ++i) {
-            var g = groups[i];
+        for (let i = 0; i < groups.length; ++i) {
+            const g = groups[i];
             if (scil.Utils.isNullOrEmpty(g.tag))
                 continue;
-
-            for (var c in ret.chains) {
+            for (const c in ret.chains) {
                 if (this.allBelongToGroup(ret.chains[c], g)) {
                     ret.chains[c].annotation = g.tag;
                     break;
                 }
             }
         }
-
-        for (var id in ret.groupatoms) {
-            var a = ret.groupatoms[id];
-            for (var i = 0; i < groups.length; ++i) {
-                var g = groups[i];
+        for (const id in ret.groupatoms) {
+            const a = ret.groupatoms[id];
+            for (let i = 0; i < groups.length; ++i) {
+                const g = groups[i];
                 if (g.a == a) {
                     groups.splice(i, 1);
                     this._scanGroup(ret, g, id);
@@ -4497,35 +4076,29 @@ org.helm.webeditor.IO = {
                 }
             }
         }
-
-        var groupids = [];
-        for (var i = 0; i < groups.length; ++i) {
-            var g = groups[i];
-
-            var prefix = "G";
-            var id = prefix + (++ret.chainid[prefix]);
+        const groupids = [];
+        for (let i = 0; i < groups.length; ++i) {
+            const g = groups[i];
+            const prefix = "G";
+            const id = prefix + (++ret.chainid[prefix]);
             groupids[i] = id;
-
             this._scanGroup(ret, g, id);
         }
-
-        for (var i = 0; i < groups.length; ++i) {
-            var g = groups[i];
-            var combo = ret.groups[groupids[i]];
+        for (let i = 0; i < groups.length; ++i) {
+            const g = groups[i];
+            const combo = ret.groups[groupids[i]];
             if (combo == null)
                 continue;
-
-            for (var j = 0; j < groups.length; ++j) {
-                var g2 = groups[j];
+            for (let j = 0; j < groups.length; ++j) {
+                const g2 = groups[j];
                 if (g2.group == g) {
-                    var id = groupids[j];
+                    const id = groupids[j];
                     if (scil.Utils.indexOf(combo, id) < 0)
                         combo.push(id);
                 }
             }
-
-            for (var id in ret.groupatoms) {
-                var a = ret.groupatoms[id];
+            for (const id in ret.groupatoms) {
+                const a = ret.groupatoms[id];
                 if (a.group == g) {
                     if (scil.Utils.indexOf(combo, id) < 0)
                         combo.push(id);
@@ -4533,275 +4106,238 @@ org.helm.webeditor.IO = {
                 }
             }
         }
-
         // RNA1,RNA2,5:pair-11:pair
-        for (var i = 0; i < branches.bonds.length; ++i) {
-            var b = branches.bonds[i];
-
-            var tag = "";
+        for (let i = 0; i < branches.bonds.length; ++i) {
+            const b = branches.bonds[i];
+            let tag = "";
             if (!scil.Utils.isNullOrEmpty(b.tag))
                 tag = '\"' + b.tag.replace(/"/g, "\\\"") + '\"';
-
-            if (b.type == JSDraw2.BONDTYPES.UNKNOWN) {
-                var c1 = this.findChainID(ret.chains, b.a1);
-                var c2 = this.findChainID(ret.chains, b.a2);
-                var s = c1 + "," + c2 + "," + b.a1._aaid + ":pair-" + b.a2._aaid + ":pair";
+            if (b.type == 0 /* JSDraw2.BONDTYPES.UNKNOWN */) {
+                const c1 = this.findChainID(ret.chains, b.a1);
+                const c2 = this.findChainID(ret.chains, b.a2);
+                const s = c1 + "," + c2 + "," + b.a1._aaid + ":pair-" + b.a2._aaid + ":pair";
                 ret.pairs.push(s + tag);
             }
             else {
-                var c1 = this.findChainID(ret.chains, b.a1);
-                var c2 = this.findChainID(ret.chains, b.a2);
+                const c1 = this.findChainID(ret.chains, b.a1);
+                const c2 = this.findChainID(ret.chains, b.a2);
                 this.addConnection(ret, c1, c2, b.a1, b.a2, b.r1, b.r2, b.ratio1, b.ratio2, b.tag, highlightselection && b.selected);
             }
         }
-    },
-
-    _scanGroup: function (ret, g, id) {
-        var combo = [];
-        for (var c in ret.chains) {
+    }
+    _scanGroup(ret, g, id) {
+        const combo = [];
+        for (const c in ret.chains) {
             if (this.allBelongToGroup(ret.chains[c], g)) {
                 combo.push(c);
                 if (!scil.Utils.isNullOrEmpty(g.ratio))
                     ret.ratios[c] = g.ratio;
             }
         }
-
         ret.groups[id] = combo;
         ret.ratios[id] = g.ratio;
-    },
-
-    getGroupHelm: function (ret, id, a, highlightselection) {
-        var existing = {};
-        for (var k in ret.sequences)
+    }
+    getGroupHelm(ret, id, a, highlightselection) {
+        const existing = {};
+        for (const k in ret.sequences)
             existing[k] = true;
-
-        var m = a.superatom;
+        const m = a.superatom;
         if (a.hidden) {
             ret.groupatoms[id] = a;
         }
         else {
             this.getHelm2(m, highlightselection, ret, a);
-
-            var combo = [];
-            for (var k in ret.sequences) {
+            const combo = [];
+            for (const k in ret.sequences) {
                 if (!existing[k])
                     combo.push(k); //{ chain: k, ratio: a.ratio });
             }
-
             ret.groups[id] = combo;
         }
-    },
-
-    addConnection: function (ret, c1, c2, a1, a2, r1, r2, ratio1, ratio2, tag, h) {
-        var ai1 = a1.biotype() == org.helm.webeditor.HELM.BLOB ? "?" : a1._aaid;
-        var ai2 = a2.biotype() == org.helm.webeditor.HELM.BLOB ? "?" : a2._aaid;
+    }
+    addConnection(ret, c1, c2, a1, a2, r1, r2, ratio1, ratio2, tag, h) {
+        const ai1 = a1.biotype() == org.helm.webeditor.HELM.BLOB ? "?" : a1._aaid;
+        const ai2 = a2.biotype() == org.helm.webeditor.HELM.BLOB ? "?" : a2._aaid;
         ret.connections.push({ c1: c1, c2: c2, ai1: ai1, ai2: ai2, r1: r1, r2: r2, ratio1: ratio1, ratio2: ratio2, tag: tag, h: h });
-    },
-
-    renderConnection: function (ret, conn) {
+    }
+    renderConnection(ret, conn) {
         // if it is G1(PEPTID1), then directly use PEPTIDE1, and not G1
         if (ret.singletons[conn.c1] != null) {
             conn.c1 = ret.singletons[conn.c1];
-            if (conn.ai1 > 0)
+            if (parseInt(conn.ai1) > 0) // TODO: test
                 conn.ai1 = "?";
         }
         if (ret.singletons[conn.c2] != null) {
             conn.c2 = ret.singletons[conn.c2];
-            if (conn.ai2 > 0)
+            if (parseInt(conn.ai2) > 0) // TODO: test
                 conn.ai2 = "?";
         }
-
-        var c = conn.c1 + "," + conn.c2;
+        let c = conn.c1 + "," + conn.c2;
         c += "," + org.helm.webeditor.IO.connectionStr(conn.ai1, conn.r1, conn.ai2, conn.r2);
-
         if (!scil.Utils.isNullOrEmpty(conn.tag))
             c += '\"' + conn.tag.replace(/"/g, "\\\"") + '\"';
-
         if (conn.h)
             c = "<span style='background:#bbf;'>" + c + "</span>";
         return c;
-    },
-
-    connectionStr: function (aaid1, r1, aaid2, r2) {
+    }
+    connectionStr(aaid1, r1, aaid2, r2) {
         return this.rStr(aaid1, r1) + "-" + this.rStr(aaid2, r2);
-    },
-
-    rStr: function (aaid, r) {
+    }
+    rStr(aaid, r) {
         if (typeof (r) == "string" && r.indexOf(':') > 0)
             return r;
-
-        var s = aaid + ":";
+        const s = aaid + ":";
         if (r == "*" || r == "?")
             return s + r;
         return s + "R" + r;
-    },
-
-    allBelongToGroup: function (atoms, g) {
-        for (var i = 0; i < atoms.length; ++i) {
+    }
+    allBelongToGroup(atoms, g) {
+        for (let i = 0; i < atoms.length; ++i) {
             if (atoms[i].group != g)
                 return false;
         }
         return true;
-    },
-
-    getHelmString: function (ret, highlightselection) {
-        var s = "";
-        var keys = [];
-        for (var k in ret.sequences)
+    }
+    getHelmString(ret, highlightselection) {
+        let s = "";
+        const keys = [];
+        for (const k in ret.sequences)
             keys.push(k);
         keys.sort();
-        for (var i = 0; i < keys.length; ++i) {
-            var k = keys[i];
+        for (let i = 0; i < keys.length; ++i) {
+            const k = keys[i];
             s += (s == "" ? "" : "|") + k + "{" + ret.sequences[k] + "}";
-            var chain = ret.chains[k];
+            const chain = ret.chains[k];
             if (chain != null && !scil.Utils.isNullOrEmpty(chain.annotation))
                 s += this.wrapAnnotation(chain.annotation);
         }
-
         if (s == "")
             return s;
-
-        var count = 0;
-
+        let count = 0;
         s += "$";
-        var groups = [];
-        for (var i = 0; i < ret.connections.length; ++i) {
-            var c = ret.connections[i];
+        const groups = [];
+        for (let i = 0; i < ret.connections.length; ++i) {
+            const c = ret.connections[i];
             s += (++count > 1 ? "|" : "") + this.renderConnection(ret, c);
             if ((c.ratio1 > 0 || c.ratio1 == "?") && (c.ratio2 > 0 || c.ratio1 == "?")) {
-                var s2 = c.c1 + ":" + c.ratio1 + "+" + c.c2 + ":" + c.ratio2;
+                const s2 = c.c1 + ":" + c.ratio1 + "+" + c.c2 + ":" + c.ratio2;
                 id = "G" + (++ret.chainid.G);
                 groups.push(id + "(" + s2 + ")");
             }
         }
-        for (var i = 0; i < ret.pairs.length; ++i)
+        for (let i = 0; i < ret.pairs.length; ++i)
             s += (++count > 1 ? "|" : "") + ret.pairs[i];
-
         s += "$";
-        var list = [];
-        for (var id in ret.groups) {
-            var s2 = "";
-            var list = ret.groups[id];
-            for (var i = 0; i < list.length; ++i) {
-                var c = list[i];
+        for (const id in ret.groups) {
+            let s2 = "";
+            const list = ret.groups[id];
+            for (let i = 0; i < list.length; ++i) {
+                let c = list[i];
                 if (ret.singletons[c] != null)
                     c = ret.singletons[c];
-                var ratio = ret.ratios[c];
-                var separator = ret.ratios[id] == "or" ? "," : "+";
+                const ratio = ret.ratios[c];
+                const separator = ret.ratios[id] == "or" ? "," : "+";
                 s2 += (i > 0 ? separator : "") + c + (scil.Utils.isNullOrEmpty(ratio) ? "" : ":" + ratio);
             }
             groups.push(id + "(" + s2 + ")");
         }
-        for (var i = 0; i < groups.length; ++i)
+        for (let i = 0; i < groups.length; ++i)
             s += (i > 0 ? "|" : "") + groups[i];
-
         s += "$";
-
         //RNA1{R(C)P.R(A)P.R(T)}$$$RNA1{ss}$
-        var ann = scil.Utils.json2str(ret.annotations, null, true);
+        const ann = scil.Utils.json2str(ret.annotations, null, true);
         s += ann == "null" || ann == "{}" ? "" : ann;
-
         s += "$";
         return s + this.kVersion;
-    },
-
+    }
     /**
-    * Get the natural sequence of the molecule
-    * @function getSequence
-    */
-    getSequence: function (m, highlightselection) {
-        var branches = {};
-        var chains = org.helm.webeditor.Chain.getChains(m, branches);
+     * Get the natural sequence of the molecule
+     * @function getSequence
+     */
+    getSequence(m, highlightselection) {
+        const branches = {};
+        const chains = org.helm.webeditor.Chain.getChains(m, branches);
         if (chains == null)
             return null;
-
-        var s = "";
-        for (var i = 0; i < chains.length; ++i) {
-            var s2 = chains[i].getSequence(highlightselection);
+        let s = "";
+        for (let i = 0; i < chains.length; ++i) {
+            const s2 = chains[i].getSequence(highlightselection);
             if (scil.Utils.isNullOrEmpty(s2))
                 continue;
             if (s != "")
                 s += "\r\n";
             s += s2;
         }
-
         return s;
-    },
-
+    }
     /**
-    * Get XHELM
-    * @function getXHelm
-    */
-    getXHelm: function (m) {
-        var s = this.getHelm(m);
+     * Get XHELM
+     * @function getXHelm
+     */
+    getXHelm(m) {
+        let s = this.getHelm(m);
         if (scil.Utils.isNullOrEmpty(s))
             return s;
-
-        var s = "<Xhelm>\n<HelmNotation>" + scil.Utils.escXmlValue(s) + "</HelmNotation>\n";
-
-        var list = this.getMonomers(m);
+        s = "<Xhelm>\n<HelmNotation>" + scil.Utils.escXmlValue(s) + "</HelmNotation>\n";
+        const list = this.getMonomers(m);
         if (list != null) {
             s += "<Monomers>\n";
-            for (var i in list)
+            for (const i in list)
                 s += org.helm.webeditor.Monomers.writeOne(list[i]);
             s += "</Monomers>\n";
         }
         s += "</Xhelm>";
         return s;
-    },
-
+    }
     /**
-    * Get all monomers of a molecule
-    * @function getMonomers
-    */
-    getMonomers: function (m) {
-        var ret = {};
-        var atoms = m.atoms;
-        for (var i = 0; i < atoms.length; ++i) {
-            var a = atoms[i];
-            var biotype = a.biotype();
+     * Get all monomers of a molecule
+     * @function getMonomers
+     */
+    getMonomers(m) {
+        const ret = {};
+        const atoms = m.atoms;
+        for (let i = 0; i < atoms.length; ++i) {
+            const a = atoms[i];
+            const biotype = a.biotype();
             if (!org.helm.webeditor.isHelmNode(a))
                 continue;
-
-            var m = org.helm.webeditor.Monomers.getMonomer(a);
-            var t = biotype + " " + a.elem;
+            const m = org.helm.webeditor.Monomers.getMonomer(a);
+            const t = biotype + " " + a.elem;
             if (ret[t] == null) {
-                var type = null;
-                var mt = null;
+                let type = null;
+                let mt = null;
                 if (biotype == org.helm.webeditor.HELM.CHEM) {
                     type = "CHEM";
-                    mt = "Undefined"
+                    mt = "Undefined";
                 }
                 else if (biotype == org.helm.webeditor.HELM.AA) {
                     type = "PEPTIDE";
-                    mt = "Undefined"
+                    mt = "Undefined";
                 }
                 else if (biotype == org.helm.webeditor.HELM.SUGAR) {
                     type = "RNA";
-                    mt = "Backbone"
+                    mt = "Backbone";
                 }
                 else if (biotype == org.helm.webeditor.HELM.BASE) {
                     type = "RNA";
-                    mt = "Branch"
+                    mt = "Branch";
                 }
                 else if (biotype == org.helm.webeditor.HELM.LINKER) {
                     type = "RNA";
-                    mt = "Backbone"
+                    mt = "Backbone";
                 }
                 ret[t] = { id: a.elem, mt: mt, type: type, m: m };
             }
         }
-
         return ret;
-    },
-
+    }
     /**
-    * Get HELM Code of a monomer (internal use)
-    * @function getCode
-    */
-    getCode: function (a, highlightselection, bracket) {
-        var s;
-        var blob = false;
+     * Get HELM Code of a monomer (internal use)
+     * @function getCode
+     */
+    getCode(a, highlightselection, bracket) {
+        let s;
+        let blob = false;
         if (typeof (a) == "object" && a.biotype() == org.helm.webeditor.HELM.BLOB) {
             blob = true;
             if (a.elem == "Group") {
@@ -4816,57 +4352,50 @@ org.helm.webeditor.IO = {
                 s = a;
             }
             else {
-                var m = org.helm.webeditor.Monomers.getMonomer(a);
+                const m = org.helm.webeditor.Monomers.getMonomer(a);
                 if (m.issmiles)
                     s = m.smiles;
                 else
                     s = a.elem;
             }
-
             if (s == "?" && a.bio != null)
                 s = a.bio.ambiguity == null ? "?" : a.bio.ambiguity;
             else if (s.length > 1)
                 s = "[" + s + "]";
         }
-
         if (!blob)
             s += this.wrapAnnotation(a.tag);
-
         if (bracket)
             s = "(" + s + ")";
         if (highlightselection && a.selected)
             s = "<span style='background:#bbf;'>" + s + "</span>";
         return s;
-    },
-
-    wrapAnnotation: function (s) {
+    }
+    wrapAnnotation(s) {
         if (!scil.Utils.isNullOrEmpty(s))
             return '\"' + s.replace(/"/g, "\\\"") + '\"';
         return "";
-    },
-
+    }
     /**
-    * Find the chain ID based on monomer (internal use)
-    * @function findChainID
-    */
-    findChainID: function (chains, a) {
-        for (var k in chains) {
-            var atoms = chains[k];
+     * Find the chain ID based on monomer (internal use)
+     * @function findChainID
+     */
+    findChainID(chains, a) {
+        for (const k in chains) {
+            const atoms = chains[k];
             if (scil.Utils.indexOf(atoms, a) >= 0)
                 return k;
         }
         return null;
-    },
-
+    }
     /**
-    * Read a generic string (internal use)
-    * @function read
-    */
-    read: function (plugin, s, format, renamedmonomers, sugar, linker, separator) {
+     * Read a generic string (internal use)
+     * @function read
+     */
+    read(plugin, s, format, renamedmonomers, sugar, linker, separator) {
         if (scil.Utils.isNullOrEmpty(s))
             return 0;
-
-        var s2 = s.toUpperCase();
+        const s2 = s.toUpperCase();
         if (scil.Utils.isNullOrEmpty(format)) {
             if (/^((RNA)|(PEPTIDE)|(CHEM)|(BLOB))[0-9]+/.test(s2))
                 format = "HELM";
@@ -4875,68 +4404,59 @@ org.helm.webeditor.IO = {
             else if (/^[A|C-I|K-N|P-T|V|W|Y|Z]+[>]?$/.test(s2))
                 format = "Peptide";
             else
-                throw "Cannot detect the format using nature monomer names";
+                throw new Error("Cannot detect the format using nature monomer names");
         }
-
-        var origin = org.helm.webeditor.Interface.createPoint(0, 0);
+        const origin = org.helm.webeditor.Interface.createPoint(0, 0);
         if (format == "HELM") {
             return this.parseHelm(plugin, s, origin, renamedmonomers);
         }
         else if (format == "Peptide") {
-            var chain = new org.helm.webeditor.Chain();
-            var circle = scil.Utils.endswith(s, ">");
+            const chain = new org.helm.webeditor.Chain();
+            const circle = scil.Utils.endswith(s, ">");
             if (circle)
                 s = s.substr(0, s.length - 1);
-            var ss = this.splitChars(s, separator);
+            const ss = this.splitChars(s, separator);
             if (circle)
                 ss.push(">");
             return this.addAAs(plugin, ss, chain, origin);
         }
         else if (format == "RNA") {
-            var chain = new org.helm.webeditor.Chain();
-            var ss = this.splitChars(s, separator);
+            const chain = new org.helm.webeditor.Chain();
+            const ss = this.splitChars(s, separator);
             return this.addRNAs(plugin, ss, chain, origin, sugar, linker);
         }
-
         return 0;
-    },
-
+    }
     /**
-    * Parse a HELM string (internal use)
-    * @function parseHelm
-    */
-    parseHelm: function (plugin, s, origin, renamedmonomers) {
-        var n = 0;
-        var sections = this.split(s, '$');
-        var chains = {};
-
-        var gi = 100;
-        var groups = {};
-        var groupannotations = {};
-
+     * Parse a HELM string (internal use)
+     * @function parseHelm
+     */
+    parseHelm(plugin, s, origin, renamedmonomers) {
+        let n = 0;
+        const sections = this.split(s, "$");
+        const chains = {};
+        let gi = 100;
+        const groups = {};
+        const groupannotations = {};
         // sequence
         s = sections[0];
         if (!scil.Utils.isNullOrEmpty(s)) {
-            var seqs = this.split(s, '|');
-            for (var i = 0; i < seqs.length; ++i) {
-                var e = this.detachAnnotation(seqs[i]);
+            const seqs = this.split(s, "|");
+            for (let i = 0; i < seqs.length; ++i) {
+                const e = this.detachAnnotation(seqs[i]);
                 s = e.str;
-
-                p = s.indexOf("{");
-                var sid = s.substr(0, p);
-                var type = sid.replace(/[0-9]+$/, "").toUpperCase();
-                var id = parseInt(sid.substr(type.length));
-
-                var chain = new org.helm.webeditor.Chain(sid);
+                let p = s.indexOf("{");
+                const sid = s.substr(0, p);
+                const type = sid.replace(/[0-9]+$/, "").toUpperCase();
+                const id = parseInt(sid.substr(type.length));
+                const chain = new org.helm.webeditor.Chain(sid);
                 chains[sid] = chain;
                 chain.type = type;
-
                 s = s.substr(p + 1);
                 p = s.indexOf('}');
                 s = s.substr(0, p);
-
-                var n2 = 0;
-                var ss = this.split(s, '.');
+                let n2 = 0;
+                const ss = this.split(s, '.');
                 if (type == "PEPTIDE")
                     n2 = this.addAAs(plugin, ss, chain, origin, renamedmonomers);
                 else if (type == "RNA")
@@ -4945,47 +4465,47 @@ org.helm.webeditor.IO = {
                     n2 = this.addChem(plugin, s, chain, origin, renamedmonomers);
                 else if (type == "BLOB")
                     n2 = this.addBlob(plugin, s, chain, origin, renamedmonomers, e.tag);
-
                 if (n2 > 0) {
                     n += n2;
                     origin.y += 4 * plugin.jsd.bondlength;
                 }
-
                 if (!scil.Utils.isNullOrEmpty(e.tag) && groups[sid] == null) {
                     ++gi;
-                    var g = "G" + gi;
+                    const g = "G" + gi;
                     sections[2] += "|" + g + "(" + sid + ")";
                     groups[sid] = g;
                     groupannotations[g] = e.tag;
                 }
             }
+            // Continuous atom / monomer numbering
+            const m = plugin.jsd.m;
+            for (let aI = 0; aI < m.atoms.length; ++aI) {
+                const a = m.atoms[aI];
+                a.bio.continuousId = aI + 1; // natural numbering
+            }
         }
-
         // hydrogenpairs
-        var hydrogenpairs = [];
-        var connections = [];
-        var connatoms = {};
-
+        const hydrogenpairs = [];
+        const connections = [];
+        const connatoms = {};
         s = sections[1];
         if (!scil.Utils.isNullOrEmpty(s)) {
-            var ss = s == "" ? [] : this.split(s, '|');
+            const ss = s == "" ? [] : this.split(s, "|");
             // RNA1,RNA1,1:R1-21:R2
-            for (var i = 0; i < ss.length; ++i) {
+            for (let i = 0; i < ss.length; ++i) {
                 if (ss[i].indexOf("pair") > 0) {
                     hydrogenpairs.push(ss[i]);
                     continue;
                 }
-
-                var e = this.detachAnnotation(ss[i]);
-                var c = this.parseConnection(e.str);
+                const e = this.detachAnnotation(ss[i]);
+                const c = this.parseConnection(e.str);
                 if (c == null)
                     continue;
-
                 if (isNaN(c.a1) && !/^G[0-9]+$/.test(c.chain1) && !scil.Utils.startswith(c.chain1, "BLOB")) {
                     // create group
                     if (groups[c.chain1] == null) {
                         ++gi;
-                        var g = "G" + gi;
+                        const g = "G" + gi;
                         sections[2] += "|" + g + "(" + c.chain1 + ")";
                         groups[c.chain1] = g;
                     }
@@ -4995,40 +4515,38 @@ org.helm.webeditor.IO = {
                     // create group
                     if (groups[c.chain2] == null) {
                         ++gi;
-                        var g = "G" + gi;
+                        const g = "G" + gi;
                         sections[2] += "|" + g + "(" + c.chain2 + ")";
                         groups[c.chain2] = g;
                     }
                     c.chain2 = groups[c.chain2];
                 }
-
                 c.tag = e.tag;
                 connections.push(c);
                 connatoms[c.chain1] = true;
                 connatoms[c.chain2] = true;
             }
         }
-
         // groups, pairs, hydrogen bonds
         // RNA1,RNA2,2:pair-9:pair|RNA1,RNA2,5:pair-6:pair|RNA1,RNA2,8:pair-3:pair
         s = sections[2];
-        var bondratios = [];
+        const bondratios = [];
         if (!scil.Utils.isNullOrEmpty(s)) {
-            var ss = s == "" ? [] : this.split(s, '|');
-            for (var i = 0; i < ss.length; ++i) {
+            const ss = s == "" ? [] : this.split(s, '|');
+            for (let i = 0; i < ss.length; ++i) {
                 if (scil.Utils.endswith(ss[i], ")") && /^[G|g][0-9]+[\(]/.test(ss[i])) {
                     // group
-                    var p = ss[i].indexOf('(');
-                    var c = ss[i].substr(p + 1, ss[i].length - p - 2);
-                    var id = ss[i].substr(0, p);
+                    const p = ss[i].indexOf("(");
+                    const c = ss[i].substr(p + 1, ss[i].length - p - 2);
+                    const id = ss[i].substr(0, p);
                     if (connatoms[id] != null) {
-                        var chain = this.createGroupForChains(plugin, chains, id, c);
+                        const chain = this.createGroupForChains(plugin, chains, id, c);
                         if (chain != null)
                             chains[id] = chain;
                     }
                     else if (!this.parseBondRatios(bondratios, c)) { // bond ratio
                         // then group
-                        var chain = this.createGroupForChains(plugin, chains, id, c, groupannotations[id]);
+                        const chain = this.createGroupForChains(plugin, chains, id, c, groupannotations[id]);
                         if (chain != null && chain.atoms.length == 1)
                             plugin.groupExpand(chain.atoms[0]);
                     }
@@ -5039,41 +4557,35 @@ org.helm.webeditor.IO = {
                 }
             }
         }
-
-        for (var i = 0; i < hydrogenpairs.length; ++i) {
+        for (let i = 0; i < hydrogenpairs.length; ++i) {
             // pair
-            var c = this.parseConnection(hydrogenpairs[i]);
+            const c = this.parseConnection(hydrogenpairs[i]);
             if (c == null || chains[c.chain1] == null || chains[c.chain2] == null || !scil.Utils.startswith(c.chain1, "RNA") || !scil.Utils.startswith(c.chain2, "RNA"))
                 continue; //error
-
-            var atom1 = chains[c.chain1].getAtomByAAID(c.a1);
-            var atom2 = chains[c.chain2].getAtomByAAID(c.a2);
+            const atom1 = chains[c.chain1].getAtomByAAID(c.a1);
+            const atom2 = chains[c.chain2].getAtomByAAID(c.a2);
             if (atom1 == null || atom2 == null)
                 continue; //error
-
             if (c.r1 != "pair" || c.r2 != "pair")
                 continue; //error
-
             //chain.bonds.push(plugin.addBond(atom1, atom2, r1, r2));
             plugin.addHydrogenBond(atom1, atom2);
         }
-
         // connection
-        for (var i = 0; i < connections.length; ++i) {
-            var c = connections[i];
+        for (let i = 0; i < connections.length; ++i) {
+            const c = connections[i];
             if (c == null || chains[c.chain1] == null || chains[c.chain2] == null)
                 continue; //error
-
             if (groups[c.chain1] != null)
                 c.chain1 = groups[c.chain1];
             if (groups[c.chain2] != null)
                 c.chain2 = groups[c.chain2];
-
-            var chain1 = chains[c.chain1];
-            var chain2 = chains[c.chain2];
-            var atom1, atom2;
-            var a1 = parseInt(c.a1);
-            var a2 = parseInt(c.a2);
+            const chain1 = chains[c.chain1];
+            const chain2 = chains[c.chain2];
+            let atom1;
+            let atom2;
+            const a1 = parseInt(c.a1);
+            const a2 = parseInt(c.a2);
             if (a1 > 0 && !scil.Utils.startswith(c.chain1, "G") && !scil.Utils.startswith(c.chain1, "BLOB")) {
                 atom1 = chain1.getAtomByAAID(c.a1);
             }
@@ -5090,32 +4602,30 @@ org.helm.webeditor.IO = {
             }
             if (atom1 == null || atom2 == null)
                 continue; //error
-
             if (c.r1 == null || c.r2 == null)
                 continue; // error
-            var r1 = scil.Utils.startswith(c.r1, "R") ? parseInt(c.r1.substr(1)) : c.r1;
-            var r2 = scil.Utils.startswith(c.r2, "R") ? parseInt(c.r2.substr(1)) : c.r2;
-            var b = plugin.addBond(atom1, atom2, r1, r2);
+            const r1 = scil.Utils.startswith(c.r1, "R") ? parseInt(c.r1.substr(1)) : parseInt(c.r1);
+            const r2 = scil.Utils.startswith(c.r2, "R") ? parseInt(c.r2.substr(1)) : parseInt(c.r2);
+            const b = plugin.addBond(atom1, atom2, r1, r2);
             if (b != null) {
                 b.tag = c.tag;
-                var bondratio = this.findBondRatio(bondratios, groups, c.chain1, c.chain2);
+                const bondratio = this.findBondRatio(bondratios, groups, c.chain1, c.chain2);
                 if (bondratio != null) {
                     b.ratio1 = bondratio.ratio1 != null ? bondratio.ratio1 : org.helm.webeditor.defaultbondratio;
                     b.ratio2 = bondratio.ratio2 != null ? bondratio.ratio2 : org.helm.webeditor.defaultbondratio;
                 }
             }
         }
-
         // annotation
         s = sections[3];
         if (!scil.Utils.isNullOrEmpty(s)) {
-            var ann = scil.Utils.eval(s);
+            const ann = scil.Utils.eval(s);
             if (ann != null) {
                 // HELM 2.0
-                for (var k in ann) {
-                    var chain = chains[k];
+                for (const k in ann) {
+                    const chain = chains[k];
                     if (chain != null && chain.type == "RNA") {
-                        var strandtype = ann[k].strandtype;
+                        const strandtype = ann[k].strandtype;
                         if (strandtype == "ss" || strandtype == "as")
                             chain.atoms[0].bio.annotation = "5'" + strandtype;
                     }
@@ -5123,53 +4633,47 @@ org.helm.webeditor.IO = {
             }
             else {
                 // HELM 1.0
-                var ss = this.split(s, '|');
-                for (var i = 0; i < ss.length; ++i) {
-                    var s = ss[i];
-                    p = s.indexOf("{");
-                    var chn = s.substr(0, p);
-                    s = s.substr(p);
-                    if (s == "{ss}" || s == "{as}") {
-                        var chain = chains[chn];
+                const ss = this.split(s, '|');
+                for (let i = 0; i < ss.length; ++i) {
+                    const s2 = ss[i];
+                    const p = s2.indexOf("{");
+                    const chn = s2.substr(0, p);
+                    const s3 = s2.substr(p);
+                    if (s3 == "{ss}" || s3 == "{as}") {
+                        const chain = chains[chn];
                         if (chain != null && chain.type == "RNA")
-                            chain.atoms[0].bio.annotation = "5'" + s.substr(1, s.length - 2);
+                            chain.atoms[0].bio.annotation = "5'" + s3.substr(1, s3.length - 2);
                     }
                 }
             }
         }
-
         return n;
-    },
-
-    findBondRatio: function (bondratios, groups, c1, c2) {
-        for (var i = 0; i < bondratios.length; ++i) {
-            var r = bondratios[i];
-            var a1 = r.c1;
-            var a2 = r.c2;
+    }
+    findBondRatio(bondratios, groups, c1, c2) {
+        for (let i = 0; i < bondratios.length; ++i) {
+            const r = bondratios[i];
+            let a1 = r.c1;
+            let a2 = r.c2;
             if (groups[a1] != null)
                 a1 = groups[a1];
             if (groups[a2] != null)
                 a2 = groups[a2];
-
             if (a1 == c1 && a2 == c2)
                 return { ratio1: r.ratio1, ratio2: r.ratio2 };
             else if (a1 == c2 && a2 == c1)
                 return { ratio1: r.ratio2, ratio2: r.ratio1 };
         }
         return null;
-    },
-
-    parseBondRatios: function (bondratios, s) {
-        var p = s.indexOf('+');
+    }
+    parseBondRatios(bondratios, s) {
+        let p = s.indexOf('+');
         if (p < 0)
             p = s.indexOf(',');
         if (p <= 0)
             return false;
-
-        var ret = {};
-        var s1 = s.substr(0, p);
-        var s2 = s.substr(p + 1);
-
+        const ret = {};
+        const s1 = s.substr(0, p);
+        const s2 = s.substr(p + 1);
         p = s1.indexOf(':');
         if (p > 0) {
             ret.c1 = s1.substr(0, p);
@@ -5178,7 +4682,6 @@ org.helm.webeditor.IO = {
         else {
             ret.c1 = s1;
         }
-
         p = s2.indexOf(':');
         if (p > 0) {
             ret.c2 = s2.substr(0, p);
@@ -5187,14 +4690,12 @@ org.helm.webeditor.IO = {
         else {
             ret.c2 = s2;
         }
-
         bondratios.push(ret);
         return true;
-    },
-
-    createGroupForChains: function (plugin, chains, chainid, c, tag) {
-        var logic = null;
-        var ss = this.splitString(c, "+");
+    }
+    createGroupForChains(plugin, chains, chainid, c, tag) {
+        let logic = null;
+        let ss = this.splitString(c, "+");
         if (ss.length > 1) {
             logic = "and";
         }
@@ -5203,65 +4704,54 @@ org.helm.webeditor.IO = {
             if (ss.length > 1)
                 logic = "or";
         }
-
-        var allatoms = [];
-        var atom = null;
-        for (var i = 0; i < ss.length; ++i) {
-            var ratio = null;
-
-            var s = ss[i];
-            var p = s.indexOf(':');
+        const allatoms = [];
+        let atom = null;
+        for (let i = 0; i < ss.length; ++i) {
+            let ratio = null;
+            let s = ss[i];
+            const p = s.indexOf(':');
             if (p > 0) {
                 ratio = s.substr(p + 1);
                 s = s.substr(0, p);
             }
-
-            var chain = chains[s];
+            const chain = chains[s];
             if (chain == null)
                 continue; // error
-
-            var atoms = [];
-            for (var k = 0; k < chain.atoms.length; ++k) {
+            const atoms = [];
+            for (let k = 0; k < chain.atoms.length; ++k) {
                 atoms.push(chain.atoms[k]);
                 if (chain.bases[k] != null)
                     atoms.push(chain.bases[k]);
             }
-
             //allatoms = allatoms.concat(atoms);
-            var g2 = plugin.createGroup2(atoms, false);
+            const g2 = plugin.createGroup2(atoms, false);
             if (g2 != null) {
                 g2.ratio = ratio;
                 g2.tag = tag;
-
-                var a2 = plugin.collapseGroup(g2);
+                const a2 = plugin.collapseGroup(g2);
                 a2._aaid = 1;
                 allatoms.push(a2);
-
                 atom = a2;
             }
         }
-
         if (allatoms.length > 1) {
-            var g = plugin.createGroup2(allatoms, false);
+            const g = plugin.createGroup2(allatoms, false);
             if (g == null)
                 return null;
-
             g.ratio = logic;
             g.tag = tag;
             atom = plugin.collapseGroup(g);
             atom._aaid = 1;
         }
-
-        var chain = new org.helm.webeditor.Chain(ss[chainid]);
+        const chain = new org.helm.webeditor.Chain(ss[chainid]);
         chain.atoms.push(atom);
         return chain;
-    },
-
-    splitString: function (s, separators) {
-        var ret = [];
-        var w = "";
-        for (var i = 0; i < s.length; ++i) {
-            var c = s.substr(i, 1);
+    }
+    splitString(s, separators) {
+        const ret = [];
+        let w = "";
+        for (let i = 0; i < s.length; ++i) {
+            const c = s.substr(i, 1);
             if (separators.indexOf(c) >= 0) {
                 ret.push(w);
                 w = "";
@@ -5270,27 +4760,24 @@ org.helm.webeditor.IO = {
                 w += c;
             }
         }
-
         if (ret.length == 0 || w.length > 0)
             ret.push(w);
         return ret;
-    },
-
+    }
     /**
-    * Split components (internal use)
-    * @function split
-    */
-    split: function (s, sep) {
-        var ret = [];
+     * Split components (internal use)
+     * @function split
+     */
+    split(s, sep) {
+        const ret = [];
         // PEPTIDE1{G.[C[13C@H](N[*])C([*])=O |$;;;_R1;;_R2;$|].T}$$$$
-
-        var frag = "";
-        var parentheses = 0;
-        var bracket = 0;
-        var braces = 0;
-        var quote = 0;
-        for (var i = 0; i < s.length; ++i) {
-            var c = s.substr(i, 1);
+        let frag = "";
+        let parentheses = 0;
+        let bracket = 0;
+        let braces = 0;
+        let quote = 0;
+        for (let i = 0; i < s.length; ++i) {
+            let c = s.substr(i, 1);
             if (c == sep && bracket == 0 && parentheses == 0 && braces == 0 && quote == 0) {
                 ret.push(frag);
                 frag = "";
@@ -5300,12 +4787,11 @@ org.helm.webeditor.IO = {
                 if (quote > 0) {
                     if (c == '\\' && i + 1 < s.length) {
                         ++i;
-                        var c2 = s.substr(i, 1);
+                        const c2 = s.substr(i, 1);
                         frag += c2;
                         c += c2;
                     }
                 }
-
                 if (c == '\"') {
                     if (!(i > 0 && s.substr(i - 1, 1) == '\\'))
                         quote = quote == 0 ? 1 : 0;
@@ -5324,99 +4810,86 @@ org.helm.webeditor.IO = {
                     --braces;
             }
         }
-
         ret.push(frag);
         return ret;
-    },
-
+    }
     /**
-    * Parse HELM connection (internal use)
-    * @function parseConnection
-    */
-    parseConnection: function (s) {
-        var tt = s.split(',');
+     * Parse HELM connection (internal use)
+     * @function parseConnection
+     */
+    parseConnection(s) {
+        const tt = s.split(',');
         if (tt.length != 3)
             return null; // error
-
-        var tt2 = tt[2].split('-');
+        const tt2 = tt[2].split('-');
         if (tt2.length != 2)
             return null; // error
-
-        var c1 = tt2[0].split(':');
-        var c2 = tt2[1].split(':');
+        const c1 = tt2[0].split(':');
+        const c2 = tt2[1].split(':');
         if (c1.length != 2 || c2.length != 2)
             return null; // error
-
         return { chain1: tt[0], chain2: tt[1], a1: c1[0], r1: c1[1], a2: c2[0], r2: c2[1] };
         //return { chain1: tt[0], chain2: tt[1], a1: parseInt(c1[0]), r1: c1[1], a2: parseInt(c2[0]), r2: c2[1] };
-    },
-
+    }
     /**
-    * Split chars (internal use)
-    * @function splitChars
-    */
-    splitChars: function (s, separator) {
-        var ss = [];
+     * Split chars (internal use)
+     * @function splitChars
+     */
+    splitChars(s, separator) {
+        let ss = [];
         if (separator == null) {
-            for (var i = 0; i < s.length; ++i)
+            for (let i = 0; i < s.length; ++i)
                 ss.push(s.substr(i, 1));
         }
         else {
             ss = s.split(separator);
         }
         return ss;
-    },
-
+    }
     /**
-    * Remove bracket (internal use)
-    * @function trimBracket
-    */
-    trimBracket: function (s) {
+     * Remove bracket (internal use)
+     * @function trimBracket
+     */
+    trimBracket(s) {
         if (s != null && scil.Utils.startswith(s, "[") && scil.Utils.endswith(s, "]"))
             return s.substr(1, s.length - 2);
         return s;
-    },
-
+    }
     /**
-    * Make a renamed monomer (internal use)
-    * @function getRenamedMonomer
-    */
-    getRenamedMonomer: function (type, elem, monomers) {
+     * Make a renamed monomer (internal use)
+     * @function getRenamedMonomer
+     */
+    getRenamedMonomer(type, elem, monomers) {
         if (monomers == null || monomers.length == 0)
             return elem;
-
         elem = org.helm.webeditor.IO.trimBracket(elem);
-        for (var i = 0; i < monomers.length; ++i) {
-            var m = monomers[i];
+        for (let i = 0; i < monomers.length; ++i) {
+            const m = monomers[i];
             if (m.oldname == elem)
                 return m.id;
         }
         return elem;
-    },
-
+    }
     /**
-    * Remove annotation (internal use)
-    * @function detachAnnotation
-    */
-    detachAnnotation: function (s) {
-        var ret = this._detachAppendix(s, '\"');
+     * Remove annotation (internal use)
+     * @function detachAnnotation
+     */
+    detachAnnotation(s) {
+        const ret = this._detachAppendix(s, '\"');
         if (ret.tag != null)
             return ret;
-
-        var r = this._detachAppendix(s, '\'');
+        const r = this._detachAppendix(s, '\'');
         return { tag: ret.tag, repeat: r.tag, str: r.str };
-    },
-
-    _detachAppendix: function (s, c) {
-        var tag = null;
+    }
+    _detachAppendix(s, c) {
+        let tag = null;
         if (scil.Utils.endswith(s, c)) {
-            var p = s.length - 1;
+            let p = s.length - 1;
             while (p > 0) {
                 p = s.lastIndexOf(c, p - 1);
                 if (p <= 0 || s.substr(p - 1, 1) != '\\')
                     break;
             }
-
             if (p > 0 && p < s.length - 1) {
                 tag = s.substr(p + 1, s.length - p - 2);
                 s = s.substr(0, p);
@@ -5425,12 +4898,10 @@ org.helm.webeditor.IO = {
         if (tag != null)
             tag = tag.replace(new RegExp("\\" + c, "g"), c);
         return { tag: this.unescape(tag), str: s };
-    },
-
-    unescape: function (s) {
+    }
+    unescape(s) {
         if (scil.Utils.isNullOrEmpty(s))
             return s;
-
         return s.replace(/[\\]./g, function (m) {
             switch (m) {
                 case "\\r":
@@ -5443,12 +4914,10 @@ org.helm.webeditor.IO = {
                     return m.substr(1);
             }
         });
-    },
-
-    escape: function (s) {
+    }
+    escape(s) {
         if (scil.Utils.isNullOrEmpty(s))
             return s;
-
         return s.replace(/[\"|\'|\\|\r|\n|\t]/g, function (m) {
             switch (m) {
                 case "\r":
@@ -5461,138 +4930,120 @@ org.helm.webeditor.IO = {
                     return "\\" + m;
             }
         });
-    },
-
+    }
     /**
-    * Add a monomer (internal use)
-    * @function addNode
-    */
-    addNode: function (plugin, chain, atoms, p, type, elem, renamedmonomers) {
-        var e = this.detachAnnotation(elem);
-        a2 = plugin.addNode(p, type, this.getRenamedMonomer(type, e.str, renamedmonomers));
+     * Add a monomer (internal use)
+     * @function addNode
+     */
+    addNode(plugin, chain, atoms, p, type, elem, renamedmonomers) {
+        const e = this.detachAnnotation(elem);
+        const a2 = plugin.addNode(p, type, this.getRenamedMonomer(type, e.str, renamedmonomers));
         if (a2 == null)
-            throw "Failed to creating node: " + e.str;
-
+            throw new Error("Failed to creating node: " + e.str);
         a2.tag = e.tag;
         atoms.push(a2);
         a2._aaid = chain.atoms.length + chain.bases.length;
         return a2;
-    },
-
+    }
     /**
-    * Add a CHEM node (internal use)
-    * @function addChem
-    */
-    addChem: function (plugin, name, chain, origin, renamedmonomers) {
+     * Add a CHEM node (internal use)
+     * @function addChem
+     */
+    addChem(plugin, name, chain, origin, renamedmonomers) {
         this.addNode(plugin, chain, chain.atoms, origin.clone(), org.helm.webeditor.HELM.CHEM, name, renamedmonomers);
         return 1;
-    },
-
+    }
     /**
-    * Add a BLOB node (internal use)
-    * @function addBlob
-    */
-    addBlob: function (plugin, name, chain, origin, renamedmonomers, annotation) {
-        var e = this.detachAnnotation(name);
-        var a = this.addNode(plugin, chain, chain.atoms, origin.clone(), org.helm.webeditor.HELM.BLOB, "Blob", renamedmonomers);
+     * Add a BLOB node (internal use)
+     * @function addBlob
+     */
+    addBlob(plugin, name, chain, origin, renamedmonomers, annotation) {
+        const e = this.detachAnnotation(name);
+        const a = this.addNode(plugin, chain, chain.atoms, origin.clone(), org.helm.webeditor.HELM.BLOB, "Blob", renamedmonomers);
         a.bio.blobtype = e.str == "Blob" || e.str == "[Blob]" ? null : e.str;
         if (!scil.Utils.isNullOrEmpty(a.tag))
             a.tag = e.tag;
         else if (!scil.Utils.isNullOrEmpty(annotation))
             a.tag = annotation;
         return 1;
-    },
-
+    }
     /**
-    * Add Amino Acid (internal use)
-    * @function addAAs
-    */
-    addAAs: function (plugin, ss, chain, origin, renamedmonomers) {
-        var mol = plugin.jsd.m;
-        var loop = { n: 0, firstatom: null, a1: null, a2: null, p: origin.clone(), delta: org.helm.webeditor.bondscale * plugin.jsd.bondlength };
-        for (var i = 0; i < ss.length; ++i) {
+     * Add Amino Acid (internal use)
+     * @function addAAs
+     */
+    addAAs(plugin, ss, chain, origin, renamedmonomers) {
+        const mol = plugin.jsd.m;
+        const loop = { n: 0, firstatom: null, a1: null, a2: null, p: origin.clone(), delta: org.helm.webeditor.bondscale * plugin.jsd.bondlength };
+        for (let i = 0; i < ss.length; ++i) {
             if (i == ss.length - 1 && ss[i] == ">") {
                 if (loop.firstatom != loop.a1)
                     chain.bonds.push(plugin.addBond(loop.a1, loop.firstatom, 2, 1));
                 break;
             }
-
-            var e = this.detachAnnotation(ss[i]);
-
-            var atoms = [];
-            var rect = new JSDraw2.Rect(loop.p.x + loop.delta / 2, loop.p.y - loop.delta, 0, loop.delta * 2);
+            const e = this.detachAnnotation(ss[i]);
             if (scil.Utils.startswith(e.str, "(") && scil.Utils.endswith(e.str, ")")) {
                 // dealing with repeat: PEPTIDE1{S.(D.F)'2-13'.A.S.D.F}$$$$V2.0
-
+                const atoms = [];
+                const rect = new JSDraw2.Rect(loop.p.x + loop.delta / 2, loop.p.y - loop.delta, 0, loop.delta * 2);
                 // I#12364
-                var ss2;
-                var s = e.str.substr(1, e.str.length - 2);
+                let ss2;
+                const s = e.str.substr(1, e.str.length - 2);
                 if (s.indexOf(',') > 0 || s.indexOf('+') > 0)
                     ss2 = [s]; // PEPTIDE1{A.A.A.A.(A:1.1,G:69.5,W:25.5,[Aha]:3.9)}$$$$
                 else
                     ss2 = this.splitChars(s, '.'); // PEPTIDE1{A.A.A.A.(A.G)'2'.T}$$$$
-
                 if (ss2.length == 1) {
                     atoms.push(this._addOneAA(plugin, chain, e.str, null, renamedmonomers, loop));
                 }
                 else {
-                    for (var k = 0; k < ss2.length; ++k)
+                    for (let k = 0; k < ss2.length; ++k)
                         atoms.push(this._addOneAA(plugin, chain, ss2[k], null, renamedmonomers, loop));
+                }
+                if (!scil.Utils.isNullOrEmpty(e.repeat)) {
+                    rect.width = loop.p.x + loop.delta / 2 - rect.left;
+                    const br = new JSDraw2.Bracket(null, rect);
+                    br.atoms = atoms;
+                    mol.addGraphics(br);
+                    br.createSubscript(mol, e.repeat);
                 }
             }
             else {
-                atoms.push(this._addOneAA(plugin, chain, e.str, e.tag, renamedmonomers, loop));
-            }
-
-            if (!scil.Utils.isNullOrEmpty(e.repeat)) {
-                rect.width = loop.p.x + loop.delta / 2 - rect.left;
-                var br = new JSDraw2.Bracket(null, rect);
-                br.atoms = atoms;
-                mol.addGraphics(br);
-                br.createSubscript(mol, e.repeat);
+                this._addOneAA(plugin, chain, e.str, e.tag, renamedmonomers, loop);
             }
         }
-
         return loop.n;
-    },
-
-    _addOneAA: function (plugin, chain, s, tag, renamedmonomers, loop) {
+    }
+    _addOneAA(plugin, chain, s, tag, renamedmonomers, loop) {
         loop.p.x += loop.delta;
-        var a = this.addNode(plugin, chain, chain.atoms, loop.p.clone(), org.helm.webeditor.HELM.AA, s, renamedmonomers);
+        const a = this.addNode(plugin, chain, chain.atoms, loop.p.clone(), org.helm.webeditor.HELM.AA, s, renamedmonomers);
         loop.a2 = a;
         loop.a2.tag = tag;
-
         if (loop.a1 != null)
             chain.bonds.push(plugin.addBond(loop.a1, loop.a2, 2, 1));
-
         if (loop.firstatom == null)
             loop.firstatom = loop.a2;
-
         loop.a1 = loop.a2;
         loop.a1.bio.id = ++loop.n;
         return a;
-    },
-
+    }
     /**
-    * Add RNA HELM string (internal use)
-    * @function addHELMRNAs
-    */
-    addHELMRNAs: function (plugin, ss, chain, origin, renamedmonomers) {
-        var mol = plugin.jsd.m;
-        var loop = { n: 0, count: 0, firstatom: null, a1: null, a2: null, a3: null, p: origin.clone(), delta: org.helm.webeditor.bondscale * plugin.jsd.bondlength };
-        for (var i = 0; i < ss.length; ++i) {
-            var e = this.detachAnnotation(ss[i]);
+     * Add RNA HELM string (internal use)
+     * @function addHELMRNAs
+     */
+    addHELMRNAs(plugin, ss, chain, origin, renamedmonomers) {
+        const mol = plugin.jsd.m;
+        const loop = { n: 0, count: 0, firstatom: null, a1: null, a2: null, a3: null, p: origin.clone(), delta: org.helm.webeditor.bondscale * plugin.jsd.bondlength };
+        for (let i = 0; i < ss.length; ++i) {
+            const e = this.detachAnnotation(ss[i]);
             if (scil.Utils.startswith(e.str, "(") && scil.Utils.endswith(e.str, ")")) {
-                var atoms = [];
-                var rect = new JSDraw2.Rect(loop.p.x + loop.delta / 2, loop.p.y - loop.delta, 0, loop.delta * 3);
-
-                var ss2 = this.splitChars(e.str.substr(1, e.str.length - 2), '.');
-                for (var k = 0; k < ss2.length; ++k)
+                const atoms = [];
+                const rect = new JSDraw2.Rect(loop.p.x + loop.delta / 2, loop.p.y - loop.delta, 0, loop.delta * 3);
+                const ss2 = this.splitChars(e.str.substr(1, e.str.length - 2), '.');
+                for (let k = 0; k < ss2.length; ++k)
                     this._addOneHELMRNA(plugin, chain, ss2[k], renamedmonomers, loop, atoms);
-
                 if (!scil.Utils.isNullOrEmpty(e.repeat)) {
                     rect.width = loop.p.x + loop.delta / 2 - rect.left;
-                    var br = new JSDraw2.Bracket(null, rect);
+                    const br = new JSDraw2.Bracket(null, rect);
                     br.atoms = atoms;
                     mol.addGraphics(br);
                     br.createSubscript(mol, e.repeat);
@@ -5602,15 +5053,13 @@ org.helm.webeditor.IO = {
                 this._addOneHELMRNA(plugin, chain, ss[i], renamedmonomers, loop, []);
             }
         }
-
         return loop.count;
-    },
-
-    _addOneHELMRNA: function (plugin, chain, s, renamedmonomers, loop, atoms) {
-        var combo = this.splitCombo(s);
-        for (var k = 0; k < combo.length; ++k) {
-            var c = combo[k];
-            var m = org.helm.webeditor.Monomers.getMonomer(org.helm.webeditor.HELM.SUGAR, c.symbol);
+    }
+    _addOneHELMRNA(plugin, chain, s, renamedmonomers, loop, atoms) {
+        const combo = this.splitCombo(s);
+        for (let k = 0; k < combo.length; ++k) {
+            const c = combo[k];
+            const m = org.helm.webeditor.Monomers.getMonomer(org.helm.webeditor.HELM.SUGAR, c.symbol);
             if (m != null) {
                 // sugar
                 loop.p.x += loop.delta;
@@ -5618,230 +5067,206 @@ org.helm.webeditor.IO = {
                 if (loop.a1 != null)
                     chain.bonds.push(plugin.addBond(loop.a1, loop.a2, 2, 1));
                 loop.a1 = loop.a2;
-
                 if (!scil.Utils.isNullOrEmpty(c.base)) {
                     // base
                     loop.a3 = this.addNode(plugin, chain, chain.bases, org.helm.webeditor.Interface.createPoint(loop.p.x, loop.p.y + loop.delta), org.helm.webeditor.HELM.BASE, c.base, renamedmonomers);
                     plugin.addBond(loop.a1, loop.a3, 3, 1);
                     loop.a3.bio.id = ++loop.n;
                     ++loop.count;
-
                     atoms.push(loop.a3);
                 }
             }
             else {
                 if (!scil.Utils.isNullOrEmpty(c.base))
-                    throw "Base attached to Linker: " + s;
-
+                    throw new Error("Base attached to Linker: " + s);
                 // linker
-                var biotype = s == "*" ? org.helm.webeditor.HELM.NUCLEOTIDE : org.helm.webeditor.HELM.LINKER;
+                const biotype = s == "*" ? org.helm.webeditor.HELM.NUCLEOTIDE : org.helm.webeditor.HELM.LINKER;
                 loop.p.x += loop.delta;
                 loop.a2 = this.addNode(plugin, chain, chain.atoms, loop.p.clone(), biotype, c.symbol, renamedmonomers);
                 chain.bonds.push(plugin.addBond(loop.a1, loop.a2, 2, 1));
                 loop.a1 = loop.a2;
                 ++loop.count;
             }
-
             atoms.push(loop.a1);
             loop.a1.tag = c.tag;
         }
-    },
-
+    }
     /**
-    * Add RNA sequence (internal use)
-    * @function addRNAs
-    */
-    addRNAs: function (plugin, ss, chain, origin, sugar, linker) {
-        var n = 0;
-
+     * Add RNA sequence (internal use)
+     * @function addRNAs
+     */
+    addRNAs(plugin, ss, chain, origin, sugar, linker) {
+        let n = 0;
         if (scil.Utils.isNullOrEmpty(sugar))
             sugar = "R";
         if (scil.Utils.isNullOrEmpty(linker) || linker == "null")
             linker = "P";
-
-        var firstatom = null;
-        var a1 = null;
-        var a2 = null;
-        var m = plugin.jsd.m;
-        var delta = org.helm.webeditor.bondscale * plugin.jsd.bondlength;
-        var p = origin.clone();
-        for (var i = 0; i < ss.length; ++i) {
+        let firstatom = null;
+        let a1 = null;
+        let a2 = null;
+        const m = plugin.jsd.m;
+        const delta = org.helm.webeditor.bondscale * plugin.jsd.bondlength;
+        const p = origin.clone();
+        for (let i = 0; i < ss.length; ++i) {
             if (i == ss.length - 1 && ss[i] == ">") {
                 if (firstatom != a1) {
                     // linker
                     p.x += delta;
-                    var a0 = this.addNode(plugin, chain, chain.atoms, p.clone(), org.helm.webeditor.HELM.LINKER, linker);
+                    const a0 = this.addNode(plugin, chain, chain.atoms, p.clone(), org.helm.webeditor.HELM.LINKER, linker);
                     chain.bonds.push(plugin.addBond(a1, a0, 2, 1));
-
                     chain.bonds.push(plugin.addBond(a0, firstatom, 2, 1));
                 }
                 break;
             }
-
             // 1. linker
             if (a1 != null) {
                 p.x += delta;
-                var a0 = this.addNode(plugin, chain, chain.atoms, p.clone(), org.helm.webeditor.HELM.LINKER, linker);
+                const a0 = this.addNode(plugin, chain, chain.atoms, p.clone(), org.helm.webeditor.HELM.LINKER, linker);
                 chain.bonds.push(plugin.addBond(a1, a0, 2, 1));
                 a1 = a0;
             }
-
             // 2. sugar
             p.x += delta;
             a2 = this.addNode(plugin, chain, chain.atoms, p.clone(), org.helm.webeditor.HELM.SUGAR, sugar);
             if (a1 != null)
                 chain.bonds.push(plugin.addBond(a1, a2, 2, 1));
             a1 = a2;
-
             if (firstatom == null)
                 firstatom = a1;
-
             // 3. base
-            a3 = this.addNode(plugin, chain, chain.bases, org.helm.webeditor.Interface.createPoint(p.x, p.y + delta), org.helm.webeditor.HELM.BASE, ss[i]);
+            const a3 = this.addNode(plugin, chain, chain.bases, org.helm.webeditor.Interface.createPoint(p.x, p.y + delta), org.helm.webeditor.HELM.BASE, ss[i]);
             plugin.addBond(a1, a3, 3, 1);
-
             a3.bio.id = ++n;
         }
-
         return n;
-    },
-
+    }
     /**
-    * Split a RNA Combo (internal use)
-    * @function splitCombo
-    */
-    splitCombo: function (s) {
-        var ret = [];
-
-        var m = null;
-        var i = 0;
+     * Split a RNA Combo (internal use)
+     * @function splitCombo
+     */
+    splitCombo(s) {
+        const ret = [];
+        const m = null;
+        let i = 0;
         while (i < s.length) {
-            var c = s.substr(i, 1);
+            const c = s.substr(i, 1);
             if (c == '(') {
                 if (i == 0)
-                    throw "Invalid combo: " + s;
-                var p = s.indexOf(')', i + 1);
+                    throw new Error("Invalid combo: " + s);
+                const p = s.indexOf(')', i + 1);
                 if (p <= i)
-                    throw "Invalid combo: " + s;
-
+                    throw new Error("Invalid combo: " + s);
                 if (ret[ret.length - 1].base == null)
                     ret[ret.length - 1].base = s.substr(i + 1, p - i - 1);
                 else
                     ret.push({ symbol: s.substr(i, p - i + 1) });
-
                 i = p;
             }
             else if (c == '[') {
-                var p = s.indexOf(']', i + 1);
+                const p = s.indexOf(']', i + 1);
                 if (p <= i)
-                    throw "Invalid combo: " + s;
+                    throw new Error("Invalid combo: " + s);
                 ret.push({ symbol: s.substr(i, p - i + 1) });
                 i = p;
             }
             else if (c == '\"') {
-                var p = s.indexOf('\"', i + 1);
+                const p = s.indexOf('\"', i + 1);
                 if (p <= i)
-                    throw "Invalid combo: " + s;
+                    throw new Error("Invalid combo: " + s);
                 ret[ret.length - 1].tag = s.substr(i + 1, p - i - 1);
                 i = p;
             }
             else {
                 ret.push({ symbol: c });
             }
-
             ++i;
         }
-
         return ret;
-    },
-
+    }
     /**
-    * Compress a string using Pako (internal use)
-    * @function compressGz
-    */
-    compressGz: function (s) {
+     * Compress a string using Pako (internal use)
+     * @function compressGz
+     */
+    compressGz(s) {
         if (scil.Utils.isNullOrEmpty(s))
             return null;
-
         if (typeof pako != "undefined") {
             try {
-                var buf = pako.deflate(s, { gzip: true });
+                const buf = pako.deflate(s, { gzip: true });
                 return btoa(String.fromCharCode.apply(null, buf));
             }
             catch (e) {
             }
         }
         return null;
-    },
-
+    }
     /**
-    * Decompress a string using pako (internal use)
-    * @function uncompressGz
-    */
-    uncompressGz: function (b64Data) {
+     * Decompress a string using pako (internal use)
+     * @function uncompressGz
+     */
+    uncompressGz(b64Data) {
         if (scil.Utils.isNullOrEmpty(b64Data))
             return null;
-
         if (typeof pako == "undefined")
             return null;
-
         try {
-            var strData = atob(b64Data);
-            var charData = strData.split('').map(function (x) { return x.charCodeAt(0); });
-            var binData = new Uint8Array(charData);
-            var data = pako.inflate(binData);
+            const strData = atob(b64Data);
+            const charData = strData.split('').map(function (x) { return x.charCodeAt(0); });
+            const binData = new Uint8Array(charData);
+            const data = pako.inflate(binData);
+            // @ts-ignore
             return String.fromCharCode.apply(null, new Uint16Array(data));
         }
         catch (e) {
             return null;
         }
     }
-};
-﻿/*******************************************************************************
-* Copyright (C) 2018, The Pistoia Alliance
-* Created by Scilligence, built on JSDraw.Lite
-* 
-* Permission is hereby granted, free of charge, to any person obtaining
-* a copy of this software and associated documentation files (the
-* "Software"), to deal in the Software without restriction, including
-* without limitation the rights to use, copy, modify, merge, publish,
-* distribute, sublicense, and/or sell copies of the Software, and to
-* permit persons to whom the Software is furnished to do so, subject to the 
-* following conditions:
-* 
-* The above copyright notice and this permission notice shall be
-* included in all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*******************************************************************************/
-
+}
+org.helm.webeditor.IO = new IO();
+//# sourceMappingURL=IO.js.map/*******************************************************************************
+ * Copyright (C) 2018, The Pistoia Alliance
+ * Created by Scilligence, built on JSDraw.Lite
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the
+ * following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *******************************************************************************/
 /**
-* MonomerExplorer class
-* @class org.helm.webeditor.MonomerExplorer
-*/
-org.helm.webeditor.MonomerExplorer = scil.extend(scil._base, {
+ * MonomerExplorer class
+ * @class org.helm.webeditor.MonomerExplorer
+ */
+export class MonomerExplorerInt {
     /**
-    * @constructor MonomerExplorer
-    * @param {DOM} parent - The parent element
-    * @param {Plugin} plugin - The Plugin object
-    * @param {dict} options - options on how to render the Monomer Explorer
-    */
-    constructor: function (parent, plugin, options) {
+     * @constructor MonomerExplorer
+     * @param {DOM} parent - The parent element
+     * @param {Plugin} plugin - The Plugin object
+     * @param {dict} options - options on how to render the Monomer Explorer
+     */
+    constructor(parent, plugin, options) {
+        this.logger = window.console;
+        this.T = 'MONOMER_EXPLORER';
         this.plugin = plugin;
         this.options = options == null ? {} : options;
         this.height = null;
-        var w = this.options.monomerwidth > 0 ? this.options.monomerwidth : 50;
-        this.kStyle = { borderRadius: "5px", border: "solid 1px gray", backgroundRepeat: "no-repeat", display: "table", width: w, height: w, float: "left", margin: 2 };
-
+        const w = this.options.monomerwidth > 0 ? this.options.monomerwidth : 50;
+        this.kStyle = { borderRadius: '5px', border: 'solid 1px gray', backgroundRepeat: 'no-repeat', display: 'table', width: w, height: w, float: 'left', margin: 2 };
         if (this.options.mexuseshape)
             this.kStyle.border = null;
-
         //this.lastselect = {};
         this.selected = {};
         this.selected[org.helm.webeditor.HELM.BASE] = org.helm.webeditor.Monomers.getDefaultMonomer(org.helm.webeditor.HELM.BASE);
@@ -5849,109 +5274,112 @@ org.helm.webeditor.MonomerExplorer = scil.extend(scil._base, {
         this.selected[org.helm.webeditor.HELM.SUGAR] = org.helm.webeditor.Monomers.getDefaultMonomer(org.helm.webeditor.HELM.SUGAR);
         this.selected[org.helm.webeditor.HELM.AA] = org.helm.webeditor.Monomers.getDefaultMonomer(org.helm.webeditor.HELM.AA);
         this.selected[org.helm.webeditor.HELM.CHEM] = org.helm.webeditor.Monomers.getDefaultMonomer(org.helm.webeditor.HELM.CHEM);
-
-        var me = this;
-        this.div = scil.Utils.createElement(parent, "div", null, { fontSize: this.options.mexfontsize == null ? "90%" : this.options.mexfontsize });
+        const me = this;
+        this.div = scil.Utils.createElement(parent, 'div', null, { fontSize: this.options.mexfontsize == null ? '90%' : this.options.mexfontsize });
         if (this.options.mexfind) {
-            var d = scil.Utils.createElement(this.div, "div", null, { background: "#eee", borderBottom: "solid 1px gray", padding: "4px 0 4px 0" });
-            var tbody = scil.Utils.createTable(d, 0, 0);
-            var tr = scil.Utils.createElement(tbody, "tr");
-            scil.Utils.createElement(tr, "td", "Quick Replace:", null, { colSpan: 3 });
-            this.findtype = scil.Utils.createElement(scil.Utils.createElement(tr, "td"), "select", null, { width: 100 });
+            const d = scil.Utils.createElement(this.div, 'div', null, { background: '#eee', borderBottom: 'solid 1px gray', padding: '4px 0 4px 0' });
+            const tbody = scil.Utils.createTable(d, 0, 0);
+            let tr = scil.Utils.createElement(tbody, 'tr');
+            scil.Utils.createElement(tr, 'td', 'Quick Replace:', null, { colSpan: 3 });
+            this.findtype = scil.Utils.createElement(scil.Utils.createElement(tr, 'td'), 'select', null, { width: `100px` });
             scil.Utils.listOptions(this.findtype, org.helm.webeditor.monomerTypeList(), null, true, false);
-
-            tr = scil.Utils.createElement(tbody, "tr");
-            this.findinput = scil.Utils.createElement(scil.Utils.createElement(tr, "td"), "input", null, { width: 60 });
-            scil.Utils.createElement(scil.Utils.createElement(tr, "td"), "span", "&rarr;");
-            this.findreplace = scil.Utils.createElement(scil.Utils.createElement(tr, "td"), "input", null, { width: 60 });
-            scil.Utils.createButton(scil.Utils.createElement(tr, "td", null, { textAlign: "right" }), { label: "Update", onclick: function () { me.findReplace(); } });
+            tr = scil.Utils.createElement(tbody, 'tr');
+            this.findinput = scil.Utils.createElement(scil.Utils.createElement(tr, 'td'), 'input', null, { width: `60px` });
+            scil.Utils.createElement(scil.Utils.createElement(tr, 'td'), 'span', '&rarr;');
+            this.findreplace = scil.Utils.createElement(scil.Utils.createElement(tr, 'td'), 'input', null, { width: `60px` });
+            scil.Utils.createButton(scil.Utils.createElement(tr, 'td', null, { textAlign: 'right' }), {
+                label: 'Update', onclick() {
+                    me.findReplace();
+                },
+            });
         }
         if (this.options.mexfilter != false) {
-            var d = scil.Utils.createElement(this.div, "div", null, { background: "#eee", borderBottom: "solid 1px gray", padding: "4px 0 4px 0" });
-            var tbody = scil.Utils.createTable(d, 0, 0);
-            var tr = scil.Utils.createElement(tbody, "tr");
-            scil.Utils.createElement(tr, "td", JSDraw2.Language.res("Filter") + ":", { paddingLeft: "5px" });
-            this.filterInput = scil.Utils.createElement(scil.Utils.createElement(tr, "td"), "input");
-            scil.connect(this.filterInput, "onkeyup", function (e) { me.filter(e); });
+            const d = scil.Utils.createElement(this.div, 'div', null, { background: '#eee', borderBottom: 'solid 1px gray', padding: '4px 0 4px 0' });
+            const tbody = scil.Utils.createTable(d, 0, 0);
+            const tr = scil.Utils.createElement(tbody, 'tr');
+            scil.Utils.createElement(tr, 'td', JSDraw2.Language.res('Filter') + ':', { paddingLeft: '5px' });
+            this.filterInput = scil.Utils.createElement(scil.Utils.createElement(tr, 'td'), 'input');
+            scil.connect(this.filterInput, 'onkeyup', function (e) {
+                me.filter(e);
+            });
         }
-
-        var tabs = [];
+        // Monomers
+        let tabs = [];
         if (this.options.mexmonomerstab)
-            tabs.push({ caption: "Monomers", tabkey: "monomers" });
+            tabs.push({ caption: 'Monomers', tabkey: 'monomers' });
         else
             this.addMonomerTabs(tabs);
-        tabs.push({ caption: "Rules", tabkey: "rule" });
-
-        var width = this.options.width != null ? this.options.width : 300;
+        // Rules
+        tabs.push({ caption: 'Rules', tabkey: 'rule' });
+        // Override tabs from options
+        if (this.options.overrideTabs)
+            tabs = this.options.overrideTabs(tabs);
+        const width = this.options.width != null ? this.options.width : 300;
         this.height = this.options.height != null ? this.options.height : 400;
-        this.tabs = new scil.Tabs(scil.Utils.createElement(this.div, "div", null, { padding: "5px" }), {
-            onShowTab: function (td) { me.onShowTab(td); },
-            tabpadding: this.options.mexmonomerstab ? "10px" : "5px 2px 1px 2px",
+        this.tabs = new scil.Tabs(scil.Utils.createElement(this.div, 'div', null, { padding: '5px' }), {
+            onShowTab(td) {
+                me.onShowTab(td);
+            },
+            tabpadding: this.options.mexmonomerstab ? '10px' : '5px 2px 1px 2px',
             tabs: tabs,
-            marginBottom: 0
+            marginBottom: `0`,
         });
-
         this.dnd = this.createDnD(this.div);
-        scil.connect(document.body, "onmousemove", function (e) { me.showMol(e); });
-
+        scil.connect(document.body, 'onmousemove', function (e) {
+            me.showMol(e);
+        });
         org.helm.webeditor.MonomerExplorer.loadNucleotides();
-    },
-
+    }
+    ;
     /**
-    * Add Monomer Tabs (internal use)
-    * @function addMonomerTabs
-    */
-    addMonomerTabs: function (tabs) {
+     * Add Monomer Tabs (internal use)
+     * @function addMonomerTabs
+     */
+    addMonomerTabs(tabs) {
         if (this.options.mexfavoritetab != false)
-            tabs.push({ caption: "Favorite", tabkey: "favorite" });
-
-        tabs.push({ caption: "Chem", tabkey: "chem" });
-        tabs.push({ caption: "Peptide", tabkey: "aa" });
-        tabs.push({ caption: "RNA", tabkey: "rna" });
-    },
-
+            tabs.push({ caption: 'Favorite', tabkey: 'favorite' });
+        tabs.push({ caption: 'Chem', tabkey: 'chem' });
+        tabs.push({ caption: 'Peptide', tabkey: 'aa' });
+        tabs.push({ caption: 'RNA', tabkey: 'rna' });
+    }
     /**
-    * Find and replace monomer (internal use)
-    * @function findReplace
-    */
-    findReplace: function () {
+     * Find and replace monomer (internal use)
+     * @function findReplace
+     */
+    findReplace() {
         this.plugin.replaceAll(this.findinput.value, this.findreplace.value, this.findtype.value);
-    },
-
+    }
     /**
-    * Filter monomers (internal use)
-    * @function filter
-    */
-    filter: function (e) {
-        var key = this.tabs.currentTabKey();
-        if (key == "rule") {
+     * Filter monomers (internal use)
+     * @function filter
+     */
+    filter(e) {
+        const key = this.tabs.currentTabKey();
+        if (key == 'rule') {
             org.helm.webeditor.RuleSet.filterRules(this.rules, this.filterInput.value, this.rules_category.value);
         }
         else {
             this.filterGroup(this.filterInput.value);
         }
-    },
-
+    }
     /**
-    * Filter a group (internal use)
-    * @function filterGroup
-    */
-    filterGroup: function (s) {
-        if (s == "")
+     * Filter a group (internal use)
+     * @function filterGroup
+     */
+    filterGroup(s) {
+        if (s == '')
             s = null;
-
-        var groups = this.curtab.clientarea.className == "filtergroup" ? [this.curtab.clientarea] : this.curtab.clientarea.getElementsByClassName("filtergroup");
-        for (var k = 0; k < groups.length; ++k) {
-            var startingwith = [];
-            var containing = [];
-            var hidden = [];
-
-            var parent = groups[k];
-            for (var i = 0; i < parent.childNodes.length; ++i) {
-                var d = parent.childNodes[i];
-                var name = scil.Utils.getInnerText(d);
-                var html = scil.Utils.isNullOrEmpty(name) ? d.innerHTML : null;
-                var f = 1;
+        const groups = this.curtab.clientarea.className == 'filtergroup' ? [this.curtab.clientarea] : this.curtab.clientarea.getElementsByClassName('filtergroup');
+        for (let k = 0; k < groups.length; ++k) {
+            let startingwith = [];
+            const containing = [];
+            const hidden = [];
+            const parent = groups[k];
+            for (let i = 0; i < parent.childNodes.length; ++i) {
+                const d = parent.childNodes[i];
+                const name = scil.Utils.getInnerText(d);
+                const html = scil.Utils.isNullOrEmpty(name) ? d.innerHTML : null;
+                let f = 1;
                 if (s != null) {
                     f = 0;
                     if (scil.Utils.startswith(name.toLowerCase(), s)) {
@@ -5961,18 +5389,18 @@ org.helm.webeditor.MonomerExplorer = scil.extend(scil._base, {
                         f = 2;
                     }
                     else if (s.length >= 3 || org.helm.webeditor.MonomerExplorer.filtername) {
-                        var type = d.getAttribute("helm");
-                        var set = type == org.helm.webeditor.MonomerExplorer.kNucleotide ? org.helm.webeditor.MonomerExplorer.nucleotides : org.helm.webeditor.Monomers.getMonomerSet(type);
-                        var m = set[scil.helm.symbolCase(name)];
-                        if (m != null && m.n != null) {
-                            if (scil.Utils.startswith(m.n.toLowerCase(), s))
+                        const type = d.getAttribute('helm');
+                        const set = type == org.helm.webeditor.MonomerExplorer.kNucleotide ? org.helm.webeditor.MonomerExplorer.nucleotides : org.helm.webeditor.Monomers.getMonomerSet(type);
+                        const m = set[scil.helm.symbolCase(name)];
+                        const monomer = m;
+                        if (monomer != null && monomer.n != null) {
+                            if (scil.Utils.startswith(monomer.n.toLowerCase(), s))
                                 f = 1;
-                            else if (m.n.toLowerCase().indexOf(s) >= 0)
+                            else if (monomer.n.toLowerCase().indexOf(s) >= 0)
                                 f = 2;
                         }
                     }
                 }
-
                 if (f == 1)
                     startingwith.push({ id: name, div: d, html: html });
                 else if (f == 2)
@@ -5980,361 +5408,392 @@ org.helm.webeditor.MonomerExplorer = scil.extend(scil._base, {
                 else
                     hidden.push(d);
             }
-
             startingwith.sort(org.helm.webeditor.MonomerExplorer.compareMonomers);
             if (containing.length > 0) {
                 containing.sort(org.helm.webeditor.MonomerExplorer.compareMonomers);
                 startingwith = startingwith.concat(containing);
             }
-
-            var last = null;
-            for (var i = 0; i < startingwith.length; ++i) {
-                var d = startingwith[i];
+            let last = null;
+            for (let i = 0; i < startingwith.length; ++i) {
+                const d = startingwith[i];
                 parent.insertBefore(d.div, parent.childNodes[i]);
                 last = d.div;
                 if (s != null)
                     d.div.firstChild.firstChild.innerHTML = this.highlightString(d.id, s);
                 else
                     d.div.firstChild.firstChild.innerHTML = d.html != null ? d.html : d.id;
-                d.div.style.display = "table";
+                d.div.style.display = 'table';
             }
-
-            for (var i = 0; i < hidden.length; ++i)
-                hidden[i].style.display = "none";
+            for (let i = 0; i < hidden.length; ++i)
+                hidden[i].style.display = 'none';
         }
-    },
-
+    }
     /**
-    * Highlight search string (internal use)
-    * @function highlightString
-    */
-    highlightString: function (s, q) {
-        var p = s.toLowerCase().indexOf(q);
+     * Highlight search string (internal use)
+     * @function highlightString
+     */
+    highlightString(s, q) {
+        const p = s.toLowerCase().indexOf(q);
         if (p < 0)
             return s;
-
-        return s.substr(0, p) + "<span style='background:yellow'>" + s.substr(p, q.length) + "</span>" + s.substr(p + q.length);
-    },
-
+        return s.substr(0, p) + '<span style=\'background:yellow\'>' + s.substr(p, q.length) + '</span>' + s.substr(p + q.length);
+    }
     /**
-    * Reload a tab (internal use)
-    * @function reloadTab
-    */
-    reloadTab: function (type) {
-        var key = null;
+     * Reload a tab (internal use)
+     * @function reloadTab
+     */
+    reloadTab(type) {
+        let key = null;
         switch (type) {
-            case "nucleotide":
+            case 'nucleotide':
                 key = type;
                 break;
             case org.helm.webeditor.HELM.AA:
-                key = "aa";
+                key = 'aa';
                 break;
             case org.helm.webeditor.HELM.CHEM:
-                key = "chem";
+                key = 'chem';
                 break;
             case org.helm.webeditor.HELM.BASE:
-                key = "base";
+                key = 'base';
                 break;
             case org.helm.webeditor.HELM.LINKER:
-                key = "linker";
+                key = 'linker';
                 break;
             case org.helm.webeditor.HELM.SUGAR:
-                key = "sugar";
+                key = 'sugar';
                 break;
             default:
                 return;
         }
-
-        var td = this.tabs.findTab(key);
+        let td = this.tabs.findTab(key);
         if (td == null && this.monomerstabs != null)
             td = this.monomerstabs.findTab(key);
         if (td == null)
             td = this.rnatabs.findTab(key);
-
         if (td != null)
             this.onShowTab(td, true);
-    },
-
+    }
     /**
-    * Reload all tabs (internal use)
-    * @function reloadTabs
-    */
-    reloadTabs: function () {
+     * Reload all tabs (internal use)
+     * @function reloadTabs
+     */
+    reloadTabs() {
         var list = this.tabs.tr.childNodes;
         for (var i = 0; i < list.length; ++i) {
             var td = list[i];
             scil.Utils.removeAll(td.clientarea);
             td._childrencreated = false;
         }
-
         this.onShowTab(this.tabs.currenttab);
-    },
-
+    }
     /**
-    * resize Monomer Explorer (internal use)
-    * @function resize
-    */
-    resize: function (height) {
+     * resize Monomer Explorer (internal use)
+     * @function resize
+     */
+    resize(height) {
         this.height = height;
-
         if (this.divRule != null)
-            this.divRule.style.height = this.getHeight("rule") + "px";
+            this.divRule.style.height = this.getHeight('rule') + 'px';
         if (this.divFavorite != null)
-            this.divFavorite.style.height = this.getHeight("favorite") + "px";
+            this.divFavorite.style.height = this.getHeight('favorite') + 'px';
         if (this.divChem != null)
-            this.divChem.style.height = this.getHeight("chem") + "px";
+            this.divChem.style.height = this.getHeight('chem') + 'px';
         if (this.divAA != null)
-            this.divAA.style.height = this.getHeight("aa") + "px";
-
+            this.divAA.style.height = this.getHeight('aa') + 'px';
         if (this.rnatabs != null)
-            this.rnatabs.resizeClientarea(0, this.getHeight("RNA"));
-    },
-
+            this.rnatabs.resizeClientarea(0, this.getHeight('RNA'));
+    }
     /**
-    * Get the height of the Monomer Explorer (internal use)
-    * @function getHeight
-    */
-    getHeight: function (key) {
-        var d1 = this.options.mexmonomerstab ? 0 : 14;
-        var d2 = this.options.mexmonomerstab ? 0 : 47;
-        var d3 = this.options.mexmonomerstab ? 0 : 46;
+     * Get the height of the Monomer Explorer (internal use)
+     * @function getHeight
+     */
+    getHeight(key) {
+        const d1 = this.options.mexmonomerstab ? 0 : 14;
+        const d2 = this.options.mexmonomerstab ? 0 : 47;
+        const d3 = this.options.mexmonomerstab ? 0 : 46;
         switch (key) {
-            case "rule":
+            case 'rule':
                 return this.height - 19 + d1;
-            case "favorite":
+            case 'favorite':
                 return this.height - 33 + d2;
-            case "chem":
+            case 'chem':
                 return this.height - 33 + d2;
-            case "aa":
+            case 'aa':
                 return this.height - 33 + d2;
-            case "RNA":
+            case 'RNA':
                 return this.height - 59 + d3;
         }
-
         return this.height;
-    },
-
+    }
     /**
-    * Event handler when showing a tab (internal use)
-    * @function onShowTab
-    */
-    onShowTab: function (td, forcerecreate) {
+     * Event handler when showing a tab (internal use)
+     * @function onShowTab
+     */
+    onShowTab(td, forcerecreate) {
+        const logPrefix = `HWE: MonomerExplorer.onShowTab()`;
         if (td == null)
             return;
-
-        this.filterInput.value = "";
+        this.filterInput.value = '';
         this.curtab = td;
-        this.filterGroup("");
-
-        var key = td.getAttribute("key");
-        if (forcerecreate || key == "favorite" && org.helm.webeditor.MonomerExplorer.favorites.changed) {
+        this.filterGroup('');
+        const key = td.getAttribute('key');
+        this.logger.debug(`${logPrefix}, key = ${key}`);
+        if (forcerecreate || key == 'favorite' && org.helm.webeditor.MonomerExplorer.favorites.changed) {
             td._childrencreated = false;
-            if (key == "favorite")
+            if (key == 'favorite')
                 org.helm.webeditor.MonomerExplorer.favorites.changed = false;
         }
-
         if (this.plugin != null && this.plugin.jsd != null)
-            this.plugin.jsd.doCmd("helm_" + key);
+            this.plugin.jsd.doCmd('helm_' + key);
         if (td._childrencreated)
             return;
         td._childrencreated = true;
-
-        var me = this;
-        var div = td.clientarea;
+        const div = td.clientarea;
         scil.Utils.unselectable(div);
         scil.Utils.removeAll(div);
-
-        if (key == "favorite") {
-            this.divFavorite = scil.Utils.createElement(div, "div", null, { width: "100%", height: this.getHeight(key), overflowY: "scroll" });
-            this.recreateFavorites(this.divFavorite);
+        switch (key) {
+            case 'favorite':
+                this.onShowTabFavorite(div);
+                break;
+            case 'rna':
+                this.onShowTabRna(div);
+                break;
+            case 'nucleotide':
+                this.onShowTabNucleotide(div, key);
+                break;
+            case 'aa':
+                this.onShowTabAa(div, key);
+                break;
+            case 'chem':
+                this.onShowTabChem(div, key);
+                break;
+            case 'base':
+                this.onShowTabBase(div);
+                break;
+            case 'sugar':
+                this.onShowTabSugar(div);
+                break;
+            case 'linker':
+                this.onShowTabLinker(div);
+                break;
+            case 'rule':
+                this.onShowTabRule(div, key);
+                break;
+            case 'monomers':
+                this.onShowTabMonomers(div);
+                break;
+            default:
+                if (this.options.onShowTab)
+                    this.options.onShowTab(this, div, key);
+                break;
         }
-        else if (key == "rna") {
-            var d = scil.Utils.createElement(div, "div");
-            this.createMonomerGroup3(d, "RNA", 0, false);
-        }
-        else if (key == "nucleotide") {
-            var dict = org.helm.webeditor.MonomerExplorer.loadNucleotides();
-            var list = scil.Utils.getDictKeys(dict);
-            this.createMonomerGroup4(div, key, list);
-        }
-        else if (key == "aa") {
-            this.divAA = scil.Utils.createElement(div, "div", null, { width: "100%", height: this.getHeight(key), overflowY: "scroll" });
-            dojo.connect(this.divAA, "onmousedown", function (e) { me.select(e); });
-            dojo.connect(this.divAA, "ondblclick", function (e) { me.dblclick(e); });
-            this.createMonomerGroup4(this.divAA, org.helm.webeditor.HELM.AA, null, false, this.options.mexgroupanalogs != false);
-        }
-        else if (key == "chem") {
-            this.divChem = scil.Utils.createElement(div, "div", null, { width: "100%", height: this.getHeight(key), overflowY: "scroll" });
-            this.createMonomerGroup(this.divChem, org.helm.webeditor.HELM.CHEM);
-        }
-        else if (key == "base") {
-            this.createMonomerGroup4(div, org.helm.webeditor.HELM.BASE, null, null, this.options.mexgroupanalogs != false);
-        }
-        else if (key == "sugar") {
-            this.createMonomerGroup4(div, org.helm.webeditor.HELM.SUGAR, null);
-        }
-        else if (key == "linker") {
-            this.createMonomerGroup4(div, org.helm.webeditor.HELM.LINKER, null, true);
-        }
-        else if (key == "rule") {
-            var toolbar = scil.Utils.createElement(div, "div", null, { background: "#ccc" });
-            scil.Utils.createElement(toolbar, "span", "Category:");
-            this.rules_category = scil.Utils.createElement(toolbar, "select");
-            scil.Utils.listOptions(this.rules_category, org.helm.webeditor.RuleManager.categories);
-            var me = this;
-            scil.connect(this.rules_category, "onchange", function () { org.helm.webeditor.RuleSet.filterRules(me.rules, me.filterInput.value, me.rules_category.value) });
-
-            this.divRule = scil.Utils.createElement(div, "div", null, { width: "100%", height: this.getHeight(key), overflowY: "scroll" });
-            this.listRules();
-        }
-        else if (key == "monomers") {
-            var d = scil.Utils.createElement(div, "div", null, { paddingTop: "5px" });
-
-            if (this.options.canvastoolbar == false) {
-                var b = scil.Utils.createElement(d, "div", "<img src='" + scil.Utils.imgSrc("helm/arrow.png") + "' style='vertical-align:middle'>Mouse Pointer", { cursor: "pointer", padding: "2px", border: "solid 1px gray", margin: "5px" });
-                scil.connect(b, "onclick", function () { me.plugin.jsd.doCmd("lasso"); });
-            }
-
-            var tabs = [];
-            this.addMonomerTabs(tabs);
-            this.monomerstabs = new scil.Tabs(d, {
-                onShowTab: function (td) { me.onShowTab(td); },
-                tabpadding: "5px 2px 1px 2px",
-                tabs: tabs,
-                marginBottom: 0
+    }
+    onShowTabFavorite(div) {
+        this.divFavorite = scil.Utils.createElement(div, 'div', null, { width: '100%', height: `{this.getHeight(key)}px`, overflowY: 'scroll' });
+        this.recreateFavorites(this.divFavorite);
+    }
+    onShowTabRna(div) {
+        const d = scil.Utils.createElement(div, 'div');
+        this.createMonomerGroup3(d, 'RNA', 0, false);
+    }
+    onShowTabNucleotide(div, key) {
+        const dict = org.helm.webeditor.MonomerExplorer.loadNucleotides();
+        const list = scil.Utils.getDictKeys(dict);
+        this.createMonomerGroup4(div, key, list);
+    }
+    onShowTabAa(div, key) {
+        const me = this;
+        this.divAA = scil.Utils.createElement(div, 'div', null, { width: '100%', height: `${this.getHeight(key)}px`, overflowY: 'scroll' });
+        dojo.connect(this.divAA, 'onmousedown', function (e) {
+            me.select(e);
+        });
+        dojo.connect(this.divAA, 'ondblclick', function (e) {
+            me.dblclick(e);
+        });
+        this.createMonomerGroup4(this.divAA, org.helm.webeditor.HELM.AA, null, false, this.options.mexgroupanalogs != false);
+    }
+    onShowTabChem(div, key) {
+        this.divChem = scil.Utils.createElement(div, 'div', null, { width: '100%', height: `${this.getHeight(key)}px`, overflowY: 'scroll' });
+        this.createMonomerGroup(this.divChem, org.helm.webeditor.HELM.CHEM);
+    }
+    onShowTabBase(div) {
+        this.createMonomerGroup4(div, org.helm.webeditor.HELM.BASE, null, null, this.options.mexgroupanalogs != false);
+    }
+    onShowTabSugar(div) {
+        this.createMonomerGroup4(div, org.helm.webeditor.HELM.SUGAR, null);
+    }
+    onShowTabLinker(div) {
+        this.createMonomerGroup4(div, org.helm.webeditor.HELM.LINKER, null, true);
+    }
+    onShowTabRule(div, key) {
+        const toolbar = scil.Utils.createElement(div, 'div', null, { background: '#ccc' });
+        scil.Utils.createElement(toolbar, 'span', 'Category:');
+        this.rules_category = scil.Utils.createElement(toolbar, 'select');
+        scil.Utils.listOptions(this.rules_category, org.helm.webeditor.RuleSetApp.categories);
+        const me = this;
+        scil.connect(this.rules_category, 'onchange', function () {
+            org.helm.webeditor.RuleSet.filterRules(me.rules, me.filterInput.value, me.rules_category?.value);
+        });
+        this.divRule = scil.Utils.createElement(div, 'div', null, { width: '100%', height: `${this.getHeight(key)}px`, overflowY: 'scroll' });
+        this.listRules();
+    }
+    onShowTabMonomers(div) {
+        const me = this;
+        const d = scil.Utils.createElement(div, 'div', null, { paddingTop: '5px' });
+        if (this.options.canvastoolbar == false) {
+            const b = scil.Utils.createElement(d, 'div', '<img src=\'' + scil.Utils.imgSrc('helm/arrow.png') + '\' style=\'vertical-align:middle\'>Mouse Pointer', { cursor: 'pointer', padding: '2px', border: 'solid 1px gray', margin: '5px' });
+            scil.connect(b, 'onclick', function () {
+                me.plugin.jsd.doCmd('lasso');
             });
         }
-    },
-
-    listRules: function () {
-        var me = this;
-        this.rules = org.helm.webeditor.RuleSet.listRules(this, function (script) { me.plugin.applyRule(script); }, function (scripts) { me.plugin.applyRules(scripts); });
-    },
-
+        const mTabs = [];
+        this.addMonomerTabs(mTabs);
+        this.monomerstabs = new scil.Tabs(d, {
+            onShowTab(td) {
+                me.onShowTab(td);
+            },
+            tabpadding: '5px 2px 1px 2px',
+            tabs: mTabs,
+            marginBottom: `0`,
+        });
+    }
+    listRules() {
+        const me = this;
+        this.rules = org.helm.webeditor.RuleSet.listRules(this, function (script) {
+            me.plugin.applyRule(script);
+        }, function (scripts) {
+            me.plugin.applyRules(scripts);
+        });
+    }
     /**
-    * Get monomers by natural analog (internal use)
-    * @function getMonomerDictGroupByAnalog
-    */
-    getMonomerDictGroupByAnalog: function (type) {
-        var set = org.helm.webeditor.Monomers.getMonomerSet(type);
+     * Get monomers by natural analog (internal use)
+     * @function getMonomerDictGroupByAnalog
+     */
+    getMonomerDictGroupByAnalog(type) {
+        const set = org.helm.webeditor.Monomers.getMonomerSet(type);
         //for (var k in set)
         //    set[k].id = k;
-
-        var ret = {};
-        var aa = type == org.helm.webeditor.HELM.AA;
+        const ret = {};
+        const aa = type == org.helm.webeditor.HELM.AA;
         if (aa) {
-            ret["C-Term"] = [];
-            ret["N-Term"] = [];
+            ret['C-Term'] = [];
+            ret['N-Term'] = [];
         }
-
-        for (var k in set) {
-            var m = set[k];
-            var na = m.na;
+        for (const k in set) {
+            const m = set[k];
+            let na = m.na;
             if (aa) {
                 if (m.at.R1 == null)
-                    na = "N-Term";
+                    na = 'N-Term';
                 else if (m.at.R2 == null)
-                    na = "C-Term";
+                    na = 'C-Term';
             }
             if (scil.Utils.isNullOrEmpty(na))
-                na = "X";
+                na = 'X';
             if (ret[na] == null)
                 ret[na] = [];
             ret[na].push(m);
         }
-
-        for (var k in ret)
+        for (const k in ret)
             ret[k] = this.getMonomerNames(ret[k]);
-
         return ret;
-    },
-
+    }
     /**
-    * Get monomer list of a monomer type (internal use)
-    * @function getMonomerList
-    */
-    getMonomerList: function (list, type, addnull) {
+     * Get monomer list of a monomer type (internal use)
+     * @function getMonomerList
+     */
+    getMonomerList(list, type, addnull) {
         if (list != null) {
             list.sort();
             return list;
         }
-
-        var set = org.helm.webeditor.Monomers.getMonomerSet(type);
+        const set = org.helm.webeditor.Monomers.getMonomerSet(type);
         //for (var k in set)
         //    set[k].id = k;
         list = scil.Utils.getDictValues(set);
         return this.getMonomerNames(list, addnull);
-    },
-
+    }
     /**
-    * Get monomer names (internal use)
-    * @function getMonomerNames
-    */
-    getMonomerNames: function (list, addnull) {
-        var ret = [];
+     * Get monomer names (internal use)
+     * @function getMonomerNames
+     */
+    getMonomerNames(list, addnull) {
+        const ret = [];
         //if (addnull)
         //    ret.push("null");
-
         list.sort(org.helm.webeditor.MonomerExplorer.compareMonomers);
-        for (var i = 0; i < list.length; ++i)
+        for (let i = 0; i < list.length; ++i)
             ret.push(list[i].id);
-
         return ret;
-    },
-
+    }
     /**
-    * Create a monomer group (internal use)
-    * @function createMonomerGroup
-    */
-    createMonomerGroup: function (div, type, list, addnull) {
-        var me = this;
+     * Create a monomer group (internal use)
+     * @function createMonomerGroup
+     */
+    createMonomerGroup(div, type, list, addnull) {
+        const me = this;
         list = this.getMonomerList(list, type, addnull);
-
         if (org.helm.webeditor.ambiguity) {
             if (type == org.helm.webeditor.HELM.CHEM)
                 list.splice(0, 0, '*');
         }
-
-        div.style.overflowY = "scroll";
+        div.style.overflowY = 'scroll';
         this._listMonomers(div, list, type, this.options.mexfavoritefirst);
-        dojo.connect(div, "onmousedown", function (e) { me.select(e); });
-        dojo.connect(div, "ondblclick", function (e) { me.dblclick(e); });
-    },
-
+        dojo.connect(div, 'onmousedown', function (e) {
+            me.select(e);
+        });
+        dojo.connect(div, 'ondblclick', function (e) {
+            me.dblclick(e);
+        });
+    }
     /**
-    * inner loop creating a monomer group (internal use)
-    * @function createMonomerGroup3
-    */
-    createMonomerGroup3: function (div, group, i, createbar) {
-        var me = this;
-        var parent = scil.Utils.createElement(div, "div");
+     * inner loop creating a monomer group (internal use)
+     * @function createMonomerGroup3
+     */
+    createMonomerGroup3(div, group, i, createbar) {
+        const me = this;
+        const parent = scil.Utils.createElement(div, 'div');
         if (createbar) {
-            var bar = scil.Utils.createElement(parent, "div", group + ":", { background: "#ddd", borderTop: "solid 1px #aaa", marginTop: i == 0 ? null : "1px" });
+            const bar = scil.Utils.createElement(parent, "div", group + ":", {
+                background: "#ddd", borderTop: "solid 1px #aaa", marginTop: i == 0 ? undefined : "1px"
+            });
             if (i > 0)
-                new scil.Resizable(bar, { direction: "y", mouseovercolor: "#aaf", onresize: function (delta, resizable) { return me.onresize(delta, i); } });
+                new scil.Resizable(bar, {
+                    direction: "y", mouseovercolor: "#aaf", onresize: function (delta, resizable) {
+                        return me.onresize(delta, i);
+                    }
+                });
         }
-
-        var d = scil.Utils.createElement(parent, "div");
-        dojo.connect(d, "onmousedown", function (e) { me.select(e); });
-        dojo.connect(d, "ondblclick", function (e) { me.dblclick(e); });
-
-        if (group == "RNA") {
-            var base = org.helm.webeditor.Monomers.bases["A"] == null ? "a" : "A";
-            var linker = org.helm.webeditor.Monomers.linkers["P"] == null ? "p" : "P";
-            var sugar = org.helm.webeditor.Monomers.sugars["R"] == null ? "r" : "R";
-
-            var tabs = [
-                    { caption: this.createRNATabCaption("nucleotide", "R(A)P"), tabkey: "nucleotide", onmenu: this.options.mexrnapinontab ? function (e) { me.onPinMenu(e); } : null },
-                    { caption: this.createRNATabCaption("base", base), tabkey: "base" },
-                    { caption: this.createRNATabCaption("sugar", sugar), tabkey: "sugar" },
-                    { caption: this.createRNATabCaption("linker", linker), tabkey: "linker" }
-                ];
-            this.rnatabs = new scil.Tabs(scil.Utils.createElement(d, "div", null, { paddingTop: "5px" }), {
-                onShowTab: function (td) { me.onShowTab(td); }, //function (td) { me.onShowRNATab(td); },
-                tabpadding: "2px",
+        const d = scil.Utils.createElement(parent, 'div');
+        dojo.connect(d, 'onmousedown', function (e) {
+            me.select(e);
+        });
+        dojo.connect(d, 'ondblclick', function (e) {
+            me.dblclick(e);
+        });
+        if (group == 'RNA') {
+            const base = org.helm.webeditor.Monomers.bases['A'] == null ? 'a' : 'A';
+            const linker = org.helm.webeditor.Monomers.linkers['P'] == null ? 'p' : 'P';
+            const sugar = org.helm.webeditor.Monomers.sugars['R'] == null ? 'r' : 'R';
+            const tabs = [
+                {
+                    caption: this.createRNATabCaption('nucleotide', 'R(A)P'), tabkey: 'nucleotide', onmenu: this.options.mexrnapinontab ? function (e) {
+                        me.onPinMenu(e);
+                    } : undefined,
+                },
+                { caption: this.createRNATabCaption('base', base), tabkey: 'base' },
+                { caption: this.createRNATabCaption('sugar', sugar), tabkey: 'sugar' },
+                { caption: this.createRNATabCaption('linker', linker), tabkey: 'linker' },
+            ];
+            this.rnatabs = new scil.Tabs(scil.Utils.createElement(d, 'div', null, { paddingTop: '5px' }), {
+                onShowTab(td) {
+                    me.onShowTab(td);
+                },
+                tabpadding: '2px',
                 tabs: tabs,
-                marginBottom: 0,
-                clientareaheight: this.getHeight("RNA")
+                marginBottom: `0`,
+                clientareaheight: this.getHeight('RNA'),
             });
         }
         //else if (group == "Chem") {
@@ -6350,348 +5809,320 @@ org.helm.webeditor.MonomerExplorer = scil.extend(scil._base, {
         //    //var list = this.getMonomerList(null, org.helm.webeditor.HELM.AA);
         //    //this._listMonomers(d, list, org.helm.webeditor.HELM.AA, true);
         //}
-    },
-
+    }
     /**
-    * Create RNA Tab caption (internal use)
-    * @function 
-    */
-    createRNATabCaption: function (type, label) {
-        var half = " style='font-size: 80%;padding-left:20px;background-repeat:no-repeat;background-position:left center;background-image:";
-        return "<div title='Nucleotide (Combined)' " + half + scil.Utils.imgSrc("img/helm_" + type.toLowerCase() + ".gif", true) + "'>" + label + "</div>";
-    },
-
+     * Create RNA Tab caption (internal use)
+     * @function
+     */
+    createRNATabCaption(type, label) {
+        var half = ' style=\'font-size: 80%;padding-left:20px;background-repeat:no-repeat;background-position:left center;background-image:';
+        return '<div title=\'Nucleotide (Combined)\' ' + half + scil.Utils.imgSrc('img/helm_' + type.toLowerCase() + '.gif', true) + '\'>' + label + '</div>';
+    }
     /**
-    * Event handler when pinning a Combo (internal use)
-    * @function onPinMenu
-    */
-    onPinMenu: function (e) {
+     * Event handler when pinning a Combo (internal use)
+     * @function onPinMenu
+     */
+    onPinMenu(e) {
         if (this.pinmenu == null) {
-            var me = this;
-            var items = [{ caption: "Pin This Nucleotide"}];
-            this.pinmenu = new scil.ContextMenu(items, function () { me.addNucleotide(); });
+            const me = this;
+            const items = [{ caption: 'Pin This Nucleotide' }];
+            this.pinmenu = new scil.ContextMenu(items, function () {
+                me.addNucleotide();
+            });
         }
         this.pinmenu.show(e.clientX, e.clientY);
-    },
-
+    }
     /**
-    * Inner loop creating a monomer group (internal use)
-    * @function createMonomerGroup4
-    */
-    createMonomerGroup4: function (div, type, list, addnull, groupbyanalog) {
+     * Inner loop creating a monomer group (internal use)
+     * @function createMonomerGroup4
+     */
+    createMonomerGroup4(div, type, list, addnull, groupbyanalog) {
         if (groupbyanalog) {
-            var dict = this.getMonomerDictGroupByAnalog(type);
-
+            const dict = this.getMonomerDictGroupByAnalog(type);
             if (org.helm.webeditor.ambiguity) {
                 if (type == org.helm.webeditor.HELM.AA)
                     dict['?'] = ['*', '_', 'X'];
                 else if (type == org.helm.webeditor.HELM.BASE)
                     dict['?'] = ['_', 'N', '*'];
             }
-
-            var list = [];
+            let list = [];
             if (this.options.mexfavoritefirst) {
-                for (var k in dict) {
-                    var list2 = dict[k];
-                    for (var i = 0; i < list2.length; ++i) {
-                        var a = list2[i];
+                for (const k in dict) {
+                    const list2 = dict[k];
+                    for (let i = 0; i < list2.length; ++i) {
+                        const a = list2[i];
                         if (org.helm.webeditor.MonomerExplorer.favorites.contains(a, type))
                             list.push(a);
                     }
                 }
-                this._listMonomer2(div, scil.Utils.imgTag("star.png"), list, type, 20);
+                this._listMonomer2(div, scil.Utils.imgTag('star.png'), list, type, 20);
             }
-
             list = scil.Utils.getDictKeys(dict);
             list.sort();
-            var list2 = [];
-            for (var i = 0; i < list.length; ++i) {
-                var k = list[i];
-                if (k == "C-Term" || k == "N-Term") {
+            const list2 = [];
+            for (let i = 0; i < list.length; ++i) {
+                const k = list[i];
+                if (k == 'C-Term' || k == 'N-Term') {
                     list2.push(k);
                     continue;
                 }
                 this._listMonomer2(div, k, dict[k], type, 20);
             }
-
-            for (var i = 0; i < list2.length; ++i) {
-                var k = list2[i];
+            for (let i = 0; i < list2.length; ++i) {
+                const k = list2[i];
                 this._listMonomer2(div, k, dict[k], type, 60);
             }
         }
         else {
-            if (type == "nucleotide" && !this.options.mexrnapinontab) {
-                var me = this;
-                var d = this.createMonomerDiv(div, scil.Utils.imgTag("pin.png"), null, null, false);
-                d.setAttribute("title", "Pin This Nucleotide");
-                scil.connect(d, "onclick", function () { me.addNucleotide(); })
+            if (type == 'nucleotide' && !this.options.mexrnapinontab) {
+                const me = this;
+                const d = this.createMonomerDiv(div, scil.Utils.imgTag('pin.png'), 'nucleotide', undefined, false);
+                d.setAttribute('title', 'Pin This Nucleotide');
+                scil.connect(d, 'onclick', function () {
+                    me.addNucleotide();
+                });
             }
-            var list = this.getMonomerList(list, type, addnull);
+            list = this.getMonomerList(list, type, addnull);
             if (org.helm.webeditor.ambiguity) {
                 if (type == org.helm.webeditor.HELM.SUGAR)
                     list.splice(0, 0, '*');
                 else if (type == org.helm.webeditor.HELM.LINKER)
                     list.splice(0, 0, '*');
-                else if (type == "nucleotide")
+                else if (type == 'nucleotide')
                     list.splice(0, 0, '*');
             }
-
             this._listMonomers(div, list, type, this.options.mexfavoritefirst);
         }
-    },
-
+    }
     /**
-    * Add a nucleotide (internal use)
-    * @function addNucleotide
-    */
-    addNucleotide: function (tab) {
-        var notation = this.getCombo();
-        var dict = org.helm.webeditor.MonomerExplorer.nucleotides;
-        for (var k in dict) {
+     * Add a nucleotide (internal use)
+     * @function addNucleotide
+     */
+    addNucleotide(tab) {
+        const notation = this.getCombo();
+        const dict = org.helm.webeditor.MonomerExplorer.nucleotides;
+        for (const k in dict) {
             if (notation == dict[k]) {
-                scil.Utils.alert("There is a defined nucleotide called: " + k);
+                scil.Utils.alert('There is a defined nucleotide called: ' + k);
                 return;
             }
         }
-
         var me = this;
         scil.Utils.prompt2({
             caption: "Pin Nucleotide: " + notation,
             message: "Please give a short name for the nucleotide, " + notation,
-            callback: function (s) { if (org.helm.webeditor.MonomerExplorer.addCustomNucleotide(s, notation)) me.reloadTab("nucleotide"); }
+            callback: function (s) { if (org.helm.webeditor.MonomerExplorer.addCustomNucleotide(s, notation))
+                me.reloadTab("nucleotide"); }
         });
-    },
-
+    }
     /**
-    * Inner loop listing all monomer of a monomer type (internal use)
-    * @function 
-    */
-    _listMonomer2: function (div, k, list, type, width) {
+     * Inner loop listing all monomer of a monomer type (internal use)
+     * @function
+     */
+    _listMonomer2(div, k, list, type, width) {
         if (list.length == 0)
             return;
-
-        var tbody = scil.Utils.createTable(div, 0, 0);
-        var tr = scil.Utils.createElement(tbody, "tr");
-        var left = scil.Utils.createElement(tr, "td", null, { verticalAlign: "top" });
-        var right = scil.Utils.createElement(tr, "td", null, { verticalAlign: "top" });
-        scil.Utils.createElement(left, "div", k, { width: width, background: "#eee", border: "solid 1px #aaa", textAlign: "center" });
+        const tbody = scil.Utils.createTable(div, 0, 0);
+        const tr = scil.Utils.createElement(tbody, 'tr');
+        const left = scil.Utils.createElement(tr, 'td', null, { verticalAlign: 'top' });
+        const right = scil.Utils.createElement(tr, 'td', null, { verticalAlign: 'top' });
+        const groupKeyDiv = scil.Utils.createElement(left, 'div', k, { width: `${width}px`, background: '#eee', border: 'solid 1px #aaa', textAlign: 'center' });
+        groupKeyDiv.classList.add('hwe-group-key');
         this._listMonomers(right, list, type);
-    },
-
+    }
     /**
-    * Create favorite monomer group (internal use)
-    * @function createMonomerGroupFav
-    */
-    createMonomerGroupFav: function (div, caption, type) {
-        var list = org.helm.webeditor.MonomerExplorer.favorites.getList(type);
+     * Create favorite monomer group (internal use)
+     * @function createMonomerGroupFav
+     */
+    createMonomerGroupFav(div, caption, type) {
+        const list = org.helm.webeditor.MonomerExplorer.favorites.getList(type);
         if (list == null || list.length == 0)
             return;
-
         list.sort();
-        scil.Utils.createElement(div, "div", caption + ":", { background: "#ddd", border: "solid 1px #ddd" });
-        var d = scil.Utils.createElement(div, "div", null, { display: "table", paddingBottom: "10px" });
+        scil.Utils.createElement(div, 'div', caption + ':', { background: '#ddd', border: 'solid 1px #ddd' });
+        const d = scil.Utils.createElement(div, 'div', null, { display: 'table', paddingBottom: '10px' });
         this._listMonomers(d, list, type, false);
-
-        var me = this;
-        dojo.connect(d, "onmousedown", function (e) { me.select(e); });
-        dojo.connect(d, "ondblclick", function (e) { me.dblclick(e); });
-    },
-
+        const me = this;
+        dojo.connect(d, 'onmousedown', function (e) {
+            me.select(e);
+        });
+        dojo.connect(d, 'ondblclick', function (e) {
+            me.dblclick(e);
+        });
+    }
     /**
-    * List a monomer group (internal use)
-    * @function _listMonomers
-    */
-    _listMonomers: function (div, list, type, mexfavoritefirst) {
-        div.className = "filtergroup";
-
+     * List a monomer group (internal use)
+     * @function _listMonomers
+     */
+    _listMonomers(div, list, type, mexfavoritefirst) {
+        div.className = 'filtergroup';
         if (mexfavoritefirst) {
-            var list2 = [];
-            for (var i = 0; i < list.length; ++i) {
+            const list2 = [];
+            for (let i = 0; i < list.length; ++i) {
                 if (org.helm.webeditor.MonomerExplorer.favorites.contains(list[i], type))
                     this.createMonomerDiv(div, list[i], type);
                 else
                     list2.push(list[i]);
             }
-
-            for (var i = 0; i < list2.length; ++i)
+            for (let i = 0; i < list2.length; ++i)
                 this.createMonomerDiv(div, list2[i], type);
         }
         else {
-            for (var i = 0; i < list.length; ++i)
+            for (let i = 0; i < list.length; ++i)
                 this.createMonomerDiv(div, list[i], type);
         }
-    },
-
+    }
     /**
-    * Recreate favorite monomers (internal use)
-    * @function 
-    */
-    recreateFavorites: function (d) {
-        this.createMonomerGroupFav(d, "Nucleotide", org.helm.webeditor.MonomerExplorer.kNucleotide);
-        this.createMonomerGroupFav(d, "Base", org.helm.webeditor.HELM.BASE);
-        this.createMonomerGroupFav(d, "Sugar", org.helm.webeditor.HELM.SUGAR);
-        this.createMonomerGroupFav(d, "Linker", org.helm.webeditor.HELM.LINKER);
-        this.createMonomerGroupFav(d, "Chemistry", org.helm.webeditor.HELM.CHEM);
-        this.createMonomerGroupFav(d, "Peptide", org.helm.webeditor.HELM.AA);
-    },
-
+     * Recreate favorite monomers (internal use)
+     * @function
+     */
+    recreateFavorites(d) {
+        this.createMonomerGroupFav(d, 'Nucleotide', org.helm.webeditor.MonomerExplorer.kNucleotide);
+        this.createMonomerGroupFav(d, 'Base', org.helm.webeditor.HELM.BASE);
+        this.createMonomerGroupFav(d, 'Sugar', org.helm.webeditor.HELM.SUGAR);
+        this.createMonomerGroupFav(d, 'Linker', org.helm.webeditor.HELM.LINKER);
+        this.createMonomerGroupFav(d, 'Chemistry', org.helm.webeditor.HELM.CHEM);
+        this.createMonomerGroupFav(d, 'Peptide', org.helm.webeditor.HELM.AA);
+    }
     /**
-    * Create a monomer block (internal use)
-    * @function createMonomerDiv
-    */
-    createMonomerDiv: function (parent, name, type, style, star) {
-        var fav = org.helm.webeditor.MonomerExplorer.favorites.contains(name, type);
-
-        if (style == null)
-            style = scil.clone(this.kStyle);
-        else
-            style = scil.apply(scil.clone(this.kStyle), style);
-
+     * Create a monomer block (internal use)
+     * @function createMonomerDiv
+     */
+    createMonomerDiv(parent, name, type, argStyle, star = false) {
+        const fav = org.helm.webeditor.MonomerExplorer.favorites.contains(name, type);
+        const style = argStyle ? scil.apply(scil.clone(this.kStyle), argStyle) :
+            scil.clone(this.kStyle);
         if (this.options.mexusecolor != false) {
-            var color;
-            var custom = org.helm.webeditor.MonomerExplorer.customnucleotides;
-            if (type == "nucleotide" && custom != null && custom[name] != null)
-                color = { backgroundcolor: "#afa" };
+            let color;
+            const custom = org.helm.webeditor.MonomerExplorer.customnucleotides;
+            if (type == 'nucleotide' && custom != null && custom[name] != null)
+                color = { backgroundcolor: '#afa' };
             else
                 color = style.backgroundColor = org.helm.webeditor.Monomers.getColor2(type, name);
             style.backgroundColor = color == null ? null : color.backgroundcolor;
         }
-
         if (star != false)
-            style.backgroundImage = scil.Utils.imgSrc("img/star" + (fav ? "" : "0") + ".png", true);
-
-        var div = scil.Utils.createElement(parent, "div", null, style, { helm: type, bkcolor: style.backgroundColor, star: (star ? 1 : null) });
+            style.backgroundImage = scil.Utils.imgSrc('img/star' + (fav ? '' : '0') + '.png', true);
+        const div = scil.Utils.createElement(parent, 'div', null, style, { helm: type, bkcolor: style.backgroundColor, star: (star ? 1 : null) });
         scil.Utils.unselectable(div);
-
         if (this.options.mexuseshape)
             this.setMonomerBackground(div, 0);
-
-        var d = scil.Utils.createElement(div, "div", null, { display: "table-cell", textAlign: "center", verticalAlign: "middle" });
-        scil.Utils.createElement(d, "div", name, { overflow: "hidden", width: this.kStyle.width });
-
+        const d = scil.Utils.createElement(div, 'div', null, { display: 'table-cell', textAlign: 'center', verticalAlign: 'middle' });
+        scil.Utils.createElement(d, 'div', name, { overflow: 'hidden', width: this.kStyle.width });
         return div;
-    },
-
+    }
     /**
-    * Set monomer block background (internal use)
-    * @function setMonomerBackground
-    */
-    setMonomerBackground: function (div, f) {
-        var type = div.getAttribute("helm");
+     * Set monomer block background (internal use)
+     * @function setMonomerBackground
+     */
+    setMonomerBackground(div, f) {
+        const type = div.getAttribute('helm');
         if (scil.Utils.isNullOrEmpty(type))
             return;
-
-        var bk = type.toLowerCase();
+        let bk = type.toLowerCase();
         if (type != org.helm.webeditor.MonomerExplorer.kNucleotide)
             bk = bk.substr(bk.indexOf('_') + 1);
-        div.style.backgroundImage = scil.Utils.imgSrc("img/mon-" + bk + f + ".png", true);
-    },
-
+        div.style.backgroundImage = scil.Utils.imgSrc('img/mon-' + bk + f + '.png', true);
+    }
     /**
-    * Get the monomer block (internal use)
-    * @function getMonomerDiv
-    */
-    getMonomerDiv: function (e) {
-        var div = e.target || e.srcElement;
+     * Get the monomer block (internal use)
+     * @function getMonomerDiv
+     */
+    getMonomerDiv(e) {
+        let div = (e.target || e.srcElement);
         if (div == null || div.tagName == null)
-            return;
-
-        for (var i = 0; i < 3; ++i) {
-            var type = div.getAttribute("helm");
+            return null;
+        let type = null;
+        for (let i = 0; i < 3; ++i) {
+            type = div.getAttribute('helm');
             if (!scil.Utils.isNullOrEmpty(type))
                 break;
-            div = div.tagName == "BODY" ? null : div.parentNode;
+            div = (div.tagName == 'BODY' ? null : div.parentElement);
             if (div == null)
                 break;
         }
         return scil.Utils.isNullOrEmpty(type) ? null : div;
-    },
-
+    }
     /**
-    * Enable DnD (internal use)
-    * @function createDnD
-    */
-    createDnD: function (div) {
-        var me = this;
+     * Enable DnD (internal use)
+     * @function createDnD
+     */
+    createDnD(div) {
+        const me = this;
         return new scil.DnD(div, {
-            onstartdrag: function (e, dnd) {
+            onstartdrag(e, dnd) {
                 return me.getMonomerDiv(e);
             },
-            oncreatecopy: function (e, dnd) {
-                if (me.dnd.floatingbox == null) {
-                    var maxZindex = scil.Utils.getMaxZindex();
-                    var style = {
-                        float: null, backgroundImage: null,
-                        filter: 'alpha(opacity=80)', opacity: 0.8, color: org.helm.webeditor.MonomerExplorer.color,
+            oncreatecopy(e, dnd) {
+                if (dnd.floatingbox == null) {
+                    const maxZindex = scil.Utils.getMaxZindex();
+                    const style = {
+                        float: undefined, backgroundImage: undefined,
+                        filter: 'alpha(opacity=80)', opacity: `0.8`, color: org.helm.webeditor.MonomerExplorer.color,
                         backgroundColor: org.helm.webeditor.MonomerExplorer.backgroundcolor,
-                        zIndex: (maxZindex > 0 ? maxZindex : 100) + 1, position: "absolute"
+                        zIndex: `${(maxZindex > 0 ? maxZindex : 100) + 1}`, position: 'absolute',
                     };
                     if (me.options.useshape)
-                        style.backgroundColor = null;
-                    me.dnd.floatingbox = me.createMonomerDiv(document.body, null, null, style, false);
+                        style.backgroundColor = undefined;
+                    const type = dnd.src.getAttribute('helm');
+                    dnd.floatingbox = me.createMonomerDiv(document.body, null, type, style, false);
                 }
-                me.dnd.floatingbox.style.display = "table";
-                me.dnd.floatingbox.style.backgroundColor = org.helm.webeditor.MonomerExplorer.backgroundcolor;
-                me.dnd.floatingbox.innerHTML = dnd.src.innerHTML;
-                me.dnd.floatingbox.setAttribute("helm", dnd.src.getAttribute("helm"));
+                dnd.floatingbox.style.display = 'table';
+                dnd.floatingbox.style.backgroundColor = org.helm.webeditor.MonomerExplorer.backgroundcolor;
+                dnd.floatingbox.innerHTML = dnd.src.innerHTML;
+                dnd.floatingbox.setAttribute('helm', dnd.src.getAttribute('helm'));
                 if (me.options.useshape)
-                    me.setMonomerBackground(me.dnd.floatingbox, 1);
-                return me.dnd.floatingbox;
-
+                    me.setMonomerBackground(dnd.floatingbox, 1);
+                return dnd.floatingbox;
             },
-            ondrop: function (e, dnd) {
-                if (me.dnd.floatingbox == null)
+            ondrop(e, dnd) {
+                if (dnd.floatingbox == null)
                     return;
-
-                me.dnd.floatingbox.style.display = "none";
-
-                var src = e.target || e.srcElement;
+                me.dnd.floatingbox.style.display = 'none';
+                const src = (e.target || e.srcElement);
                 if (!scil.Utils.hasAnsestor(src, me.plugin.jsd.div))
                     return;
-
-                var type = me.dnd.floatingbox.getAttribute("helm");
-                me.plugin.dropMonomer(type, scil.Utils.getInnerText(me.dnd.floatingbox), e);
+                const type = dnd.floatingbox.getAttribute('helm');
+                me.plugin.dropMonomer(type, scil.Utils.getInnerText(dnd.floatingbox), e);
             },
-            oncancel: function (dnd) {
-                if (me.dnd.floatingbox == null)
+            oncancel(dnd) {
+                if (dnd.floatingbox == null)
                     return;
-
-                me.dnd.floatingbox.style.display = "none";
-                var type = me.dnd.floatingbox.getAttribute("helm");
-            }
+                me.dnd.floatingbox.style.display = 'none';
+                const type = dnd.floatingbox.getAttribute('helm');
+            },
         });
-    },
-
+    }
     /**
-    * Show structure popup (internal use)
-    * @function showMol
-    */
-    showMol: function (e) {
-        var src = this.getMonomerDiv(e);
+     * Show structure popup (internal use)
+     * @function showMol
+     */
+    showMol(e) {
+        let src = this.getMonomerDiv(e);
         if (src != null && !this.dnd.isDragging()) {
-            var type = src.getAttribute("helm");
-            var set = type == org.helm.webeditor.MonomerExplorer.kNucleotide ? org.helm.webeditor.MonomerExplorer.nucleotides : org.helm.webeditor.Monomers.getMonomerSet(type);
-            var s = scil.Utils.getInnerText(src);
-            var m = set[scil.helm.symbolCase(s)];
+            const type = src.getAttribute('helm');
+            const set = type == org.helm.webeditor.MonomerExplorer.kNucleotide ?
+                org.helm.webeditor.MonomerExplorer.nucleotides : org.helm.webeditor.Monomers.getMonomerSet(type);
+            const s = scil.Utils.getInnerText(src);
+            let m = set[scil.helm.symbolCase(s)];
             if (m == null)
                 m = set[s];
             org.helm.webeditor.MolViewer.show(e, type, m, s);
         }
         else {
-            var src = e.srcElement || e.target;
+            src = (e.srcElement || e.target);
             if (!scil.Utils.isChildOf(src, this.plugin.jsd.div))
                 org.helm.webeditor.MolViewer.hide();
         }
-    },
-
+    }
     /**
-    * Tool to split a list (internal use)
-    * @function splitLists
-    */
-    splitLists: function (set) {
-        var lists = [[], [], [], []];
-        for (var k in set) {
-            var m = set[k];
+     * Tool to split a list (internal use)
+     * @function splitLists
+     */
+    splitLists(set) {
+        const lists = [[], [], [], []];
+        for (const k in set) {
+            const m = set[k];
             if (m.at.R1 == null)
                 lists[2].push(k);
             else if (m.at.R2 == null)
@@ -6701,44 +6132,38 @@ org.helm.webeditor.MonomerExplorer = scil.extend(scil._base, {
             else
                 lists[1].push(k);
         }
-
         return lists;
-    },
-
+    }
     /**
-    * Change favorites (internal use)
-    * @function changeFavorite
-    */
-    changeFavorite: function (div) {
-        var f = div.getAttribute("star") != "1";
-
+     * Change favorites (internal use)
+     * @function changeFavorite
+     */
+    changeFavorite(div) {
+        const f = div.getAttribute('star') != '1';
         if (f) {
-            div.setAttribute("star", "1");
-            div.style.backgroundImage = scil.Utils.imgSrc("img/star.png", true);
+            div.setAttribute('star', '1');
+            div.style.backgroundImage = scil.Utils.imgSrc('img/star.png', true);
         }
         else {
-            div.setAttribute("star", "");
-            div.style.backgroundImage = scil.Utils.imgSrc("img/star0.png", true);
+            div.setAttribute('star', '');
+            div.style.backgroundImage = scil.Utils.imgSrc('img/star0.png', true);
         }
-
-        var type = div.getAttribute("helm");
-        var s = scil.Utils.getInnerText(div);
+        const type = div.getAttribute('helm');
+        const s = scil.Utils.getInnerText(div);
         org.helm.webeditor.MonomerExplorer.favorites.add(s, f, type);
-
         //this.reloadTab(type);
-    },
-
+    }
     /**
-    * Select a monomer (internal use)
-    * @function select
-    */
-    select: function (e) {
-        var div = this.getMonomerDiv(e);
+     * Select a monomer (internal use)
+     * @function select
+     */
+    select(e) {
+        const div = this.getMonomerDiv(e);
         if (div != null) {
-            var d = scil.Utils.getOffset(div, true);
-            var scroll = scil.Utils.getParent(div.parentNode, "div");
-            var dx = e.clientX - d.x + scroll.scrollLeft;
-            var dy = e.clientY - d.y + scroll.scrollTop;
+            const d = scil.Utils.getOffset(div, true);
+            const scroll = scil.Utils.getParent(div.parentElement, 'div');
+            const dx = e.clientX - d.x + scroll.scrollLeft;
+            const dy = e.clientY - d.y + scroll.scrollTop;
             if (dx >= 0 && dx < 16 && dy >= 0 && dy < 16) {
                 // favorite
                 this.changeFavorite(div);
@@ -6746,36 +6171,30 @@ org.helm.webeditor.MonomerExplorer = scil.extend(scil._base, {
                 return;
             }
         }
-
-        var helm = div == null ? null : div.getAttribute("helm");
+        const helm = (div == null ? null : div.getAttribute('helm'));
         if (scil.Utils.isNullOrEmpty(helm))
             return;
-
         this.plugin.jsd.activate(true);
-
-        var name = scil.Utils.getInnerText(div);
+        let name = scil.Utils.getInnerText(div);
         if (helm == org.helm.webeditor.MonomerExplorer.kNucleotide) {
-            if (name != "*") {
-                var s = org.helm.webeditor.MonomerExplorer.nucleotides[name];
-                var p1 = s.indexOf('(');
-                var p2 = s.indexOf(")");
-                var sugar = org.helm.webeditor.IO.trimBracket(s.substr(0, p1));
-                var base = org.helm.webeditor.IO.trimBracket(s.substr(p1 + 1, p2 - p1 - 1));
-                var linker = org.helm.webeditor.IO.trimBracket(s.substr(p2 + 1));
-
+            if (name != '*') {
+                const s = org.helm.webeditor.MonomerExplorer.nucleotides[name];
+                const p1 = s.indexOf('(');
+                const p2 = s.indexOf(')');
+                const sugar = org.helm.webeditor.IO.trimBracket(s.substr(0, p1));
+                const base = org.helm.webeditor.IO.trimBracket(s.substr(p1 + 1, p2 - p1 - 1));
+                let linker = org.helm.webeditor.IO.trimBracket(s.substr(p2 + 1));
                 if (scil.Utils.isNullOrEmpty(linker))
-                    linker = "null";
-
+                    linker = 'null';
                 this.selected[org.helm.webeditor.HELM.BASE] = base;
                 this.selected[org.helm.webeditor.HELM.LINKER] = linker;
                 this.selected[org.helm.webeditor.HELM.SUGAR] = sugar;
-
                 if (this.rnatabs != null) {
-                    var tabs = this.rnatabs;
-                    tabs.updateTabLabel("nucleotide", this.createRNATabCaption("nucleotide", s));
-                    tabs.updateTabLabel("sugar", this.createRNATabCaption("sugar", sugar));
-                    tabs.updateTabLabel("linker", this.createRNATabCaption("linker", linker));
-                    tabs.updateTabLabel("base", this.createRNATabCaption("base", base));
+                    const tabs = this.rnatabs;
+                    tabs.updateTabLabel('nucleotide', this.createRNATabCaption('nucleotide', s));
+                    tabs.updateTabLabel('sugar', this.createRNATabCaption('sugar', sugar));
+                    tabs.updateTabLabel('linker', this.createRNATabCaption('linker', linker));
+                    tabs.updateTabLabel('base', this.createRNATabCaption('base', base));
                 }
             }
         }
@@ -6786,33 +6205,30 @@ org.helm.webeditor.MonomerExplorer = scil.extend(scil._base, {
                 var tabs = this.rnatabs;
                 switch (helm) {
                     case org.helm.webeditor.HELM.SUGAR:
-                        tab = "sugar";
+                        tab = 'sugar';
                         break;
                     case org.helm.webeditor.HELM.LINKER:
-                        tab = "linker";
+                        tab = 'linker';
                         break;
                     case org.helm.webeditor.HELM.BASE:
-                        tab = "base";
+                        tab = 'base';
                         break;
                 }
-
                 if (tab != null)
                     tabs.updateTabLabel(tab, this.createRNATabCaption(tab, name));
             }
-
             this.selected[helm] = name;
             if (tabs != null)
-                tabs.updateTabLabel("nucleotide", this.createRNATabCaption("nucleotide", this.getCombo()));
+                tabs.updateTabLabel('nucleotide', this.createRNATabCaption('nucleotide', this.getCombo()));
         }
-
         if (this.lastdiv != null) {
-            this.lastdiv.style.color = "";
+            this.lastdiv.style.color = '';
             if (this.options.mexuseshape) {
                 this.setMonomerBackground(this.lastdiv, 0);
             }
             else {
-                var s = this.lastdiv.getAttribute("bkcolor");
-                this.lastdiv.style.backgroundColor = s == null ? "" : s;
+                var s = this.lastdiv.getAttribute('bkcolor');
+                this.lastdiv.style.backgroundColor = s == null ? '' : s;
             }
         }
         if (this.options.mexuseshape)
@@ -6821,86 +6237,65 @@ org.helm.webeditor.MonomerExplorer = scil.extend(scil._base, {
             div.style.backgroundColor = org.helm.webeditor.MonomerExplorer.backgroundcolor;
         div.style.color = org.helm.webeditor.MonomerExplorer.color;
         this.lastdiv = div;
-
         if (this.plugin != null && this.plugin.jsd != null) {
             switch (helm) {
                 case org.helm.webeditor.HELM.AA:
-                    this.plugin.jsd.doCmd("helm_aa");
+                    this.plugin.jsd.doCmd('helm_aa');
                     break;
                 case org.helm.webeditor.HELM.CHEM:
-                    this.plugin.jsd.doCmd("helm_chem");
+                    this.plugin.jsd.doCmd('helm_chem');
                     break;
                 case org.helm.webeditor.HELM.BASE:
-                    this.plugin.jsd.doCmd(this.options.alwaysdrawnucleotide ? "helm_nucleotide" : "helm_base");
+                    this.plugin.jsd.doCmd(this.options.alwaysdrawnucleotide ? 'helm_nucleotide' : 'helm_base');
                     break;
                 case org.helm.webeditor.HELM.LINKER:
-                    this.plugin.jsd.doCmd(this.options.alwaysdrawnucleotide ? "helm_nucleotide" : "helm_linker");
+                    this.plugin.jsd.doCmd(this.options.alwaysdrawnucleotide ? 'helm_nucleotide' : 'helm_linker');
                     break;
                 case org.helm.webeditor.HELM.SUGAR:
-                    this.plugin.jsd.doCmd(this.options.alwaysdrawnucleotide ? "helm_nucleotide" : "helm_sugar");
+                    this.plugin.jsd.doCmd(this.options.alwaysdrawnucleotide ? 'helm_nucleotide' : 'helm_sugar');
                     break;
                 case org.helm.webeditor.MonomerExplorer.kNucleotide:
-                    this.plugin.jsd.doCmd("helm_nucleotide");
+                    this.plugin.jsd.doCmd('helm_nucleotide');
                     break;
             }
         }
-    },
-
+    }
     /**
-    * Get the RNA combo (internal use)
-    * @function getCombo
-    */
-    getCombo: function () {
-        var sugar = this.selected[org.helm.webeditor.HELM.SUGAR];
-        var linker = this.selected[org.helm.webeditor.HELM.LINKER];
-        var base = this.selected[org.helm.webeditor.HELM.BASE];
-        var s = org.helm.webeditor.IO.getCode(sugar);
-        if (!org.helm.webeditor.Monomers.hasR(org.helm.webeditor.HELM.SUGAR, sugar, "R3"))
-            s += "()";
+     * Get the RNA combo (internal use)
+     * @function getCombo
+     */
+    getCombo() {
+        const sugar = this.selected[org.helm.webeditor.HELM.SUGAR];
+        const linker = this.selected[org.helm.webeditor.HELM.LINKER];
+        const base = this.selected[org.helm.webeditor.HELM.BASE];
+        let s = org.helm.webeditor.IO.getCode(sugar);
+        if (!org.helm.webeditor.Monomers.hasR(org.helm.webeditor.HELM.SUGAR, sugar, 'R3'))
+            s += '()';
         else
-            s += "(" + org.helm.webeditor.IO.getCode(base) + ")";
-        if (linker != "null")
+            s += '(' + org.helm.webeditor.IO.getCode(base) + ')';
+        if (linker != 'null')
             s += org.helm.webeditor.IO.getCode(linker);
         return s;
-    },
-
+    }
     /**
-    * Event of double click (internal use)
-    * @function dblclick
-    */
-    dblclick: function (e) {
-        var div = this.getMonomerDiv(e);
-        var helm = div == null ? null : div.getAttribute("helm");
+     * Event of double click (internal use)
+     * @function dblclick
+     */
+    dblclick(e) {
+        const div = this.getMonomerDiv(e);
+        const helm = div == null ? null : div.getAttribute('helm');
         if (org.helm.webeditor.isHelmNode(helm)) {
             if (this.plugin.dblclickMomonor(helm, scil.Utils.getInnerText(div)) == 0)
                 scil.Utils.beep();
         }
     }
-});
-
-
-scil.apply(org.helm.webeditor.MonomerExplorer, {
-    kUseShape: false,
-    kNucleotide: "nucleotide",
-    backgroundcolor: "blue",
-    color: "white",
-    customnucleotides: null,
-    filtername: false,
-    favorites: new scil.Favorite("monomers", function (name, f, type) { org.helm.webeditor.MonomerExplorer.onAddFavorite(name, f, type); }),
-
-    nucleotides: {
-        A: "R(A)P",
-        C: "R(C)P",
-        G: "R(G)P",
-        T: "R(T)P",
-        U: "R(U)P"
-    },
-
+}
+export class MonomerExplorer extends MonomerExplorerInt {
     /**
-    * Compare if two monomers are same (internal use)
-    * @function compareMonomers
-    */
-    compareMonomers: function (a, b) {
+     * Compare if two monomers are same (internal use)
+     * @function compareMonomers
+     */
+    static compareMonomers(a, b) {
         if (a.id == b.id)
             return 0;
         else if (a.id == null)
@@ -6911,185 +6306,186 @@ scil.apply(org.helm.webeditor.MonomerExplorer, {
             return a.id.length > b.id.length ? 1 : -1;
         else
             return scil.helm.symbolCase(a.id) > scil.helm.symbolCase(b.id) ? 1 : -1;
-    },
-
+    }
     /**
-    * Event handler on adding favorite (internal use)
-    * @function onAddFavorite
-    */
-    onAddFavorite: function (name, f, type) {
-        if (!f && type == "nucleotide" && this.customnucleotides != null && this.customnucleotides[name] != null) {
-            delete this.customnucleotides[name];
-            this.saveNucleotides();
+     * Event handler on adding favorite (internal use)
+     * @function onAddFavorite
+     */
+    static onAddFavorite(name, f, type) {
+        const me = MonomerExplorer;
+        if (!f && type == 'nucleotide' && me.customnucleotides != null && me.customnucleotides[name] != null) {
+            delete me.customnucleotides[name];
+            me.saveNucleotides();
         }
-    },
-
+    }
     /**
-    * Create a custom RNA combo (internal use)
-    * @function addCustomNucleotide
-    */
-    addCustomNucleotide: function (name, notation) {
+     * Create a custom RNA combo (internal use)
+     * @function addCustomNucleotide
+     */
+    static addCustomNucleotide(name, notation) {
+        const cls = MonomerExplorer;
         name = scil.Utils.trim(name);
         if (scil.Utils.isNullOrEmpty(name)) {
-            scil.Utils.alert("The short name cannot be blank");
+            scil.Utils.alert('The short name cannot be blank');
             return false;
         }
-
-        if (this.nucleotides[name] != null) {
-            scil.Utils.alert("The short name is used for: " + this.nucleotides[name]);
+        if (org.helm.webeditor.MonomerExplorer.nucleotides[name] != null) {
+            scil.Utils.alert('The short name is used for: ' + org.helm.webeditor.MonomerExplorer.nucleotides[name]);
             return false;
         }
-
-        if (this.customnucleotides == null)
-            this.customnucleotides = {};
-
-        this.nucleotides[name] = notation;
-        this.customnucleotides[name] = notation;
-        this.saveNucleotides();
-        this.favorites.add(name, true, "nucleotide");
-
+        if (cls.customnucleotides == null)
+            cls.customnucleotides = {};
+        org.helm.webeditor.MonomerExplorer.nucleotides[name] = notation;
+        cls.customnucleotides[name] = notation;
+        cls.saveNucleotides();
+        cls.favorites.add(name, true, 'nucleotide');
         return true;
-    },
-
+    }
     /**
-    * Save custom RNA Combos(internal use)
-    * @function saveNucleotides
-    */
-    saveNucleotides: function () {
-        var s = scil.Utils.json2str(this.customnucleotides);
-        scil.Utils.createCookie("scil_helm_nucleotides", s);
-    },
-
+     * Save custom RNA Combos(internal use)
+     * @function saveNucleotides
+     */
+    static saveNucleotides() {
+        const s = scil.Utils.json2str(this.customnucleotides);
+        scil.Utils.createCookie('scil_helm_nucleotides', s);
+    }
     /**
-    * Read all saved custom RNA Combo (internal use)
-    * @function loadNucleotides
-    */
-    loadNucleotides: function () {
-        if (this._nucleotidesloaded)
+     * Read all saved custom RNA Combo (internal use)
+     * @function loadNucleotides
+     */
+    static loadNucleotides() {
+        const cls = MonomerExplorer;
+        if (cls._nucleotidesloaded)
             return this.nucleotides;
-
-        if (this.nucleotides == null)
-            this.nucleotides = [];
-
-        this._nucleotidesloaded = true;
-        var s = scil.Utils.readCookie("scil_helm_nucleotides");
-        this.customnucleotides = scil.Utils.eval(s);
-        if (this.customnucleotides != null && this.customnucleotides.length == null) {
-            var list = {};
-            for (var k in this.customnucleotides) {
+        if (cls.nucleotides == null)
+            cls.nucleotides = {};
+        cls._nucleotidesloaded = true;
+        const s = scil.Utils.readCookie('scil_helm_nucleotides');
+        cls.customnucleotides = scil.Utils.eval(s);
+        if (cls.customnucleotides != null && cls.customnucleotides.length == null) {
+            const list = {};
+            for (const k in cls.customnucleotides) {
                 if (this.nucleotides[k] == null) {
-                    list[k] = this.customnucleotides[k];
-                    this.nucleotides[k] = this.customnucleotides[k];
+                    list[k] = cls.customnucleotides[k];
+                    this.nucleotides[k] = cls.customnucleotides[k];
                 }
             }
-            this.customnucleotides = list;
+            cls.customnucleotides = list;
         }
         return this.nucleotides;
-    },
-
+    }
     /**
-    * Show Monomer Explorer as a dialog (internal use)
-    * @function showDlg
-    */
-    showDlg: function (jsd) {
-        this.createDlg(jsd);
-        this.dlg.show2({ owner: jsd, modal: false });
-        jsd.helm.monomerexplorer = this.mex;
-    },
-
+     * Show Monomer Explorer as a dialog (internal use)
+     * @function showDlg
+     */
+    static showDlg(jsd) {
+        const cls = org.helm.webeditor.MonomerExplorer;
+        cls.createDlg(jsd);
+        cls.dlg.show2({ owner: jsd, modal: false });
+        jsd.helm.monomerexplorer = cls.mex;
+    }
     /**
-    * Create Monomer Explorer dialog (internal use)
-    * @function createDlg
-    */
-    createDlg: function (jsd) {
-        if (this.dlg != null)
+     * Create Monomer Explorer dialog (internal use)
+     * @function createDlg
+     */
+    static createDlg(jsd) {
+        const cls = org.helm.webeditor.MonomerExplorer;
+        if (cls.dlg != null)
             return;
-
-        var div = scil.Utils.createElement(null, "div", null, { width: 500 });
-        this.dlg = new scil.Dialog("Monomer Explorer", div);
+        const div = scil.Utils.createElement(null, 'div', null, { width: '500px' });
+        this.dlg = new scil.Dialog('Monomer Explorer', div);
         this.dlg.show2({ owner: jsd, modal: false });
-
         this.mex = new org.helm.webeditor.MonomerExplorer(div, jsd.helm, { height: 350 });
         this.dlg.moveCenter();
     }
+}
+MonomerExplorer.kUseShape = false;
+MonomerExplorer.kNucleotide = 'nucleotide';
+MonomerExplorer.backgroundcolor = 'blue';
+MonomerExplorer.customnucleotides = null;
+MonomerExplorer.filtername = false;
+MonomerExplorer.favorites = new scil.Favorite('monomers', function (name, f, type) {
+    MonomerExplorer.onAddFavorite(name, f, type);
 });
-﻿/*******************************************************************************
-* Copyright (C) 2018, The Pistoia Alliance
-* Created by Scilligence, built on JSDraw.Lite
-* 
-* Permission is hereby granted, free of charge, to any person obtaining
-* a copy of this software and associated documentation files (the
-* "Software"), to deal in the Software without restriction, including
-* without limitation the rights to use, copy, modify, merge, publish,
-* distribute, sublicense, and/or sell copies of the Software, and to
-* permit persons to whom the Software is furnished to do so, subject to the 
-* following conditions:
-* 
-* The above copyright notice and this permission notice shall be
-* included in all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*******************************************************************************/
-
+MonomerExplorer.nucleotides = {
+    A: 'R(A)P',
+    C: 'R(C)P',
+    G: 'R(G)P',
+    T: 'R(T)P',
+    U: 'R(U)P',
+};
+MonomerExplorer._nucleotidesloaded = false;
+org.helm.webeditor.MonomerExplorer = MonomerExplorer;
+//# sourceMappingURL=MonomerExplorer.js.map/*******************************************************************************
+ * Copyright (C) 2018, The Pistoia Alliance
+ * Created by Scilligence, built on JSDraw.Lite
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the
+ * following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *******************************************************************************/
 /**
-* MolViewer class
-* @class org.helm.webeditor.MolViewer
-*/
-org.helm.webeditor.MolViewer = {
-    dlg: null,
-    jsd: null,
-    molscale: 1,
-    delay: 800,
-
+ * MolViewer class
+ * @class org.helm.webeditor.MolViewer
+ */
+export class MolViewer {
+    constructor() {
+        this.dlg = null;
+        this.jsd = null;
+        this.molscale = 1;
+        this.delay = 800;
+    }
     /**
-    * Show structure view popup
-    * @function show
-    */
-    show: function (e, type, m, code, ed, text) {
+     * Show structure view popup
+     * @function show
+     */
+    show(e, type, m, code, ed, text) {
         this.clearTimer();
-        var me = this;
+        const me = this;
         this.tm = setTimeout(function () { me.show2({ x: e.clientX, y: e.clientY }, type, m, code, ed, text); }, this.delay);
-    },
-
+    }
     /**
-    * Clear delay timer
-    * @function clearTimer
-    */
-    clearTimer: function () {
+     * Clear delay timer
+     * @function clearTimer
+     */
+    clearTimer() {
         if (this.tm != null) {
             clearTimeout(this.tm);
             this.tm = null;
         }
-    },
-
+    }
     /**
-    * Inner implementation of display structure dialog (internal use)
-    * @function show2
-    */
-    show2: function (xy, type, m, code, ed, a) {
+     * Inner implementation of display structure dialog (internal use)
+     * @function show2
+     */
+    show2(xy, type, m, code, ed, a) {
         this.tm = null;
         if (m == null && a == null)
             return;
-
         if (ed != null && ed.contextmenu != null && ed.contextmenu.isVisible())
             return;
-
         this.create();
-
         if (this.cur != (type + "." + code) || !this.dlg.isVisible()) {
             this.cur = type + "." + code;
-
             if (m != null && typeof (m) == "string") {
                 var s = m;
                 m = { n: m, m: this.assemblyMol(s) };
             }
-
             var name = "";
             if (m != null) {
                 name = m.n;
@@ -7100,14 +6496,11 @@ org.helm.webeditor.MolViewer = {
                 if (a.bio != null && !scil.Utils.isNullOrEmpty(a.bio.ambiguity))
                     name = a.bio.ambiguity;
             }
-
             var blobtype = "";
             if (a != null && type == org.helm.webeditor.HELM.BLOB && !scil.Utils.isNullOrEmpty(a.bio.blobtype))
                 blobtype = "{" + a.bio.blobtype + "}";
-
             var fields = this.dlg.form.fields;
             this.dlg.show2({ title: "<div style='font-size:80%'>" + name + blobtype + "</div>", modal: false, immediately: true });
-
             var molfile = org.helm.webeditor.monomers.getMolfile(m);
             if (scil.Utils.isNullOrEmpty(molfile)) {
                 fields.jsd.style.display = "none";
@@ -7116,13 +6509,11 @@ org.helm.webeditor.MolViewer = {
                 fields.jsd.style.display = "";
                 fields.jsd.jsd.setXml(molfile);
             }
-
             var s = "";
             if (m != null && m.at != null) {
                 for (var k in m.at)
                     s += "<tr><td>" + k + "=</td><td>&nbsp;" + m.at[k] + "</td></tr>";
             }
-
             if (s == "") {
                 fields.rs.style.display = "none";
             }
@@ -7130,7 +6521,6 @@ org.helm.webeditor.MolViewer = {
                 fields.rs.style.display = "";
                 fields.rs.innerHTML = "<table cellspacing=0 cellpadding=0 style='font-size:80%'>" + s + "</table>";
             }
-
             var s = "";
             if (a != null) {
                 if (!scil.Utils.isNullOrEmpty(a.tag))
@@ -7142,51 +6532,42 @@ org.helm.webeditor.MolViewer = {
             else {
                 fields.notes.style.display = "";
                 fields.notes.innerHTML = s;
-
                 fields.notes.style.borderTop = fields.rs.style.display == "" ? "solid 1px gray" : "";
             }
         }
-
         var scroll = scil.Utils.scrollOffset();
         this.dlg.moveTo(xy.x + scroll.x + 10, xy.y + scroll.y + 10);
-    },
-
+    }
     /**
-    * Assembly molecule (internal use)
-    * @function assemblyMol
-    */
-    assemblyMol: function (s) {
+     * Assembly molecule (internal use)
+     * @function assemblyMol
+     */
+    assemblyMol(s) {
         var p1 = s.indexOf('(');
         var p2 = s.indexOf(")");
         var sugar = s.substr(0, p1);
         var base = s.substr(p1 + 1, p2 - p1 - 1);
         var linker = s.substr(p2 + 1);
-
         var ms = org.helm.webeditor.Monomers.getMonomer(org.helm.webeditor.HELM.SUGAR, org.helm.webeditor.IO.trimBracket(sugar));
         var ml = org.helm.webeditor.Monomers.getMonomer(org.helm.webeditor.HELM.LINKER, org.helm.webeditor.IO.trimBracket(linker));
         var mb = org.helm.webeditor.Monomers.getMonomer(org.helm.webeditor.HELM.BASE, org.helm.webeditor.IO.trimBracket(base));
-
         var m1 = org.helm.webeditor.Interface.createMol(org.helm.webeditor.monomers.getMolfile(ms));
         var m2 = org.helm.webeditor.Interface.createMol(org.helm.webeditor.monomers.getMolfile(ml));
         var m3 = org.helm.webeditor.Interface.createMol(org.helm.webeditor.monomers.getMolfile(mb));
-
         this.mergeMol(m1, "R2", m2, "R1");
         this.mergeMol(m1, "R3", m3, "R1");
-
         return m1.getMolfile();
-    },
-
+    }
     /**
-    * Cap R group (internal use)
-    * @function capRGroup
-    */
-    capRGroup: function (m, r, mon) {
+     * Cap R group (internal use)
+     * @function capRGroup
+     */
+    capRGroup(m, r, mon) {
         var cap = mon == null || mon.at == null ? null : mon.at[r];
         if (cap == "OH")
             cap = "O";
         else if (cap != "H" && cap != "X" && cap != "O")
             return false;
-
         for (var i = 0; i < m.bonds.length; ++i) {
             var b = m.bonds[i];
             if (b.a1.alias == r || b.a2.alias == r) {
@@ -7197,13 +6578,12 @@ org.helm.webeditor.MolViewer = {
             }
         }
         return false;
-    },
-
+    }
     /**
-    * Find R group (internal use)
-    * @function findR
-    */
-    findR: function (m, r1, a1) {
+     * Find R group (internal use)
+     * @function findR
+     */
+    findR(m, r1, a1) {
         for (var i = 0; i < m.bonds.length; ++i) {
             var b = m.bonds[i];
             if (b.a1.alias == r1 && (a1 == null || b.a1._helmgroup == a1))
@@ -7212,127 +6592,114 @@ org.helm.webeditor.MolViewer = {
                 return { b: b, a0: b.a1, a1: b.a2 };
         }
         return null;
-    },
-
+    }
     /**
-    * Merge two molecule (internal use)
-    * @function mergeMol
-    */
-    mergeMol: function (m, r1, src, r2, a1, a2) {
+     * Merge two molecule (internal use)
+     * @function mergeMol
+     */
+    mergeMol(m, r1, src, r2, a1, a2) {
         this.joinMol(m, r1, src, r2, a1, a2);
-
         m.atoms = m.atoms.concat(src.atoms);
         m.bonds = m.bonds.concat(src.bonds);
         return m.getMolfile();
-    },
-
-    joinMol: function (m, r1, src, r2, a1, a2) {
+    }
+    joinMol(m, r1, src, r2, a1, a2) {
         var t = this.findR(m, r1, a1);
         var s = this.findR(src, r2, a2);
-
         if (t != null && s != null) {
             this.extendDistance(t.a0.p, t.a1.p, 1);
             this.extendDistance(s.a0.p, s.a1.p, 1);
-
             // align
             src.offset(t.a1.p.x - s.a0.p.x, t.a1.p.y - s.a0.p.y);
             var deg = t.a1.p.angleAsOrigin(t.a0.p, s.a1.p);
             src.rotate(t.a1.p, -deg);
-
             // merge
             m.atoms.splice(scil.Utils.indexOf(m.atoms, t.a1), 1);
             src.atoms.splice(scil.Utils.indexOf(src.atoms, s.a1), 1);
             src.bonds.splice(scil.Utils.indexOf(src.bonds, s.b), 1);
-
             if (t.b.a1 == t.a1)
                 t.b.a1 = s.a0;
             else
                 t.b.a2 = s.a0;
         }
-    },
-
+    }
     /**
-    * Extend a point (internal use)
-    * @function extendDistance
-    */
-    extendDistance: function (p0, p, s) {
+     * Extend a point (internal use)
+     * @function extendDistance
+     */
+    extendDistance(p0, p, s) {
         var dx = p.x - p0.x;
         var dy = p.y - p0.y;
-
         p.x = p0.x + s * dx;
         p.y = p0.y + s * dy;
-    },
-
+    }
     /**
-    * Create the popup dialog (internal use)
-    * @function create
-    */
-    create: function () {
+     * Create the popup dialog (internal use)
+     * @function create
+     */
+    create() {
         if (this.dlg != null)
             return;
-
         var fields = {
             jsd: { type: "jsdraw", width: 180, height: 130, scale: this.molscale, viewonly: true },
-            rs: { type: "html", viewonly: true, style: { borderTop: "solid 1px gray", width: 180} },
-            notes: { type: "html", viewonly: true, style: { width: 180, color: "gray"} }
+            rs: { type: "html", viewonly: true, style: { borderTop: "solid 1px gray", width: 180 } },
+            notes: { type: "html", viewonly: true, style: { width: 180, color: "gray" } }
         };
         this.dlg = scil.Form.createDlgForm("", fields, null, { hidelabel: true, modal: false, noclose: true });
         this.dlg.hide(true);
-
         this.dlg.dialog.style.backgroundColor = "#fff";
         this.dlg.dialog.titleElement.style.borderBottom = "solid 1px #ddd";
         this.dlg.dialog.titleElement.style.textAlign = "center";
-    },
-
+    }
     /**
-    * Hide the dialog (internal use)
-    * @function hide
-    */
-    hide: function () {
+     * Hide the dialog (internal use)
+     * @function hide
+     */
+    hide() {
         this.clearTimer();
         if (this.dlg != null && this.dlg.isVisible()) {
             this.dlg.hide(true);
         }
     }
-};﻿/*******************************************************************************
-* Copyright (C) 2018, The Pistoia Alliance
-* Created by Scilligence, built on JSDraw.Lite
-* 
-* Permission is hereby granted, free of charge, to any person obtaining
-* a copy of this software and associated documentation files (the
-* "Software"), to deal in the Software without restriction, including
-* without limitation the rights to use, copy, modify, merge, publish,
-* distribute, sublicense, and/or sell copies of the Software, and to
-* permit persons to whom the Software is furnished to do so, subject to the 
-* following conditions:
-* 
-* The above copyright notice and this permission notice shall be
-* included in all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*******************************************************************************/
-
+}
+org.helm.webeditor.MolViewer = new MolViewer();
+//# sourceMappingURL=MolViewer.js.map/*******************************************************************************
+ * Copyright (C) 2018, The Pistoia Alliance
+ * Created by Scilligence, built on JSDraw.Lite
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the
+ * following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *******************************************************************************/
 /**
-* Formula class
-* @class scil.helm.Formula
-*/
-scil.helm.Formula = {
+ * Formula class
+ * @class scil.helm.Formula
+ */
+export class Formula {
     /**
-    * Calculate the MF of a molecule (internal use)
-    * @function getMF
-    */
-    getMF: function (m, html) {
-        var stats = this.getAtomStats(m);
+     * Calculate the MF of a molecule (internal use)
+     * @function getMF
+     */
+    getMF(m, html) {
+        const stats = this.getAtomStats(m);
         if (stats == null)
             return null;
-
-        var s = "";
+        let s = "";
         if (stats["C"] != null)
             s += "C" + this.subscription(stats["C"], html);
         if (stats["H"] != null)
@@ -7341,71 +6708,63 @@ scil.helm.Formula = {
             s += "N" + this.subscription(stats["N"], html);
         if (stats["O"] != null)
             s += "O" + this.subscription(stats["O"], html);
-
-        for (var e in stats) {
+        for (const e in stats) {
             if (e != "R" && e != "C" && e != "H" && e != "O" && e != "N")
                 s += e + this.subscription(stats[e], html);
         }
         return s;
-    },
-
+    }
     /**
-    * Create subscription (internal use)
-    * @function 
-    */
-    subscription: function (n, html) {
+     * Create subscription (internal use)
+     * @function
+     */
+    subscription(n, html) {
         if (n == 1)
             return "";
-        return html ? "<sub>" + n + "</sub>" : n;
-    },
-
+        return html ? "<sub>" + n + "</sub>" : `${n}`;
+    }
     /**
-    * Calculate the MW of a molecule (internal use)
-    * @function getMW
-    */
-    getMW: function (m) {
-        var stats = this.getAtomStats(m);
+     * Calculate the MW of a molecule (internal use)
+     * @function getMW
+     */
+    getMW(m) {
+        const stats = this.getAtomStats(m);
         if (stats == null)
             return null;
-
-        var sum = 0;
-        for (var e in stats) {
+        let sum = 0;
+        for (const e in stats) {
             if (e != "R")
                 sum += stats[e] * scil.helm.Interface.getElementMass(e);
         }
         return Math.round(sum * 10000) / 10000.0;
-    },
-
+    }
     /**
-    * Calculate atom counts (internal use)
-    * @function getAtomStats
-    */
-    getAtomStats: function (m) {
-        var stats = {};
+     * Calculate atom counts (internal use)
+     * @function getAtomStats
+     */
+    getAtomStats(m) {
+        const stats = {};
         this.getAtomStats2(m, stats);
         return stats;
-    },
-
-    getAtomStats2: function (m, stats) {
-        var brackets = [];
-        for (var i = 0; i < m.graphics.length; ++i) {
-            var br = JSDraw2.Bracket.cast(m.graphics[i]);
+    }
+    getAtomStats2(m, stats) {
+        const brackets = [];
+        for (let i = 0; i < m.graphics.length; ++i) {
+            const br = JSDraw2.Bracket.cast(m.graphics[i]);
             if (br != null && br.atoms != null && br.atoms.length > 0) {
-                var n = br.getSubscript(m);
+                const n = br.getSubscript(m);
                 if (!(n > 0))
                     return null;
                 if (n > 1)
                     brackets.push({ br: br, n: n });
             }
         }
-
-        var atoms = [];
-        var list = [];
-        for (var i = 0; i < m.atoms.length; ++i) {
-            var a = m.atoms[i];
+        const atoms = [];
+        const list = [];
+        for (let i = 0; i < m.atoms.length; ++i) {
+            const a = m.atoms[i];
             if (a.elem == "?")
                 return null;
-
             if (scil.helm.isHelmNode(a)) {
                 if (a.biotype() == scil.helm.HELM.BLOB && a.superatom != null) {
                     //group
@@ -7413,9 +6772,9 @@ scil.helm.Formula = {
                 }
                 else {
                     list.push(a);
-                    var n = this.getRepeat(brackets, a);
+                    const n = this.getRepeat(brackets, a);
                     if (n > 0) {
-                        for (var k = 1; k < n; ++k)
+                        for (let k = 1; k < n; ++k)
                             list.push(a);
                     }
                 }
@@ -7424,57 +6783,47 @@ scil.helm.Formula = {
                 atoms.push(a);
             }
         }
-
         // chemistry
-        var ret = atoms.length == null ? null : scil.helm.Interface.getAtomStats(m, atoms);
+        const ret = atoms.length == null ? null : scil.helm.Interface.getAtomStats(m, atoms);
         JSDraw2.FormulaParser.mergeStats(stats, ret);
-
         if (list.length == 0)
             return stats;
-
-        for (var i = 0; i < list.length; ++i)
-            this.countMonomer(stats, scil.helm.Monomers.getMonomer(list[i]));
-
-        for (var i = 0; i < m.bonds.length; ++i) {
-            var b = m.bonds[i];
+        for (let i = 0; i < list.length; ++i)
+            this.countMonomer(stats, org.helm.webeditor.Monomers.getMonomer(list[i]));
+        for (let i = 0; i < m.bonds.length; ++i) {
+            const b = m.bonds[i];
             if (scil.helm.isHelmNode(b.a1))
-                this.deductR(stats, scil.helm.Monomers.getMonomer(b.a1), b.r1);
+                this.deductR(stats, org.helm.webeditor.Monomers.getMonomer(b.a1), b.r1);
             if (scil.helm.isHelmNode(b.a2))
-                this.deductR(stats, scil.helm.Monomers.getMonomer(b.a2), b.r2);
+                this.deductR(stats, org.helm.webeditor.Monomers.getMonomer(b.a2), b.r2);
         }
-
         return stats;
-    },
-
-    getRepeat: function (brackets, a) {
-        for (var i = 0; i < brackets.length; ++i) {
-            var b = brackets[i];
+    }
+    getRepeat(brackets, a) {
+        for (let i = 0; i < brackets.length; ++i) {
+            const b = brackets[i];
             if (scil.Utils.indexOf(b.br.atoms, a) >= 0)
                 return b.n;
         }
-
         return 1;
-    },
-
+    }
     /**
-    * Count monomers (internal use)
-    * @function countMonomer
-    */
-    countMonomer: function (ret, m) {
+     * Count monomers (internal use)
+     * @function countMonomer
+     */
+    countMonomer(ret, m) {
         if (m == null)
             return;
-
         if (m.stats == null) {
-            m.stats = scil.helm.Interface.molStats(scil.helm.monomers.getMolfile(m));
-            for (var r in m.at) {
-                var s = m.at[r];
+            m.stats = scil.helm.Interface.molStats(org.helm.webeditor.monomers.getMolfile(m));
+            for (const r in m.at) {
+                const s = m.at[r];
                 if (s == "H" || s == "OH") {
                     if (m.stats["H"] == null)
                         m.stats["H"] = 1;
                     else
                         ++m.stats["H"];
                 }
-
                 if (s == "OH") {
                     if (m.stats["O"] == null)
                         m.stats["O"] = 1;
@@ -7483,24 +6832,21 @@ scil.helm.Formula = {
                 }
             }
         }
-
-        for (var e in m.stats) {
+        for (let e in m.stats) {
             if (ret[e] == null)
                 ret[e] = m.stats[e];
             else
                 ret[e] += m.stats[e];
         }
-    },
-
+    }
     /**
-    * Deduct R group (internal use)
-    * @function deductR
-    */
-    deductR: function (ret, m, r) {
+     * Deduct R group (internal use)
+     * @function deductR
+     */
+    deductR(ret, m, r) {
         if (m == null || m.at == null)
             return;
-
-        var s = m.at["R" + r];
+        const s = m.at["R" + r];
         if (s == "H") {
             --ret["H"];
         }
@@ -7509,7 +6855,9 @@ scil.helm.Formula = {
             --ret["O"];
         }
     }
-};﻿/*******************************************************************************
+}
+scil.helm.Formula = new Formula();
+//# sourceMappingURL=Formula.js.map﻿/*******************************************************************************
 * Copyright (C) 2018, The Pistoia Alliance
 * Created by Scilligence, built on JSDraw.Lite
 * 
@@ -7673,104 +7021,79 @@ org.helm.webeditor.ExtinctionCoefficient = {
             result += this.rna[k] * counts[k];
         return result;
     } 
-};﻿/*******************************************************************************
-* Copyright (C) 2018, The Pistoia Alliance
-* Created by Scilligence, built on JSDraw.Lite
-* 
-* Permission is hereby granted, free of charge, to any person obtaining
-* a copy of this software and associated documentation files (the
-* "Software"), to deal in the Software without restriction, including
-* without limitation the rights to use, copy, modify, merge, publish,
-* distribute, sublicense, and/or sell copies of the Software, and to
-* permit persons to whom the Software is furnished to do so, subject to the 
-* following conditions:
-* 
-* The above copyright notice and this permission notice shall be
-* included in all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*******************************************************************************/
-
+};/*******************************************************************************
+ * Copyright (C) 2018, The Pistoia Alliance
+ * Created by Scilligence, built on JSDraw.Lite
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the
+ * following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *******************************************************************************/
 /**
-* HELM Editor App class
-* @class org.helm.webeditor.App
-*/
-org.helm.webeditor.App = scil.extend(scil._base, {
+ * HELM Editor App class
+ * @class org.helm.webeditor.App
+ */
+export class App {
     /**
-    @property {MonomerExplorer} mex - Monomer Explorer
-    **/
-    /**
-    @property {JSDraw2.Editor} canvas - Drawing Canvas
-    **/
-    /**
-    @property {DIV} notation - HELM Notation
-    **/
-    /**
-    @property {DIV} sequence - Biological Sequence
-    **/
-    /**
-    @property {scil.Form} properties - HELM Property Table
-    **/
-    /**
-    @property {JSDraw2.Editor} structureview - Structure Viewer
-    **/
-
-    /**
-    * @constructor App
-    * @param {DOM} parent - The parent element to host the Editor App
-    * @param {dict} options - options on how to render the App
-    * <pre>
-    * mexfontsize: {string} Monomer Explorer font size, e.g. "90%"
-    * mexrnapinontab: {bool} show RNA pin icon on its tab on Monomer Explorer
-    * mexmonomerstab: {bool} show Monomers tab on Monomer Explorer
-    * mexfavoritefirst: {bool} display favorite items first on Monomer Explorer
-    * mexfilter: {bool} display Filter box on Monomer Explorer
-    * sequenceviewonly: {bool} show Sequence View in viewonly mode
-    * showabout: {bool} show about button
-    * topmargin: {number} top margin
-    * calculatorurl: {string} ajax web service url to calculate properties
-    * cleanupurl: {string} ajax web service url to clean up structures
-    * monomersurl: {string} ajax web service url to load all monomers
-    * rulesurl: {string} ajax web service url to load all rules
-    *
-    * <b>Example:</b>
-    *    &lt;div id="div1" style="margin: 5px; margin-top: 15px"&gt;&lt;/div&gt;
-    *    &lt;script type="text/javascript"&gt;
-    *     scil.ready(function () {
-    *         var app = new scil.helm.App("div1", { showabout: false, mexfontsize: "90%", mexrnapinontab: true, 
-    *             topmargin: 20, mexmonomerstab: true, sequenceviewonly: false, mexfavoritefirst: true, mexfilter: true });
-    *     });
-    *    &lt;/script&gt;
-    * </pre>
-    **/
-    constructor: function (parent, options) {
+     * @constructor App
+     * @param {DOM} parent - The parent element to host the Editor App
+     * @param {dict} options - options on how to render the App
+     * <pre>
+     * mexfontsize: {string} Monomer Explorer font size, e.g. "90%"
+     * mexrnapinontab: {bool} show RNA pin icon on its tab on Monomer Explorer
+     * mexmonomerstab: {bool} show Monomers tab on Monomer Explorer
+     * mexfavoritefirst: {bool} display favorite items first on Monomer Explorer
+     * mexfilter: {bool} display Filter box on Monomer Explorer
+     * sequenceviewonly: {bool} show Sequence View in viewonly mode
+     * showabout: {bool} show about button
+     * topmargin: {number} top margin
+     * calculatorurl: {string} ajax web service url to calculate properties
+     * cleanupurl: {string} ajax web service url to clean up structures
+     * monomersurl: {string} ajax web service url to load all monomers
+     * rulesurl: {string} ajax web service url to load all rules
+     *
+     * <b>Example:</b>
+     *    &lt;div id="div1" style="margin: 5px; margin-top: 15px"&gt;&lt;/div&gt;
+     *    &lt;script type="text/javascript"&gt;
+     *     scil.ready(function () {
+     *         var app = new scil.helm.App("div1", { showabout: false, mexfontsize: "90%", mexrnapinontab: true,
+     *             topmargin: 20, mexmonomerstab: true, sequenceviewonly: false, mexfavoritefirst: true, mexfilter: true });
+     *     });
+     *    &lt;/script&gt;
+     * </pre>
+     **/
+    constructor(parent, options = {}) {
+        this.T = "APP";
         this.toolbarheight = 30;
-
-        if (typeof (parent) == "string")
-            parent = scil.byId(parent);
+        const parentEl = typeof (parent) == "string" ? scil.byId(parent) : parent;
         this.mex = null;
         this.canvas = null;
         this.sequence = null;
         this.notation = null;
         this.properties = null;
         this.structureview = null;
-
         this.options = options == null ? {} : options;
-
         if (options.ambiguity != null)
             org.helm.webeditor.ambiguity = options.ambiguity;
         if (!scil.Utils.isNullOrEmpty(this.options.jsdrawservice))
             JSDrawServices = { url: this.options.jsdrawservice };
-
         if (this.options.monomercleanupurl != null && org.helm.webeditor.Monomers.cleanupurl == null)
             org.helm.webeditor.Monomers.cleanupurl = this.options.monomercleanupurl;
-
         if (this.options.rulesurl != null) {
             scil.Utils.ajax(this.options.rulesurl, function (ret) {
                 if (ret.rules != null)
@@ -7778,96 +7101,87 @@ org.helm.webeditor.App = scil.extend(scil._base, {
                 org.helm.webeditor.RuleSet.loadDB(ret);
             });
         }
-
         if (this.options.monomersurl != null) {
-            var me = this;
+            const me = this;
             scil.Utils.ajax(this.options.monomersurl, function (ret) {
                 if (ret.monomers != null)
                     ret = ret.monomers;
                 org.helm.webeditor.Monomers.loadDB(ret, me.options.monomerfun);
-                me.init(parent);
+                me.init(parentEl);
             });
         }
         else {
-            this.init(parent);
+            this.init(parentEl);
         }
-    },
-
+    }
+    ;
     /**
-    * Calculate layout sizes (internal use)
-    * @function calculateSizes
-    */
-    calculateSizes: function () {
-        var d = dojo.window.getBox();
+     * Calculate layout sizes (internal use)
+     * @function calculateSizes
+     */
+    calculateSizes() {
+        const d = dojo.window.getBox();
         if (this.options.topmargin > 0)
             d.h -= this.options.topmargin;
-
-        var leftwidth = 0;
+        let leftwidth = 0;
         if (this.page != null && this.page.explorer != null && this.page.explorer.left != null)
             leftwidth = this.page.explorer.left.offsetWidth;
         if (!(leftwidth > 0))
             leftwidth = 300;
-
-        var ret = { height: 0, topheight: 0, bottomheight: 0, leftwidth: 0, rightwidth: 0 };
+        const ret = { height: 0, topheight: 0, bottomheight: 0, leftwidth: 0, rightwidth: 0 };
         ret.height = d.h - 90 - (this.options.mexfilter != false ? 30 : 0) - (this.options.mexfind ? 60 : 0);
         ret.leftwidth = leftwidth;
         ret.rightwidth = d.w - leftwidth - 25;
         ret.topheight = d.h * 0.7;
         ret.bottomheight = d.h - ret.topheight - 130;
-
         return ret;
-    },
-
+    }
     /**
-    * Intialize the App (internal use)
-    * @function init
-    */
-    init: function (parent) {
-        var me = this;
-        var sizes = this.calculateSizes();
-
-        var tree = {
+     * Intialize the App (internal use)
+     * @function init
+     */
+    init(parent) {
+        const me = this;
+        const sizes = this.calculateSizes();
+        const tree = {
             caption: this.options.topmargin > 0 ? null : "Palette",
             marginBottom: "2px",
             marginTop: this.options.topmargin > 0 ? "17px" : null,
             onresizetree: function (width) { me.resizeWindow(); },
-            onrender: function (div) { me.treediv = div; me.createPalette(div, sizes.leftwidth - 10, sizes.height); }
+            onrender: function (div) {
+                me.treediv = div;
+                me.createPalette(div, sizes.leftwidth - 10, sizes.height);
+            }
         };
         this.page = new scil.Page(parent, tree, { resizable: true, leftwidth: sizes.leftwidth });
         scil.Utils.unselectable(this.page.explorer.left);
-
-        var control = this.page.addDiv();
-        var sel = scil.Utils.createSelect(control, ["Detailed Sequence", "Sequence"], "Detailed Sequence", null, { border: "none" });
+        const control = this.page.addDiv();
+        const sel = scil.Utils.createSelect(control, ["Detailed Sequence", "Sequence"], "Detailed Sequence", null, { border: "none" });
         scil.connect(sel, "onchange", function () { me.swapCanvasSequence(); });
-
         this.canvasform = this.page.addForm({
             //caption: "Canvas",
             type: "custom",
             marginBottom: "2px",
             oncreate: function (div) { me.createCanvas(div, sizes.rightwidth, sizes.topheight); }
         });
-
         this.handle = this.page.addResizeHandle(function (delta) { return me.onresize(delta); }, 8);
-
         this.sequencebuttons = [
             { label: "Format", type: "select", items: ["", "RNA", "Peptide"], key: "format" },
             { src: scil.Utils.imgSrc("img/moveup.gif"), label: "Apply", title: "Apply Sequence", onclick: function () { me.updateCanvas("sequence", false); } },
             { src: scil.Utils.imgSrc("img/add.gif"), label: "Append", title: "Append Sequence", onclick: function () { me.updateCanvas("sequence", true); } }
         ];
-
         this.tabs = this.page.addTabs({ marginBottom: "2px", onShowTab: function () { me.updateProperties(); } });
         this.tabs.addForm({
             caption: "Sequence",
             type: "custom",
-            tabkey: "sequence",
+            tabkey: "sequence" /* HelmTabKeys.Sequence */,
             buttons: this.options.sequenceviewonly ? null : this.sequencebuttons,
             oncreate: function (div) { me.createSequence(div, sizes.rightwidth, sizes.bottomheight); }
         });
-
         this.tabs.addForm({
             caption: "HELM",
             type: "custom",
-            tabkey: "notation",
+            tabkey: "notation" /* HelmTabKeys.Helm */,
             buttons: this.options.sequenceviewonly ? null : [
                 { src: scil.Utils.imgSrc("img/moveup.gif"), label: "Apply", title: "Apply HELM Notation", onclick: function () { me.updateCanvas("notation", false); } },
                 { src: scil.Utils.imgSrc("img/add.gif"), label: "Append", title: "Append HELM Notation", onclick: function () { me.updateCanvas("notation", true); } },
@@ -7875,75 +7189,66 @@ org.helm.webeditor.App = scil.extend(scil._base, {
             ],
             oncreate: function (div) { me.createNotation(div, sizes.rightwidth, sizes.bottomheight); }
         });
-
         this.tabs.addForm({
             caption: "Properties",
             type: "custom",
-            tabkey: "properties",
+            tabkey: "properties" /* HelmTabKeys.Properties */,
             oncreate: function (div) { me.createProperties(div, sizes.rightwidth, sizes.bottomheight); }
         });
-
         this.tabs.addForm({
             caption: "Structure View",
             type: "custom",
-            tabkey: "structureview",
+            tabkey: "structureview" /* HelmTabKeys.StructureView */,
             oncreate: function (div) { me.createStructureView(div, sizes.rightwidth, sizes.bottomheight); }
         });
-
-        scil.connect(window, "onresize", function (e) { me.resizeWindow(); });
-    },
-
-    validateHelm: function () {
+        if (this.options.currentTabKey)
+            this.tabs.tabs.showTab(this.options.currentTabKey);
+        scil.connect(window, "onresize", function (_e) { me.resizeWindow(); });
+    }
+    validateHelm() {
         if (this.options.onValidateHelm != null) {
             this.options.onValidateHelm(this);
             return;
         }
-
-        var url = this.options.validateurl;
+        const url = this.options.validateurl;
         if (scil.Utils.isNullOrEmpty(url)) {
             scil.Utils.alert("The validation url is not configured yet");
             return;
         }
-
         this.setNotationBackgroundColor("white");
-        var helm = scil.Utils.getInnerText(this.notation);
+        const helm = scil.Utils.getInnerText(this.notation);
         if (scil.Utils.isNullOrEmpty(helm))
             return;
-
-        var me = this;
+        const me = this;
         scil.Utils.ajax(url, function (ret) {
             me.setNotationBackgroundColor(ret.valid ? "#9fc" : "#fcf");
         }, { helm: helm });
-    },
-
+    }
     /**
-    * Resize Window (internal use)
-    * @function resizeWindow
-    */
-    resizeWindow: function () {
-        var sizes = this.calculateSizes();
+     * Resize Window (internal use)
+     * @function resizeWindow
+     */
+    resizeWindow() {
+        if (!this.canvas || !this.properties || !this.structureview || !this.mex || !this.notation)
+            throw new Error('Initialization is incomplete');
+        const sizes = this.calculateSizes();
         this.canvas.resize(sizes.rightwidth, sizes.topheight - 70);
-
-        var s = { width: sizes.rightwidth + "px", height: sizes.bottomheight + "px" };
+        let s = { width: sizes.rightwidth + "px", height: sizes.bottomheight + "px" };
         scil.apply(this.sequence.style, s);
         scil.apply(this.notation.style, s);
-
         s = { width: sizes.rightwidth + "px", height: (sizes.bottomheight + this.toolbarheight) + "px" };
         scil.apply(this.properties.parent.style, s);
-
         this.structureview.resize(sizes.rightwidth, sizes.bottomheight + this.toolbarheight);
-
         this.mex.resize(sizes.height);
-    },
-
+    }
     /**
-    * Swap canvas and sequence view (internal use)
-    * @function swapCanvasSequence
-    */
-    swapCanvasSequence: function () {
-        var a = this.canvasform.form.dom;
-        var h = this.handle;
-        var b = this.tabs.tabs.dom;
+     * Swap canvas and sequence view (internal use)
+     * @function swapCanvasSequence
+     */
+    swapCanvasSequence() {
+        const a = this.canvasform.form.dom;
+        const h = this.handle;
+        const b = this.tabs.tabs.dom;
         if (h.nextSibling == b) {
             a.parentNode.insertBefore(b, a);
             a.parentNode.insertBefore(h, a);
@@ -7952,16 +7257,17 @@ org.helm.webeditor.App = scil.extend(scil._base, {
             a.parentNode.insertBefore(b, a.nextSibling);
             a.parentNode.insertBefore(h, a.nextSibling);
         }
-    },
-
+    }
     /**
-    * Event handler when change window size (internal use)
-    * @function onresize
-    */
-    onresize: function (delta) {
+     * Event handler when change window size (internal use)
+     * @function onresize
+     */
+    onresize(delta) {
+        if (!this.canvas || !this.properties || !this.structureview || !this.mex || !this.notation)
+            throw new Error('Initialization is incomplete');
         if (this.handle.nextSibling == this.tabs.tabs.dom) {
-            var top = this.canvas.dimension.y;
-            var bottom = scil.Utils.parsePixel(this.sequence.style.height);
+            const top = this.canvas.dimension.y;
+            const bottom = scil.Utils.parsePixel(this.sequence.style.height);
             if (top + delta > 80 && bottom - delta > 20) {
                 this.canvas.resize(0, top + delta);
                 this.sequence.style.height = (bottom - delta) + "px";
@@ -7972,8 +7278,8 @@ org.helm.webeditor.App = scil.extend(scil._base, {
             }
         }
         else {
-            var top = scil.Utils.parsePixel(this.sequence.style.height);
-            var bottom = this.canvas.dimension.y;
+            const top = scil.Utils.parsePixel(this.sequence.style.height);
+            const bottom = this.canvas.dimension.y;
             if (top + delta > 20 && bottom - delta > 80) {
                 this.sequence.style.height = (top + delta) + "px";
                 this.notation.style.height = (top + delta) + "px";
@@ -7984,154 +7290,137 @@ org.helm.webeditor.App = scil.extend(scil._base, {
             }
         }
         return false;
-    },
-
+    }
     /**
-    * create monomer explorer (internal use)
-    * @function createPalette
-    */
-    createPalette: function (div, width, height) {
-        var opt = scil.clone(this.options);
+     * create monomer explorer (internal use)
+     * @function createPalette
+     */
+    createPalette(div, width, height) {
+        const opt = scil.clone(this.options);
         opt.width = width;
         opt.height = height;
         this.mex = new org.helm.webeditor.MonomerExplorer(div, null, opt);
-    },
-
+    }
     /**
-    * create drawing canvas (internal use)
-    * @function createCanvas
-    */
-    createCanvas: function (div, width, height) {
+     * create drawing canvas (internal use)
+     * @function createCanvas
+     */
+    createCanvas(div, width, height) {
         div.style.border = "solid 1px #eee";
-
-        var me = this;
-        var args = {
-            skin: "w8", showabout: this.options.showabout, showtoolbar: this.options.canvastoolbar != false, toolbarmode: "helm", showmonomerexplorer: true,
+        const me = this;
+        const args = {
+            skin: "w8", showabout: this.options.showabout, showtoolbar: this.options.canvastoolbar != false, helmtoolbar: true, showmonomerexplorer: true,
             inktools: false, width: width, height: height, ondatachange: function () { me.updateProperties(); },
             onselectionchanged: function () { me.onselectionchanged(); },
             onselectcurrent: function (e, obj, ed) { me.onselectcurrent(e, obj, ed); },
-            onvalidatetext: function (s, editor) { return me.onvalidatetext(s, editor); }
+            onvalidatetext: function (s, editor) { return me.onvalidatetext(s, editor); },
+            ondatachange: function (args) { me.updateProperties(); },
         };
-
         this.canvas = org.helm.webeditor.Interface.createCanvas(div, args);
         this.canvas.helm.monomerexplorer = this.mex;
-        this.mex.plugin = this.canvas.helm;
-
+        this.mex.plugin = this.canvas.helm; // TODO: ?
         this.canvas._testdeactivation = function (e, ed) {
-            var src = e.target || e.srcElement;
+            const src = e.target || e.srcElement;
             return scil.Utils.hasAnsestor(src, me.canvas.helm.monomerexplorer.div);
         };
-    },
-
-    onvalidatetext: function (s, editor) {
+    }
+    onvalidatetext(s, editor) {
         if (scil.Utils.isNullOrEmpty(s))
             return;
-
-        var t = editor.text;
+        const t = editor.text;
         if (t != null && t.fieldtype == "BRACKET_TYPE" && t.anchors.length == 1 && JSDraw2.Bracket.cast(t.anchors[0]) != null) {
             if (!/^[*]|([0-9]+([-][0-9]+)?)$/.test(s)) {
                 scil.Utils.alert("Invalid subscript");
                 return false;
             }
         }
-    },
-
+    }
     /**
-    * Event handler when selecting an object (internal use)
-    * @function onselectcurrent
-    */
-    onselectcurrent: function (e, obj, ed) {
-        var a = JSDraw2.Atom.cast(obj);
+     * Event handler when selecting an object (internal use)
+     * @function onselectcurrent
+     */
+    onselectcurrent(e, obj, ed) {
+        const a = JSDraw2.Atom.cast(obj);
         if (a == null || ed.start != null || ed.contextmenu != null && ed.contextmenu.isVisible()) {
             org.helm.webeditor.MolViewer.hide();
             return;
         }
-        var type = a == null ? null : a.biotype();
-        var set = org.helm.webeditor.Monomers.getMonomerSet(type);
-        var s = a == null ? null : a.elem;
-        var m = set == null ? null : set[scil.helm.symbolCase(s)];
+        const type = a == null ? null : a.biotype();
+        const set = org.helm.webeditor.Monomers.getMonomerSet(type);
+        const s = a == null ? null : a.elem;
+        const m = set == null ? null : set[scil.helm.symbolCase(s)];
         if (m != null && m.m == "" && a != null && a.superatom != null)
             m.m = a.superatom.getXml();
-
         org.helm.webeditor.MolViewer.show(e, type, m, s, ed, a);
-    },
-
+    }
     /**
-    * Create sequence view (internal use)
-    * @function createSequence
-    */
-    createSequence: function (div, width, height) {
-        var atts = {};
+     * Create sequence view (internal use)
+     * @function createSequence
+     */
+    createSequence(div, width, height) {
+        const atts = {};
         if (!this.options.sequenceviewonly) {
             atts.contenteditable = "true";
             atts.spellcheck = "false";
         }
-        this.sequence = scil.Utils.createElement(div, "div", null, { width: width, height: height, overfloatY: "scroll", wordBreak: "break-all" }, atts);
-    },
-
+        this.sequence = scil.Utils.createElement(div, "div", null, { width: width, height: height, overflowY: "scroll", wordBreak: "break-all" }, atts);
+    }
     /**
-    * create notation view (internal use)
-    * @function createNotation
-    */
-    createNotation: function (div, width, height) {
-        var atts = {};
+     * create notation view (internal use)
+     * @function createNotation
+     */
+    createNotation(div, width, height) {
+        const atts = {};
         if (!this.options.sequenceviewonly) {
             atts.contenteditable = "true";
             atts.spellcheck = "false";
         }
-        this.notation = scil.Utils.createElement(div, "div", null, { width: width, height: height, overfloatY: "scroll", wordBreak: "break-all" }, atts);
-    },
-
+        this.notation = scil.Utils.createElement(div, "div", null, { width: width, height: height, overflowY: "scroll", wordBreak: "break-all" }, atts);
+    }
     /**
-    * Create property window (internal use)
-    * @function createProperties
-    */
-    createProperties: function (div, width, height) {
-        var d = scil.Utils.createElement(div, "div", null, { width: width, overflow: "scroll", height: height + this.toolbarheight });
-
-        var fields = {
+     * Create property window (internal use)
+     * @function createProperties
+     */
+    createProperties(div, width, height) {
+        const d = scil.Utils.createElement(div, "div", null, { width: width, overflow: "scroll", height: height + this.toolbarheight });
+        const fields = {
             mw: { label: "Molecular Weight" },
             mf: { label: "Molecular Formula" },
             ec: { label: "Extinction Coefficient" }
         };
         this.properties = new scil.Form({ viewonly: true });
         this.properties.render(d, fields, { immediately: true });
-    },
-
+    }
     /**
-    * Create structure view (internal use)
-    * @function createStructureView
-    */
-    createStructureView: function (div, width, height) {
-        var d = scil.Utils.createElement(div, "div", null, { width: width, height: height + this.toolbarheight });
-        this.structureview = new JSDraw2.Editor(d, { viewonly: true })
-    },
-
+     * Create structure view (internal use)
+     * @function createStructureView
+     */
+    createStructureView(div, width, height) {
+        const d = scil.Utils.createElement(div, "div", null, { width: width, height: height + this.toolbarheight });
+        this.structureview = new JSDraw2.Editor(d, { viewonly: true });
+    }
     /**
-    * Resize Window (internal use)
-    * @function resize
-    */
-    resize: function () {
-        var d = dojo.window.getBox();
-        var width = d.w;
-        var height = d.h;
-        var left = d.l;
-        var top = d.t;
-    },
-
+     * Resize Window (internal use)
+     * @function resize
+     */
+    resize() {
+        const d = dojo.window.getBox();
+        const width = d.w;
+        const height = d.h;
+        const left = d.l;
+        const top = d.t;
+    }
     /**
-    * Update Canvas from sequence/notation view (internal use)
-    * @function updateCanvas
-    */
-    updateCanvas: function (key, append) {
-        var format = null;
-
-        var plugin = this.canvas.helm;
-        var s = null;
+     * Update Canvas from sequence/notation view (internal use)
+     * @function updateCanvas
+     */
+    updateCanvas(key, append) {
+        let format = null;
+        const plugin = this.canvas.helm;
+        let s = null;
         if (key == "sequence") {
             if (this.sequencebuttons != null)
                 format = this.getValueByKey(this.sequencebuttons, "format");
-
             s = scil.Utils.trim(scil.Utils.getInnerText(this.sequence));
             if (/^((RNA)|(PEPTIDE)|(CHEM)|(BLOB))[0-9]+/.test(s)) {
                 format = "HELM";
@@ -8147,25 +7436,23 @@ org.helm.webeditor.App = scil.extend(scil._base, {
             s = scil.Utils.getInnerText(this.notation);
         }
         plugin.setSequence(s, format, plugin.getDefaultNodeType(org.helm.webeditor.HELM.SUGAR), plugin.getDefaultNodeType(org.helm.webeditor.HELM.LINKER), append);
-    },
-
+    }
     /**
-    * Tool function to get item by using its key (internal use)
-    * @function getValueByKey
-    */
-    getValueByKey: function (list, key) {
-        for (var i = 0; i < list.length; ++i) {
+     * Tool function to get item by using its key (internal use)
+     * @function getValueByKey
+     */
+    getValueByKey(list, key) {
+        for (let i = 0; i < list.length; ++i) {
             if (list[i].key == key)
                 return list[i].b.value;
         }
         return null;
-    },
-
+    }
     /**
-    * update helm properties (internal use)
-    * @function updateProperties
-    */
-    updateProperties: function () {
+     * update helm properties (internal use)
+     * @function updateProperties
+     */
+    updateProperties() {
         switch (this.tabs.tabs.currentTabKey()) {
             case "sequence":
                 if (this.sequence != null)
@@ -8173,8 +7460,8 @@ org.helm.webeditor.App = scil.extend(scil._base, {
                 break;
             case "notation":
                 if (this.notation != null) {
-                    var helm = scil.Utils.getInnerText(this.notation);
-                    var s = this.canvas.getHelm(true);
+                    const helm = scil.Utils.getInnerText(this.notation);
+                    const s = this.canvas.getHelm(true);
                     if (helm != s) {
                         this.notation.innerHTML = s;
                         this.setNotationBackgroundColor("white");
@@ -8188,18 +7475,16 @@ org.helm.webeditor.App = scil.extend(scil._base, {
                 this.updateStructureView();
                 break;
         }
-    },
-
-    setNotationBackgroundColor: function (c) {
+    }
+    setNotationBackgroundColor(c) {
         if (this.notation != null)
-            this.notation.parentNode.parentNode.style.background = c;
-    },
-
+            this.notation.parentElement.parentElement.style.background = c;
+    }
     /**
-    * Event handler when selection is changed (internal use)
-    * @function onselectionchanged
-    */
-    onselectionchanged: function () {
+     * Event handler when selection is changed (internal use)
+     * @function onselectionchanged
+     */
+    onselectionchanged() {
         switch (this.tabs.tabs.currentTabKey()) {
             case "sequence":
                 if (this.sequence != null) {
@@ -8214,21 +7499,19 @@ org.helm.webeditor.App = scil.extend(scil._base, {
                 this.updateStructureView();
                 break;
         }
-    },
-
+    }
     /**
-    * Calaulte helm structure properties (internal use)
-    * @function calculateProperties
-    */
-    calculateProperties: function () {
+     * Calaulte helm structure properties (internal use)
+     * @function calculateProperties
+     */
+    calculateProperties() {
         if (this.properties == null)
             return;
-
-        var data = {};
+        const data = {};
         this.properties.setData(data);
         if (this.options.calculatorurl != null) {
-            var me = this;
-            var helm = this.canvas.getHelm();
+            const me = this;
+            const helm = this.canvas.getHelm();
             if (helm != null) {
                 scil.Utils.ajax(this.options.calculatorurl, function (ret) {
                     me.properties.setData(ret);
@@ -8241,66 +7524,57 @@ org.helm.webeditor.App = scil.extend(scil._base, {
             data.ec = Math.round(this.canvas.getExtinctionCoefficient(true) * 100) / 100;
             this.properties.setData(data);
         }
-    },
-
+    }
     /**
-    * Get selection as a molfile (internal use)
-    * @function getSelectedAsMol
-    */
-    getSelectedAsMol: function (m) {
-        var ret = new JSDraw2.Mol();
-        for (var i = 0; i < m.atoms.length; ++i) {
+     * Get selection as a molfile (internal use)
+     * @function getSelectedAsMol
+     */
+    getSelectedAsMol(m) {
+        const ret = new JSDraw2.Mol();
+        for (let i = 0; i < m.atoms.length; ++i) {
             if (m.atoms[i].selected)
                 ret.atoms.push(m.atoms[i]);
         }
-
-        var atoms = ret.atoms;
-        for (var i = 0; i < m.bonds.length; ++i) {
-            var b = m.bonds[i];
+        const atoms = ret.atoms;
+        for (let i = 0; i < m.bonds.length; ++i) {
+            const b = m.bonds[i];
             if (b.selected && b.a1.selected && b.a2.selected)
                 ret.bonds.push(b);
         }
-
         return ret;
-    },
-
+    }
     /**
-    * Tool function to select bonds of all selected atoms (internal use)
-    * @function selectBondsOfSelectedAtoms
-    */
-    selectBondsOfSelectedAtoms: function (m) {
-        var n = 0;
-        for (var i = 0; i < m.bonds.length; ++i) {
-            var b = m.bonds[i];
+     * Tool function to select bonds of all selected atoms (internal use)
+     * @function selectBondsOfSelectedAtoms
+     */
+    selectBondsOfSelectedAtoms(m) {
+        let n = 0;
+        for (let i = 0; i < m.bonds.length; ++i) {
+            const b = m.bonds[i];
             if (!b.selected && b.a1.selected && b.a2.selected) {
                 b.selected = true;
                 ++n;
             }
         }
-
         return n;
-    },
-
-    containsAll: function (list, sublist) {
-        for (var i = 0; i < sublist.length; ++i) {
+    }
+    containsAll(list, sublist) {
+        for (let i = 0; i < sublist.length; ++i) {
             if (scil.Utils.indexOf(list, sublist[i]) < 0)
                 return false;
         }
-
         return true;
-    },
-
-    expandRepeat: function (br, repeat, m, selected) {
-        var r1 = null;
-        var r2 = null;
-        var b1 = null;
-        var b2 = null;
-
-        var oldbonds = [];
-        for (var i = 0; i < m.bonds.length; ++i) {
-            var b = m.bonds[i];
-            var i1 = scil.Utils.indexOf(br.atoms, b.a1);
-            var i2 = scil.Utils.indexOf(br.atoms, b.a2);
+    }
+    expandRepeat(br, repeat, m, selected) {
+        let r1 = null;
+        let r2 = null;
+        let b1 = null;
+        let b2 = null;
+        const oldbonds = [];
+        for (let i = 0; i < m.bonds.length; ++i) {
+            const b = m.bonds[i];
+            const i1 = scil.Utils.indexOf(br.atoms, b.a1);
+            const i2 = scil.Utils.indexOf(br.atoms, b.a2);
             if (i1 >= 0 && i2 >= 0) {
                 oldbonds.push(b);
             }
@@ -8325,35 +7599,31 @@ org.helm.webeditor.App = scil.extend(scil._base, {
                 }
             }
         }
-
-        for (var count = 0; count < repeat - 1; ++count) {
-            var newatoms = [];
-            var na1 = null;
-            var na2 = null;
-            for (var i = 0; i < br.atoms.length; ++i) {
-                var a0 = br.atoms[i];
-                var na = a0.clone();
+        for (let count = 0; count < repeat - 1; ++count) {
+            const newatoms = [];
+            let na1 = null;
+            let na2 = null;
+            for (let i = 0; i < br.atoms.length; ++i) {
+                const a0 = br.atoms[i];
+                const na = a0.clone();
                 selected.atoms.push(na);
                 newatoms.push(na);
-
                 if (a0 == r1)
                     na1 = na;
                 else if (a0 == r2)
                     na2 = na;
             }
-
-            for (var i = 0; i < oldbonds.length; ++i) {
-                var b0 = oldbonds[i];
-                var nb = b0.clone();
+            for (let i = 0; i < oldbonds.length; ++i) {
+                const b0 = oldbonds[i];
+                const nb = b0.clone();
                 selected.bonds.push(nb);
                 m.bonds.push(nb);
                 nb.a1 = newatoms[scil.Utils.indexOf(br.atoms, b0.a1)];
                 nb.a2 = newatoms[scil.Utils.indexOf(br.atoms, b0.a2)];
             }
-
-            var nb = null;
+            let nb = null;
             if (b1 == null) {
-                nb = new JSDraw2.Bond(null, null, JSDraw2.BONDTYPES.SINGLE);
+                nb = new JSDraw2.Bond(null, null, 1 /* JSDraw2.BONDTYPES.SINGLE */);
                 nb.r1 = 2;
                 nb.r2 = 1;
             }
@@ -8370,76 +7640,64 @@ org.helm.webeditor.App = scil.extend(scil._base, {
                 nb.a2 = na1;
                 nb.a1 = r2;
             }
-
             if (b2 != null) {
                 b2.replaceAtom(r2, na2);
                 r2 = na2;
             }
         }
-    },
-
+    }
     /**
-    * Update structure view from Canvas (internal use)
-    * @function updateStructureView
-    */
-    updateStructureView: function () {
+     * Update structure view from Canvas (internal use)
+     * @function updateStructureView
+     */
+    updateStructureView() {
         if (this.structureview == null)
             return;
         this.structureview.clear(true);
-
-        var m2 = this.canvas.m.clone();
-        for (var i = 0; i < m2.atoms.length; ++i)
+        const m2 = this.canvas.m.clone();
+        for (let i = 0; i < m2.atoms.length; ++i)
             m2.atoms[i].__mol = null;
-
         if (this.selectBondsOfSelectedAtoms(m2) > 0)
             this.canvas.refresh();
-        var selected = this.getSelectedAsMol(m2);
+        const selected = this.getSelectedAsMol(m2);
         if (selected == null || selected.atoms.length == 0)
             return;
-
-        var atoms = selected.atoms;
-        var bonds = selected.bonds;
-
-        for (var i = 0; i < m2.graphics.length; ++i) {
-            var br = JSDraw2.Bracket.cast(m2.graphics[i]);
+        const atoms = selected.atoms;
+        const bonds = selected.bonds;
+        for (let i = 0; i < m2.graphics.length; ++i) {
+            const br = JSDraw2.Bracket.cast(m2.graphics[i]);
             if (br == null)
                 continue;
-
-            var repeat = br == null ? null : br.getSubscript(m2);
-            var n = parseInt(repeat);
+            const repeat = br == null ? null : br.getSubscript(m2);
+            const n = parseInt(repeat);
             if (n > 1 && br.atoms != null && br.atoms.length > 0 && this.containsAll(atoms, br.atoms)) {
-                this.expandRepeat(br, n, m2, selected)
+                this.expandRepeat(br, n, m2, selected);
             }
         }
-
-        var bondlength = null;
-        var mols = [];
-        for (var i = 0; i < atoms.length; ++i) {
-            var a = atoms[i];
-            var mon = org.helm.webeditor.Monomers.getMonomer(a);
-            var m = org.helm.webeditor.Interface.createMol(org.helm.webeditor.monomers.getMolfile(mon));
+        let bondlength = null;
+        const mols = [];
+        for (let i = 0; i < atoms.length; ++i) {
+            const a = atoms[i];
+            const mon = org.helm.webeditor.Monomers.getMonomer(a);
+            const m = org.helm.webeditor.Interface.createMol(org.helm.webeditor.Monomers.getMolfile(mon));
             a.__mol = m;
-
             // cap R groups
-            var connected = m2.getAllBonds(a);
-            var used = {};
-            for (var k = 0; k < connected.length; ++k) {
-                var bond = connected[k];
+            const connected = m2.getAllBonds(a);
+            const used = {};
+            for (let k = 0; k < connected.length; ++k) {
+                const bond = connected[k];
                 if (bond.a1 == a)
                     used["R" + bond.r1] = true;
                 else if (bond.a2 == a)
                     used["R" + bond.r2] = true;
             }
-
-            for (var r in mon.at) {
+            for (const r in mon.at) {
                 if (used[r])
                     continue;
-
                 this._replaceR(m, r, mon.at[r]);
             }
-
             if (m != null && !m.isEmpty()) {
-                var d = m.medBondLength();
+                const d = m.medBondLength();
                 if (!(bondlength > 0))
                     bondlength = d;
                 else
@@ -8447,26 +7705,22 @@ org.helm.webeditor.App = scil.extend(scil._base, {
             }
             mols.push(m);
         }
-
         while (atoms.length > 0) {
-            var a = atoms[0];
+            const a = atoms[0];
             atoms.splice(0, 1);
             this.connectNextMonomer(a, atoms, bonds);
         }
-
-        var mol = mols[0];
-        for (var i = 1; i < mols.length; ++i)
+        const mol = mols[0];
+        for (let i = 1; i < mols.length; ++i)
             mol.mergeMol(mols[i]);
-
         if (mol == null)
             return;
-
         if (this.options.cleanupurl != null) {
             if (this.options.onCleanUpStructure != null) {
                 this.options.onCleanUpStructure(mol, this);
             }
             else {
-                var me = this;
+                const me = this;
                 scil.Utils.ajax(this.options.cleanupurl, function (ret) {
                     me.structureview.setMolfile(ret == null ? null : ret.output);
                 }, { input: mol.getMolfile(), inputformat: "mol", outputformat: "mol" });
@@ -8475,35 +7729,30 @@ org.helm.webeditor.App = scil.extend(scil._base, {
         else {
             this.structureview.setMolfile(mol.getMolfile());
         }
-    },
-
-    _replaceR: function (m, r, e) {
+    }
+    _replaceR(m, r, e) {
         if (e == "OH")
             e = "O";
         if (e != "H" && e != "O" && e != "X")
             return false;
-
-        for (var i = 0; i < m.atoms.length; ++i) {
-            var a = m.atoms[i];
+        for (let i = 0; i < m.atoms.length; ++i) {
+            const a = m.atoms[i];
             if (a.elem == "R" && a.alias == r) {
                 a.elem = e;
                 a.alias = null;
                 return true;
             }
         }
-
         return false;
-    },
-
-    connectNextMonomer: function (a, atoms, bonds) {
-        var m1 = a.__mol;
-        var oas = [];
-        for (var i = bonds.length - 1; i >= 0; --i) {
-            var b = bonds[i];
-
-            var r1 = null;
-            var r2 = null;
-            var oa = null;
+    }
+    connectNextMonomer(a, atoms, bonds) {
+        const m1 = a.__mol;
+        const oas = [];
+        for (let i = bonds.length - 1; i >= 0; --i) {
+            const b = bonds[i];
+            let r1 = null;
+            let r2 = null;
+            let oa = null;
             if (b.a1 == a) {
                 r1 = b.r1 == null ? null : "R" + b.r1;
                 r2 = b.r2 == null ? null : "R" + b.r2;
@@ -8516,30 +7765,26 @@ org.helm.webeditor.App = scil.extend(scil._base, {
             }
             if (oa == null)
                 continue;
-
             bonds.splice(i, 1);
             if (oa.__mol == null)
                 continue;
-
-            var m2 = oa.__mol;
+            const m2 = oa.__mol;
             if (r1 != null && r2 != null)
                 org.helm.webeditor.MolViewer.joinMol(m1, r1, m2, r2);
             oas.push(oa);
         }
-
-        for (var i = 0; i < oas.length; ++i) {
-            var oa = oas[i];
-            var p = scil.Utils.indexOf(atoms, oa);
+        for (let i = 0; i < oas.length; ++i) {
+            const oa = oas[i];
+            const p = scil.Utils.indexOf(atoms, oa);
             if (p == -1 || p == null)
                 continue;
-
             atoms.splice(p, 1);
             this.connectNextMonomer(oa, atoms, bonds);
         }
     }
-});
-
-﻿/*******************************************************************************
+}
+org.helm.webeditor.App = App;
+//# sourceMappingURL=App.js.map﻿/*******************************************************************************
 * Copyright (C) 2018, The Pistoia Alliance
 * Created by Scilligence, built on JSDraw.Lite
 * 
@@ -8650,8 +7895,8 @@ org.helm.webeditor.AppToolbar.Resources = {
 *******************************************************************************/
 
 /**
-* MonomerManager class
-* @class org.helm.webeditor.MonomerManager
+* MonomerLibApp class
+* @class org.helm.webeditor.MonomerLibApp
 * Recommended database schema:
 * <pre>
 * **********************************************************
@@ -8697,9 +7942,9 @@ org.helm.webeditor.AppToolbar.Resources = {
 * }
 * </pre>
 **/
-org.helm.webeditor.MonomerManager = scil.extend(scil._base, {
+org.helm.webeditor.MonomerLibApp = scil.extend(scil._base, {
     /**
-    * @constructor MonomerManager
+    * @constructor MonomerLibApp
     * @param {DOM} parent - The parent element to host Monomer Manager
     * @bio {dict} options - options on how to render the App
     * <pre>
@@ -8708,7 +7953,7 @@ org.helm.webeditor.MonomerManager = scil.extend(scil._base, {
     *     <div id="div1" style="margin: 5px; margin-top: 15px"></div>
     *     <script type="text/javascript">
     *       scil.ready(function () {
-    *         new org.helm.webeditor.MonomerManager("div1", { ajaxurl: "../service/ajaxtool/post?cmd=" });
+    *         new org.helm.webeditor.MonomerLibApp("div1", { ajaxurl: "../service/ajaxtool/post?cmd=" });
     *       });
     *     </script>
     * </pre>
@@ -8731,14 +7976,15 @@ org.helm.webeditor.MonomerManager = scil.extend(scil._base, {
         this.page = new scil.Page(parent);
 
         var me = this;
-        var ispro = scil.helm != null && JSDraw2.Security.kEdition != "Lite";
-        this.buttons = ["-"];
-        this.buttons.push({ type: "input", key: "symbol", labelstyle: { fontSize: "90%" }, label: "Symbol", styles: { width: 100 }, autosuggesturl: this.options.ajaxurl + "helm.monomer.suggest", onenter: function () { me.refresh(); }, onchange: function () { me.clearFilterValue("name"); } });
-        if (!ispro)
-            this.buttons.push({ type: "input", key: "name", labelstyle: { fontSize: "90%" }, label: "Name", styles: { width: 100 }, autosuggesturl: this.options.ajaxurl + "helm.monomer.suggest", onenter: function () { me.refresh(); }, onchange: function () { me.clearFilterValue("symbol"); } });
-        this.buttons.push({ type: "select", key: "polymertype", labelstyle: { fontSize: "90%" }, items: org.helm.webeditor.MonomerManager.getPolymerTypes(), label: "Polymer Type", styles: { width: 100 }, onchange: function () { me.refresh(); } });
-        this.buttons.push({ type: "select", key: "monomertype", labelstyle: { fontSize: "90%" }, items: org.helm.webeditor.MonomerManager.getMonomerTypes(), label: "Monomer Type", styles: { width: 100 }, onchange: function () { me.refresh(); } });
-        this.buttons.push({ type: "select", key: "countperpage", labelstyle: { fontSize: "90%" }, label: "Count", items: ["", 10, 25, 50, 100], onchange: function () { me.refresh(); } });
+        this.buttons = [
+            "-",
+            { type: "input", key: "symbol", labelstyle: { fontSize: "90%" }, label: "Symbol", styles: { width: 100 }, autosuggesturl: this.options.ajaxurl + "helm.monomer.suggest", onenter: function () { me.refresh(); }, onchange: function () { me.clearFilterValue("name"); } },
+            { type: "input", key: "name", labelstyle: { fontSize: "90%" }, label: "Name", styles: { width: 100 }, autosuggesturl: this.options.ajaxurl + "helm.monomer.suggest", onenter: function () { me.refresh(); }, onchange: function () { me.clearFilterValue("symbol"); } },
+            { type: "select", key: "polymertype", labelstyle: { fontSize: "90%" }, items: org.helm.webeditor.MonomerLibApp.getPolymerTypes(), label: "Polymer Type", styles: { width: 100 }, onchange: function () { me.refresh(); } },
+            { type: "select", key: "monomertype", labelstyle: { fontSize: "90%" }, items: org.helm.webeditor.MonomerLibApp.getMonomerTypes(), label: "Monomer Type", styles: { width: 100 }, onchange: function () { me.refresh(); } },
+        //{ type: "select", key: "status", labelstyle: { fontSize: "90%" }, items: org.helm.webeditor.MonomerLibApp.getStatuses(), label: "Status", styles: { width: 100 }, onchange: function () { me.refresh(); } },
+            {type: "select", key: "countperpage", labelstyle: { fontSize: "90%" }, label: "Count", items: ["", 10, 25, 50, 100], onchange: function () { me.refresh(); } }
+        ];
 
         if (typeof (JSDrawServices) != "undefined" && JSDrawServices.url != null) {
             this.buttons.splice(0, 0, "-");
@@ -8747,23 +7993,10 @@ org.helm.webeditor.MonomerManager = scil.extend(scil._base, {
             this.buttons.splice(0, 0, { type: "a", src: scil.Utils.imgSrc("img/save.gif"), title: "Export Monomers", items: ["JSON", "SDF"], onclick: function (cmd) { me.exportFile(cmd); } });
         }
 
-        if (org.helm.webeditor.MonomerManager.onGetButtons != null)
-            org.helm.webeditor.MonomerManager.onGetButtons(this.buttons, this);
-
-        var columns = org.helm.webeditor.MonomerManager.columns;
-        var fields = org.helm.webeditor.MonomerManager.fields;
-        fields.polymertype.items = org.helm.webeditor.MonomerManager.getPolymerTypes();
-        fields.monomertype.items = org.helm.webeditor.MonomerManager.getMonomerTypes();
-        for (var i = 1; i <= 5; ++i)
-            fields["r" + i].items = org.helm.webeditor.MonomerManager.caps;
-
-        if (ispro) {
-            scil.helm.MonomerManager.ajaxurl = this.options.ajaxurl;
-            columns.versions = { label: "Versions", type: "html", render: function (v, values) { return v > 0 ? "<a href='javascript:scil.helm.MonomerManager.showVersions(" + values.id + ")'>" + v + "</a>" : null; } };
-        }
-        else {
-            columns.aliases = null;
-            fields.aliases = null;
+        var ver = null;
+        if (scil.helm != null && JSDraw2.Security.kEdition != "Lite") {
+            scil.helm.MonomerLibApp.ajaxurl = this.options.ajaxurl;
+            ver = { label: "Versions", type: "html", render: function (v, values) { return v > 0 ? "<a href='javascript:scil.helm.MonomerLibApp.showVersions(" + values.id + ")'>" + v + "</a>" : null; } };
         }
 
         this.monomers = this.page.addForm({
@@ -8774,18 +8007,30 @@ org.helm.webeditor.MonomerManager = scil.extend(scil._base, {
             buttons: this.buttons,
             onbeforerefresh: function (args) { me.onbeforerefresh(args); },
             onbeforesave: function (data, args, form) { return me.onbeforesave(data, args, form); },
-            onshowform: function (dlg, args, action) { dlg.form.fields.symbol.disabled = action != "create"; },
-            columns: columns,
+            columns: {
+                id: { type: "hidden", iskey: true },
+                symbol: { label: "Symbol", width: 100 },
+                name: { label: "Name", width: 200 },
+                naturalanalog: { label: "Natural Analog", width: 100 },
+                polymertype: { label: "Polymer Type", width: 100 },
+                monomertype: { label: "Monomer Type", width: 100 },
+                r1: { label: "R1", width: 50 },
+                r2: { label: "R2", width: 50 },
+                r3: { label: "R3", width: 50 },
+                author: { label: "Author", width: 100 },
+                versions: ver,
+                createddate: { label: "Created Date", type: "date", width: 100 }
+            },
             savedoc: true,
             formcaption: "Monomer",
-            fields: fields
+            fields: org.helm.webeditor.MonomerLibApp.getFields()
         });
 
         this.page.addForm({
             caption: "Monomer",
             type: "form",
             object: "helm.monomer",
-            fields: org.helm.webeditor.MonomerManager.fields
+            fields: org.helm.webeditor.MonomerLibApp.getFields()
         }, this.monomers);
 
         this.monomers.refresh();
@@ -8815,11 +8060,11 @@ org.helm.webeditor.MonomerManager = scil.extend(scil._base, {
             var a = atoms[i];
             if (a.elem == "R") {
                 var r = (a.alias == null ? "R" : a.alias);
-                if (ratoms[r.toLowerCase()] != null) {
+                if (ratoms[scil.helm.symbolCase(r)] != null) {
                     scil.Utils.alert("The R cannot be used twice: " + r);
                     return false;
                 }
-                ratoms[r.toLowerCase()] = r;
+                ratoms[scil.helm.symbolCase(r)] = r;
             }
         }
 
@@ -8833,7 +8078,7 @@ org.helm.webeditor.MonomerManager = scil.extend(scil._base, {
 
         for (var i = 1; i <= 5; ++i) {
             var r = "r" + i;
-            if (!scil.Utils.isNullOrEmpty(data[r.toLowerCase()]) && ratoms[r.toLowerCase()] == null) {
+            if (!scil.Utils.isNullOrEmpty(data[r]) && ratoms[r] == null) {
                 scil.Utils.alert("R" + i + " is defined, but not drawn in the structure");
                 return false;
             }
@@ -8853,7 +8098,7 @@ org.helm.webeditor.MonomerManager = scil.extend(scil._base, {
     * @function onbeforerefresh
     */
     onbeforerefresh: function (args) {
-        scil.Form.getButtonValuesByKey(this.buttons, org.helm.webeditor.MonomerManager.kFilters, args);
+        scil.Form.getButtonValuesByKey(this.buttons, ["status", "polymertype", "monomertype", "status", "symbol", "name", "countperpage"], args);
     },
 
     /**
@@ -8862,7 +8107,7 @@ org.helm.webeditor.MonomerManager = scil.extend(scil._base, {
     */
     uploadFile: function (duplicatecheck) {
         scil.Utils.uploadFile("Import Monomer Library", "Select HELM monomer xml file, json or SDF file (" + (duplicatecheck ? "with" : "without") + " duplicate check)", this.options.ajaxurl + "helm.monomer.uploadlib",
-            function (ret) { scil.Utils.alert2(ret.n + " monomers are imported.\r\n" + (ret.errors == null ? "" : ret.errors)); }, { duplicatecheck: duplicatecheck });
+            function (ret) { scil.Utils.alert(ret.n + " monomers are imported"); }, { duplicatecheck: duplicatecheck });
     },
 
     exportFile: function (ext) {
@@ -8870,10 +8115,31 @@ org.helm.webeditor.MonomerManager = scil.extend(scil._base, {
     }
 });
 
-scil.apply(org.helm.webeditor.MonomerManager, {
+scil.apply(org.helm.webeditor.MonomerLibApp, {
     caps: ["", "H", "OH", "X"],
-    capsmiles: { "H": "[H]", "OH": "O", "X": "[X]" },
-    kFilters: ["status", "polymertype", "monomertype", "status", "symbol", "name", "countperpage"],
+
+    /**
+    * Get all supported fields (internal use)
+    * @function getFields
+    */
+    getFields: function() {
+        return {
+            id: { type: "hidden" },
+            symbol: { label: "Symbol", required: true },
+            name: { label: "Name", required: true, width: 800 },
+            polymertype: { label: "Polymer Type", required: true, type: "select", items: org.helm.webeditor.MonomerLibApp.getPolymerTypes(), width: 100 },
+            monomertype: { label: "Monomer Type", required: true, type: "select", items: org.helm.webeditor.MonomerLibApp.getMonomerTypes(), width: 100 },
+            naturalanalog: { label: "Natural Analog", required: true, width: 100 },
+            author: { label: "Author", width: 100 },
+            smiles: { label: "SMILES", width: 800, viewonly: true },
+            molfile: { label: "Structure", type: "jsdraw", width: 800, height: 300 },
+            r1: { label: "R1", type: "select", items: this.caps },
+            r2: { label: "R2", type: "select", items: this.caps },
+            r3: { label: "R3", type: "select", items: this.caps },
+            r4: { label: "R4", type: "select", items: this.caps },
+            r5: { label: "R5", type: "select", items: this.caps }
+        }
+    },
 
     showVersions: function (id) {
         var me = this;
@@ -8884,15 +8150,13 @@ scil.apply(org.helm.webeditor.MonomerManager, {
 
     showVersions2: function (ret) {
         if (this.versionDlg == null) {
-            var fields = {
-                table: {
-                    type: "table", viewonly: true, columns: {
-                        versionid: { label: "Version ID" },
-                        dt: { label: "Date", type: "date" },
-                        user: { label: "User" },
-                        action: { label: "Action" }
-                    }
-                }
+            var fields = { table: { type: "table", viewonly: true, columns: {
+                versionid: { label: "Version ID" },
+                dt: { label: "Date", type: "date" },
+                user: { label: "User" },
+                action: { label: "Action" }
+            }
+            }
             };
             this.versionDlg = scil.Form.createDlgForm("Versions", fields, null, { hidelabel: true });
         }
@@ -8941,46 +8205,8 @@ scil.apply(org.helm.webeditor.MonomerManager, {
     */
     getStatuses: function () {
         return ["", "New", "Approved", "Retired"]
-    },
-
-    columns: {
-        id: { type: "hidden", iskey: true },
-        symbol: { label: "Symbol", width: 100 },
-        aliases: { label: "Aliases", width: 100 },
-        name: { label: "Name", width: 200 },
-        naturalanalog: { label: "Natural Analog", width: 100 },
-        polymertype: { label: "Polymer Type", width: 100 },
-        monomertype: { label: "Monomer Type", width: 100 },
-        r1: { label: "R1", width: 50 },
-        r2: { label: "R2", width: 50 },
-        r3: { label: "R3", width: 50 },
-        author: { label: "Author", width: 100 },
-        versions: null,
-        createddate: { label: "Created Date", type: "date", width: 100 }
-    },
-
-    fields: {
-        id: { type: "hidden" },
-        symbol: { label: "Symbol", required: true },
-        aliases: { label: "Aliases", width: 800 },
-        name: { label: "Name", required: true, width: 800 },
-        polymertype: { label: "Polymer Type", required: true, type: "select", items: null, width: 100 },
-        monomertype: { label: "Monomer Type", required: true, type: "select", items: null, width: 100 },
-        naturalanalog: { label: "Natural Analog", required: true, width: 100 },
-        author: { label: "Author", width: 100 },
-        smiles: { label: "SMILES", width: 800, viewonly: true },
-        molfile: { label: "Structure", type: "jsdraw", width: 800, height: 300 },
-        r1: { label: "R1", type: "select", items: null },
-        r2: { label: "R2", type: "select", items: null },
-        r3: { label: "R3", type: "select", items: null },
-        r4: { label: "R4", type: "select", items: null },
-        r5: { label: "R5", type: "select", items: null }
     }
-});
-
-
-org.helm.webeditor.MonomerLibApp = org.helm.webeditor.MonomerManager;
-scil.helm.MonomerLibApp = org.helm.webeditor.MonomerManager;﻿/*******************************************************************************
+});﻿/*******************************************************************************
 * Copyright (C) 2018, The Pistoia Alliance
 * Created by Scilligence, built on JSDraw.Lite
 * 
@@ -9277,8 +8503,8 @@ org.helm.webeditor.RuleSet = {
 *******************************************************************************/
 
 /**
-* RuleManager class
-* @class org.helm.webeditor.RuleManager
+* RuleSetApp class
+* @class org.helm.webeditor.RuleSetApp
 * Recommended database schema:
 * <pre>
 * **********************************************************
@@ -9307,9 +8533,9 @@ org.helm.webeditor.RuleSet = {
 * }
 * </pre>
 **/
-org.helm.webeditor.RuleManager = scil.extend(scil._base, {
+org.helm.webeditor.RuleSetApp = scil.extend(scil._base, {
     /**
-    * @constructor RuleManager
+    * @constructor RuleSetApp
     * @param {DOM} parent - The parent element to host the Ruleset Manager
     * @bio {dict} options - options on how to render the App
     * <pre>
@@ -9318,7 +8544,7 @@ org.helm.webeditor.RuleManager = scil.extend(scil._base, {
     *     <div id="div1" style="margin: 5px; margin-top: 15px"></div>
     *     <script type="text/javascript">
     *       scil.ready(function () {
-    *         new org.helm.webeditor.RuleManager("div1", { ajaxurl: "../service/ajaxtool/post?cmd=" });
+    *         new org.helm.webeditor.RuleSetApp("div1", { ajaxurl: "../service/ajaxtool/post?cmd=" });
     *       });
     *     </script>
     * </pre>
@@ -9339,11 +8565,11 @@ org.helm.webeditor.RuleManager = scil.extend(scil._base, {
         var me = this;
         this.buttons = [
             "-",
-            { type: "select", key: "category", labelstyle: { fontSize: "90%" }, items: org.helm.webeditor.RuleManager.categories, label: "Category", styles: { width: 100 }, onchange: function () { me.refresh(); } },
+            { type: "select", key: "category", labelstyle: { fontSize: "90%" }, items: org.helm.webeditor.RuleSetApp.categories, label: "Category", styles: { width: 100 }, onchange: function () { me.refresh(); } },
             { type: "select", key: "countperpage", labelstyle: { fontSize: "90%" }, label: "Count", items: ["", 10, 25, 50, 100], onchange: function () { me.refresh(); } }
         ];
 
-        var fields = org.helm.webeditor.RuleManager.getFields();
+        var fields = org.helm.webeditor.RuleSetApp.getFields();
         fields.script.button = [{ label: "Test Script", onclick2: function (field) { me.testscript(field); } },
             { label: "Test Applying", onclick2: function (field, form) { me.testapplying(field, form); } }
         ];
@@ -9372,7 +8598,7 @@ org.helm.webeditor.RuleManager = scil.extend(scil._base, {
             caption: "Rule",
             type: "form",
             object: "helm.rule",
-            fields: org.helm.webeditor.RuleManager.getFields()
+            fields: org.helm.webeditor.RuleSetApp.getFields()
         }, this.rules);
 
         this.rules.refresh();
@@ -9409,7 +8635,7 @@ org.helm.webeditor.RuleManager = scil.extend(scil._base, {
     }
 });
 
-scil.apply(org.helm.webeditor.RuleManager, {
+scil.apply(org.helm.webeditor.RuleSetApp, {
     categories: ["", "General"],
 
     getFields: function () {
@@ -9422,10 +8648,7 @@ scil.apply(org.helm.webeditor.RuleManager, {
             script: { label: "Javascript", type: "textarea", width: 800, height: 160 }
         }
     }
-});
-
-
-org.helm.webeditor.RuleSetApp = org.helm.webeditor.RuleManager;﻿/*******************************************************************************
+});﻿/*******************************************************************************
 * Copyright (C) 2018, The Pistoia Alliance
 * Created by Scilligence, built on JSDraw.Lite
 * 

@@ -645,7 +645,6 @@ class ChainInt {
           if (a.biotype() == org.helm.webeditor.HELM.SUGAR && a.bio!.annotation == "5'ss" || a.bio!.annotation == "5'as")
             ret.annotations[seqid] = {strandtype: a.bio!.annotation.substr(2)};
         }
-
         if (i > 0 && lastseqid != null) {
           const lasta = this.atoms[i - 1];
           const b = this.bonds[i - 1];
@@ -655,7 +654,7 @@ class ChainInt {
           const ratio2 = b.a1 == lasta ? b.ratio2 : b.ratio1;
 
           a._aaid = 1;
-          org.helm.webeditor.IO.addConnection(ret, lastseqid, seqid, lasta, a, r1, r2, ratio1, ratio2, tag, highlightselection && b.selected);
+          org.helm.webeditor.IO.addConnection(ret, lastseqid, seqid, lasta, a, r1, r2, ratio1, ratio2, a.tag, highlightselection && b.selected);
 
           if (!scil.Utils.startswith(lastseqid, "G")) {
             ++count;
