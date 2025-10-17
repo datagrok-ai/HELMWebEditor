@@ -3257,7 +3257,6 @@ class ChainInt {
                     if (a.biotype() == org.helm.webeditor.HELM.SUGAR && a.bio.annotation == "5'ss" || a.bio.annotation == "5'as")
                         ret.annotations[seqid] = { strandtype: a.bio.annotation.substr(2) };
                 }
-                console.log({ i, n, seqid, lastseqid });
                 if (i > 0 && lastseqid != null) {
                     const lasta = this.atoms[i - 1];
                     const b = this.bonds[i - 1];
